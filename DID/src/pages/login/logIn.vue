@@ -18,28 +18,28 @@
           placeholder="钱包地址"
           :disabled="true"
         />
-      </div>
-      <div class="from-item" v-if="show">
-        <p>邮箱地址</p>
-        <van-field
-          class="input-border"
-          v-model="form.mail"
-          placeholder="邮箱地址"
-          :rules="[
-            { required: true, message: '请填写邮箱地址' },
-            { validator: mailRule, message: '请输入正确的邮箱' },
-          ]"
-        />
-      </div>
-      <div class="from-item" v-if="show">
-        <p>登录密码</p>
-        <van-field
-          class="input-border"
-          v-model="pwd"
-          type="password"
-          placeholder="登录密码"
-          :rules="[{ required: true, message: '请填写登录密码' }]"
-        />
+        <div class="from-item">
+          <p>邮箱地址</p>
+          <van-field
+            class="input-border"
+            v-model="form.mail"
+            placeholder="邮箱地址"
+            :rules="[
+              { required: true, message: '请填写邮箱地址' },
+              { validator: mailRule, message: '请输入正确的邮箱' },
+            ]"
+          />
+        </div>
+        <div class="from-item">
+          <p>登录密码</p>
+          <van-field
+            class="input-border"
+            v-model="form.password"
+            type="password"
+            placeholder="登录密码"
+            :rules="[{ required: true, message: '请填写登录密码' }]"
+          />
+        </div>
       </div>
     </van-form>
     <div class="btn">
@@ -55,32 +55,27 @@
 
 <script>
 import { login } from "@/api/pagesApi/login";
+import { loadweb3 } from "@/utils/web3";
 export default {
   name: "logIn",
   props: {},
   data() {
     return {
-      show: true,
-      pwd:'',
       form: {
         otype: "",
         walletAddress: "",
         sign: "",
         refUserId: "",
-        mail: "",
+        mail: "591041326@qq.com",
         code: "",
-        password: "",
+        password: "jianglin1997",
       },
     };
   },
   mounted() {
-    this.form.walletAddress = localStorage.getItem("myaddress");
+    loadweb3();
+    this.form.walletAddress = localStorage.getItem("address"); //获取钱包地址
     this.form.otype = localStorage.getItem("netType");
-    this.form.sign = localStorage.getItem("mysign");
-    // 如果有钱包地址就不用输入邮箱和密码
-    if (this.form.walletAddress) {
-      this.show = false;
-    }
   },
   methods: {
     // 去注册
@@ -98,24 +93,18 @@ export default {
       this.$refs.form
         .validate()
         .then(() => {
-          if (this.form.password) {
-            this.form.password = this.$md5(this.pwd);
-          }
           login(this.form).then((res) => {
-            if (res.data.code == 0) {
-              this.cookie.set("token", res.data.items, 60);
-              this.$toast.success("登录成功");
-              setTimeout(() => {
-                //跳到首页
-                this.$router.push("/");
+            if(res.data.code==0){
+              this.cookie.set('token',res.data.items,60)
+              this.$toast.success('登录成功')
+              setTimeout(() => {//跳到首页
+                this.$router.push('/')
               }, 800);
-            } else {
-              this.$toast.fail("登录失败");
             }
           });
         })
         .catch(() => {
-          this.$toast.fail("请输入正确的邮箱或密码");
+          this.$toast.fail('请输入正确的邮箱或密码')
         });
     },
   },
