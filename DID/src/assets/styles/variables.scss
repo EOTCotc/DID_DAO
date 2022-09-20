@@ -1,0 +1,30 @@
+$theme: #1b2945;
+.bg-gray {
+  background-color: #F3F4F5;
+}
+.blue {  
+  background-color: $theme;
+}
+.nav-bar {
+  background-color: $theme;
+  &::after {
+    border-bottom-color: $theme;
+  }
+  &::v-deep() {
+    .van-icon,
+    .van-nav-bar__title {
+      color: #fff;
+    }
+  }
+}
+
+.centered {
+  @include posi($t: 50%, $l: 50%);
+  transform: translate(-50%, -50%);
+}
+
+.fullscreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}

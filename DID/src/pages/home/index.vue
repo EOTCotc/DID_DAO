@@ -66,11 +66,11 @@
     <van-overlay :show="showOverlay" @click="showOverlay = false">
       <div class="wrapper" @click.stop>
         <div class="block">
-          <img src="../../assets/imgs/lingdang.png" />
+          <img src="../../assets/imgs/lingdang.png">
           <div class="tips">检测到您暂无推荐关系，为了账户</div>
           <div class="tips">安全性请前往绑定推荐关系</div>
           <div class="block-bot">
-            <div @click="showOverlay = false">取消</div>
+            <div @click="showOverlay=false">取消</div>
             <div @click="toSite">确定</div>
           </div>
         </div>
@@ -81,9 +81,7 @@
 
 <script>
 import TopBar from "@/components/topBar/topBar";
-import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import { login } from "@/api/pagesApi/login";
-import { loadweb3 } from "@/utils/web3";
+import { getuserinfo } from "@/api/pagesApi/home";
 export default {
   data() {
     return {
@@ -96,42 +94,16 @@ export default {
     TopBar,
   },
   mounted() {
-    if (this.cookie.get("token")) {
-      this.getInfo();
-    } else {
-      loadweb3(this.login);
-    }
+    this.getInfo();//获取用户信息
   },
   methods: {
-    // 根据钱包、签名、网络登录，如果不行就跳登录页
-    login() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
-      let reqObj = {
-        walletAddress,
-        otype,
-        sign,
-        refUserId: "",
-        mail: "",
-        code: "",
-        password: "",
-      };
-      login(reqObj).then((res) => {
-        if (res.data.code == 0) {
-          this.cookie.set("token", res.data.items, { expires: 30 });
-          this.getInfo(); //获取用户信息
-        } else {
-          this.$router.push("/login");
-        }
-      });
-    },
     // 获取用户信息
     getInfo() {
       getuserinfo()
         .then((res) => {
+          console.log(res, "userinfo");
           if (res.data.code == 0) {
-            this.cookie.set("userInfo", JSON.stringify(res.data.items));
+            this.cookie.set("userInfo", res.data.items);
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;
@@ -155,21 +127,10 @@ export default {
       }
     },
     // 前往选择所在地
-    toSite() {
-      // 判断有没有选位置，有就直接调到社区
-      // 没有就跳到选择已有的社区页面
-      getcomselect().then((res) => {
-        if (res.data.items == null) {
-          this.showOverlay = false;
-          this.$router.push("/bindRelation");
-        } else {
-          this.$router.push({
-            path: "/community",
-            query: { site: JSON.stringify(res.data.items), home: "home" },
-          });
-        }
-      });
-    },
+    toSite(){
+      this.showOverlay=false
+      this.$router.push('/site')
+    }
   },
 };
 </script>
@@ -325,7 +286,7 @@ export default {
   height: 354px;
   background-color: #fff;
   border-radius: 20px;
-  img {
+  img{
     position: absolute;
     top: -100px;
     left: 50%;
@@ -333,33 +294,33 @@ export default {
     width: 200px;
     height: 200px;
   }
-  .tips {
+  .tips{
     padding: 0 40px;
     line-height: 50px;
     text-align: center;
     font-size: 32px;
   }
-  .tips:first-of-type {
+  .tips:first-of-type{
     margin-top: 110px;
   }
-  .block-bot {
+  .block-bot{
     margin-top: 30px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #F0F0F0;
     display: flex;
     justify-content: flex-start;
-    div {
+    div{
       width: 50%;
       height: 112px;
       font-size: 32px;
       line-height: 112px;
       text-align: center;
     }
-    div:first-of-type {
+    div:first-of-type{
       color: #666;
-      border-right: 1px solid #f0f0f0;
+      border-right: 1px solid #F0F0F0;
     }
-    div:last-of-type {
-      color: #1b2945;
+    div:last-of-type{
+      color: #1B2945;
     }
   }
 }

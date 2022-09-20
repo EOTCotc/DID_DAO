@@ -7,17 +7,7 @@
       @click-left="onClickLeft"
     />
     <!-- 搜索 -->
-    <van-search
-      v-model="value"
-      shape="round"
-      left-icon=""
-      placeholder="请输入搜索关键词"
-      @input="handleClear"
-      @clear="handleClear"
-    >
-      <template #right-icon>
-        <van-icon @click="handleSearch" name="search" /> </template
-    ></van-search>
+    <van-search v-model="value" @search="onSearch" right-icon="search" left-icon="" shape="round" placeholder="请输入搜索关键词" />
     <!-- 展示的国家 -->
     <div class="">
       <van-cell
@@ -38,6 +28,7 @@
 
 <script>
 import district_zh from "@/utils/district_zh.json";
+import bus from "@/utils/bus";
 export default {
   name: "nation",
   data() {
@@ -63,7 +54,7 @@ export default {
           //国家个key，后端需要，还需要根据key获取省市区，先存起来
           arr.push(key);
           //国家的名称
-          arr.push(element);
+          arr.push(element); 
           // 添加国家名字
           if (arr[0] == "CHN" && arr[1] == "中国") {
             //把中国放第一
@@ -78,39 +69,14 @@ export default {
     // 选择国家
     handleTab(index) {
       this.idx = index;
-      this.cookie.set("country", this.nationList[index]);
+      this.cookie.set('country',this.nationList[index])
+      // bus.$emit("country", this.nationList[index]);
       setTimeout(() => {
-        this.$router.back();
+        this.$router.back()
       }, 500);
     },
-    // 搜索
-    handleSearch() {
-      const { COUNTRIES } = this.district_zh;
-      this.nationList = []; //清空数组
-      for (const key in COUNTRIES) {
-        if (Object.hasOwnProperty.call(COUNTRIES, key)) {
-          const element = COUNTRIES[key];
-          // 包含搜索的文字就放到数组里
-          if (element.indexOf(this.value) != -1) {
-            let arr = [];
-            arr.push(key);
-            arr.push(element);
-            if (arr[0] == "CHN" && arr[1] == "中国") {
-              this.nationList.unshift(arr);
-            } else {
-              this.nationList.push(arr);
-            }
-            arr = null;
-          }
-        }
-      }
-    },
-    // 清除搜索框
-    handleClear() {
-      if (this.value.length == 0) {
-        this.nationList = [];
-        this.handleNation();
-      }
+    onSearch(val){
+      console.log(111);
     },
     // 返回上一页
     onClickLeft() {
@@ -124,7 +90,7 @@ export default {
 :deep(.van-icon) {
   color: #000;
 }
-:deep(.van-nav-bar) {
-  border-bottom: 1px solid #f3f4f5;
+:deep(.van-nav-bar){
+  border-bottom: 1px solid #F3F4F5;
 }
 </style>
