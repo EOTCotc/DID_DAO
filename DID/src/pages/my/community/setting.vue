@@ -9,7 +9,7 @@
         <van-row class="row">
           <van-col class="label" span="24">展示图片<span style="color: #999;">(不传则显示默认图片)</span></van-col>
           <van-col span="24">
-            <div class="upload_wrap">
+            <div class="upload_wrap1">
               
             </div>
           </van-col>
