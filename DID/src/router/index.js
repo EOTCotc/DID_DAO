@@ -24,6 +24,8 @@ const router = new VueRouter({
     { path: '/communityApproval', name: 'communityApproval', component: () => import('@/pages/my/approval/community') },
     // 认证审批
     { path: '/authenticationApproval', name: 'authenticationApproval', component: () => import('@/pages/my/approval/authentication') },
+    // 社区信息
+    { path: '/communitySetting', name: 'communitySetting', component: () => import('@/pages/my/community/setting') },
   ]
 });
 

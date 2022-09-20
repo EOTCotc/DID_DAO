@@ -7,7 +7,7 @@ import jsCookie from 'js-cookie'
 import i18n from '@/lang/index'
 import "@/assets/font/style.css"
 
-import { Search, Toast, Button, Form, Field, Icon, Checkbox, NavBar, Popup, Cell, Overlay, Tabs, Tab, Loading, PullRefresh, Image, List, Dialog, Empty, Row, Col, RadioGroup, Radio, Popover } from 'vant';
+import { Search, Toast, Button, Form, Field, Icon, Checkbox, NavBar, Popup, Cell, Overlay, Tabs, Tab, Loading, PullRefresh, Image, List, Dialog, Empty, Row, Col, RadioGroup, Radio, Popover, Steps, Step } from 'vant';
 
 Vue.config.productionTip = false//关闭生产提示
 Vue.prototype.cookie = jsCookie //全局引入
@@ -36,6 +36,8 @@ Vue.use(Col)
 Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Popover)
+Vue.use(Steps)
+Vue.use(Step)
 
 new Vue({
   render: h => h(App),

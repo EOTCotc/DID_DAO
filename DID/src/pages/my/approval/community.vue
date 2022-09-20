@@ -64,7 +64,22 @@
               <van-col span="8" class="name">推荐人</van-col>
               <van-col span="16" class="value">{{item.tjr}}<i class="icon-service icon" @click="showReferrer"></i></van-col>
             </van-row>
-            <step :step="item.step"></step>
+            <van-steps direction="vertical" active-color="#227AEE" :active="3">
+              <van-step v-for="step in item.step" :key="step.id">
+                <template slot="active-icon">
+                  <van-icon v-if="!!step.status" name="checked" color="#227AEE" />
+                  <van-icon v-else name="clear" color="#227AEE" />
+                </template>
+                <template slot="inactive-icon">
+                  <van-icon v-if="!!step.status" name="checked" color="#227AEE" />
+                  <van-icon v-else name="clear" color="#227AEE" />
+                </template>
+                <van-row class="main">
+                  <van-col :span="12" class="title">{{step.title}}</van-col>
+                  <van-col :span="12" class="date" style="font-size: 12px;color: #999;text-align: right;">{{step.date}}</van-col>
+                </van-row>
+              </van-step>
+            </van-steps>
             <van-row class="item-row reason_wrap">
               <div class="title">打回原因</div>
               <div class="message">信息有误: 手持证件照有误,请重新提交</div>
@@ -107,7 +122,6 @@
 
 <script>
 import { Dialog } from 'vant'
-import Step from '@/components/step'
 import pageHeader from "@/components/topBar/pageHeader.vue"
 import Referrer from './referrer'
 import Cancel from './cancel'
@@ -116,7 +130,6 @@ export default {
   name: "communityApproval",
   components: {
     pageHeader,
-    Step,
     Referrer,
     Cancel
   },
@@ -146,8 +159,8 @@ export default {
             tjr: '李弥(314587)',
             date: "2022-05-20",
             step: [
-              {status: '初审', name: '测试', date: '2020-02-02 11:50:12'},
-              {status: '初审', name: '测试', date: '2020-02-02 11:50:12'}
+              {status: 1, title: '初审:测试', date: '2020-02-02 11:50:12'},
+              {status: 1, title: '初审:测试', date: '2020-02-02 11:50:12'}
             ],
           }
         ],
@@ -216,7 +229,6 @@ export default {
     }
   }
   .item-row {
-    padding: 0 30px;
     margin-top: 30px;
     &.user {
       border-bottom: 1px solid #F3F4F5;

@@ -1,33 +1,20 @@
 <template>
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
     <div class="community_wrap fullscreen">
-      <page-header title="我的社区" theme="dark" />
+      <page-header title="社区信息" theme="dark" />
       <div class="content">
-        <van-cell class="title">
-          <template slot="title"><div>粒紫社区</div></template>
-          <template><i class="icon icon-setting" @click="$router.push('/communitySetting')"></i></template>
-        </van-cell>
-        <img class="img" :src="require('../../../assets/imgs/01.jpg')" alt="">
-        <van-row class="row">
-          <van-col class="label" span="16">简介</van-col>
-          <van-col class="value desc" span="24">驾驭命运的舵是奋斗。不抱有一丝幻想,不放弃一点机会,不停止一日努力。</van-col>
-        </van-row>
-        <van-row class="row">
-          <van-col class="label" span="8">电报群</van-col>
-          <van-col class="value link" span="16">http://t.me/eotca</van-col>
-        </van-row>
-        <van-row class="row">
-          <van-col class="label" span="8">QQ群</van-col>
-          <van-col class="value" span="16">1621688688 <i class="icon icon-copy"></i></van-col>
-        </van-row>
-        <van-row class="row">
-          <van-col class="label" span="8">Discord</van-col>
-          <van-col class="value" span="16">Dava12899 <i class="icon icon-copy"></i></van-col>
-        </van-row>
-        <div class="btn" v-show="status === 0" @click="$router.push('/communityCreate')">申请创建社区</div>
-        <div class="btn pending" v-show="status === 1">社区创建审核中</div>
-        <div class="btn reject" v-show="status === 2">社区创建审核失败</div>
+        <h3 class="title">粒紫社区</h3>
       </div>
+      <van-form>
+        <van-row class="row">
+          <van-col class="label" span="24">展示图片<span style="color: #999;">(不传则显示默认图片)</span></van-col>
+          <van-col span="24">
+            <div class="upload_wrap">
+
+            </div>
+          </van-col>
+        </van-row>
+      </van-form>
     </div>
   </van-pull-refresh>
 </template>
