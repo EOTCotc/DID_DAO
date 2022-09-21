@@ -50,6 +50,7 @@ function distsmes1(message) {
   console.log(message);
 }
 
+
 export const UserInfo = function () {
   //注册邮箱   邮箱和uid 一一对应 是唯一的
   const email = localStorage.getItem('email');
@@ -239,7 +240,7 @@ export const SendUSDT = async function (val, ads, ctype) {
   });
 };
 
-export const loadweb3 = async function (func) {
+export const loadweb3 = function (func) {
   //bsg为true强制签名
   if (window.tronWeb) {
     // console.log('Loading web3');
@@ -249,15 +250,16 @@ export const loadweb3 = async function (func) {
         clearInterval(obj);
         try {
           address = window.tronWeb.defaultAddress.base58;
-          console.log('地址', address);
-          localStorage.setItem('address', address)
+          // localStorage.setItem('myaddress', address)
           // ethereum.chainId   xxx->测试链  netType 网络类型
           localStorage.setItem('netType', 'xxx');
           // localStorage.setItem("netType", "trx");
-          mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
-          mytron = await window.tronWeb.contract().at(contractAddress);
-          myUsdtAmount();
-          myEOTCAmount();
+          
+          // mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
+          // mytron = await window.tronWeb.contract().at(contractAddress);
+          // myUsdtAmount();
+          // myEOTCAmount();
+
           if (address != localStorage.getItem('myaddress')) {
             localStorage.removeItem('myaddress');
             localStorage.removeItem('mysign');

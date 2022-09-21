@@ -37,47 +37,35 @@
 </template>
 
 <script>
-import district_zh from "@/utils/district_zh.json";
 export default {
-  name: "nation",
+  name: "bindNation",
   data() {
     return {
-      district_zh, //引入的json文件整个对象(有国家省市区)
       value: "", //搜索内容
       idx: 0.1, //选择的国家index
+      country: {},
       nationList: [], //国家二维数组
     };
   },
   mounted() {
-    this.handleNation(); //获取国家
+    this.getCountry();
   },
   methods: {
     // 获取国家
-    handleNation() {
-      const { COUNTRIES } = this.district_zh; //解构这个对象，只要国家数据
-      // 遍历对象，把国家放到一个数组里
-      for (const key in COUNTRIES) {
-        if (Object.hasOwnProperty.call(COUNTRIES, key)) {
-          const element = COUNTRIES[key];
-          let arr = [];
-          //国家个key，后端需要，还需要根据key获取省市区，先存起来
-          arr.push(key);
-          //国家的名称
-          arr.push(element);
-          // 添加国家名字
-          if (arr[0] == "CHN" && arr[1] == "中国") {
-            //把中国放第一
-            this.nationList.unshift(arr);
-          } else {
-            this.nationList.push(arr);
-          }
-          arr = null;
+    getCountry() {
+      let country = this.$route.query;
+      this.country = country;
+      for (const key in country) {
+        if (Object.hasOwnProperty.call(country, key)) {
+          const element = country[key];
+          this.nationList.push([key, element]);
         }
       }
     },
     // 选择国家
     handleTab(index) {
       this.idx = index;
+      // 保存国家到cookie
       this.cookie.set("country", this.nationList[index]);
       setTimeout(() => {
         this.$router.back();
@@ -85,11 +73,10 @@ export default {
     },
     // 搜索
     handleSearch() {
-      const { COUNTRIES } = this.district_zh;
       this.nationList = []; //清空数组
-      for (const key in COUNTRIES) {
-        if (Object.hasOwnProperty.call(COUNTRIES, key)) {
-          const element = COUNTRIES[key];
+      for (const key in this.country) {
+        if (Object.hasOwnProperty.call(this.country, key)) {
+          const element = this.country[key];
           // 包含搜索的文字就放到数组里
           if (element.indexOf(this.value) != -1) {
             let arr = [];
@@ -108,8 +95,8 @@ export default {
     // 清除搜索框
     handleClear() {
       if (this.value.length == 0) {
-        this.nationList = [];
-        this.handleNation();
+        this.nationList.length = 0;
+        this.getCountry();
       }
     },
     // 返回上一页

@@ -21,7 +21,7 @@
         />
       </div>
       <!-- 邮箱地址 -->
-      <div class="from-item">
+      <div class="from-item code">
         <p>邮箱地址</p>
         <van-field
           v-model="form.mail"
@@ -32,7 +32,7 @@
           ]"
           ><template #button>
             <van-button
-              size="large"
+              size="small"
               :color="emailBtnColor"
               type="primary"
               @click="handleCode"
@@ -97,7 +97,9 @@
           v-model="checked"
           :rules="[{ required: checked, message: '请勾选协议' }]"
         >
-          我已阅读并同意<span style="color: #2483ff">《用户协议》</span>
+          <span class="">
+            我已阅读并同意<span style="color: #2483ff">《用户协议》</span>
+          </span>
         </van-checkbox>
       </div>
     </van-form>
@@ -138,8 +140,9 @@ export default {
     };
   },
   mounted() {
-    this.form.walletAddress = localStorage.getItem("address");
+    this.form.walletAddress = localStorage.getItem("myaddress");
     this.form.otype = localStorage.getItem("netType");
+    this.form.sign=localStorage.getItem('mysign')
   },
   methods: {
     // 点击去登录
@@ -197,7 +200,8 @@ export default {
             register(this.form).then((res) => {
               if (res.data.code == 0) {
                 this.$toast.success("注册成功！");
-                setTimeout(() => {//延迟一点时间
+                setTimeout(() => {
+                  //延迟一点时间
                   this.$emit("btnNum", 1); //成功跳登录页
                 }, 500);
               } else {
@@ -222,13 +226,17 @@ export default {
   padding: 0;
 }
 :deep(.van-field__body) {
-  margin-top: 20px;
-  padding: 0 30px;
-  height: 96px;
-  font-size: 28px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
   color: #666;
   border: 1px solid #c8cfde;
   border-radius: 16px;
+}
+.code {
+  :deep(.van-field__body) {
+    padding: 8px 10px;
+  }
 }
 :deep(.van-field__error-message) {
   margin-top: 20px;
@@ -257,6 +265,11 @@ p,
 }
 .protocol {
   margin-top: 60px;
+  display: flex;
+  align-items: center;
+  span {
+    font-size: 28px;
+  }
 }
 :deep(.van-checkbox__label) {
   font-size: 28px;
