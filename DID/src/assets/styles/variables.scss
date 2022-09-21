@@ -10,7 +10,7 @@ $theme: #1b2945;
   &::after {
     border-bottom-color: $theme;
   }
-  &::v-deep() {
+  &::v-deep {
     .van-icon,
     .van-nav-bar__title {
       color: #fff;
