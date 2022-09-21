@@ -8,12 +8,15 @@ const router = new VueRouter({
     { path: '/', name: 'home', component: () => import('@/pages/home') },
     { path: '/login', name: 'login', component: () => import('@/pages/login') },
     { path: '/my', name: 'my', component: () => import('@/pages/my') },
-    { path: '/site', name: 'site', component: () => import('@/pages/site') },
-    { path: '/nation', name: 'nation', component: () => import('@/pages/nation') },
+    { path: '/bindRelation', name: 'bindRelation', component: () => import('@/pages/bindRelation') },
+    { path: '/bindNation', name: 'bindNation', component: () => import('@/pages/bindRelation/bindNation') },
+    { path: '/community', name: 'community', component: () => import('@/pages/bindRelation/community') },
+    { path: '/setup', name: 'setup', component: () => import('@/pages/setup') },
+    { path: '/myReferrer', name: 'myReferrer', component: () => import('@/pages/setup/myReferrer') },
+    { path: '/locality', name: 'locality', component: () => import('@/pages/locality') },//所在地
+    { path: '/nation', name: 'nation', component: () => import('@/pages/locality/nation') },//国家
     // 我的团队
     { path: '/team', name: 'team', component: () => import('@/pages/my/team') },
-    // 我的社区
-    { path: '/community', name: 'community', component: () => import('@/pages/my/community') },
     // 申请创建社区
     { path: '/communityCreate', name: 'communityCreate', component: () => import('@/pages/my/community/create') },
     // 申请提交成功
