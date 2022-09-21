@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="card-icon">
-            <van-icon name="setting-o" color="#fff" size="24" />
+            <van-icon @click="toSetup" name="setting-o" color="#fff" size="24" />
           </div>
         </div>
         <div class="card-bottom">
@@ -211,7 +211,12 @@ export default {
   components: {
     TopBar,
   },
-  methods: {},
+  methods: {
+    // 去设置
+    toSetup(e){
+      this.$router.push('/setup')
+    }
+  },
 };
 </script>
 
@@ -303,10 +308,6 @@ export default {
     display: flex;
     align-items: center;
     background: none;
-  }
-  :deep(.van-cell__title) {
-    height: 96px;
-    line-height: 100px;
   }
   .cell {
     img {
