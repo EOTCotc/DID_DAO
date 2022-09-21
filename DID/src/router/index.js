@@ -12,8 +12,6 @@ const router = new VueRouter({
     { path: '/nation', name: 'nation', component: () => import('@/pages/nation') },
     // 我的团队
     { path: '/team', name: 'team', component: () => import('@/pages/my/team') },
-    // 我的社区
-    { path: '/community', name: 'community', component: () => import('@/pages/my/community') },
     // 申请创建社区
     { path: '/communityCreate', name: 'communityCreate', component: () => import('@/pages/my/community/create') },
     // 申请提交成功
