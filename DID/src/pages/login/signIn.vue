@@ -120,7 +120,6 @@
 import { getCode, register } from "@/api/pagesApi/login";
 export default {
   name: "logIn",
-  props: {},
   data() {
     return {
       showCode: true, //验证码按钮显示隐藏

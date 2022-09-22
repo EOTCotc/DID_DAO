@@ -2,7 +2,12 @@
   <div class="container">
     <van-nav-bar>
       <template #left>
-        <van-icon name="arrow-left" color="#fff" size="18" />
+        <van-icon
+          @click="$router.back()"
+          name="arrow-left"
+          color="#fff"
+          size="18"
+        />
       </template>
       <template #title>
         <span class="bar">账号设置</span>
@@ -37,8 +42,8 @@
         to="/locality"
         is-link
       />
-      <van-cell title="修改密码" is-link />
-      <van-cell title="修改邮箱" is-link />
+      <van-cell title="修改密码" to="/setup/setPassword" is-link />
+      <van-cell title="修改邮箱" to="/setup/setEmail" is-link />
       <van-cell title="账号注销" is-link />
     </div>
 
@@ -46,10 +51,10 @@
     <van-popup v-model="showPopup">
       <div class="popup">
         <p>设置电报群</p>
-        <input type="text" placeholder="请输入电报地址" />
+        <input type="text" v-model="telegram" placeholder="请输入电报地址" />
         <div class="btn-popup">
           <div @click="showPopup = false">取消</div>
-          <div>确定</div>
+          <div @click="setTelegram">确定</div>
         </div>
       </div>
     </van-popup>
@@ -60,16 +65,22 @@
 
 <script>
 import { getuserinfo } from "@/api/pagesApi/home";
+import { setuserinfo } from "@/api/pagesApi/locality";
 export default {
   name: "setup",
   data() {
     return {
       site: "", //所在地
-      userInfo: "",
+      telegram: "", //电报群
+      userInfo: "", //用户信息
       showPopup: false,
     };
   },
   mounted() {
+    this.$toast.loading({
+      duration:15,
+      forbidClick:true,
+    })
     this.getUserInfo();
   },
   methods: {
@@ -77,19 +88,38 @@ export default {
     getUserInfo() {
       getuserinfo().then((res) => {
         if (res.data.code == 0) {
+          this.$toast.clear()
           let info = res.data.items;
           this.userInfo = info;
           this.cookie.set("userInfo", JSON.stringify(info));
-          // 如果是中国，不显示国家，只显示省市区
-          if (info.country == "中国") {
-            this.site = `${info.province}-${info.city}-${info.area}`;
-          } else if (!info.province) {
-            //外国 没有省 只显示国家
-            this.site = info.country;
-          } else {
-            //有省就显示  国家-省
-            this.site = `${info.country}-${info.province}`;
+          if (info.country) {
+            let arrCountry = info.country.split("-");
+            let arrProvince = info.province.split("-");
+            let arrCity = info.province.split("-");
+            let arrArea = info.area.split("-");
+            // 如果是中国，不显示国家，只显示省市区
+            if (info.country == "中国") {
+              this.site = `${arrProvince[1]}-${arrCity[1]}-${arrArea[1]}`;
+            } else if (info.province == "-") {
+              //外国 没有省 只显示国家
+              this.site = arrCountry[1];
+            } else if (info.province) {
+              //有省就显示  国家-省
+              this.site = `${arrCountry[1]}-${arrProvince[1]}`;
+            }
           }
+        }
+      });
+    },
+    // 设置电报群
+    setTelegram() {
+      setuserinfo({ telegram: this.telegram }).then((res) => {
+        if (res.data.code == 0) {
+          this.$toast.success("设置成功");
+          this.getUserInfo();
+          this.showPopup = false;
+        } else {
+          this.$toast.fail("设置失败");
         }
       });
     },

@@ -13,7 +13,12 @@
             </div>
           </div>
           <div class="card-icon">
-            <van-icon @click="toSetup" name="setting-o" color="#fff" size="24" />
+            <van-icon
+              @click="toSetup"
+              name="setting-o"
+              color="#fff"
+              size="24"
+            />
           </div>
         </div>
         <div class="card-bottom">
@@ -153,7 +158,6 @@
 
 <script>
 import TopBar from "@/components/topBar/topBar";
-import {search} from "@/api/pagesApi/community";
 export default {
   name: "my",
   components: {
@@ -161,9 +165,9 @@ export default {
   },
   methods: {
     // 去设置
-    toSetup(){
+    toSetup() {
       this.$router.push('/setup')
-    },
+    }
   },
   created() {
     const userInfo = JSON.parse(this.cookie.get('userInfo'))
@@ -177,7 +181,7 @@ export default {
       }).catch(err => {})
     }
   }
-};
+}
 </script>
 
 <style lang='scss' scoped>
