@@ -250,11 +250,10 @@ export const loadweb3 = function (func) {
         clearInterval(obj);
         try {
           address = window.tronWeb.defaultAddress.base58;
-          // localStorage.setItem('myaddress', address)
           // ethereum.chainId   xxx->测试链  netType 网络类型
           localStorage.setItem('netType', 'xxx');
           // localStorage.setItem("netType", "trx");
-          
+
           // mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
           // mytron = await window.tronWeb.contract().at(contractAddress);
           // myUsdtAmount();
@@ -268,10 +267,7 @@ export const loadweb3 = function (func) {
             return false;
           }
           func();
-          // console.log('func');
         } catch (error) {
-          // console.warn(error);
-          // console.log(localStorage.getItem('myaddress'));
           if (address != localStorage.getItem('myaddress')) clearmymes();
         }
       } else {

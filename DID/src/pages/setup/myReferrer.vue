@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar title="标题">
+    <van-nav-bar>
       <template #left>
         <van-icon @click="toBack" name="arrow-left" color="#000" size="18" />
       </template>
@@ -13,25 +13,63 @@
 
     <div class="content">
       <div class="ad-img">
-        <img src="" alt="" />
+        <img src="../../assets/imgs/yaoqingma.png" alt="" />
       </div>
       <div class="code-title">填写邀请码</div>
-      <div class="ipt"><input type="text" placeholder="请输入邀请码" /></div>
-      <div class="link">获取邀请码，绑定推荐关系</div>
+      <div class="ipt">
+        <input type="text" v-model="refUserId" placeholder="请输入邀请码" />
+      </div>
+      <div class="confirm" @click="confirm">确定</div>
+      <div class="link" @click="getRefUserId">获取邀请码，绑定推荐关系</div>
     </div>
   </div>
 </template>
 
 <script>
+import { getcomselect } from "@/api/pagesApi/home";
+import { setuserinfo } from "@/api/pagesApi/locality";
 export default {
   name: "myReferrer",
   data() {
-    return {};
+    return {
+      refUserId: "", //邀请码
+    };
   },
-  mounted() {
-    console.log(111);
-  },
+  mounted() {},
   methods: {
+    // 确定
+    confirm() {
+      if (this.refUserId != "") {
+        setuserinfo({ refUserId: this.refUserId }).then((res) => {
+          if (res.data.code == 0) {
+            this.$toast.success("绑定成功");
+            setTimeout(() => {
+              this.$router.back();
+            }, 500);
+          } else {
+            this.$toast.fail("绑定失败");
+          }
+        });
+      } else {
+        this.$toast.fail("请填写邀请码");
+      }
+    },
+    // 获取邀请码
+    getRefUserId() {
+      // 判断有没有选位置，有就直接调到社区
+      // 没有就跳到选择已有的社区页面
+      getcomselect().then((res) => {
+        if (res.data.items == null) {
+          this.showOverlay = false;
+          this.$router.push("/bindRelation");
+        } else {
+          this.$router.push({
+            path: "/community",
+            query: { site: JSON.stringify(res.data.items), home: "home" },
+          });
+        }
+      });
+    },
     // 返回上一页
     toBack() {
       this.$router.back();
@@ -55,6 +93,17 @@ export default {
   background: #f3f4f5;
 }
 .content {
+  .ad-img {
+    margin-top: 80px;
+    margin-left: 50%;
+    width: 303px;
+    height: 310px;
+    transform: translateX(-50%);
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
   .code-title {
     margin-top: 65px;
     font-size: 32px;
@@ -75,6 +124,19 @@ export default {
       box-sizing: border-box;
       border: 2px solid #ccc;
     }
+  }
+  .confirm {
+    margin-top: 40px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 167px;
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+    font-size: 32px;
+    color: #fff;
+    border-radius: 18px;
+    background: #247ff6;
   }
   .link {
     position: absolute;
