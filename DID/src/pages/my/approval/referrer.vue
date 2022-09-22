@@ -11,37 +11,43 @@
       </van-cell>
       <van-row class="item-row">
         <van-col span="8" class="name">社区名</van-col>
-        <van-col span="16" class="value">{{referrer.sq}}</van-col>
+        <van-col span="16" class="value">{{referrer.refCommunityName}}</van-col>
       </van-row>
       <van-row class="item-row">
         <van-col span="8" class="name">电话号码</van-col>
-        <van-col span="16" class="value">{{referrer.phone}}</van-col>
+        <van-col span="16" class="value">{{referrer.phoneNum}}</van-col>
       </van-row>
       <van-row class="item-row">
         <van-col span="8" class="name">邮箱地址</van-col>
-        <van-col span="16" class="value">{{referrer.email}}</van-col>
+        <van-col span="16" class="value">{{referrer.mail}}</van-col>
       </van-row>
     </div>
   </van-overlay>
 </template>
 
 <script>
-export default {
+  import {referrerInfo} from "@/api/pagesApi/community";
+
+  export default {
   data() {
     return {
       loading: false,
       show: false,
-      referrer: {
-        name: "陈粒 (314587)",
-        sq: "天心社区",
-        phone: "13685987899",
-        email: "13589632145qq.com"
-      }
+      referrer: {}
     }
   },
   methods: {
     toggle(show) {
       this.show = show
+    },
+    getInfo(data) {
+      referrerInfo(data.refUId).then(res => {
+        this.referrer = {
+          ...data,
+          ...res.data.items
+        }
+        console.log(this.referrer);
+      })
     }
   }
 }

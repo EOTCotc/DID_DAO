@@ -35,7 +35,7 @@
       <!-- 菜单栏 -->
       <div class="cell">
         <!-- 认证审核 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/approval/authentication">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenhe.png" />
@@ -48,7 +48,7 @@
           </template>
         </van-cell>
         <!-- 社区审批 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/approval/community">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenpi.png" />
@@ -87,7 +87,7 @@
           </template>
         </van-cell>
         <!-- 我的社区 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/community">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shequ.png" />
@@ -100,7 +100,7 @@
           </template>
         </van-cell>
         <!-- 我的团队 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/team">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/tuandui.png" />
@@ -160,19 +160,28 @@
 import TopBar from "@/components/topBar/topBar";
 export default {
   name: "my",
-  data() {
-    return {};
-  },
   components: {
     TopBar,
   },
   methods: {
     // 去设置
-    toSetup(e) {
-      this.$router.push("/setup");
-    },
+    toSetup() {
+      this.$router.push('/setup')
+    }
   },
-};
+  created() {
+    const userInfo = JSON.parse(this.cookie.get('userInfo'))
+    if (userInfo && userInfo.comAuditType === 2 && !userInfo.isImprove) {
+      this.$dialog.confirm({
+        message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
+        confirmButtonText: "确定前往",
+        cancelButtonText: "稍后前往"
+      }).then(() => {
+        this.$router.push('/my/community/setting')
+      }).catch(err => {})
+    }
+  }
+}
 </script>
 
 <style lang='scss' scoped>

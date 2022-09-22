@@ -23,6 +23,9 @@ request.interceptors.request.use(
 //响应拦截器
 request.interceptors.response.use(
   function (response) {
+    if (!!response.code) {
+      return Promise.reject(response)
+    }
     return response;
   },
   async function (error) {

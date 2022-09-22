@@ -106,7 +106,7 @@
     <!-- 批准 -->
     <referrer ref="referrer" />
     <!-- 拒绝 -->
-    <cancel ref="cancel" />
+    <cancel ref="cancel" title="打回原因" />
   </van-pull-refresh>
 </template>
 

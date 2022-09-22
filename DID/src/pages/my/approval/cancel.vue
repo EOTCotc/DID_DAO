@@ -6,9 +6,9 @@
     position="bottom"
   >
     <div class="popup_header_wrap">
-      <div class="cancel" @click="toggle(false)">取消</div>
-      <div class="title">打回原因</div>
-      <div class="confirm">确定</div>
+      <div class="cancel" @click="handleCancel">取消</div>
+      <div class="title">{{title}}</div>
+      <div class="confirm" @click="handleConfirm">确定</div>
     </div>
     <div class="cancel_wrap">
       <div class="title_wrap">
@@ -27,22 +27,46 @@
         </div>
       </div>
       <div class="item">
-        <span class="type" v-for="item in type" :key="item" :class="{'active': form.data.type === item}" @click="selectType('type', item)">{{item}}</span>
+        <span
+            class="type"
+            v-for="item in types"
+            :key="item"
+            :class="{'active': type === item}"
+            @click="selectType('type', item)"
+        >
+          {{item}}
+        </span>
       </div>
       <div class="title_wrap">
         <div class="label">
           <span class="text">具体原因</span>
         </div>
-        <div class="switch" @click="handleSwitch">
-          <span class="text">{{form.input ? '选择' : '输入'}}</span>
-          <i class="icon icon-refresh"></i>
-        </div>
+<!--        <div class="switch" @click="handleSwitch">-->
+<!--          <span class="text">{{isInput ? '选择' : '输入'}}</span>-->
+<!--          <i class="icon icon-refresh"></i>-->
+<!--        </div>-->
       </div>
-      <div class="item" v-show="form.input">
-        <van-field class="textarea" v-model="form.data.reason" label="" border type="textarea" rows="4" placeholder="请输入具体原因" />
+      <div class="item" v-show="isInput">
+        <van-field
+            border
+            class="textarea"
+            v-model="remark"
+            label=""
+            type="textarea"
+            rows="4"
+            placeholder="请输入具体原因"
+        />
       </div>
-      <div class="item" v-show="!form.input">
-        <span class="type" v-for="item in reason" :key="item" :class="{'active': form.data.reason === item}" @click="selectType('reason', item)">{{item}}</span>
+      <div class="item" v-show="!isInput">
+        <span
+            class="type"
+            v-for="item in reason"
+            :key="item"
+            :class="{'active': remark === item}"
+            @click="selectType('remark', item)"
+        >
+          {{item}}
+        </span>
       </div>
     </div>
   </van-popup>
@@ -50,20 +74,18 @@
 
 <script>
 export default {
+  props: {
+    title: {required: true, type: String}
+  },
   data() {
     return {
       show: false,
       showPopover: false,
-      type: ['恶意提交', '信息有误'],
+      types: ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰'],
       reason: ['信息不全', '信息错误', '证件照有误', '证件照不清晰'],
-      form: {
-        loading: false,
-        input: true,
-        data: {
-          type: '',
-          reason: ''
-        }
-      }
+      isInput: true,
+      type: "",
+      remark: ""
     }
   },
   methods: {
@@ -71,12 +93,24 @@ export default {
       this.show = show
     },
     selectType(type, data) {
-      this.form.data[type] = this.form.data[type] === data ? '' : data
+      this[type] = this[type] === data ? '' : data
     },
     // 切换输入或选择
     handleSwitch() {
-      this.form.input = !this.form.input
-      this.form.data.reason = ''
+      this.isInput = !this.isInput
+      this.remark = ''
+    },
+    // 取消
+    handleCancel() {
+      this.toggle(false)
+      this.type = ''
+      this.reason = ''
+      this.isInput = true
+    },
+    // 确定
+    handleConfirm() {
+      this.$emit('handleReject', {type: this.type, remark: this.remark})
+      this.handleCancel()
     }
   }
 }

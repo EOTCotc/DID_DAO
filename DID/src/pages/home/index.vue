@@ -165,7 +165,7 @@ export default {
           this.$router.push("/bindRelation");
         } else {
           this.$router.push({
-            path: "/community",
+            path: "/bindRelation/community",
             query: { site: JSON.stringify(res.data.items), home: "home" },
           });
         }

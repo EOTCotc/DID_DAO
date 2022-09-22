@@ -6,12 +6,15 @@ import store from './store'
 import jsCookie from 'js-cookie'
 import md5 from 'md5'
 import i18n from '@/lang/index'
+import dayjs from "dayjs";
+import "@/assets/font/style.css"
 
 import { Area, Picker, Search, Toast, Button, Form, Field, Icon, Checkbox, NavBar, Popup, Cell, Overlay, Tabs, Tab, Loading, PullRefresh, Image, List, Dialog, Empty, Row, Col, RadioGroup, Radio, Popover, Steps, Step, Uploader } from 'vant';
 
 Vue.config.productionTip = false//关闭生产提示
 Vue.prototype.cookie = jsCookie //全局引入
 Vue.prototype.$md5 = md5
+Vue.prototype.$date = dayjs
 
 Vue.use(Area);
 Vue.use(Picker);

@@ -5,18 +5,6 @@ $theme: #1b2945;
 .blue {  
   background-color: $theme;
 }
-.nav-bar {
-  background-color: $theme;
-  &::after {
-    border-bottom-color: $theme;
-  }
-  &::v-deep {
-    .van-icon,
-    .van-nav-bar__title {
-      color: #fff;
-    }
-  }
-}
 
 .centered {
   @include posi($t: 50%, $l: 50%);

@@ -1,39 +1,42 @@
 <template>
-  <van-pull-refresh v-model="loading" @refresh="onRefresh">
-    <div class="community_wrap fullscreen">
-      <page-header title="我的社区" theme="dark" />
-      <div class="content">
-        <van-cell class="title">
-          <template slot="title"><div>粒紫社区</div></template>
-          <template><i class="icon icon-setting" @click="$router.push('/communitySetting')"></i></template>
-        </van-cell>
-        <img class="img" :src="require('../../../assets/imgs/01.jpg')" alt="">
-        <van-row class="row">
-          <van-col class="label" span="16">简介</van-col>
-          <van-col class="value desc" span="24">驾驭命运的舵是奋斗。不抱有一丝幻想,不放弃一点机会,不停止一日努力。</van-col>
-        </van-row>
-        <van-row class="row">
-          <van-col class="label" span="8">电报群</van-col>
-          <van-col class="value link" span="16">http://t.me/eotca</van-col>
-        </van-row>
-        <van-row class="row">
-          <van-col class="label" span="8">QQ群</van-col>
-          <van-col class="value" span="16">1621688688 <i class="icon icon-copy"></i></van-col>
-        </van-row>
-        <van-row class="row">
-          <van-col class="label" span="8">Discord</van-col>
-          <van-col class="value" span="16">Dava12899 <i class="icon icon-copy"></i></van-col>
-        </van-row>
-        <div class="btn" v-show="status === 0" @click="$router.push('/communityCreate')">申请创建社区</div>
-        <div class="btn pending" v-show="status === 1">社区创建审核中</div>
-        <div class="btn reject" v-show="status === 2">社区创建审核失败</div>
-      </div>
+  <div class="community_wrap fullscreen">
+    <page-header title="我的社区" theme="dark" />
+    <div class="content">
+      <van-cell class="title">
+        <template slot="title"><div>{{community.comName}}</div></template>
+        <i class="icon icon-setting" v-if="userInfo.authType === 2" @click="$router.push('/my/community/setting')"></i>
+      </van-cell>
+      <img class="img" :src="community.image" alt="">
+      <van-row class="row">
+        <van-col class="label" span="16">简介</van-col>
+        <van-col class="value desc" span="24">{{community.describe}}</van-col>
+      </van-row>
+      <van-row class="row">
+        <van-col class="label" span="8">电报群</van-col>
+        <van-col class="value" span="16" v-if="community.telegram">
+          <a class="link" :href="community.telegram">{{community.telegram}}</a>
+        </van-col>
+      </van-row>
+      <van-row class="row">
+        <van-col class="label" span="8">QQ群</van-col>
+        <van-col class="value" span="16" v-if="community.qq">{{community.qq}} <i class="icon icon-copy" @click="copy(community.qq)"></i></van-col>
+      </van-row>
+      <van-row class="row">
+        <van-col class="label" span="8">Discord</van-col>
+        <van-col class="value" span="16" v-if="community.discord">{{community.discord}} <i class="icon icon-copy" @click="copy(community.discord)"></i></van-col>
+      </van-row>
+      <div class="btn" v-if="!userInfo.applyCommunityId" @click="applyCreateCommunity">申请创建社区</div>
+      <div class="btn pending" v-else-if="userInfo.authType === 1">社区创建审核中</div>
+      <div class="btn reject" v-else-if="userInfo.authType === 3" @click="$router.push('/my/community/process')">社区创建审核失败</div>
     </div>
-  </van-pull-refresh>
+  </div>
 </template>
 
 <script>
 import pageHeader from "@/components/topBar/pageHeader.vue"
+import defaultImg from "@/assets/imgs/community_default.png"
+import {search, allowCreateCommunity} from "@/api/pagesApi/community";
+import {copy} from "@/utils/utils";
 
 export default {
   components: { pageHeader },
@@ -42,14 +45,51 @@ export default {
     return {
       loading: false,
       status: 0,
+      community: {},
+      communityStatus: {},
+      defaultImg, // 默认简介图片
+      userInfo: {}
     }
   },
   methods: {
-    onRefresh() {},
-    getList() {},
-    handleLoad() {
-
+    onRefresh() {
+      const wallet = localStorage.getItem("myaddress")
+      const otype = localStorage.getItem("netType")
+      const sign = localStorage.getItem("mysign")
+      this.$toast.loading("加载中…")
+      allowCreateCommunity(`wallet=${wallet}&otyp=${otype}&sign=${sign}`).then(res => {
+        this.communityStatus = res.data
+      })
+      this.getCommunity()
     },
+    // 获取社区信息
+    getCommunity() {
+      search().then(res => {
+        const data = res.data.items || {}
+        this.community = {
+          ...data,
+          image: data.image ? `http://192.168.2.110:5555/${data.image}` : this.defaultImg
+        }
+      }).finally(err => {
+        this.$toast.clear()
+      })
+    },
+    applyCreateCommunity() {
+      if (this.communityStatus.giftEotc < 5000) {
+        this.$router.push('/my/community/create')
+      } else {
+        this.$toast({
+          message: '您必须持有5000EOTC才能申请',
+          position: 'bottom',
+        });
+      }
+    },
+    copy
+  },
+  created() {
+    const userInfo = this.cookie.get('userInfo')
+    this.userInfo = !!userInfo ? JSON.parse(userInfo) : {}
+    this.onRefresh()
   }
 }
 </script>
@@ -89,7 +129,7 @@ export default {
           line-height: 1.5;
           margin-top: 30px;
         }
-        &.link {
+        .link {
           color: #237FF8;
         }
       }

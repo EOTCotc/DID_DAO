@@ -58,6 +58,12 @@ export default {
       showPopup: false,
       // 更新所在地
       req: {},
+      code: {
+        country: [], // 国家
+        province: [], // 省
+        city: [], // 市
+        area: [] // 区
+      }
     };
   },
   mounted() {
@@ -157,12 +163,19 @@ export default {
       } else if (e[0] != "" && e[1] == "") {
         //只有省
         this.region = `${e[0]}`;
+        this.code.province[1] = e[0]
       } else if (e[0] != "" && e[1] != "" && e[2] == "") {
         //只有省市
         this.region = `${e[0]} - ${e[1]}`;
+        this.code.province[1] = e[0]
+        this.code.city[1] = e[1]
       } else if (e[0] != "" && e[1] != "" && e[2] != "") {
         this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
+        this.code.province[1] = e[0]
+        this.code.city[1] = e[1]
+        this.code.area[1] = e[2]
       }
+
       // 省市区的code，传给后端
       // this.columns[i[0]].eng,
       // this.columns[i[0]].children[i[1]].eng,
@@ -170,28 +183,35 @@ export default {
       // 判断省市区为不为空，为空就不传
       if (this.columns[i[0]].eng != "") {
         this.req.province = this.columns[i[0]].eng;
+        this.code.province[0] = this.req.province
       }
       if (this.columns[i[0]].children[i[1]].eng != "") {
         this.req.city = this.columns[i[0]].children[i[1]].eng;
+        this.code.city[0] = this.req.city
       }
       if (this.columns[i[0]].children[i[1]].children[i[2]].eng != "") {
         this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
+        this.code.area[0] = this.req.area
       }
       // 选择省市区的显示隐藏
       this.showPopup = false;
     },
     // 保存按钮
     save() {
-      setuserinfo(this.req).then((res) => {
-        if (res.data.code == 0) {
-          this.$toast.success("保存成功");
-          setTimeout(() => {
-            this.$router.back();
-          }, 600);
-        } else {
-          this.$toast.fail("保存失败");
-        }
-      });
+      if (this.$route.query.form === "/my/community/create") {
+        this.$router.replace({name: 'communityCreate', params: {code: this.code}})
+      } else {
+        setuserinfo(this.req).then((res) => {
+          if (res.data.code == 0) {
+            this.$toast.success("保存成功");
+            setTimeout(() => {
+              this.$router.back();
+            }, 600);
+          } else {
+            this.$toast.fail("保存失败");
+          }
+        });
+      }
     },
     // 导航栏返回
     onClickLeft() {
