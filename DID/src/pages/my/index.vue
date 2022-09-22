@@ -30,7 +30,7 @@
       <!-- 菜单栏 -->
       <div class="cell">
         <!-- 认证审核 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/approval/authentication">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenhe.png" />
@@ -43,7 +43,7 @@
           </template>
         </van-cell>
         <!-- 社区审批 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/approval/community">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenpi.png" />
@@ -82,7 +82,7 @@
           </template>
         </van-cell>
         <!-- 我的社区 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/community">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shequ.png" />
@@ -95,7 +95,7 @@
           </template>
         </van-cell>
         <!-- 我的团队 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/team">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/tuandui.png" />
@@ -153,70 +153,30 @@
 
 <script>
 import TopBar from "@/components/topBar/topBar";
+import {search} from "@/api/pagesApi/community";
 export default {
   name: "my",
-  data() {
-    return {
-      valueColor: "",
-      activeNames: ["1"],
-      cellList: [
-        {
-          id: 0,
-          title: "认证审核",
-          imgUrl: require("../../assets/imgs/shenhe.png"),
-        },
-        {
-          id: 1,
-          title: "社区审批",
-          imgUrl: require("../../assets/imgs/shenpi.png"),
-        },
-        {
-          id: 2,
-          title: "身份信息",
-          imgUrl: require("../../assets/imgs/shenfen.png"),
-        },
-        {
-          id: 3,
-          title: "收付款方式",
-          imgUrl: require("../../assets/imgs/fukuan.png"),
-        },
-        {
-          id: 4,
-          title: "我的社区",
-          imgUrl: require("../../assets/imgs/shequ.png"),
-        },
-        {
-          id: 5,
-          title: "我的团队",
-          imgUrl: require("../../assets/imgs/tuandui.png"),
-        },
-        {
-          id: 6,
-          title: "邀请好友",
-          imgUrl: require("../../assets/imgs/haoyou.png"),
-        },
-        {
-          id: 7,
-          title: "各公链绑定地址",
-          imgUrl: require("../../assets/imgs/gonglian.png"),
-        },
-        {
-          id: 8,
-          title: "绑定各项目",
-          imgUrl: require("../../assets/imgs/xiangmu.png"),
-        },
-      ],
-    };
-  },
   components: {
     TopBar,
   },
   methods: {
     // 去设置
-    toSetup(e){
+    toSetup(){
       this.$router.push('/setup')
-    }
+    },
   },
+  created() {
+    const userInfo = JSON.parse(this.cookie.get('userInfo'))
+    if (userInfo && userInfo.comAuditType === 2 && !userInfo.isImprove) {
+      this.$dialog.confirm({
+        message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
+        confirmButtonText: "确定前往",
+        cancelButtonText: "稍后前往"
+      }).then(() => {
+        this.$router.push('/my/community/setting')
+      }).catch(err => {})
+    }
+  }
 };
 </script>
 
