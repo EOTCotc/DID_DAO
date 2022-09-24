@@ -35,7 +35,7 @@
       <!-- 菜单栏 -->
       <div class="cell">
         <!-- 认证审核 -->
-        <van-cell is-link :border="false" to="/my/approval/authentication">
+        <van-cell is-link :border="false" to="/my/identity/approval">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenhe.png" />
@@ -61,7 +61,7 @@
           </template>
         </van-cell>
         <!-- 身份信息 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" :to="identifyRouter">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenfen.png" />
@@ -69,12 +69,15 @@
           <template #title>
             <span>
               身份信息
-              <span v-show="false" class="badge"></span>
             </span>
+          </template>
+          <template #default>
+            <span class="identity-apply_status pending" v-if="userInfo.authType === 1">审核中</span>
+            <span class="identity-apply_status fail" v-else-if="userInfo.authType === 3">审核失败</span>
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/payment">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/fukuan.png" />
@@ -113,7 +116,7 @@
           </template>
         </van-cell>
         <!-- 邀请好友 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/invite">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/haoyou.png" />
@@ -126,7 +129,7 @@
           </template>
         </van-cell>
         <!-- 各公链绑定地址 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/wallets">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/gonglian.png" />
@@ -139,7 +142,7 @@
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border="false">
+        <van-cell is-link :border="false" to="/my/projects">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/xiangmu.png" />
@@ -158,28 +161,64 @@
 
 <script>
 import TopBar from "@/components/topBar/topBar";
+import {getuserinfo} from "@/api/pagesApi/home";
 export default {
   name: "my",
   components: {
     TopBar,
   },
+  data() {
+    return {
+      userInfo: {}
+    }
+  },
+  computed: {
+    identifyStatus() {
+      if(this.userInfo.authType === 1) {
+        return '审核中'
+      } else if (this.userInfo.authType === 2) {
+        return '审核成功'
+      } else if (this.userInfo.authType === 3) {
+        return '审核失败'
+      }
+    },
+    // 身份信息跳转
+    identifyRouter() {
+      if(this.userInfo.authType === 0) {
+        return '/my/identity'
+      } else if (this.userInfo.authType === 2) {
+        return '/my/identity/success'
+      } else if (this.userInfo.authType === 3) {
+        return '/my/identity/fail'
+      }
+    }
+  },
   methods: {
     // 去设置
     toSetup() {
       this.$router.push('/setup')
+    },
+    handleRefresh() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: "加载中…"
+      })
+      getuserinfo().then((res) => {
+        this.userInfo = res.data.items
+        if (this.userInfo && this.userInfo.comAuditType === 2 && !this.userInfo.isImprove) {
+          this.$dialog.confirm({
+            message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
+            confirmButtonText: "确定前往",
+            cancelButtonText: "稍后前往"
+          }).then(() => {
+            this.$router.push('/my/community/setting')
+          }).catch(err => {})
+        }
+      }).finally(() => loading.clear())
     }
   },
   created() {
-    const userInfo = JSON.parse(this.cookie.get('userInfo'))
-    if (userInfo && userInfo.comAuditType === 2 && !userInfo.isImprove) {
-      this.$dialog.confirm({
-        message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
-        confirmButtonText: "确定前往",
-        cancelButtonText: "稍后前往"
-      }).then(() => {
-        this.$router.push('/my/community/setting')
-      }).catch(err => {})
-    }
+    this.handleRefresh()
   }
 }
 </script>
@@ -293,6 +332,15 @@ export default {
         border-radius: 50%;
         background: red;
       }
+    }
+  }
+  .identity-apply_status {
+    font-size: 28px;
+    &.pending {
+      color: #4DC44C;
+    }
+    &.fail {
+      color: #FF6343;
     }
   }
 }

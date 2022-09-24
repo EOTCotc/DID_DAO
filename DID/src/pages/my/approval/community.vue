@@ -20,7 +20,7 @@
       <van-list
           class="list_wrap"
           v-show="!!list.data.length"
-          v-model="list.btloading"
+          v-model="list.UpRefreshLoading"
           :finished="list.finished"
           finished-text="没有更多了"
           @load="handleUpRefresh"
@@ -90,7 +90,7 @@
                   <van-icon v-else name="clear" color="#227AEE"/>
                 </template>
                 <van-row class="main">
-                  <van-col :span="12" class="title">{{getAuditStep(item.auditStep)}}:{{step.name}}</van-col>
+                  <van-col :span="12" class="title">{{getAuditStep(step.auditStep)}}:{{step.name}}</van-col>
                   <van-col :span="12" class="date" style="font-size: 12px;color: #999;text-align: right;">
                     {{transformUTCDate(step.authDate)}}
                   </van-col>
@@ -139,23 +139,23 @@
       />
     </div>
     <referrer ref="referrer"/>
-    <cancel ref="cancel" title="驳回原因" @handleReject="handleReject" />
+    <reject ref="reject" title="驳回原因" @handleReject="handleReject" />
   </van-pull-refresh>
 </template>
 
 <script>
   import pageHeader from "@/components/topBar/pageHeader.vue"
+  import Reject from '@/components/reject'
   import Referrer from './referrer'
-  import Cancel from './cancel'
   import {list, auditCommunity} from "@/api/pagesApi/approvalCommunity";
-  import {transformUTCDate} from "@/utils/utils";
+  import {transformUTCDate, getAuditStep} from "@/utils/utils";
 
   export default {
     name: "approvalCommunity",
     components: {
       pageHeader,
       Referrer,
-      Cancel
+      Reject
     },
     data() {
       return {
@@ -167,7 +167,7 @@
         },
         list: {
           uploading: false,
-          btloading: false,
+          UpRefreshLoading: false,
           finished: false,
           query: {
             page: 1,
@@ -192,7 +192,7 @@
       // 滚动到底翻页
       handleUpRefresh() {
         this.list.query.page++
-        this.list.btloading = true
+        this.list.UpRefreshLoading = true
         this.getList()
       },
       // 获取列表
@@ -209,7 +209,7 @@
         }).finally(() => {
           this.$toast.clear()
           this.list.uploading = false
-          this.list.btloading = false
+          this.list.UpRefreshLoading = false
         })
       },
       showReferrer(data) {
@@ -259,7 +259,7 @@
       },
       // 驳回
       cancel(data) {
-        this.$refs.cancel.toggle(true)
+        this.$refs.reject.toggle(true)
         this.id = data.communityId
       },
       // 驳回信息提交
@@ -272,10 +272,7 @@
         })
       },
       // 获取审核步骤
-      getAuditStep(step) {
-        const arr = ['初审', '二审', '抽审', 'Dao']
-        return arr[step]
-      },
+      getAuditStep,
       // 获取审核状态
       getAuditType(type) {
         const arr = ['未审核', '审核通过', '信息不全', '信息有误', '证件照片有误', '证件照片不清晰']
