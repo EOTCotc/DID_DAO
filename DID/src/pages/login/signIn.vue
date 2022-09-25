@@ -81,7 +81,7 @@
       </div>
       <!-- 邀请地址 -->
       <div class="from-item">
-        <p>邀请地址<span class="hint">(非必填)</span></p>
+        <p>邀请码<span class="hint">(非必填)</span></p>
         <van-field
           v-model="form.refUserId"
           type="text"
@@ -215,6 +215,9 @@ export default {
         this.$toast.fail("请勾选协议");
       }
     },
+  },
+  created() {
+    this.form.refUserId = location.href.split('?code=')[1] || ''
   },
 };
 </script>

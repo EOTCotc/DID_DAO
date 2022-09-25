@@ -23,7 +23,7 @@ request.interceptors.request.use(
 //响应拦截器
 request.interceptors.response.use(
   function (response) {
-    if (!!response.code) {
+    if (!!response.data.code) {
       return Promise.reject(response)
     }
     return response;

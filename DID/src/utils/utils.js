@@ -41,7 +41,17 @@ export function copy(text) {
   })
   document.body.removeChild(input)
 }
+// 日期格式转换
 export function transformUTCDate(str) {
   const date = new Date(str)
-  return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()} ${date.getUTCHours()}-${date.getUTCMinutes()}-${date.getUTCSeconds()}`
+  return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`
+}
+// 浏览远程图片
+export function spliceSrc(src) {
+  return `http://192.168.2.110:5555/${src}`
+}
+// 获取审核步骤
+export function getAuditStep(step) {
+  const arr = ['初审', '二审', '抽审', 'Dao']
+  return arr[step]
 }
