@@ -5,20 +5,27 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
-    { path: '/', name: 'home', component: () => import('@/pages/home') },
-    { path: '/login', name: 'login', component: () => import('@/pages/login') },
-    { path: '/my', name: 'my', component: () => import('@/pages/my') },
-    { path: '/bindRelation', name: 'bindRelation', component: () => import('@/pages/bindRelation') },
-    { path: '/bindNation', name: 'bindNation', component: () => import('@/pages/bindRelation/bindNation') },
-    { path: '/community', name: 'community', component: () => import('@/pages/bindRelation/community') },
-    { path: '/setup', name: 'setup', component: () => import('@/pages/setup') },
-    // 推荐人绑定
-    { path: '/bindRelation/community', name: 'bindRelationCommunity', component: () => import('@/pages/bindRelation/community') },
+    { path: '/', name: 'home', component: () => import('@/pages/home') },//首页
+    { path: '/login', name: 'login', component: () => import('@/pages/login') },//登录
+    { path: '/my', name: 'my', component: () => import('@/pages/my') },//我的
+    { path: '/bindRelation', name: 'bindRelation', component: () => import('@/pages/bindRelation') },//绑定位置
+    { path: '/bindNation', name: 'bindNation', component: () => import('@/pages/bindRelation/bindNation') },//绑定国家
+    { path: '/setup', name: 'setup', component: () => import('@/pages/setup') },//账号设置
+    { path: '/bindRelation/bindCommunity', name: 'bindCommunity', component: () => import('@/pages/bindRelation/bindCommunity') },// 推荐人绑定
     { path: '/myReferrer', name: 'myReferrer', component: () => import('@/pages/setup/myReferrer') },//邀请码
     { path: '/locality', name: 'locality', component: () => import('@/pages/locality') },//所在地
     { path: '/nation', name: 'nation', component: () => import('@/pages/locality/nation') },//国家
     { path: '/setup/setPassword', name: 'setPassword', component: () => import('@/pages/setup/setPassword') },//修改密码
     { path: '/setup/setEmail', name: 'setEmail', component: () => import('@/pages/setup/setEmail') },//修改邮箱
+    {
+      path: '/setup/logout', name: 'logout', redirect: '/setup/logout/confInfo', component: () => import('@/pages/logout'),//注销
+      children: [
+        { path: 'confInfo', name: 'confInfo', component: () => import('@/pages/logout/confInfo') },//确定信息
+        { path: 'remind', name: 'remind', component: () => import('@/pages/logout/remind') },//重要提醒
+        { path: 'reason', name: 'reason', component: () => import('@/pages/logout/reason') },//注销原因
+      ]
+    },
+    { path: '/setup/logout/verifyLogout', name: 'verifyLogout', component: () => import('@/pages/logout/verifyLogout') },//注销验证邮箱
     // 我的团队
     { path: '/my/team', name: 'team', component: () => import('@/pages/my/team') },
     // 我的社区

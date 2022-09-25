@@ -44,7 +44,7 @@
       />
       <van-cell title="修改密码" to="/setup/setPassword" is-link />
       <van-cell title="修改邮箱" to="/setup/setEmail" is-link />
-      <van-cell title="账号注销" is-link />
+      <van-cell title="账号注销" to="/setup/logout" is-link />
     </div>
 
     <!-- 设置电报群 -->

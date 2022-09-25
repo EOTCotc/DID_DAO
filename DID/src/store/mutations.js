@@ -1,5 +1,8 @@
 export default {
-  setShowMenu: (state, payload) => { //显示隐藏菜单栏事件
-    state.showMenu = payload
-  }
+  changeStepNum: (state, stepNum) => { //注销账号的步骤
+    state.stepNum = stepNum
+  },
+  changeBackNum: (state, backNum) => {//注销账号路由返回的级数
+    state.backNum = backNum
+  },
 }

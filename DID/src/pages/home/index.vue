@@ -97,9 +97,13 @@ export default {
   },
   mounted() {
     if (this.cookie.get("token")) {
+      //有token没用户信息
       this.getInfo();
-    } else {
+    } else if (!localStorage.getItem("myaddress")) {
+      //钱包地址为空
       loadweb3(this.login);
+    } else {
+      this.login();
     }
   },
   methods: {
@@ -130,6 +134,7 @@ export default {
     getInfo() {
       getuserinfo()
         .then((res) => {
+          console.log(res);
           if (res.data.code == 0) {
             // 用户信息存到cookie
             this.cookie.set("userInfo", JSON.stringify(res.data.items));

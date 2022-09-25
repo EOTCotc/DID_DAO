@@ -52,7 +52,7 @@
 import InfiniteLoading from "vue-infinite-loading";
 import { getcomlist } from "@/api/pagesApi/bindRelation";
 export default {
-  name: "community",
+  name: "bindCommunity",
   data() {
     return {
       show: true,

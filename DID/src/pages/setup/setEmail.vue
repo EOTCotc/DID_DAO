@@ -51,7 +51,7 @@
               isStyle == 1
                 ? 'background:#247FF6;'
                 : isStyle == 2
-                ? 'background:#fff;border:3px solid #00B87A;color:#00B87A;'
+                ? 'background:#fff;border:2px solid #00B87A;color:#00B87A;'
                 : ''
             "
             @click="btnAuthorization"
