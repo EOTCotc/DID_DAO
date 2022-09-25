@@ -31,10 +31,26 @@ const router = new VueRouter({
     { path: '/my/community/process', name: 'communityProcess', component: () => import('@/pages/my/community/process') },
     // 社区审核
     { path: '/my/approval/community', name: 'approvalCommunity', component: () => import('@/pages/my/approval/community') },
-    // 认证审批
-    { path: '/my/approval/authentication', name: 'approvalAuthentication', component: () => import('@/pages/my/approval/authentication') },
     // 社区信息
     { path: '/my/community/setting', name: 'communitySetting', component: () => import('@/pages/my/community/setting') },
+    // 身份认证
+    { path: '/my/identity', name: 'identity', component: () => import('@/pages/my/identity') },
+    // 身份认证审批
+    { path: '/my/identity/approval', name: 'identityApproval', component: () => import('@/pages/my/identity/approval') },
+    // 身份认证失败
+    { path: '/my/identity/fail', name: 'identityFail', component: () => import('@/pages/my/identity/fail') },
+    // 身份认证成功
+    { path: '/my/identity/success', name: 'identitySuccess', component: () => import('@/pages/my/identity/success') },
+    // 收付款
+    { path: '/my/payment', name: 'payment', component: () => import('@/pages/my/payment') },
+    // 收付款
+    { path: '/my/payment/create', name: 'paymentCreate', component: () => import('@/pages/my/payment/create') },
+    // 邀请好友
+    { path: '/my/invite', name: 'invite', component: () => import('@/pages/my/invite') },
+    // 绑定各公链地址
+    { path: '/my/wallets', name: 'wallets', component: () => import('@/pages/my/wallets') },
+    // DID绑定各项目
+    { path: '/my/projects', name: 'projects', component: () => import('@/pages/my/projects') },
   ]
 });
 
