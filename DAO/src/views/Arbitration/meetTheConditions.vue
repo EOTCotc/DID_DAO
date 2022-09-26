@@ -48,13 +48,45 @@
             <van-icon name="cart-circle-o" />
             <div class="examinationColumn"><span>通过考试</span><span style="color:#999999;font-size:12px ">考试成绩达到90分以上</span></div>
           </div>
-          <div class="right">去考试
+          <div class="right"
+               @click="ExamTips">去考试
             <van-icon name="arrow" />
           </div>
         </div>
       </div>
-
     </div>
+    <van-overlay :show="show"
+                 @click="show = false">
+      <div class="wrapper"
+           @click.stop>
+        <div class="block">
+          <van-button color="linear-gradient(to right, #3EBDFF, #006BF8)"
+                      size="large ">
+            考试说明
+          </van-button>
+          <van-button color="#F3F4F5 "
+                      style="color:#333333 ">90分即通过</van-button>
+          <div class="middle">
+            <div class="middleTitle">
+              <p>题目数量</p>
+              <p class="p2"><span>12</span>题</p>
+            </div>
+            <div class="line"></div>
+            <div class="middleTitle">
+              <p>考试时长</p>
+              <p class="p2"><span>30</span>分钟</p>
+            </div>
+          </div>
+          <van-button color="#237FF8"
+                      class="startBtn"
+                      @click="auditing('examination')">开始答题</van-button>
+          <van-icon name="close"
+                    color="#fff"
+                    size="1.8rem"
+                    @click="show = false" />
+        </div>
+      </div>
+    </van-overlay>
     <footer>
       <van-button round
                   block
@@ -71,16 +103,88 @@ export default {
   data() {
     return {
       title: '仲裁员',
+      show: false,
     }
   },
   methods: {
     auditing(name) {
       this.$router.push({ name: name })
     },
+    ExamTips() {
+      this.show = true
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.block {
+  position: relative;
+  width: 18.75rem;
+  height: 17rem;
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .van-button:nth-child(1) {
+    width: 10.625rem;
+    height: 2.81rem;
+    border-radius: 5px 5px 20px 20px;
+    margin-top: -7px;
+    font-size: 18px;
+  }
+  .van-button:nth-child(2) {
+    width: 6.81rem;
+    height: 1.875rem;
+    margin-top: 1.1rem;
+    border-radius: 15px;
+    color: #333333;
+    font-size: 14px;
+  }
+  .startBtn {
+    width: 11.44rem;
+    height: 3rem;
+    margin-top: 1.1rem;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+  }
+  .van-icon {
+    position: absolute;
+    bottom: -3rem;
+  }
+  .middle {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #666666;
+    margin-top: 7px;
+    width: 100%;
+    height: 35%;
+    .middleTitle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .p2 {
+        color: #333333;
+        span {
+          font-size: 30px;
+          font-weight: bold;
+        }
+      }
+    }
+    .line {
+      width: 1px;
+      height: 45px;
+      background-color: #ecebeb;
+    }
+  }
+}
 .backgroundPicture {
   position: relative;
   .text {
