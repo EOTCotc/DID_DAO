@@ -8,7 +8,6 @@
         v-model="value"
         show-action
         shape="round"
-
         @input="showInput"
         placeholder="输入关键词查询"
       >
@@ -21,25 +20,6 @@
         <van-cell :title="item.memo" :border="false" />
         <van-cell title="销毁查询地址:" :border="false" />
         <van-cell :title="item.destructionId" :border="false" />
-        </template>
-      </van-search>
-      <van-cell-group inset>
-        <van-cell title="游戏消耗" value="2022年7月27日" />
-        <van-cell title="49027EOTC" :border="false" />
-        <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell title="T9yD14Nj9j7xAB4dbGeiX9h8unkKLxmGkn" :border="false" />
-      </van-cell-group>
-      <van-cell-group inset>
-        <van-cell title="游戏消耗" value="2022年7月27日" />
-        <van-cell title="49027EOTC" :border="false" />
-        <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell title="T9yD14Nj9j7xAB4dbGeiX9h8unkKLxmGkn" :border="false" />
-      </van-cell-group>
-      <van-cell-group inset>
-        <van-cell title="游戏消耗" value="2022年7月27日" />
-        <van-cell title="49027EOTC" :border="false" />
-        <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell title="T9yD14Nj9j7xAB4dbGeiX9h8unkKLxmGkn" :border="false" />
       </van-cell-group>
       <van-popup
         v-model="show"
@@ -66,7 +46,6 @@
           <van-button round type="default"
             ><span v-if="end == ''">起始时间</span
             ><span>{{ end }}</span></van-button
-
           >
         </div>
 
@@ -162,11 +141,6 @@ export default {
       if (this.active == 2) {
         this.showDate = true;
       }
-    };
-  },
-  methods: {
-    showPopup() {
-      this.show = true;
     },
     // onConfirm(date) {
     //   this.show = false;
