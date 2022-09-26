@@ -205,6 +205,22 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/personnel"),
   },
+  {
+    path: "/user/arbitration/case",
+    name: "arbitrationCase",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/Arbitration/case"),
+  },
+  {
+    path: "/user/arbitration/case/detail",
+    name: "arbitrationCaseDetail",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/Arbitration/case/detail"),
+  },
 ];
 
 const router = new VueRouter({
