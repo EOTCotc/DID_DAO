@@ -1,9 +1,9 @@
 <template>
-  <div class="log-in">
+  <div class="log-in" :style="`min-height:${height}px;`">
     <van-form ref="form">
       <!-- 选择网络 -->
-      <div class="first-item">
-        <div class="title">EOTC采用严格的邀请注册制</div>
+      <div class="title">EOTC采用严格的邀请注册制</div>
+      <div class="from-item" v-if="form.walletAddress">
         <p class="from-item">选择网络</p>
         <van-field
           v-model="form.otype"
@@ -12,7 +12,7 @@
         />
       </div>
       <!-- 钱包地址 -->
-      <div class="from-item">
+      <div class="from-item" v-if="form.walletAddress">
         <p>钱包地址</p>
         <van-field
           v-model="form.walletAddress"
@@ -103,15 +103,17 @@
         </van-checkbox>
       </div>
     </van-form>
-    <van-button
-      class="btn-login"
-      type="info"
-      native-type="submit"
-      @click="onSubmit"
-      >确定注册</van-button
-    >
-    <div class="tips">
-      已账户<span class="sign-in" @click="handleBtn">去登录</span>
+    <div class="signin-box">
+      <van-button
+        class="btn-login"
+        type="info"
+        native-type="submit"
+        @click="onSubmit"
+        >确定注册</van-button
+      >
+      <div class="tips">
+        已账户<span class="sign-in" @click="handleBtn">去登录</span>
+      </div>
     </div>
   </div>
 </template>
@@ -122,6 +124,7 @@ export default {
   name: "logIn",
   data() {
     return {
+      height: 0,
       showCode: true, //验证码按钮显示隐藏
       emailBtnColor: "#1B2945", //发送验证码按钮颜色
       seconds: 60, //重新发送验证码倒计时
@@ -139,6 +142,7 @@ export default {
     };
   },
   mounted() {
+    this.height = document.body.scrollHeight - 152;
     this.form.walletAddress = localStorage.getItem("myaddress");
     this.form.otype = localStorage.getItem("netType");
     this.form.sign = localStorage.getItem("mysign");
@@ -242,19 +246,12 @@ export default {
     padding: 8px 10px;
   }
 }
-:deep(.van-field__error-message) {
-  margin-top: 20px;
-}
 // 普通样式
 .log-in {
   position: relative;
   margin-top: 89px;
-  padding: 0 38px 60px 38px;
-  min-height: 1140px;
+  padding: 89px 38px 300px 38px;
   overflow: hidden;
-}
-.first-item {
-  margin-top: 88px;
 }
 .from-item {
   margin-top: 30px;
@@ -278,24 +275,29 @@ p,
 :deep(.van-checkbox__label) {
   font-size: 28px;
 }
-.btn-login {
-  margin-left: 50%;
-  margin-top: 40px;
-  transform: translateX(-50%);
-  text-align: center;
-  width: 100%;
-  height: 96px;
-  color: #fff;
-  background: #1b2945;
-  border-radius: 48px;
-}
-.tips {
-  margin-top: 40px;
-  font-size: 28px;
-  text-align: center;
-}
-.sign-in {
-  margin-left: 10px;
-  color: #2483ff;
+.signin-box {
+  position: absolute;
+  bottom: 60px;
+  width: 90%;
+  .btn-login {
+    margin-left: 50%;
+    margin-top: 40px;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+    height: 96px;
+    color: #fff;
+    background: #1b2945;
+    border-radius: 48px;
+  }
+  .tips {
+    margin-top: 40px;
+    font-size: 28px;
+    text-align: center;
+  }
+  .sign-in {
+    margin-left: 10px;
+    color: #2483ff;
+  }
 }
 </style>

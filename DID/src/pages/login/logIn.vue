@@ -1,5 +1,5 @@
 <template>
-  <div :style="`min-height:${height}px;`" class="log-in">
+  <div :style="`min-height:${height}px;`" class="signin">
     <van-form ref="form">
       <div class="from-item" v-if="show">
         <p>选择网络</p>
@@ -124,7 +124,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.log-in {
+.signin {
   position: relative;
   margin-top: 89px;
   padding: 89px 38px 300px 38px;
