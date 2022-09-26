@@ -46,7 +46,7 @@
       <van-button round
                   block
                   color="#1B2945"
-                  native-type="submit">我已完成学习</van-button>
+                  @click="completeLearning">我已完成学习</van-button>
     </footer>
   </div>
 </template>
@@ -59,32 +59,41 @@ export default {
       title: '了解学习相关规则',
     }
   },
+  methods: {
+    completeLearning() {
+      this.$router.back()
+      this.$bus.$emit('reques_notify', true)
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 .rulesBox {
   color: #333333;
   background-color: #fff;
-  padding: 0 1rem;
+  padding: 0 25px;
   height: 84vh;
   overflow: auto;
   .BasicRules,
   .DeductionRules {
+    h3 {
+      font-size: 35px;
+    }
     div {
-      font-size: 1rem;
-      margin-bottom: 1rem;
+      font-size: 25px;
+      margin-bottom: 20px;
     }
   }
   .BasicRules {
     div {
-      line-height: 33px;
+      line-height: 48px;
     }
   }
   .DeductionRules {
     div {
-      line-height: 33px;
+      line-height: 48px;
       div {
-        line-height: 33px;
+        line-height: 48px;
       }
     }
   }
@@ -92,7 +101,7 @@ export default {
 footer {
   width: 100%;
   box-sizing: border-box;
-  padding: 2rem 1rem;
+  padding: 50px 28px;
   position: fixed;
   bottom: 0;
 }

@@ -224,9 +224,9 @@ export default {
   font-weight: bold;
 }
 .one_an {
-  margin: 1rem;
-  padding: 1rem 0 0;
-  line-height: 2rem;
+  margin: 16px;
+  padding: 16px 0 0;
+  line-height: 32px;
   font-size: 16px;
   .piao {
     display: flex;
@@ -235,33 +235,33 @@ export default {
     justify-content: space-between;
     .ion {
       display: inline-block;
-      width: 0.5rem;
-      height: 0.5rem;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: #237ff8;
     }
   }
 }
 .jindu {
-  width: 20.5rem;
+  width: 328px;
   height: 205px;
   background: #f3f4f5;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 16px;
   color: #000;
   .hui {
     color: #999999;
     font-size: 8px;
   }
   .van-progress {
-    margin: 1rem 0;
+    margin: 16px 0;
   }
   .num {
     font-size: 20px;
     color: #878888;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
   .vote {
     font-size: 18px;
@@ -273,38 +273,38 @@ export default {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #cccccc;
-  padding-bottom: 1.1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 17px;
+  margin-bottom: 16px;
 }
 .xiang {
   color: #000;
-  width: 20.5rem;
+  width: 328px;
   background: #f3f4f5;
-  border-radius: 0.5rem;
-  margin: 1rem auto 0;
-  line-height: 2rem;
-  padding: 1rem;
+  border-radius: 8px;
+  margin: 16px auto 0;
+  line-height: 32px;
+  padding: 16px;
   .wen {
     color: #666666;
   }
 }
 .ti {
   color: #000;
-  width: 20.5rem;
+  width: 328px;
   background: #f3f4f5;
-  border-radius: 0.5rem;
-  margin: 1rem auto 1rem;
-  padding: 1rem;
+  border-radius: 8px;
+  margin: 16px auto 16px;
+  padding: 16px;
   .van-button {
-    width: 5rem;
-    padding: 0.3rem 1.5rem;
-    border-radius: 0.5rem;
+    width: 80px;
+    padding: 5px 24px;
+    border-radius: 8px;
     position: relative;
-    top: -0.5rem;
+    top: -8px;
   }
   .van-radio-group {
     .van-radio {
-      margin: 1rem 0 0.1rem;
+      margin: 16px 0 1px;
     }
   }
 }
