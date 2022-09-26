@@ -143,10 +143,10 @@ export default {
         this.showDate = true;
       }
     },
-    onConfirm(date) {
-      this.show = false;
-      this.text = `选择了 ${date.length} 个日期`;
-    },
+    // onConfirm(date) {
+    //   this.show = false;
+    //   this.text = `选择了 ${date.length} 个日期`;
+    // },
     //查询销毁
     inquiry() {
       console.log(this.start, this.end);
@@ -215,6 +215,7 @@ export default {
 .active {
   border: 1px solid #247ff7;
   color: #247ff7;
+}
 .van-tag {
   padding: 0.5rem 1.3rem;
   margin: 1rem 0.6rem 0;
