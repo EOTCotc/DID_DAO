@@ -59,6 +59,7 @@
       <van-button round
                   block
                   disabled
+                  type="info"
                   color="#1B2945"
                   native-type="submit">立即申请</van-button>
     </footer>
