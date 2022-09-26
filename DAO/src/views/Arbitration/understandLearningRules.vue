@@ -62,7 +62,6 @@ export default {
   methods: {
     completeLearning() {
       this.$router.back()
-      this.$bus.$emit('reques_notify', true)
     },
   },
 }

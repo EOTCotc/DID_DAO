@@ -12,6 +12,7 @@ import 'amfe-flexible';
 import '../src/views/HOME/assets/styles/home.scss';
 import './registerServiceWorker';
 
+
 Vue.prototype.$md5 = md5;
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios

@@ -6,7 +6,7 @@
     <div class="backgroundPicture">
       <van-image width="100vw"
                  height="140px"
-                 src="./IMG/组 255@2x.png" />
+                 :src="require('./IMG/bg.png')" />
       <div class="text">
         <p>成为仲裁员</p>
         <p>维护安全稳定信任的交易环境</p>
@@ -20,7 +20,8 @@
             <van-icon name="cart-circle-o" />
             <p>DID身份认证</p>
           </div>
-          <div class="right">去认证
+          <div class="right"
+               @click="auditing('arbitrationCase') ">去认证
             <van-icon name="arrow" />
           </div>
         </div>
@@ -56,7 +57,7 @@
       </div>
     </div>
     <van-overlay :show="show"
-                 @click="show = false">
+                 @click="toggle2">
       <div class="wrapper"
            @click.stop>
         <div class="block">
@@ -79,7 +80,7 @@
           </div>
           <van-button color="#237FF8"
                       class="startBtn"
-                      @click,response_data="auditing('examination') ">开始答题</van-button>
+                      @click="auditing('examination') ">开始答题</van-button>
           <van-icon name="close"
                     color="#fff"
                     size="29"
@@ -87,47 +88,80 @@
         </div>
       </div>
     </van-overlay>
-    <van-overlay :show="showFraction"
-                 @click="showFraction = false">
-      <div class="wrapper"
-           @click.stop>
-        <div class="block" />
-      </div>
-    </van-overlay>
+    <notification ref="notification"
+                  :buttonText="buttonText"
+                  :buttonColor="buttonColor"
+                  :headerIcon="headerIcon"
+                  :title="title1"
+                  :message="message"
+                  :closeOnClick="closeOnClick"></notification>
     <footer>
       <van-button round
                   block
-                  disabled
                   type="info"
                   color="#1B2945"
-                  native-type="submit">立即申请</van-button>
+                  @click="applyNow">立即申请</van-button>
     </footer>
   </div>
 </template>
 <script>
 import white from '@/components/Nav/white.vue'
+import notification from '@/components/notification.vue'
+import icon1 from './IMG/icon.png'
+import icon2 from './IMG/icon2.png'
+import icon3 from './IMG/icon3.png'
+
 export default {
-  components: { white },
+  components: { white, notification },
   data() {
     return {
       title: '仲裁员',
       show: false,
       showFraction: false,
+      applynow: false,
+      headerIcon: '',
+      title1: 91.5,
+      message: '恭喜通过仲裁考试',
+      buttonColor: '#237FF8',
+      buttonText: '知道了',
+      closeOnClick: true,
     }
   },
-  created() {
-    this.$bus.$off('response_data').$on('response_data', (data) => {
-      console.info('接收到响应数据' + data)
-    })
+  mounted() {
+    this.showFraction = this.$route.query.showFraction
+    if (this.title1 > 90) {
+      this.headerIcon = icon1
+      this.messag = '恭喜通过仲裁考试'
+    } else {
+      this.headerIcon = icon2
+      this.messag = '很遗憾未通过仲裁考试'
+    }
+    this.message.length &&
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(true)
+      })
   },
+
   methods: {
     auditing(name) {
       this.$router.push({
         name: name,
       })
     },
+    toggle2() {
+      console.log(false)
+    },
     ExamTips() {
       this.show = true
+    },
+    applyNow() {
+      this.$refs.notification.toggle(true)
+      this.headerIcon = icon3
+      this.title1 = '申请成功'
+      this.message = '成为仲裁员后平台会给您委派仲裁案'
+      this.buttonColor = '#237FF8'
+      this.buttonText = '好的'
+      this.closeOnClick = true
     },
   },
 }
@@ -213,12 +247,10 @@ export default {
     text-align: center;
     p:nth-of-type(1) {
       font-size: 50px;
-      font-weight: bold;
       margin: 42px 25px 0;
     }
     p:nth-of-type(2) {
       font-size: 27px;
-      font-weight: bold;
     }
   }
 }

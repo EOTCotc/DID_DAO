@@ -65,14 +65,17 @@ export default {
   data() {
     return {
       show: true,
+      showFraction: true,
       text: '',
       title: '仲裁考试',
       time: 30 * 60 * 60 * 1000,
+      count: 0,
       testQuestionData: [
         {
           id: 1,
           question: '题目一',
           questionContant: '交易中,买家打款时不能进行哪些备注？',
+          topicType: '(单选题)',
           questionAnswer: [
             {
               title: 'A.',
@@ -95,8 +98,12 @@ export default {
       console.log('下一题')
     },
     SubmitExaminationPapers() {
-      this.$router.back()
-      console.log('提交')
+      this.$router.replace({
+        name: 'meetTheConditions',
+        params: {
+          showFraction: this.showFraction,
+        },
+      })
     },
   },
 }
