@@ -190,17 +190,19 @@ export default {
     getList() {
       this.$toast.loading('列表加载中…')
       list(this.tab.active, this.list.query).then(res => {
-        const data = res.data.items.map(item => ({
-          ...item,
-          portraitImage: this.spliceSrc(item.portraitImage),
-          nationalImage: this.spliceSrc(item.nationalImage)
-        }))
-        if (this.list.query.page === 1) {
-          this.list.data = data
-        } else {
-          this.list.data.push(...data)
+        if (!res.data.code) {
+          const data = res.data.items.map(item => ({
+            ...item,
+            portraitImage: this.spliceSrc(item.portraitImage),
+            nationalImage: this.spliceSrc(item.nationalImage)
+          }))
+          if (this.list.query.page === 1) {
+            this.list.data = data
+          } else {
+            this.list.data.push(...data)
+          }
+          this.list.finished = !data.length
         }
-        this.list.finished = !data.length
       }).finally(() => {
         this.$toast.clear()
         this.list.uploading = false
@@ -228,17 +230,18 @@ export default {
           if (action === 'confirm') {
             approval(params).then(res => {
               done()
-              this.$toast({
-                type: "success",
-                message: res.data.message
-              })
-              this.getList()
-            }).catch(() => {
-              done()
-              this.$toast({
-                type: "fail",
-                message: "操作失败"
-              })
+              if (res.data.code) {
+                this.$toast({
+                  type: "fail",
+                  message: "操作失败"
+                })
+              } else {
+                this.$toast({
+                  type: "success",
+                  message: res.data.message
+                })
+                this.getList()
+              }
             })
           } else {
             done()

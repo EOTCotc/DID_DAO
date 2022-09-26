@@ -42,11 +42,17 @@
     },
     getInfo(data) {
       referrerInfo(data.refUId).then(res => {
-        this.referrer = {
-          ...data,
-          ...res.data.items
+        if (!res.data.code) {
+          this.referrer = {
+            ...data,
+            ...res.data.items
+          }
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
         }
-        console.log(this.referrer);
       })
     }
   }

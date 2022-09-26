@@ -199,13 +199,15 @@
       getList() {
         this.$toast.loading('列表加载中…')
         communityList(this.tab.active, this.list.query).then(res => {
-          const data = res.data.items
-          if (this.list.query.page === 1) {
-            this.list.data = data
-          } else {
-            this.list.data.push(...data)
+          if (!res.data.code) {
+            const data = res.data.items
+            if (this.list.query.page === 1) {
+              this.list.data = data
+            } else {
+              this.list.data.push(...data)
+            }
+            this.list.finished = !data.length
           }
-          this.list.finished = !data.length
         }).finally(() => {
           this.$toast.clear()
           this.list.uploading = false
@@ -238,17 +240,18 @@
             if (action === 'confirm') {
               auditCommunity(params).then(res => {
                 done()
-                this.$toast({
-                  type: "success",
-                  message: res.data.message
-                })
-                this.getList()
-              }).catch(() => {
-                done()
-                this.$toast({
-                  type: "fail",
-                  message: "操作失败"
-                })
+                if (res.data.code) {
+                  this.$toast({
+                    type: "fail",
+                    message: "操作失败"
+                  })
+                } else {
+                  this.$toast({
+                    type: "success",
+                    message: res.data.message
+                  })
+                  this.getList()
+                }
               })
             } else {
               done()
