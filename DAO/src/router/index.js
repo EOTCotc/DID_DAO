@@ -16,7 +16,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/HOME/home"),
+      import("@/views/HOME/home"),
   },
   {
     path: "/personage",
@@ -25,7 +25,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/HOME/personage"),
+      import("@/views/HOME/personage"),
   },
   {
     path: "/Home_detail",
@@ -34,7 +34,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/HOME/detail"),
+      import("@/views/HOME/detail"),
   },
   {
     path: "/Bill_list",
@@ -43,7 +43,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Proposal/Bill_list"),
+      import("@/views/Proposal/Bill_list"),
   },
   {
     path: "/Create",
@@ -52,7 +52,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Proposal/Create"),
+      import("@/views/Proposal/Create"),
   },
   {
     path: "/detail",
@@ -61,7 +61,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Proposal/detail"),
+      import("@/views/Proposal/detail"),
   },
   {
     path: "/pending",
@@ -70,7 +70,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/ticket_system/pending"),
+      import("@/views/ticket_system/pending"),
   },
   {
     path: "/order_details",
@@ -80,8 +80,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(
-        /* webpackChunkName: "about" */ "@/views/ticket_system/order_details"
-      ),
+        "@/views/ticket_system/order_details"
+        ),
   },
   {
     path: "/Destruction",
@@ -90,7 +90,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/destroy/Destruction"),
+      import("@/views/destroy/Destruction"),
   },
   {
     path: "/blue-nav",
@@ -129,7 +129,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Arbitration/examination"),
+      import("@/views/Arbitration/examination"),
   },
   {
     path: "/news",
@@ -138,7 +138,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Arbitration/news"),
+      import("@/views/Arbitration/news"),
   },
   {
     path: "/meetTheConditions",
@@ -148,8 +148,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(
-        /* webpackChunkName: "about" */ "@/views/Arbitration/meetTheConditions"
-      ),
+        "@/views/Arbitration/meetTheConditions"
+        ),
   },
   {
     path: "/understandLearningRules",
@@ -159,8 +159,43 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(
-        /* webpackChunkName: "about" */ "@/views/Arbitration/understandLearningRules"
-      ),
+        "@/views/Arbitration/understandLearningRules"
+        ),
+  },
+  {
+    path: "/user/approval",
+    name: "approval",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        "@/views/approval"
+        ),
+  },
+  {
+    path: "/user/approval/identity",
+    name: "approvalIdentity",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/approval/identity"),
+  },
+  {
+    path: "/user/approval/community",
+    name: "approvalCommunity",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/approval/community"),
+  },
+  {
+    path: "/user/publicity/personnel",
+    name: "publicityPersonnel",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/publicity/personnel"),
   },
 ];
 
