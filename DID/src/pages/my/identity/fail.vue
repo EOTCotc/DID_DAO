@@ -67,11 +67,18 @@
         message: "加载中…"
       })
       authFail().then(res => {
-        const data = res.data.items
-        data.nationalImage = spliceSrc(data.nationalImage)
-        data.portraitImage = spliceSrc(data.portraitImage)
-        data.handHeldImage = spliceSrc(data.handHeldImage)
-        this.info = data
+        if (!res.data.code) {
+          const data = res.data.items
+          data.nationalImage = spliceSrc(data.nationalImage)
+          data.portraitImage = spliceSrc(data.portraitImage)
+          data.handHeldImage = spliceSrc(data.handHeldImage)
+          this.info = data
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
+        }
       }).finally(() => loading.clear())
     }
   }
