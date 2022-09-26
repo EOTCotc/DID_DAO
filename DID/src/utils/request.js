@@ -23,9 +23,6 @@ request.interceptors.request.use(
 //响应拦截器
 request.interceptors.response.use(
   function (response) {
-    if (!!response.data.code) {
-      return Promise.reject(response)
-    }
     return response;
   },
   async function (error) {
@@ -36,7 +33,7 @@ request.interceptors.response.use(
       console.error('没权限');
     } else if (status === 404) {
       console.error('找不到该接口')
-    }else if (status >= 500) {
+    } else if (status >= 500) {
       console.error('服务器异常')
     }
     return Promise.reject(error);

@@ -194,37 +194,41 @@
         formData.append('file', this.fileList[type][0].file)
         this.form.loading = true
         uploadImage(formData).then(res => {
-          this.form.data[type] = res.data.message
-          if (this.step.active < 3) {
-            this.step.active ++
-          } else if (this.step.active === 3) {
-            this.handleSubmit()
+          if (!!res.data.code) {
+            const message = ['请上传文件', '文件类型错误']
+            this.$toast.fail({
+              forbidClick: true,
+              message: message[res.data.message]
+            })
+          } else {
+            this.form.data[type] = res.data.message
+            if (this.step.active < 3) {
+              this.step.active ++
+            } else if (this.step.active === 3) {
+              this.handleSubmit()
+            }
           }
-        }).catch(err => {
-          const message = ['请上传文件', '文件类型错误']
-          this.$toast.fail({
-            forbidClick: true,
-            message: message[err.message]
-          })
         }).finally(() => this.form.loading = false)
       },
       // 提交表单
       handleSubmit() {
         this.form.loading = true
         submit(this.form.data).then(res => {
-          this.$toast.success({
-            forbidClick: true,
-            message: "提交成功",
-            onClose: () => {
-              this.$router.replace('/my')
-            }
-          })
-        }).catch(err => {
-          const message = ['手机号错误', '证件号错误', '请上传认证图片', '请重复提交']
-          this.$toast.fail({
-            forbidClick: false,
-            message: message[err.data.code - 1]
-          })
+          if (!!res.data.code) {
+            const message = ['手机号错误', '证件号错误', '请上传认证图片', '请重复提交']
+            this.$toast.fail({
+              forbidClick: false,
+              message: message[res.data.code - 1]
+            })
+          } else {
+            this.$toast.success({
+              forbidClick: true,
+              message: "提交成功",
+              onClose: () => {
+                this.$router.replace('/my')
+              }
+            })
+          }
         }).finally(() => this.form.loading = false)
       },
       // 上一步
@@ -239,7 +243,6 @@
         } else {
           this.upload()
         }
-        console.log(this.form.data);
       }
     },
     created() {

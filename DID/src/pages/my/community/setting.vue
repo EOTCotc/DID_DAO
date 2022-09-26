@@ -85,17 +85,24 @@
       getCommunity() {
         this.$toast.loading('加载中…')
         search().then(res => {
-          const data = res.data.items
-          this.form.data = res.data.items
-          data.image && this.$set(this.fileList, 0, {
-            url: `http://192.168.2.110:5555/${data.image}`,
-            file: "",
-            status: '',
-            message: "上传中",
-            deletable: true,
-            imageFit: 'contain',
-            previewSize: '100%'
-          })
+          if (!res.data.code) {
+            const data = res.data.items
+            this.form.data = res.data.items
+            data.image && this.$set(this.fileList, 0, {
+              url: `http://192.168.2.110:5555/${data.image}`,
+              file: "",
+              status: '',
+              message: "上传中",
+              deletable: true,
+              imageFit: 'contain',
+              previewSize: '100%'
+            })
+          } else {
+            this.$toast.fail({
+              forbidClick: true,
+              message: res.data.message
+            })
+          }
         }).finally(err => {
           this.$toast.clear()
         })
@@ -117,10 +124,12 @@
         const formData = new FormData()
         formData.append('file', this.fileList[0].file)
         uploadImage(formData).then(res => {
-          this.form.data.image = res.data.message
-          this.fileList[0].status = 'success'
-        }).catch(err => {
-          this.fileList[0].status = 'fail'
+          if (!!res.data.code) {
+            this.fileList[0].status = 'fail'
+          } else {
+            this.form.data.image = res.data.message
+            this.fileList[0].status = 'success'
+          }
         })
       },
       handleSubmit() {

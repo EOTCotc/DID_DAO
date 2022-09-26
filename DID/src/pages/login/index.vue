@@ -3,7 +3,7 @@
     <img class="logo" src="../../assets/imgs/logo.png" />
     <div class="title">EOTC</div>
     <img class="logo-bg" src="../../assets/imgs/logo_bg.png" alt="" />
-    <div class="bg-white">
+    <div class="bg-white" :style="`min-height:${height}px;`">
       <!-- 登录、注册 -->
       <div class="login-box">
         <button
@@ -34,11 +34,16 @@ export default {
   data() {
     return {
       btn: 1,
+      height: 0,
     };
   },
   components: {
     LogIn,
     SignIn,
+  },
+  mounted() {
+    // 获取动态高度
+    this.height = document.body.scrollHeight - 152;
   },
   methods: {
     getBtnNum(e) {
@@ -79,7 +84,6 @@ export default {
     bottom: 0;
     margin-left: 4%;
     width: 92%;
-    min-height: 1206px;
     border-top-right-radius: 10px;
     background: #fff;
     z-index: 3;

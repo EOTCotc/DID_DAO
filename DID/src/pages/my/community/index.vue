@@ -65,17 +65,24 @@ export default {
     // 获取社区信息
     getCommunity() {
       search().then(res => {
-        const data = res.data.items || {}
-        this.community = {
-          ...data,
-          image: data.image ? `http://192.168.2.110:5555/${data.image}` : this.defaultImg
+        if (!res.data.code) {
+          const data = res.data.items || {}
+          this.community = {
+            ...data,
+            image: data.image ? `http://192.168.2.110:5555/${data.image}` : this.defaultImg
+          }
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
         }
       }).finally(err => {
         this.$toast.clear()
       })
     },
     applyCreateCommunity() {
-      if (this.communityStatus.giftEotc < 5000) {
+      if (this.communityStatus.giftEotc > 5000) {
         this.$router.push('/my/community/create')
       } else {
         this.$toast({

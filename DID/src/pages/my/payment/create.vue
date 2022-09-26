@@ -185,9 +185,16 @@
           const userInfo = JSON.parse(this.cookie.get('userInfo'))
           this.form.data.mail = userInfo.mail
           code(userInfo.mail).then(res => {
-            this.code.data = res.data.message
-            this.countDown()
-            this.$refs.password.focus()
+            if (!res.data.code) {
+              this.code.data = res.data.message
+              this.countDown()
+              this.$refs.password.focus()
+            } else {
+              this.$toast.fail({
+                forbidClick: true,
+                message: "获取失败"
+              })
+            }
           })
         }
       },
@@ -212,16 +219,18 @@
           message: "提交中…"
         })
         addPayment(this.form.data).then(res => {
-          this.$toast({
-            forbidClick: true,
-            message: "创建成功",
-            onClose: () => this.$router.replace('/my/payment')
-          })
-        }).catch(err => {
-          this.$toast.fail({
-            forbidClick: true,
-            message: err.data.message === 1 ? '验证码错误' : "提交失败"
-          })
+          if (!!res.data.code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: res.data.message === 1 ? '验证码错误' : "提交失败"
+            })
+          } else {
+            this.$toast.success({
+              forbidClick: true,
+              message: "创建成功",
+              onClose: () => this.$router.replace('/my/payment')
+            })
+          }
         }).finally(() => loading.clear())
       }
     },

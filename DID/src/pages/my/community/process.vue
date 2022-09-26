@@ -71,7 +71,14 @@ export default {
       })
       this.loading = true
       applyProcess(this.id).then(res => {
-        this.step = res.data.items.map(item => ({...item, authDate: transformUTCDate(item.authDate)}))
+        if (!res.data.code) {
+          this.step = res.data.items.map(item => ({...item, authDate: transformUTCDate(item.authDate)}))
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
+        }
       }).finally(() => {
         loading.clear()
         this.loading = false

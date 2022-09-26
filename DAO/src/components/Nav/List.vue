@@ -38,7 +38,7 @@
       <van-cell title="仲裁"
                 :border="false"
                 is-link
-                @click="auditing('meetTheConditions')">
+                @click="auditing('arbitration')">
         <template #icon>
           <i class="iconfont icon-lianxiwomen icon_left"></i>
         </template>

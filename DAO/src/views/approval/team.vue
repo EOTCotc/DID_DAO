@@ -156,13 +156,15 @@
           message: "'列表加载中…'"
         })
         list({...this.list.query, type: this.tab.active}).then(res => {
-          const data = res.data.items
-          if (this.list.query.page === 1) {
-            this.list.data = data
-          } else {
-            this.list.data.push(...data)
+          if (!res.data.code) {
+            const data = res.data.items
+            if (this.list.query.page === 1) {
+              this.list.data = data
+            } else {
+              this.list.data.push(...data)
+            }
+            this.list.finished = !data.length
           }
-          this.list.finished = !data.length
         }).finally(() => {
           loading.clear()
           this.list.uploading = false
@@ -195,17 +197,18 @@
             if (action === 'confirm') {
               approvalConfirm(params).then(res => {
                 done()
-                this.$toast({
-                  type: "success",
-                  message: res.data.message
-                })
-                this.getList()
-              }).catch(() => {
-                done()
-                this.$toast({
-                  type: "fail",
-                  message: "操作失败"
-                })
+                if (res.data.code) {
+                  this.$toast({
+                    type: "fail",
+                    message: "操作失败"
+                  })
+                } else {
+                  this.$toast({
+                    type: "success",
+                    message: res.data.message
+                  })
+                  this.getList()
+                }
               })
             } else {
               done()

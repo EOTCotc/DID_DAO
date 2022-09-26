@@ -81,9 +81,9 @@ export default {
     // 获取社区列表
     getCommList() {
       // 从home过来
-      if (this.$route.query.home == "home") {
+      if (this.$route.params.home == "home") {
         //个人信息有位置信息，不需要再选位置
-        let site = JSON.parse(this.$route.query.site);
+        let site = JSON.parse(this.$route.params.site);
         // 展示数据
         this.country = site.country.name;
         this.area = `${site.province.name}-${site.city.name}-${site.county.name}`;
@@ -94,7 +94,8 @@ export default {
         this.reqComm.area = site.county.code;
       } else {
         //从上个页面过来
-        let data = this.$router.query;
+        let data = this.$router.params;
+        console.log(data);
         let area = JSON.parse(data.area);
         let country = data.country;
         // 赋值展示的数据
