@@ -1,0 +1,16 @@
+{
+  "id": "3657647",
+  "name": "DID",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "300409",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    }
+  ]
+}

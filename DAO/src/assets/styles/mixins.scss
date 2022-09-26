@@ -1,0 +1,13 @@
+@mixin posi($p: absolute, $t: initial, $r: initial, $b: initial, $l: initial, $z: 1) {
+  position: $p;
+  top: $t;
+  right: $r;
+  bottom: $b;
+  left: $l;
+  z-index: $z;
+}
+
+@mixin centered {
+  @include posi($t: 50%, $l: 50%);
+  transform: translate(-50%, -50%);
+}

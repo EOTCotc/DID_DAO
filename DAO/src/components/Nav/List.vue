@@ -51,7 +51,13 @@
           <i class="iconfont icon-lianxiwomen icon_left"></i>
         </template>
       </van-cell>
-      <van-cell title="审核" :border="false" is-link @click="auditing()">
+
+      <van-cell
+        title="审核"
+        :border="false"
+        is-link
+        @click="auditing('approval')"
+      >
         <template #icon>
           <i class="iconfont icon-lianxiwomen icon_left"></i>
         </template>

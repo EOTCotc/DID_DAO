@@ -11,6 +11,9 @@ import md5 from "js-md5";
 import "amfe-flexible";
 import "./registerServiceWorker";
 
+import "@/assets/font/style.css";
+import "./assets/styles/index.scss";
+
 Vue.prototype.$md5 = md5;
 import "../src/views/HOME/assets/styles/home.scss";
 Vue.prototype.$qs = qs;

@@ -30,6 +30,14 @@
         >
         <van-button round size="small" color="#237FF8">解除风控</van-button>
       </div>
+      <div class="btn" v-show="item.authStatus == 2">
+        <van-button round size="small" color="#F34747" plain
+          >核对身份异常</van-button
+        >
+        <van-button round size="small" color="#F3F4F5" class="jie" disabled
+          >解除风控</van-button
+        >
+      </div>
     </van-cell-group>
     <van-empty
       v-show="!maticList.length"
@@ -52,6 +60,7 @@ export default {
     let walletAddress = localStorage.getItem("myaddress");
     let otype = localStorage.getItem("netType");
     let sign = localStorage.getItem("mysign");
+    console.log(walletAddress);
     getUserrisk({
       walletAddress: walletAddress,
       otype: otype,

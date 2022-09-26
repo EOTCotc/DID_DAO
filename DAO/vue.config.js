@@ -16,6 +16,9 @@ module.exports = {
             exclude: /node_modules/
           })
         ]
+      },
+      scss: {
+        prependData: `@import '~@/assets/styles/index.scss';`,
       }
     }
   }
