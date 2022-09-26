@@ -38,7 +38,8 @@
             <van-icon name="cart-circle-o" />
             <p>了解学习仲裁规则</p>
           </div>
-          <div class="right">去学习
+          <div class="right"
+               @click="auditing('understandLearningRules')">去学习
             <van-icon name="arrow" />
           </div>
         </div>
@@ -59,6 +60,7 @@
                   block
                   disabled
                   type="info"
+                  color="#1B2945"
                   native-type="submit">立即申请</van-button>
     </footer>
   </div>
@@ -71,6 +73,11 @@ export default {
     return {
       title: '仲裁员',
     }
+  },
+  methods: {
+    auditing(name) {
+      this.$router.push({ name: name })
+    },
   },
 }
 </script>

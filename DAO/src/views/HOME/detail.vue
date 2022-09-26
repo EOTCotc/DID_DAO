@@ -63,9 +63,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  color: #999;
+.detail {
   background: #f3f4f5;
+  height: 100vh;
+}
+.title {
+background: #f3f4f5;
   text-align: center;
   line-height: 3rem;
 }
@@ -86,7 +89,6 @@ export default {
 }
 .zan {
   height: 400px;
-
   font-size: 18px;
   padding-top: 3rem;
   display: flex;
