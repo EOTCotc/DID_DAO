@@ -18,7 +18,12 @@
       <van-cell title="UID" :value="userInfo.uid">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->
         <template #right-icon>
-          <span class="iconfont" style="margin-left: 8px; font-size: 14px"
+          <span
+            class="iconfont"
+            style="margin-left: 8px; font-size: 14px"
+            @click="copyUid()"
+            id="uid"
+            :data-clipboard-text="userInfo.uid"
             >&#xe61b;</span
           >
         </template>
@@ -64,6 +69,7 @@
 </template>
 
 <script>
+import Clipboard from "clipboard";
 import { getuserinfo } from "@/api/pagesApi/home";
 import { setuserinfo } from "@/api/pagesApi/locality";
 export default {
@@ -78,9 +84,9 @@ export default {
   },
   mounted() {
     this.$toast.loading({
-      duration:15,
-      forbidClick:true,
-    })
+      duration: 15,
+      forbidClick: true,
+    });
     this.getUserInfo();
   },
   methods: {
@@ -88,7 +94,7 @@ export default {
     getUserInfo() {
       getuserinfo().then((res) => {
         if (res.data.code == 0) {
-          this.$toast.clear()
+          this.$toast.clear();
           let info = res.data.items;
           this.userInfo = info;
           this.cookie.set("userInfo", JSON.stringify(info));
@@ -111,6 +117,18 @@ export default {
         }
       });
     },
+    // 复制uid
+    copyUid() {
+      let clipboard = new Clipboard("#uid");
+      clipboard.on("success", (e) => {
+        this.$toast.success("复制成功");
+        clipboard.destroy();
+      });
+      clipboard.on("error", (e) => {
+        this.$toast.fail("复制失败");
+        clipboard.destroy();
+      });
+    },
     // 设置电报群
     setTelegram() {
       setuserinfo({ telegram: this.telegram }).then((res) => {
@@ -126,7 +144,10 @@ export default {
     // 推出登录
     logout() {
       this.cookie.remove("token");
-      this.$router.push("/");
+      this.$toast.success("退出登录成功");
+      setTimeout(() => {
+        this.$router.push("/login");
+      }, 600);
     },
   },
 };
