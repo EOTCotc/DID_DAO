@@ -124,7 +124,7 @@ export default {
 }
 .header {
   width: 100%;
-  padding: 1rem 1rem 0 1rem;
+  padding: 16px 16px 0 16px;
 }
 .vancol2 {
   text-align: center;

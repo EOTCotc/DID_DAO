@@ -119,7 +119,14 @@ export default {
     submit() {
       if (this.form.code) {
         logout(this.form).then((res) => {
-          console.log(res, "注销");
+          if (res.data.code == 0) {
+            this.$toast.success(res.data.message);
+            this.$router.push("/setup/logout/logoutCountdown");
+          }else if(res.data.code==1){
+            this.$toast.fail(res.data.message)
+          }else{
+            this.$toast.fail('注销失败')
+          }
         });
       }
     },
@@ -208,8 +215,9 @@ export default {
       color: #666;
       border-right: 1px solid #f3f4f5;
     }
-    div:last-of-type{
-      color: #1B2945;
+    div:last-of-type {
+      color: #1b2945;
+      font-weight: bold;
     }
   }
 }

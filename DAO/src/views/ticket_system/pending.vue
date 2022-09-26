@@ -18,7 +18,12 @@
               >{{ item.title }}</van-tag
             >
           </div>
-          <van-cell-group inset v-for="(item, index) in pengList" :key="index">
+          <van-cell-group
+            v-show="pengList.length > 0"
+            inset
+            v-for="(item, index) in pengList"
+            :key="index"
+          >
             <van-cell title="BUG反馈" :value="item.createDate" />
             <van-cell :title="'提交人:' + item.submitter" :border="false" />
             <van-cell :title="item.describe" :border="false" />
@@ -31,11 +36,18 @@
               >去处理</van-button
             >
           </van-cell-group>
+          <van-empty
+            v-show="!pengList.length"
+            class="custom-image"
+            :image="require('./../../assets/img/empty.png')"
+            description="暂无任何数据"
+          />
         </van-tab>
         <!-- 处理中 -->
         <van-tab title="处理中" :name="1">
           <van-cell-group
             inset
+            v-show="pengList.length > 0"
             v-for="(item, index) in pengList"
             class="chu"
             :key="index"
@@ -52,12 +64,19 @@
               >
             </div>
           </van-cell-group>
+          <van-empty
+            v-show="!pengList.length"
+            class="custom-image"
+            :image="require('./../../assets/img/empty.png')"
+            description="暂无任何数据"
+          />
         </van-tab>
         <!-- 已处理 -->
         <van-tab title="已处理" :name="2">
           <van-cell-group
             class="finish"
             inset
+            v-show="pengList.length > 0"
             v-for="(item, index) in pengList"
             :key="index"
           >
@@ -66,6 +85,12 @@
             <van-cell :title="item.describe" :border="false" />
             <van-cell class="yi" title="已完成处理" />
           </van-cell-group>
+          <van-empty
+            v-show="!pengList.length"
+            class="custom-image"
+            :image="require('./../../assets/img/empty.png')"
+            description="暂无任何数据"
+          />
         </van-tab>
       </van-tabs>
     </main>
@@ -156,12 +181,12 @@ export default {
   }
 }
 .tag {
-  margin-top: 1rem;
+  margin-top: 25px;
   display: flex;
   justify-content: space-around;
   .van-tag {
     display: inline-block;
-    padding: 0.4rem 1.5rem;
+    padding: 6.4px 24px;
   }
   .after {
     background: #e8f2ff;
@@ -175,28 +200,28 @@ export default {
   }
 }
 .van-cell-group {
-  margin-top: 1rem;
+  margin-top: 16px;
   .van-cell:first-child {
-    line-height: 1.4rem;
-    margin-bottom: 0.5rem;
+    line-height: 22.4px;
+    margin-bottom: 8px;
   }
   .van-cell {
-    line-height: 0.7rem;
+    line-height: 11.2px;
   }
   .dai {
     float: right;
-    margin: 0.5rem 0.7rem 0.9rem 0;
-    padding: 0 1.4rem;
+    margin: 8px 11.2px 14.4px 0;
+    padding: 0 22.4px;
   }
 }
 .chu {
   .btn {
-    margin: 1rem 0 1rem;
+    margin: 16px 0 16px;
     display: flex;
     justify-content: space-around;
     .van-button {
       font-size: 14px;
-      padding: 0.2rem 2.3rem;
+      padding: 3.2px 36.8px;
     }
   }
   .red {

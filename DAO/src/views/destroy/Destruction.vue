@@ -27,7 +27,7 @@
         <van-cell
           :title="item.destructionId"
           :border="false"
-          class="destId"
+          id="destId"
           @click="copy"
         />
       </van-cell-group>
@@ -135,7 +135,7 @@ export default {
     },
     //复制
     copy() {
-      var clipboard = new Clipboard(".destId");
+      var clipboard = new Clipboard("#destId");
       clipboard.on("success", () => {
         Toast("复制成功");
 
@@ -215,34 +215,39 @@ export default {
 }
 
 .van-cell-group {
-  margin-top: 1rem;
+  margin-top: 16px;
   .van-cell:first-child {
-    line-height: 1.5rem;
-    margin-bottom: 0.3rem;
+    line-height: 24px;
+    margin-bottom: 4.8px;
   }
   .van-cell {
-    line-height: 0.5rem;
+    line-height: 8px;
   }
   .van-cell:last-child {
     color: #237ff8;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
   }
 }
 .van-popup {
   width: 95%;
-  height: 20rem;
-  padding: 1rem;
-  margin-top: 2rem;
+  height: 320px;
+  padding: 16px;
+  margin-top: 32px;
   color: #000;
+  font-size: 20px;
 }
 .tag {
   display: flex;
   justify-content: center;
+  font-size: 20px;
+  margin: 20px 0;
 }
 .tag div {
+  width: 110px;
   display: inline-block;
-  padding: 0.5rem 1.4rem;
-  margin: 1rem 0.3rem 0;
+  text-align: center;
+  padding: 8px 15px;
+  margin: 16px 20px 0;
   border-radius: 16px;
 }
 .noActive {
@@ -256,25 +261,32 @@ export default {
   background: #e8f2ff;
 }
 .van-tag {
-  padding: 0.5rem 1.3rem;
-  margin: 1rem 0.6rem 0;
+  padding: 8px 20.8px;
+  margin: 16px 9.6px 0;
 }
 .btn {
   position: fixed;
-  bottom: 1rem;
+  bottom: 16px;
   .van-button:first-child {
-    width: 6rem;
-    margin-left: 1rem;
-    margin-right: 1.2rem;
+    width: 96px;
+    margin-left: 16px;
+    margin-right: 19.2px;
   }
   .van-button:last-child {
-    width: 8.5rem;
+    width: 136px;
   }
 }
 .date {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 30px;
+  .van-button {
+    height: 35px;
+    padding: 0 33px;
+    border: 1px solid #f3f4f5;
+    background: #f3f4f5;
+    color: #999;
+  }
 }
 </style>

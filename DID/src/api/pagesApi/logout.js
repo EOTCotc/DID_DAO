@@ -8,3 +8,21 @@ export const logout=(data)=>{
     data
   })
 }
+
+// 获取注销时间
+export const getlogoutdate=(params)=>{
+  return request({
+    url:'/api/user/getlogoutdate',
+    method:'GET',
+    params
+  })
+}
+
+// 放弃注销
+export const cancellogout=(params)=>{
+  return request({
+    url:'/api/user/cancellogout',
+    method:'GET',
+    params
+  })
+}

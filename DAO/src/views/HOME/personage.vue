@@ -60,10 +60,10 @@ export default {
   color: #000;
 }
 .van-cell-group {
-  margin: 1rem 1rem;
+  margin: 16px;
   .van-cell {
     background: linear-gradient(to left, #54dcff, #2a86ff);
-    line-height: 2.5rem;
+    line-height: 40px;
     color: #fff;
   }
   .van-cell__value {
