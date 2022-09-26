@@ -124,7 +124,7 @@ export default {
     return {
       showCode: true, //验证码按钮显示隐藏
       emailBtnColor: "#1B2945", //发送验证码按钮颜色
-      seconds: 10, //重新发送验证码倒计时
+      seconds: 60, //重新发送验证码倒计时
       confirmpwd: "", //确认密码
       checked: false, //是否勾选协议
       form: {
@@ -194,8 +194,11 @@ export default {
         this.$refs.form
           .validate()
           .then(() => {
+            let newForm = Object.assign({}, this.form);
+            console.log(newForm);
+            newForm.password = this.$md5(newForm.password);
             // 注册请求
-            register(this.form).then((res) => {
+            register(newForm).then((res) => {
               if (res.data.code == 0) {
                 this.$toast.success("注册成功！");
                 setTimeout(() => {
@@ -203,7 +206,7 @@ export default {
                   this.$emit("btnNum", 1); //成功跳登录页
                 }, 500);
               } else {
-                this.$toast.fail("注册失败");
+                this.$toast.fail(res.data.message);
               }
             });
           })

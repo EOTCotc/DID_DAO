@@ -142,7 +142,7 @@ export default {
     },
     // 获取省市区
     confirm(e) {
-      this.objSite.area =JSON.stringify(e);
+      this.objSite.area = JSON.stringify(e);
       this.region = `${e[0].name}-${e[1].name}-${e[2].name}`;
       this.reqComNum.province = e[0].code;
       this.reqComNum.city = e[1].code;
@@ -157,7 +157,8 @@ export default {
     },
     // 获取社区数量
     getComNum() {
-      if (this.showBtn) {//国家和地区都有才请求
+      if (this.showBtn) {
+        //国家和地区都有才请求
         getcomnum(this.reqComNum).then((res) => {
           this.num = res.data.items;
         });
@@ -175,7 +176,10 @@ export default {
       setcomselect(this.reqComNum).then((res) => {
         console.log(res);
         if (res.data.code == 0) {
-          this.$router.push({ name: "bindCommunity", params: this.objSite });
+          this.$router.push({
+            name: "bindCommunity",
+            params: JSON.stringify(this.objSite),
+          });
         } else {
           this.$toast.fail("设置失败");
         }
@@ -185,7 +189,6 @@ export default {
     onClickLeft() {
       this.$router.back();
     },
-    
   },
 };
 </script>

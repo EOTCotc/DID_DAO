@@ -95,6 +95,7 @@ export default {
       } else {
         //从上个页面过来
         let data = this.$router.params;
+        console.log(data);
         let area = JSON.parse(data.area);
         let country = data.country;
         // 赋值展示的数据
