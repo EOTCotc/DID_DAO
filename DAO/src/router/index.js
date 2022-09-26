@@ -150,7 +150,6 @@ const routes = [
       import(
         /* webpackChunkName: "about" */ "@/views/Arbitration/meetTheConditions"
       ),
-      import(/* webpackChunkName: "about" */ "@/views/Arbitration/meetTheConditions"),
   },
   {
     path: "/understandLearningRules",
@@ -159,7 +158,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Arbitration/understandLearningRules"),
+      import(
+        /* webpackChunkName: "about" */ "@/views/Arbitration/understandLearningRules"
+      ),
   },
 ];
 
