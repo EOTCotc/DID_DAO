@@ -125,14 +125,14 @@ export default {
       showCode: true, //验证码按钮显示隐藏
       emailBtnColor: "#1B2945", //发送验证码按钮颜色
       seconds: 10, //重新发送验证码倒计时
-      confirmpwd: "jianglin1997", //确认密码
+      confirmpwd: "", //确认密码
       checked: false, //是否勾选协议
       form: {
         otype: "", //网络
         walletAddress: "", //钱包地址
-        mail: "591041326@qq.com", //邮箱地址
+        mail: "", //邮箱地址
         code: "", //验证码
-        password: "jianglin1997", //密码
+        password: "", //密码
         refUserId: "", //邀请地址
         sign: "", //空
       },
@@ -141,7 +141,7 @@ export default {
   mounted() {
     this.form.walletAddress = localStorage.getItem("myaddress");
     this.form.otype = localStorage.getItem("netType");
-    this.form.sign=localStorage.getItem('mysign')
+    this.form.sign = localStorage.getItem("mysign");
   },
   methods: {
     // 点击去登录
@@ -172,8 +172,7 @@ export default {
     },
     // 邮箱验证规则
     mailRule() {
-      const regMail =
-        /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+      const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
     // 密码验证规则
@@ -217,7 +216,7 @@ export default {
     },
   },
   created() {
-    this.form.refUserId = location.href.split('?code=')[1] || ''
+    this.form.refUserId = location.href.split("?code=")[1] || "";
   },
 };
 </script>

@@ -175,7 +175,7 @@ export default {
       setcomselect(this.reqComNum).then((res) => {
         console.log(res);
         if (res.data.code == 0) {
-          this.$router.push({ path: "/community", query: this.objSite });
+          this.$router.push({ name: "bindCommunity", params: this.objSite });
         } else {
           this.$toast.fail("设置失败");
         }

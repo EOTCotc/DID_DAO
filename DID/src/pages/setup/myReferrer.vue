@@ -47,7 +47,7 @@ export default {
               this.$router.back();
             }, 500);
           } else {
-            this.$toast.fail("绑定失败");
+            this.$toast.fail(res.data.message);
           }
         });
       } else {
@@ -64,8 +64,8 @@ export default {
           this.$router.push("/bindRelation");
         } else {
           this.$router.push({
-            path: "/bindCommunity",
-            query: { site: JSON.stringify(res.data.items), home: "home" },
+            name: "bindCommunity",
+            params: { site: JSON.stringify(res.data.items), home: "home" },
           });
         }
       });

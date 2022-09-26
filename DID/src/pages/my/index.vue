@@ -44,7 +44,7 @@
           v-if="userInfo.authType == 2"
           is-link
           :border="false"
-          to="/my/identity/approval"
+          :to="userInfo.refUid?'/my/identity/approval':''"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>

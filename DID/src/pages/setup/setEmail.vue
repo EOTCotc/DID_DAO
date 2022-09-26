@@ -16,7 +16,8 @@
     </van-nav-bar>
     <!-- 内容 -->
     <div class="content">
-      <van-form ref="form">
+      <van-form ref="form" validate-trigger="onBlur">
+        <!-- 邮箱地址 -->
         <div class="form-item">
           <p>新邮箱地址</p>
           <van-field v-model="form.mail" center placeholder="请输入新邮箱地址">
@@ -30,6 +31,7 @@
             </template>
           </van-field>
         </div>
+        <!-- 邮箱验证码 -->
         <div class="form-item">
           <p>新邮箱验证码</p>
           <van-field
@@ -43,6 +45,7 @@
           </van-field>
         </div>
       </van-form>
+      <!-- 步骤 -->
       <div class="setp">
         <div class="setp-txt-box">
           <div
@@ -106,9 +109,14 @@ export default {
     };
   },
   methods: {
+    // 验证邮箱是否正确
+    mailReg() {
+      const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      return regMail.test(this.form.mail);
+    },
     // 发送验证码
     sendCode() {
-      if (this.form.mail != "") {
+      if (this.form.mail != "" && this.mailReg()) {
         this.isSendCode = true;
         if (this.times >= 0) {
           let timer = setInterval(() => {
@@ -122,8 +130,10 @@ export default {
         getCode({ mail: this.form.mail }).then((res) => {
           console.log(res.data, "邮箱验证码");
         });
-      } else {
+      } else if (this.form.mail == "") {
         this.$toast("请填写邮箱");
+      } else if (!this.mailReg()) {
+        this.$toast("请填写正确的邮箱");
       }
     },
     // 验证码是否输入
@@ -160,8 +170,8 @@ export default {
             setTimeout(() => {
               this.$router.push("/login");
             }, 500);
-          }else{
-            this.$toast.fail('修改邮箱失败')
+          } else {
+            this.$toast.fail("修改邮箱失败");
           }
         });
       }
@@ -180,6 +190,10 @@ export default {
   padding: 0 30px;
 }
 .van-cell {
+  padding: 10px 0;
+}
+:deep(.van-field__body) {
+  padding: 0 10px;
   height: 48px;
   border-radius: 16px;
   border: 1px solid #c8cfde;

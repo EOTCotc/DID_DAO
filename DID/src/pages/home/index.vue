@@ -19,7 +19,7 @@
       <!-- 认证按钮 -->
       <div
         class="btn"
-        @click="$router.push('/my/identity')"
+        @click="toInformation"
         :style="
           userInfo.authType == 2
             ? 'background:#102E59;border:2px solid #237FF8;'
@@ -71,8 +71,8 @@
       position="right"
     >
       <div class="menu">
-        <div class="menu-every" v-for="(item, index) in 5" :key="index">
-          <span>的雷克萨就到了</span>
+        <div class="menu-every" v-for="item in lang" :key="item.id">
+          <span>{{ item.text }}</span>
         </div>
       </div>
     </van-popup>
@@ -104,7 +104,11 @@ export default {
       iconLang: "arrow-down", //语言的箭头
       showPopup2: false, //选择语言
       showOverlay: false, //遮罩层
-      userInfo: "",
+      userInfo: "", //用户信息
+      lang: [
+        { id: 1, text: "简体中文", lang: "zh" },
+        { id: 2, text: "English", lang: "en" },
+      ],
     };
   },
   components: {
@@ -117,8 +121,9 @@ export default {
     } else if (!localStorage.getItem("myaddress")) {
       //钱包地址为空
       loadweb3(this.login);
-    } else {
-      this.login();
+    } else if (!this.cookie.get("token")) {
+      //没有token
+      this.$router.push("/login");
     }
   },
   methods: {
@@ -131,19 +136,19 @@ export default {
         walletAddress,
         otype,
         sign,
-        refUserId: "",
-        mail: "",
-        code: "",
-        password: "",
       };
-      login(reqObj).then((res) => {
-        if (res.data.code == 0) {
-          this.cookie.set("token", res.data.items, { expires: 30 });
-          this.getInfo(); //获取用户信息
-        } else {
+      login(reqObj)
+        .then((res) => {
+          if (res.data.code == 0) {
+            this.cookie.set("token", res.data.items, { expires: 30 });
+            this.getInfo(); //获取用户信息
+          } else {
+            this.$router.push("/login");
+          }
+        })
+        .catch(() => {
           this.$router.push("/login");
-        }
-      });
+        });
     },
     // 获取用户信息
     getInfo() {
@@ -175,18 +180,24 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
+    // 去身份认证
+    toInformation() {
+      if (this.userInfo.refUid) {
+        this.$router.push("/my/identity");
+      }
+    },
     // 前往选择所在地
     toSite() {
       // 判断有没有选位置，有就直接调到社区
       // 没有就跳到选择已有的社区页面
       getcomselect().then((res) => {
-        if (res.data.items == null) {
+        if (res.data.items.country == null) {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
           this.$router.push({
-            path: "/bindRelation/community",
-            query: { site: JSON.stringify(res.data.items), home: "home" },
+            name: "bindCommunity",
+            params: { site: JSON.stringify(res.data.items), home: "home" },
           });
         }
       });
