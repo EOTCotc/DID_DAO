@@ -15,12 +15,30 @@
           <div @click="showPopup">筛选</div>
         </template>
       </van-search>
-      <van-cell-group inset v-for="(item, index) in destroyList" :key="index">
+      <van-cell-group
+        v-show="destroyList.length > 0"
+        inset
+        v-for="(item, index) in destroyList"
+        :key="index"
+      >
         <van-cell title="游戏消耗" value="2022年7月27日" />
         <van-cell :title="item.memo" :border="false" />
         <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell :title="item.destructionId" :border="false" />
+        <van-cell
+          :title="item.destructionId"
+          :border="false"
+          class="destId"
+          @click="copy"
+        />
       </van-cell-group>
+
+      <van-empty
+        v-show="!destroyList.length"
+        class="custom-image"
+        :image="require('./../../assets/img/empty.png')"
+        description="暂无任何数据"
+      />
+
       <van-popup
         v-model="show"
         position="right"
@@ -42,9 +60,9 @@
             ><span v-if="start == ''">起始时间</span
             ><span>{{ start }}</span></van-button
           >
-          <p style="width: 10px; border: 0.5px solid #cccccc"></p>
+          <p style="width: 10px; height: 1px; background: #ccc"></p>
           <van-button round type="default"
-            ><span v-if="end == ''">起始时间</span
+            ><span v-if="end == ''">截至时间</span
             ><span>{{ end }}</span></van-button
           >
         </div>
@@ -69,6 +87,8 @@
 <script>
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
+import Clipboard from "clipboard";
+import { Toast } from "vant";
 export default {
   components: { White },
   data() {
@@ -101,6 +121,9 @@ export default {
       destroyList: [],
     };
   },
+  created() {
+    this.inquiry();
+  },
   methods: {
     //筛选、取消按钮
     showPopup() {
@@ -109,6 +132,23 @@ export default {
       } else {
         this.value = "";
       }
+    },
+    //复制
+    copy() {
+      var clipboard = new Clipboard(".destId");
+      clipboard.on("success", () => {
+        Toast("复制成功");
+
+        // 释放内存
+
+        clipboard.destroy();
+      });
+      clipboard.on("error", () => {
+        // 不支持复制
+        Toast("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+      });
     },
 
     //搜索框
@@ -142,13 +182,9 @@ export default {
         this.showDate = true;
       }
     },
-    // onConfirm(date) {
-    //   this.show = false;
-    //   this.text = `选择了 ${date.length} 个日期`;
-    // },
+
     //查询销毁
     inquiry() {
-      console.log(this.start, this.end);
       let walletAddress = localStorage.getItem("myaddress");
       let otype = localStorage.getItem("netType");
       let sign = localStorage.getItem("mysign");
@@ -158,9 +194,9 @@ export default {
         walletAddress: walletAddress,
         otype: otype,
         sign: sign,
-        keyWord: this.value,
-        beginDate: beginDate,
-        endDate: endDate,
+        keyWord: this.value || undefined,
+        beginDate: beginDate || undefined,
+        endDate: endDate || undefined,
         page: this.page,
         itemsPerPage: this.itemsPerPage,
       }).then((res) => {
@@ -193,9 +229,11 @@ export default {
   }
 }
 .van-popup {
+  width: 95%;
   height: 20rem;
   padding: 1rem;
   margin-top: 2rem;
+  color: #000;
 }
 .tag {
   display: flex;
@@ -203,17 +241,19 @@ export default {
 }
 .tag div {
   display: inline-block;
-  padding: 0.4rem 1.4rem;
-  margin: 1rem 0.5rem 0;
+  padding: 0.5rem 1.4rem;
+  margin: 1rem 0.3rem 0;
   border-radius: 16px;
 }
 .noActive {
   border: 1px solid #f3f4f5;
   background: #f3f4f5;
+  color: #999;
 }
 .active {
   border: 1px solid #247ff7;
   color: #247ff7;
+  background: #e8f2ff;
 }
 .van-tag {
   padding: 0.5rem 1.3rem;
@@ -230,5 +270,11 @@ export default {
   .van-button:last-child {
     width: 8.5rem;
   }
+}
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
 }
 </style>
