@@ -25,10 +25,12 @@
           <i class="iconfont icon-lianxiwomen icon_left"></i>
         </template>
       </van-cell>
-      <van-cell title="风险解除"
-                :border="false"
-                is-link
-                @click="auditing()">
+      <van-cell
+        title="风险解除"
+        :border="false"
+        is-link
+        @click="auditing('pneumatic_control')"
+      >
         <template #icon>
           <i class="iconfont icon-lianxiwomen icon_left"></i>
         </template>
@@ -49,10 +51,12 @@
           <i class="iconfont icon-lianxiwomen icon_left"></i>
         </template>
       </van-cell>
-      <van-cell title="反馈结果"
-                :border="false"
-                is-link
-                @click="auditing()">
+      <van-cell
+        title="反馈&建议"
+        :border="false"
+        is-link
+        @click="auditing('feedback')"
+      >
         <template #icon>
           <i class="iconfont icon-fankuijianyi icon_left"></i>
         </template>

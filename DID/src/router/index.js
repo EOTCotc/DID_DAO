@@ -26,6 +26,8 @@ const router = new VueRouter({
       ]
     },
     { path: '/setup/logout/verifyLogout', name: 'verifyLogout', component: () => import('@/pages/logout/verifyLogout') },//注销验证邮箱
+    { path: '/setup/logout/logoutCountdown', name: 'logoutCountdown', component: () => import('@/pages/logout/logoutCountdown') },//注销倒计时
+    { path: '/my/credit', name: 'credit', component: () => import('@/pages/my/credit') },//信用分记录
     // 我的团队
     { path: '/my/team', name: 'team', component: () => import('@/pages/my/team') },
     // 我的社区
@@ -60,6 +62,12 @@ const router = new VueRouter({
     { path: '/my/projects', name: 'projects', component: () => import('@/pages/my/projects') },
   ]
 });
+
+// 解决重复点击同一各路由会报错
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch(err => err)
+}
 
 router.beforeEach((to, from, next) => {
   if (!Cookies.get('token')) {//未登录

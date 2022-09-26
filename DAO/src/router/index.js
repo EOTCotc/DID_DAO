@@ -93,6 +93,36 @@ const routes = [
       import(/* webpackChunkName: "about" */ "@/views/destroy/Destruction"),
   },
   {
+    path: "/blue-nav",
+    name: "blue-nav",
+    component: () => import("@/views/blue-nav/index"),
+    children: [
+      {
+        // 反馈
+        path: "feedback",
+        name: "feedback",
+        component: () => import("@/components/feedback/index.vue"),
+      },
+    ],
+  },
+  {
+    path: "/pneumatic",
+    name: "pneumatic",
+    component: () => import("@/views/pneumatic/index"),
+    children: [
+      {
+        path: "pneumatic_control",
+        name: "pneumatic_control",
+        component: () => import("@/components/pneumatic_control/index.vue"),
+      },
+    ],
+  },
+  {
+    path: "/check",
+    name: "check",
+    component: () => import("@/views/pneumatic/check"),
+  },
+  {
     path: "/examination",
     name: "examination",
     // route level code-splitting
@@ -117,7 +147,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Arbitration/meetTheConditions"),
+      import(
+        /* webpackChunkName: "about" */ "@/views/Arbitration/meetTheConditions"
+      ),
   },
   {
     path: "/understandLearningRules",
@@ -126,7 +158,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Arbitration/understandLearningRules"),
+      import(
+        /* webpackChunkName: "about" */ "@/views/Arbitration/understandLearningRules"
+      ),
   },
 ];
 

@@ -17,9 +17,23 @@
         <img src="../../assets/imgs/identity_card.png" alt="" />
       </div>
       <!-- 认证按钮 -->
-      <div class="btn">
-        <span>开始认证</span>
-        <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+      <div
+        class="btn"
+        @click="$router.push('/my/identity')"
+        :style="
+          userInfo.authType == 2
+            ? 'background:#102E59;border:2px solid #237FF8;'
+            : ''
+        "
+      >
+        <div class="btn-box" v-if="userInfo.authType == 2">
+          <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+          <span>身份已认证</span>
+        </div>
+        <div class="btn-box" v-else>
+          <span>开始认证</span>
+          <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+        </div>
       </div>
       <!-- 系统简介 -->
       <div class="title-summarize">
@@ -90,6 +104,7 @@ export default {
       iconLang: "arrow-down", //语言的箭头
       showPopup2: false, //选择语言
       showOverlay: false, //遮罩层
+      userInfo: "",
     };
   },
   components: {
@@ -134,8 +149,8 @@ export default {
     getInfo() {
       getuserinfo()
         .then((res) => {
-          console.log(res);
           if (res.data.code == 0) {
+            this.userInfo = res.data.items;
             // 用户信息存到cookie
             this.cookie.set("userInfo", JSON.stringify(res.data.items));
             if (!res.data.items.refUserId) {
@@ -222,22 +237,33 @@ export default {
     transform: translateX(-50%);
     width: 468px;
     height: 88px;
-    line-height: 88px;
-    text-align: center;
     border-radius: 16px;
     background: #237ff8;
-    span {
-      color: #fff;
-    }
-    .icon_down {
-      position: absolute;
-      top: 33px;
-      right: 14%;
-      display: inline-block;
-      width: 30px;
-      height: 24px;
-      line-height: 88px;
-      transform: rotate(-90deg);
+    .btn-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        font-size: 32px;
+        color: #fff;
+      }
+      .dunpai {
+        margin-right: 20px;
+        width: 32px;
+        height: 38px;
+      }
+      .icon_down {
+        position: absolute;
+        top: 33px;
+        right: 14%;
+        display: inline-block;
+        width: 30px;
+        height: 24px;
+        line-height: 88px;
+        transform: rotate(-90deg);
+      }
     }
   }
   // 简介

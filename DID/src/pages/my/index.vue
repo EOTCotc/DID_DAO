@@ -6,10 +6,10 @@
       <div class="identity-card">
         <div class="card-top">
           <div class="card-top-left">
-            <img src="../../assets/imgs/logo_two.png" alt="" />
+            <img src="@/assets/imgs/logo_two.png" alt="" />
             <div>
-              <div>1428378906@qq.com</div>
-              <div>UID:3135468</div>
+              <div>{{ userInfo.mail }}</div>
+              <div>UID:{{ userInfo.uid }}</div>
             </div>
           </div>
           <div class="card-icon">
@@ -23,19 +23,29 @@
         </div>
         <div class="card-bottom">
           <div>
-            <img src="../../assets/imgs/duipai2.png" alt="" />
-            <span>身份未认证</span>
+            <img
+              v-if="userInfo.authType == 2"
+              src="../../assets/imgs/dunpai.png"
+            />
+            <img v-else src="../../assets/imgs/dunpai2.png" />
+            <span v-if="userInfo.authType == 2">身份已认证</span>
+            <span v-else>身份未认证</span>
           </div>
-          <div>
+          <div @click="$router.push('/my/credit')">
             <span>信用分</span>
-            <span>10</span>
+            <span>{{ userInfo.creditScore }}</span>
           </div>
         </div>
       </div>
       <!-- 菜单栏 -->
       <div class="cell">
         <!-- 认证审核 -->
-        <van-cell is-link :border="false" to="/my/identity/approval">
+        <van-cell
+          v-if="userInfo.authType == 2"
+          is-link
+          :border="false"
+          to="/my/identity/approval"
+        >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenhe.png" />
@@ -43,12 +53,17 @@
           <template #title>
             <span>
               认证审核
-              <span class="badge"></span>
+              <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 社区审批 -->
-        <van-cell is-link :border="false" to="/my/approval/community">
+        <van-cell
+          v-if="userInfo.authType == 2"
+          is-link
+          :border="false"
+          to="/my/approval/community"
+        >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenpi.png" />
@@ -56,7 +71,7 @@
           <template #title>
             <span>
               社区审批
-              <span class="badge"></span>
+              <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
         </van-cell>
@@ -67,13 +82,24 @@
             <img src="../../assets/imgs/shenfen.png" />
           </template>
           <template #title>
-            <span>
-              身份信息
-            </span>
+            <span> 身份信息 </span>
           </template>
           <template #default>
-            <span class="identity-apply_status pending" v-if="userInfo.authType === 1">审核中</span>
-            <span class="identity-apply_status fail" v-else-if="userInfo.authType === 3">审核失败</span>
+            <span
+              class="identity-apply_status not"
+              v-if="userInfo.authType == 0"
+              >未认证</span
+            >
+            <span
+              class="identity-apply_status pending"
+              v-if="userInfo.authType == 1"
+              >审核中</span
+            >
+            <span
+              class="identity-apply_status fail"
+              v-else-if="userInfo.authType == 3"
+              >审核失败</span
+            >
           </template>
         </van-cell>
         <!-- 收付款方式 -->
@@ -161,7 +187,7 @@
 
 <script>
 import TopBar from "@/components/topBar/topBar";
-import {getuserinfo} from "@/api/pagesApi/home";
+import { getuserinfo } from "@/api/pagesApi/home";
 export default {
   name: "my",
   components: {
@@ -169,58 +195,67 @@ export default {
   },
   data() {
     return {
-      userInfo: {}
-    }
+      userInfo: {},
+    };
+  },
+  created() {
+    this.handleRefresh();
   },
   computed: {
     identifyStatus() {
-      if(this.userInfo.authType === 1) {
-        return '审核中'
+      if (this.userInfo.authType === 1) {
+        return "审核中";
       } else if (this.userInfo.authType === 2) {
-        return '审核成功'
+        return "审核成功";
       } else if (this.userInfo.authType === 3) {
-        return '审核失败'
+        return "审核失败";
       }
     },
     // 身份信息跳转
     identifyRouter() {
-      if(this.userInfo.authType === 0) {
-        return '/my/identity'
+      if (this.userInfo.authType === 0) {
+        return "/my/identity";
       } else if (this.userInfo.authType === 2) {
-        return '/my/identity/success'
+        return "/my/identity/success";
       } else if (this.userInfo.authType === 3) {
-        return '/my/identity/fail'
+        return "/my/identity/fail";
       }
-    }
+    },
   },
   methods: {
     // 去设置
     toSetup() {
-      this.$router.push('/setup')
+      this.$router.push("/setup");
     },
     handleRefresh() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…"
-      })
-      getuserinfo().then((res) => {
-        this.userInfo = res.data.items
-        if (this.userInfo && this.userInfo.comAuditType === 2 && !this.userInfo.isImprove) {
-          this.$dialog.confirm({
-            message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
-            confirmButtonText: "确定前往",
-            cancelButtonText: "稍后前往"
-          }).then(() => {
-            this.$router.push('/my/community/setting')
-          }).catch(err => {})
-        }
-      }).finally(() => loading.clear())
-    }
+        message: "加载中…",
+      });
+      getuserinfo()
+        .then((res) => {
+          this.userInfo = res.data.items;
+          if (
+            this.userInfo &&
+            this.userInfo.comAuditType === 2 &&
+            !this.userInfo.isImprove
+          ) {
+            this.$dialog
+              .confirm({
+                message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
+                confirmButtonText: "确定前往",
+                cancelButtonText: "稍后前往",
+              })
+              .then(() => {
+                this.$router.push("/my/community/setting");
+              })
+              .catch((err) => {});
+          }
+        })
+        .finally(() => loading.clear());
+    },
   },
-  created() {
-    this.handleRefresh()
-  }
-}
+};
 </script>
 
 <style lang='scss' scoped>
@@ -336,11 +371,14 @@ export default {
   }
   .identity-apply_status {
     font-size: 28px;
+    &.not {
+      color: #999;
+    }
     &.pending {
-      color: #4DC44C;
+      color: #237ff8;
     }
     &.fail {
-      color: #FF6343;
+      color: #ff6343;
     }
   }
 }

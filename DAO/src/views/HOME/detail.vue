@@ -2,22 +2,26 @@
   <div class="detail">
     <header>
       <white :title="title"></white>
-      <van-row class="title">
-        <van-col span="8">收益数量</van-col>
-        <van-col span="8">收益来源</van-col>
-        <van-col span="8">收益时间</van-col>
-      </van-row>
     </header>
     <main class="box">
-      <van-row v-for="(item, index) in personageArr" :key="index">
-        <van-col span="8">{{ item.eotc }}</van-col>
-        <van-col span="8">
-          <span v-if="item.type == 0">处理工单</span>
-          <span v-if="item.type == 1">处理仲裁</span>
-          <span v-if="item.type == 2">处理审核</span>
-        </van-col>
-        <van-col span="8">2022.05.24 22:21</van-col>
-      </van-row>
+      <div v-if="personageArr.length > 0">
+        <van-row class="title">
+          <van-col span="7">收益数量</van-col>
+          <van-col span="7">收益来源</van-col>
+          <van-col span="10">收益时间</van-col>
+        </van-row>
+        <van-row v-for="(item, index) in personageArr" :key="index">
+          <van-col span="7">{{ item.eotc }}</van-col>
+          <van-col span="7">
+            <span v-if="item.type == 0">处理工单</span>
+            <span v-if="item.type == 1">处理仲裁</span>
+            <span v-if="item.type == 2">处理审核</span>
+          </van-col>
+          <van-col span="10">{{ item.createDate }}</van-col>
+        </van-row>
+        <div class="record">没有更多记录了</div>
+      </div>
+      <div class="zan" v-else>暂无记录噢~</div>
     </main>
     <footer></footer>
   </div>
@@ -64,7 +68,7 @@ export default {
   height: 100vh;
 }
 .title {
-  color: #999;
+background: #f3f4f5;
   text-align: center;
   line-height: 3rem;
 }
@@ -78,5 +82,17 @@ export default {
     font-size: 14px;
     border-bottom: 1px solid #f3f4f5;
   }
+}
+.record {
+  margin-top: 3rem;
+  color: #999999;
+}
+.zan {
+  height: 400px;
+  font-size: 18px;
+  padding-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
