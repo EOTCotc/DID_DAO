@@ -136,7 +136,7 @@ const routes = [
     component: () => import("@/views/Arbitration/news"),
   },
   {
-    path: "/meetTheConditions",
+    path: "/user/meetTheConditions",
     name: "meetTheConditions",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -209,6 +209,14 @@ const routes = [
     component: () => import("@/views/Arbitration/case"),
   },
   {
+    path: "/arbitration/arbitrationCase",
+    name: "ArbitrationByFormula",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/Arbitration/arbitrationCase"),
+  },
+  {
     path: "/user/arbitration/case/detail",
     name: "arbitrationCaseDetail",
     // route level code-splitting
@@ -216,17 +224,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/case/detail"),
   },
-  {
-    path: "/arbitrationCase",
-    name: "arbitrationCase",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        "@/views/Arbitration/arbitrationCase"
-      ),
-  },
+
+
 ];
 
 const router = new VueRouter({
