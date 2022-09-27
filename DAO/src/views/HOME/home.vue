@@ -70,14 +70,29 @@
         </van-row>
       </van-col>
     </van-row>
+    <div v-show="tanShow == true" class="tan" @click="relieve">
+      <img src="../../assets/img/jin.png" width="30px;" height="30px" /><span
+        >解除风控</span
+      >
+    </div>
+    <Notification
+      title="系统检测您的账号存在异常"
+      message="暂无法使用该系统，请根据提示解除风控"
+      :headerIcon="require('../../assets/img/jin.png')"
+      buttonColor="#F65F5F"
+      buttonText="解除风控"
+      :closeOnClick="true"
+      @buttonClick="buttonClick"
+    />
   </div>
 </template>
 
 <script>
 import TanchuVue from "./components/tanchu.vue";
 import ChuangKou from "./components/chuangkou.vue";
+import Notification from "@/components/notification";
 export default {
-  components: { TanchuVue, ChuangKou },
+  components: { TanchuVue, ChuangKou, Notification },
   name: "home",
   data() {
     return {
@@ -91,6 +106,7 @@ export default {
         { text: "英文", value: 1 },
         { text: "日语", value: 2 },
       ],
+      tanShow: false,
     };
   },
   // mounted(){
@@ -110,6 +126,13 @@ export default {
     me() {
       this.$router.push("/Bill_list");
     },
+    relieve() {
+      this.$router.push({ path: "/relieve" });
+    },
+    buttonClick() {
+      // console.log(111);
+      this.tanShow = true;
+    },
   },
 };
 </script>
@@ -124,9 +147,27 @@ export default {
 }
 .header {
   width: 100%;
-  padding: 1rem 1rem 0 1rem;
+  padding: 16px 16px 0 16px;
 }
 .vancol2 {
   text-align: center;
+}
+.tan {
+  position: fixed;
+  right: 20px;
+  bottom: 20%;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  height: 90px;
+  padding: 0 20px;
+  color: #f34747;
+  border-radius: 50px 0 0 50px;
+}
+.dialog_wrap {
+  height: 500px;
+  border: 1px solid red;
 }
 </style>

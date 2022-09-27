@@ -108,7 +108,6 @@ import countTo from "vue-count-to";
 import { transformUTCDate } from "@/utils/utils";
 import { getcreditscore } from "@/api/pagesApi/credit";
 export default {
-  name: "credit",
   components: {
     countTo,
   },

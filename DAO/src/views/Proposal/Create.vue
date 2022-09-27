@@ -74,28 +74,28 @@ export default {
 
 .section {
   height: 100vh;
-  margin-top: 1rem;
-  padding: 1rem;
+  margin-top: 16px;
+  padding: 16px;
   background: #fff;
   .title {
     color: #000;
-    margin: 1rem 0;
+    margin: 16px 0;
   }
   .van-field {
     background: #f3f4f5;
-    border-radius: 1rem;
-    margin-top: 1rem;
+    border-radius: 16px;
+    margin-top: 16px;
   }
 }
 .van-button {
   background: #fc7542;
-  width: 22rem;
+  width: 352px;
   position: absolute;
-  bottom: 1rem;
+  bottom: 16px;
   right: 0;
   left: 0;
   margin: 0 auto;
-  border-radius: 2rem;
+  border-radius: 32px;
   border: none;
 }
 .van-button:last-child {

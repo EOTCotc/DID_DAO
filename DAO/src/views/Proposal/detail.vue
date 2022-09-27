@@ -28,21 +28,27 @@
           投票进度
           <span class="hui">创建于2022年6月26日</span>
         </div>
-        <div>共{{List.peopleNum}}人参与</div>
-        <van-progress :track-color=trackColor
+        <div>共{{ List.peopleNum }}人参与</div>
+        <van-progress :track-color="trackColor"
                       :percentage="percentageVotes"
                       v-if="!isNaN(parseInt(percentageVotes))"
-                      :color=valueColor
+                      :color="valueColor"
                       :show-pivot="false"
                       stroke-width="12" />
         <div class="num"
-             v-if="isVote"><span style="color: #00b87a">{{List.peopleNum}}</span>/99</div>
+             v-if="isVote">
+          <span style="color: #00b87a">{{ List.peopleNum }}</span>/99
+        </div>
         <div class="num vote"
-             v-if="isVote==false"
-             style="font-size:14px"><span>赞成票{{TotalFavorVotes}}</span>反对票{{TotalOpposeVotes}}</div>
+             v-if="isVote == false"
+             style="font-size: 14px">
+          <span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}
+        </div>
         <div class="num vote"
-             v-if="isVote==false"
-             style="color: #FC7542"><span style="color: #00b87a">{{List.favorVotes}}票</span>{{List.opposeVotes}}票</div>
+             v-if="isVote == false"
+             style="color: #fc7542">
+          <span style="color: #00b87a">{{ List.favorVotes }}票</span>{{ List.opposeVotes }}票
+        </div>
         <div>该提案需要99人投票才能取得进展，作者可以随时终止</div>
       </div>
       <div class="xiang">

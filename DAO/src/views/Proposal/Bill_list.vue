@@ -79,19 +79,19 @@ export default {
 .meun {
   height: 100vh;
   background: #f3f4f5;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   position: relative;
 }
 .box {
   background: #fff;
   height: 100vh;
-  border-radius: 0.5rem;
+  border-radius: 8px;
 }
 .one_an {
   color: #000;
-  margin: 1rem;
+  margin: 16px;
   border-bottom: 1px solid #eeeeee;
-  line-height: 2rem;
+  line-height: 32px;
   font-size: 16px;
   .piao {
     display: flex;
@@ -100,8 +100,8 @@ export default {
     justify-content: space-between;
     .ion {
       display: inline-block;
-      width: 0.5rem;
-      height: 0.5rem;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: #fc7542;
     }
@@ -117,13 +117,13 @@ export default {
   }
 }
 .van-button {
-  width: 22rem;
+  width: 352px;
   position: absolute;
-  bottom: 1rem;
+  bottom: 16px;
   right: 0;
   left: 0;
   margin: 0 auto;
-  border-radius: 10rem;
+  border-radius: 160px;
 }
 </style>
 

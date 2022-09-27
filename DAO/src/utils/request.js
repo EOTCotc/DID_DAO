@@ -10,24 +10,24 @@ const request = axios.create({
   baseURL: `http://${domain}/`,
 });
 
-// const wallet = {
-//   walletAddress: localStorage.getItem('myaddress'),
-//   otype: localStorage.getItem('netType'),
-//   sign: localStorage.getItem('mysign'),
-// }
 const wallet = {
-  walletAddress: 'string',
-  otype: 'string',
-  sign: 'string',
-}
+  walletAddress: localStorage.getItem("myaddress"),
+  otype: localStorage.getItem("netType"),
+  sign: localStorage.getItem("mysign"),
+};
+// const wallet = {
+//   walletAddress: 'string',
+//   otype: 'string',
+//   sign: 'string',
+// }
 
 //请求拦截器
 request.interceptors.request.use(
   (config) => {
     config.data = {
       ...config.data,
-      ...wallet
-    }
+      ...wallet,
+    };
     return config;
   },
   (error) => Promise.reject(error)
