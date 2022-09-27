@@ -1,19 +1,20 @@
 <template>
-  <van-overlay :show="show" @click="toggle(false)">
+  <van-overlay :show="show"
+               @click="toggle(false)">
     <div class="dialog_wrap">
       <slot name="headerIcon">
-        <img class="dialog-header-icon" :src="headerIcon" alt="">
+        <img class="dialog-header-icon"
+             :src="headerIcon"
+             alt="">
       </slot>
       <div class="dialog-title">{{title}}</div>
       <div class="dialog-message">{{message}}</div>
       <div class="dialog-btn">
-        <van-button
-            round
-            block
-            class="btn"
-            :color="buttonColor"
-            @click.stop="handleButtonClick"
-        >
+        <van-button round
+                    block
+                    class="btn"
+                    :color="buttonColor"
+                    @click.stop="handleButtonClick">
           {{ buttonText }}
         </van-button>
       </div>
@@ -26,18 +27,18 @@
 
 <script>
 export default {
-  name: "notification",
+  name: 'notification',
   props: {
-    headerIcon: {type: String},
-    title: {type: String},
-    message: {type: String},
-    buttonColor: {type: String},
-    buttonText: {type: String},
-    closeOnClick: {type: Boolean, default: true},
+    headerIcon: { type: String },
+    title: { type: String },
+    message: { type: String },
+    buttonColor: { type: String },
+    buttonText: { type: String },
+    closeOnClick: { type: Boolean, default: true },
   },
   data() {
     return {
-      show: true
+      show: true,
     }
   },
   methods: {
@@ -46,9 +47,9 @@ export default {
       !show && this.$nextTick().then(() => this.$emit('closed'))
     },
     handleButtonClick() {
-      this.$emit("buttonClick")
+      this.$emit('buttonClick')
       this.closeOnClick && this.toggle(false)
-    }
+    },
   },
 }
 </script>
@@ -61,7 +62,7 @@ export default {
   padding: 30px;
   border-radius: 48px;
   box-sizing: border-box;
-  background-color: #FFF;
+  background-color: #fff;
   .dialog-header-icon {
     display: block;
     width: 150px;
@@ -89,7 +90,7 @@ export default {
   .close {
     @include posi($b: -120px, $l: 50%);
     transform: translate(-50%);
-    color: #FFF;
+    color: #fff;
     font-size: 60px;
   }
 }

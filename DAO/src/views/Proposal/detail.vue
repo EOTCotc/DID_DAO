@@ -245,7 +245,7 @@ export default {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #cccccc;
-  padding-bottom: 17.6px;
+  padding-bottom: 17px;
   margin-bottom: 16px;
 }
 .xiang {
@@ -269,14 +269,14 @@ export default {
   padding: 16px;
   .van-button {
     width: 80px;
-    padding: 4.8px 24px;
+    padding: 5px 24px;
     border-radius: 8px;
     position: relative;
     top: -4px;
   }
   .van-radio-group {
     .van-radio {
-      margin: 16px 0 1.6px;
+      margin: 16px 0 1px;
     }
   }
 }
