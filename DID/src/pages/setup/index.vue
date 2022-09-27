@@ -64,7 +64,18 @@
       </div>
     </van-popup>
 
-    <button @click="logout">退出登录</button>
+    <van-popup v-model="showLogout" round>
+      <div class="logout-box">
+        <div class="logout-tip">退出提示</div>
+        <p>确定要退出当前账号吗？</p>
+        <div class="btn-box">
+          <button @click="showLogout = false">取消</button>
+          <button @click="logout">确定</button>
+        </div>
+      </div>
+    </van-popup>
+
+    <button class="logout-btn" @click="showLogout = true">退出登录</button>
   </div>
 </template>
 
@@ -79,7 +90,8 @@ export default {
       site: "", //所在地
       telegram: "", //电报群
       userInfo: "", //用户信息
-      showPopup: false,
+      showPopup: false,//设置电报群弹出层
+      showLogout: false,//退出登录弹出层
     };
   },
   mounted() {
@@ -220,8 +232,43 @@ export default {
     }
   }
 }
-
-button {
+// 退出登录弹出层
+.logout-box {
+  width: 630px;
+  height: 260px;
+  text-align: center;
+  .logout-tip {
+    margin-top: 30px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  p {
+    margin-top: 30px;
+    font-size: 32px;
+  }
+  .btn-box {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-start;
+    border-top: 1px solid #f3f4f5;
+    button {
+      width: 50%;
+      height: 96px;
+      font-size: 31px;
+      color: #1b2945;
+      font-weight: bold;
+      border: none;
+      background: #fff;
+    }
+    button:first-of-type {
+      color: #666;
+      font-weight: normal;
+      border-right: 1px solid #f3f4f5;
+    }
+  }
+}
+// 退出登录按钮
+.logout-btn {
   position: absolute;
   bottom: 80px;
   left: 50%;

@@ -42,9 +42,11 @@
     },
     getInfo(data) {
       referrerInfo(data.refUserId).then(res => {
-        this.referrer = {
-          ...data,
-          ...res.data.items
+        if (!res.data.code) {
+          this.referrer = {
+            ...data,
+            ...res.data.items
+          }
         }
       })
     }

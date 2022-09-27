@@ -275,6 +275,9 @@ export const loadweb3 = function (func) {
       }
     }, 17);
   } else {
+    if (func != null) {//没有获取钱包的软件让他跳登录页 通过传入的参数
+      func();
+    }
     setTimeout(() => {
       if (!window.tronWeb) {
         //	Vue.$toast.error('请在支持 TRON 网络的 DAPP 浏览器中访问');
@@ -309,7 +312,7 @@ export const userSign = async (mes, func) => {
           }
           localStorage.setItem('myaddress', tronweb.defaultAddress.base58);
           localStorage.setItem('mysign', md5(signedStr));
-          console.log(md5(signedStr));
+          // console.log(md5(signedStr));
           if (func != null) {
             func();
           }
@@ -320,6 +323,9 @@ export const userSign = async (mes, func) => {
           clearmymes();
           reject('拒绝签名');
           console.warn(err);
+          if (func != null) {//拒绝签名，通过传入的参数跳登录页
+            func();
+          }
         });
     } catch (err) {
       console.warn(err);

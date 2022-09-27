@@ -18,9 +18,9 @@
       position="left"
     >
       <div class="menu">
-        <div class="menu-every" v-for="(item, index) in 5" :key="index">
+        <div class="menu-every" v-for="(item, index) in 0" :key="index">
           <span>的雷克萨就到了</span>
-          <img src="../../assets/imgs/r_t_arrow.png" alt="">
+          <img src="../../assets/imgs/r_t_arrow.png" alt="" />
         </div>
       </div>
     </van-popup>

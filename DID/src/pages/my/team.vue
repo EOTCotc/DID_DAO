@@ -163,15 +163,22 @@ export default {
       }
       this.list.loading = true
       list(query).then(res => {
-        const {teamNumber, users, pushNumber} = res.data.items
-        this.teamNumber = teamNumber
-        this.pushNumber = pushNumber
-        if (query.page > 1) {
-          this.list.data.push(...users)
+        if (!res.data.code) {
+          const {teamNumber, users, pushNumber} = res.data.items
+          this.teamNumber = teamNumber
+          this.pushNumber = pushNumber
+          if (query.page > 1) {
+            this.list.data.push(...users)
+          } else {
+            this.list.data = users || []
+          }
+          this.list.finished = !users.length
         } else {
-          this.list.data = users || []
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
         }
-        this.list.finished = !users.length
       }).catch(err => {
         console.log(err)
       }).finally(() => {

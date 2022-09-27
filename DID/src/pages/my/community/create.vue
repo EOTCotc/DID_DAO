@@ -116,12 +116,19 @@
             forbidClick: true
           })
           oldData(userInfo.applyCommunityId).then(res => {
-            const data = res.data.items
-            Object.keys(this.form.data).forEach(item => {
-              this.form.data[item] = data[item]
-            })
-            this.form.data.name = userInfo.name
-            this.form.data.addressText = data.addressName
+            if (!res.data.code) {
+              const data = res.data.items
+              Object.keys(this.form.data).forEach(item => {
+                this.form.data[item] = data[item]
+              })
+              this.form.data.name = userInfo.name
+              this.form.data.addressText = data.addressName
+            } else {
+              this.$toast.fail({
+                forbidClick: true,
+                message: res.data.message
+              })
+            }
           }).finally(() => loading.clear())
         }
       },
@@ -140,15 +147,15 @@
             if (action === "confirm") {
               this.form.data.addressName += this.form.data.address
               create(this.form.data).then(res => {
-                // 修改用户信息状态
-                const userInfo = JSON.parse(this.cookie.get('userInfo'))
-                userInfo.applyCommunityId = res.data.items
-                userInfo.authType = 1
-                this.cookie.set('userInfo', JSON.stringify(userInfo))
-                this.$router.replace('/my/community/create/success')
                 done()
-              }).catch(() => {
-                done()
+                if (!!res.data.code) {
+                  this.$toast.fail({
+                    forbidClick: true,
+                    message: "创建失败"
+                  })
+                } else {
+                  this.$router.replace('/my/community/create/success')
+                }
               })
             } else {
               done()

@@ -41,7 +41,14 @@
           message: "加载中…"
         })
         list().then(res => {
-          this.list.data = res.data.items
+          if (!res.data.code) {
+            this.list.data = res.data.items
+          } else {
+            this.$toast.fail({
+              forbidClick: true,
+              message: res.data.message
+            })
+          }
         }).finally(() => loading.clear())
       },
       cancelAuth(data) {
@@ -53,19 +60,20 @@
           confirmButtonColor: "#1B2945",
           beforeClose: (action, done) => {
             if (action === 'confirm') {
-              cancelAuth(data.projectId).then(() => {
+              cancelAuth(data.projectId).then(res => {
                 done()
-                this.$toast({
-                  forbidClick: true,
-                  message: '已解绑',
-                  onClose: () => this.getList()
-                })
-              }).catch(() => {
-                done()
-                this.$toast({
-                  type: "fail",
-                  message: "操作失败"
-                })
+                if (res.data.code) {
+                  this.$toast({
+                    type: "fail",
+                    message: "操作失败"
+                  })
+                } else {
+                  this.$toast({
+                    forbidClick: true,
+                    message: '已解绑',
+                    onClose: () => this.getList()
+                  })
+                }
               })
             } else {
               done()

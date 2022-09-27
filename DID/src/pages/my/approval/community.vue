@@ -37,7 +37,7 @@
                 alt=""
             >
             <van-row class="item-row user">
-              <van-cell :title="item.name" :value="item.date"></van-cell>
+              <van-cell :title="item.comName" :value="transformUTCDate(item.createDate)"></van-cell>
             </van-row>
             <van-row class="item-row">
               <van-col span="8" class="name">社区名</van-col>
@@ -90,7 +90,7 @@
                   <van-icon v-else name="clear" color="#227AEE"/>
                 </template>
                 <van-row class="main">
-                  <van-col :span="12" class="title">{{getAuditStep(step.auditStep)}}:{{step.name}}</van-col>
+                  <van-col :span="12" class="title">{{step.isDao ? 'Dao' : getAuditStep(step.auditStep)}}:{{step.name}}</van-col>
                   <van-col :span="12" class="date" style="font-size: 12px;color: #999;text-align: right;">
                     {{transformUTCDate(step.authDate)}}
                   </van-col>
@@ -199,13 +199,20 @@
       getList() {
         this.$toast.loading('列表加载中…')
         list(this.tab.active, this.list.query).then(res => {
-          const data = res.data.items
-          if (this.list.query.page === 1) {
-            this.list.data = data
+          if (!res.data.code) {
+            const data = res.data.items
+            if (this.list.query.page === 1) {
+              this.list.data = data
+            } else {
+              this.list.data.push(...data)
+            }
+            this.list.finished = !data.length
           } else {
-            this.list.data.push(...data)
+            this.$toast.fail({
+              forbidClick: true,
+              message: res.data.message
+            })
           }
-          this.list.finished = !data.length
         }).finally(() => {
           this.$toast.clear()
           this.list.uploading = false
@@ -238,17 +245,18 @@
             if (action === 'confirm') {
               auditCommunity(params).then(res => {
                 done()
-                this.$toast({
-                  type: "success",
-                  message: res.data.message
-                })
-                this.getList()
-              }).catch(() => {
-                done()
-                this.$toast({
-                  type: "fail",
-                  message: "操作失败"
-                })
+                if (res.data.code) {
+                  this.$toast({
+                    type: "fail",
+                    message: "操作失败"
+                  })
+                } else {
+                  this.$toast({
+                    type: "success",
+                    message: res.data.message
+                  })
+                  this.getList()
+                }
               })
             } else {
               done()

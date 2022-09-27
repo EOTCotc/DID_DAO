@@ -92,13 +92,20 @@
           message: "加载中…"
         })
         list(this.list.query).then(res => {
-          const data = res.data.items.map(item => ({...item, loading: false, isEnable: !!item.isEnable}))
-          if (this.list.query.page > 1) {
-            this.list.data.push(...data)
+          if (!res.data.code) {
+            const data = res.data.items.map(item => ({...item, loading: false, isEnable: !!item.isEnable}))
+            if (this.list.query.page > 1) {
+              this.list.data.push(...data)
+            } else {
+              this.list.data = data
+            }
+            this.list.finished = !data.length
           } else {
-            this.list.data = data
+            this.$toast.fail({
+              forbidClick: false,
+              message: "未知错误"
+            })
           }
-          this.list.finished = !data.length
         }).finally(() => {
           loading.clear()
           this.list.uploading = false
@@ -134,19 +141,21 @@
           forbidClick: true,
         })
         addPayment({type: 0}).then(res => {
-          this.$toast.success({
-            forbidClick: true,
-            message: "创建成功",
-            onClose: () => {
-              this.list.query.page = 1
-              this.getList()
-            }
-          })
-        }).catch(err => {
-          this.$toast.loading({
-            forbidClick: true,
-            message: "失败成功"
-          })
+          if (res.data.code) {
+            this.$toast.loading({
+              forbidClick: true,
+              message: "失败成功"
+            })
+          } else {
+            this.$toast.success({
+              forbidClick: true,
+              message: "创建成功",
+              onClose: () => {
+                this.list.query.page = 1
+                this.getList()
+              }
+            })
+          }
         }).finally(() => loading.clear())
       },
       handleCancel() {

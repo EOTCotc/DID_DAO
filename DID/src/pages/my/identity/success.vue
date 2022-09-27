@@ -20,7 +20,7 @@
           <van-steps direction="vertical" :active="2" active-color="#227AEE" inactive-color="#227AEE">
             <van-step v-for="item in info.auths" :key="item.auditStep">
               <van-row>
-                <van-col class="title" :span="12">{{getAuditStep(item.auditStep)}}:{{item.name}}</van-col>
+                <van-col class="title" :span="12">{{item.isDao ? 'Dao' : getAuditStep(item.auditStep)}}:{{item.name}}</van-col>
                 <van-col class="date" :span="12">{{transformUTCDate(item.authDate)}}</van-col>
                 <van-col class="remark" :span="24" v-if="item.remark">{{item.remark}}</van-col>
               </van-row>
@@ -57,7 +57,14 @@
         message: "加载中…"
       })
       authSuccess().then(res => {
-        this.info = res.data.items
+        if (!res.data.code) {
+          this.info = res.data.items
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
+        }
       }).finally(() => loading.clear())
     }
   }
