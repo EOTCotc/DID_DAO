@@ -1,24 +1,24 @@
+import axios from "axios";
+import md5 from "js-md5";
+import qs from "qs";
+import Vant from "vant";
+import "vant/lib/index.css";
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Vant from "vant";
-import "vant/lib/index.css";
-import axios from "axios";
-import qs from "qs";
-import md5 from "js-md5";
 
 import "amfe-flexible";
 import "./registerServiceWorker";
 
 import "@/assets/font/style.css";
+import dayjs from "dayjs";
+import "../src/views/HOME/assets/styles/home.scss";
 import "./assets/styles/index.scss";
 
 Vue.prototype.$md5 = md5;
-import "../src/views/HOME/assets/styles/home.scss";
 Vue.prototype.$qs = qs;
 Vue.prototype.$http = axios;
-import dayjs from "dayjs";
 Vue.prototype.$dayjs = dayjs;
 Vue.use(Vant);
 Vue.config.productionTip = false;

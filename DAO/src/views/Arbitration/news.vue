@@ -209,7 +209,7 @@ export default {
 
 ::v-deep .van-button {
   height: 40px;
-  width: 5.12rem;
+  width: 82px;
   border-radius: 10px;
 }
 ::v-deep .van-dialog__header {
@@ -232,7 +232,7 @@ export default {
 .content_box {
   height: 86vh;
   overflow: auto;
-  padding: 1rem;
+  padding: 16px;
 }
 .timer {
   text-align: center;
@@ -311,6 +311,6 @@ export default {
   /* 换行显示全部字符 */
   word-break: break-all;
   margin-top: 3px;
-  font-size: 1rem;
+  font-size: 16px;
 }
 </style>

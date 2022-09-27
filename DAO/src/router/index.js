@@ -71,7 +71,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import("@/views/ticket_system/order_details"),
+    component: () =>
+      import(
+        "@/views/ticket_system/order_details"
+      ),
   },
   {
     path: "/Destruction",
@@ -138,7 +141,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import("@/views/Arbitration/meetTheConditions"),
+    component: () =>
+      import(
+        "@/views/Arbitration/meetTheConditions"
+      ),
   },
   {
     path: "/understandLearningRules",
@@ -146,7 +152,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import("@/views/Arbitration/understandLearningRules"),
+    component: () =>
+      import(
+        "@/views/Arbitration/understandLearningRules"
+      ),
   },
   {
     path: "/user/approval",
@@ -154,7 +163,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import("@/views/approval"),
+    component: () =>
+      import(
+        "@/views/approval"
+      ),
   },
   {
     path: "/user/approval/identity",
@@ -203,6 +215,17 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/case/detail"),
+  },
+  {
+    path: "/arbitrationCase",
+    name: "arbitrationCase",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        "@/views/Arbitration/arbitrationCase"
+      ),
   },
 ];
 

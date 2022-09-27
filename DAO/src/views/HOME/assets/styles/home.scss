@@ -2,173 +2,161 @@
 //     color: white;
 // }
 .main1 {
-
-    width: 100vw;
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-
+  width: 100vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .main2 {
-
-    width: 100vw;
-    height: 40vh;
+  width: 100vw;
+  height: 40vh;
 }
 
 .vanpopup1 {
-    .van-popup--left {
-        top: 55%
-    }
+  .van-popup--left {
+    top: 55%;
+  }
 
-    .uls1 {
-        display: flex;
-        flex-direction: column;
-        height: 95vh;
-
-        li {
-            padding-left: 10%;
-            background: #1B2945;
-            height: (95vh/11);
-            line-height: (95vh/11);
-            border:none;
-            .van-icon {
-                float: right;
-                line-height: (95vh/11);
-                margin-right: 15vw;
-            }
-        }
-
-    }
-}
-
-.imgs2 {
-
-    width: 100vw;
-    text-align: center;
-    height: 20vh;
-    line-height: 20vh;
-
-    .van-image__error,
-    .van-image__img,
-    .van-image__loading {
-        vertical-align: middle;
-        display: inline-block;
-    }
-}
-
-.h2 {
+  .uls1 {
     display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-    justify-content: center;
-    color: white;
-}
+    flex-direction: column;
+    height: 95vh;
 
-.vancol5 {
-    display: flex;
-    justify-content: center;
-
-    .pp1 {
-        width: 80%;
-        text-align: center;
-        color: white;
-    }
-}
-
-.vanhh {
-
-    width: 100%;
-    height: 9vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .van-button{
-        width:8rem;
-    }
-}
-
-.newtian {
-    margin-top: 5%;
-    margin:5% 3% 0 4%;
-    width: 100%;
-    height: 8%;
-    color: white;
-    font-size: 0.12em;
-}
-.chuangkou{
-    color: white;
-    width: 100%;
-    height: 67%;
-    font-size: 0.12em;
-    p{
-        font-size: 0.20em;
-        
-    }
-  ul{
-    height: 100%;
-    li{
-        border:0.5px solid #2e333d;
-        // border: 0.5px solid gold;
-        height: 34%;
-        display: flex;
-        margin:1rem;
-        padding:0.2rem 0.4rem;
-        border-radius: 5px;
-        justify-content: center;
-        flex-direction: column;
-        .row3{
-            padding-top: 3%;
-            
-        }
+    li {
+      padding-left: 10%;
+      background: #1b2945;
+      height: (95vh/11);
+      line-height: (95vh/11);
+      border: none;
+      .van-icon {
+        float: right;
+        line-height: (95vh/11);
+        margin-right: 15vw;
+      }
     }
   }
 }
-.dibu2{
-  
-    height: 20%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.12em;
-    margin-top:3.4rem;
-    .pp1{
-        color: white;
-        text-align: center;
-        
-    }
+
+.imgs2 {
+  width: 100vw;
+  text-align: center;
+  height: 20vh;
+  line-height: 20vh;
+
+  .van-image__error,
+  .van-image__img,
+  .van-image__loading {
+    vertical-align: middle;
+    display: inline-block;
+  }
 }
-.foot{
-    background-color: #111A2D;
-    margin-top:5rem;
-    width: 100%;
-    height: 6%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
+
+.h2 {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: center;
+  color: white;
+}
+
+.vancol5 {
+  display: flex;
+  justify-content: center;
+
+  .pp1 {
+    width: 80%;
     text-align: center;
-    padding-left:1rem;
-    .span22{
-        height: 100%;
-       display: flex;
-       align-items: center;
-       justify-content: left;
-    }
- 
+    color: white;
+  }
 }
-.van-ellipsis{
-color: #000;
+
+.vanhh {
+  width: 100%;
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .van-button {
+    width: 8rem;
+  }
+}
+
+.newtian {
+  margin-top: 5%;
+  margin: 5% 3% 0 4%;
+  width: 100%;
+  height: 8%;
+  color: white;
+  font-size: 0.12em;
+}
+.chuangkou {
+  color: white;
+  width: 100%;
+  height: 67%;
+  font-size: 0.12em;
+  p {
+    font-size: 0.2em;
+  }
+  ul {
+    height: 100%;
+    li {
+      border: 0.5px solid #2e333d;
+      // border: 0.5px solid gold;
+      height: 34%;
+      display: flex;
+      margin: 1rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 5px;
+      justify-content: center;
+      flex-direction: column;
+      .row3 {
+        padding-top: 3%;
+      }
+    }
+  }
+}
+.dibu2 {
+  height: 20%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.12em;
+  margin-top: 3.4rem;
+  .pp1 {
+    color: white;
+    text-align: center;
+  }
+}
+.foot {
+  background-color: #111a2d;
+  margin-top: 5rem;
+  width: 100%;
+  height: 6%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  text-align: center;
+  padding-left: 1rem;
+  .span22 {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+  }
+}
+.van-ellipsis {
+  color: #000;
 }
 .van-nav-bar .van-icon {
-    color: #000;
+  color: #000;
 }
-.van-dropdown-menu__item{
-    height: 2.8rem;
-background: #111A2D;
-   
+.van-dropdown-menu__item {
+  height: 2.8rem;
+  background: #111a2d;
 }
-.van-dropdown-menu__item .van-ellipsis{
-    color:#fff;
+.van-dropdown-menu__item .van-ellipsis {
+  color: #fff;
 }
