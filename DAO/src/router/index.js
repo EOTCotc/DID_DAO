@@ -132,6 +132,11 @@ const routes = [
     component: () => import("@/views/approval/community"),
   },
   {
+    path: "/user/approval/team",
+    name: "approvalTeam",
+    component: () => import("@/views/approval/team"),
+  },
+  {
     path: "/user/arbitration",
     name: "arbitration",
     component: () => import("@/views/Arbitration"),
@@ -152,9 +157,44 @@ const routes = [
     component: () => import("@/views/Arbitration/case/detail"),
   },
   {
+    path: "/user/arbitration/publicity/personnel",
+    name: "arbitrationPublicityPersonnel",
+    component: () => import("@/views/Arbitration/publicity/personnel"),
+  },
+  {
+    path: "/user/arbitration/publicity/case",
+    name: "arbitrationPublicityCase",
+    component: () => import("@/views/Arbitration/publicity/case"),
+  },
+  {
+    path: "/user/arbitration/publicity/case/detail",
+    name: "arbitrationPublicityCaseDetail",
+    component: () => import("@/views/Arbitration/publicity/case/detail"),
+  },
+  {
     path: "/arbitrationCase",
     name: "arbitrationCase",
     component: () => import("@/views/Arbitration/arbitrationCase"),
+  },
+  {
+    path: "/user/arbitration/case",
+    name: "arbitrationCaseList",
+    component: () => import("@/views/Arbitration/case"),
+  },
+  {
+    path: "/user/arbitration/case/detail",
+    name: "arbitrationCaseListDetail",
+    component: () => import("@/views/Arbitration/case/detail"),
+  },
+  {
+    path: "/user/arbitration/case/initiateNewProof",
+    name: "arbitrationCaseInitiateNewProof",
+    component: () => import("@/views/Arbitration/case/initiateNewProof"),
+  },
+  {
+    path: "/user/arbitration/case/plaintiff",
+    name: "arbitrationCasePlaintiff",
+    component: () => import("@/views/Arbitration/case/plaintiff"),
   },
   //仲裁相关消息（延期申请）
   {
