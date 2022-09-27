@@ -31,15 +31,7 @@ export default {
     };
   },
   created() {
-    let walletAddress = localStorage.getItem("myaddress");
-    let otype = localStorage.getItem("netType");
-    let sign = localStorage.getItem("mysign");
-
-    gettotalincome({
-      walletAddress: walletAddress,
-      otype: otype,
-      sign: sign,
-    }).then((res) => {
+    gettotalincome().then((res) => {
       console.log(res);
       this.total = res.data.items;
     });
@@ -55,7 +47,7 @@ export default {
 <style lang="scss" scoped>
 .personage {
   width: 100wh;
-  background: #070a0e;
+  background: #000;
   height: 100vh;
   color: #000;
 }

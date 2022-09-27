@@ -102,17 +102,7 @@ export default {
     };
   },
   created() {
-    let walletAddress = localStorage.getItem("myaddress");
-    let otype = localStorage.getItem("netType");
-    let sign = localStorage.getItem("mysign");
-    getproposal(
-      {
-        walletAddress: walletAddress,
-        otype: otype,
-        sign: sign,
-      },
-      this.proposalId
-    ).then((res) => {
+    getproposal(this.proposalId).then((res) => {
       this.List = res.data.items;
       console.log(this.List);
     });
@@ -127,22 +117,12 @@ export default {
       history.go(-1);
     },
     onClickRight() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
       Dialog.confirm({
         title: "取消提示",
         message: "确认该提案？",
       })
         .then(() => {
-          cancelproposal(
-            {
-              walletAddress: walletAddress,
-              otype: otype,
-              sign: sign,
-            },
-            this.proposalId
-          );
+          cancelproposal(this.proposalId);
           Toast("取消成功");
         })
         .catch(() => {
@@ -150,18 +130,7 @@ export default {
         });
     },
     isDloag() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
-      proposalvote(
-        {
-          walletAddress: walletAddress,
-          otype: otype,
-          sign: sign,
-        },
-        this.proposalId,
-        this.radio
-      ).then(() => {
+      proposalvote(this.proposalId, this.radio).then(() => {
         this.$refs.jindu.style.height = "241.5px";
         if (this.List.peopleNum <= 99) {
           if (this.radio == 1) {
@@ -228,10 +197,10 @@ export default {
   font-weight: bold;
 }
 .one_an {
-  margin: 16px;
+  margin: 20px;
   padding: 16px 0 0;
-  line-height: 32px;
-  font-size: 16px;
+  line-height: 60px;
+  font-size: 30px;
   .piao {
     display: flex;
     color: #9296a2;
@@ -239,20 +208,19 @@ export default {
     justify-content: space-between;
     .ion {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       background: #237ff8;
     }
   }
 }
 .jindu {
-  width: 328px;
-  height: 205px;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 0 auto;
+  margin: 0 16px;
   padding: 16px;
+  font-size: 30px;
   color: #000;
   .hui {
     color: #999999;
@@ -282,11 +250,11 @@ export default {
 }
 .xiang {
   color: #000;
-  width: 328px;
+  font-size: 28px;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 16px auto 0;
-  line-height: 32px;
+  margin: 16px 20px 0;
+  line-height: 48px;
   padding: 16px;
   .wen {
     color: #666666;
@@ -294,17 +262,17 @@ export default {
 }
 .ti {
   color: #000;
-  width: 328px;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 16px auto 16px;
+  margin: 16px;
+  font-size: 30px;
   padding: 16px;
   .van-button {
     width: 80px;
     padding: 4.8px 24px;
     border-radius: 8px;
     position: relative;
-    top: -8px;
+    top: -4px;
   }
   .van-radio-group {
     .van-radio {

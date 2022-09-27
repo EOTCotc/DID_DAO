@@ -9,46 +9,129 @@
         <van-cell
           title="提交时间"
           title-style="color:#999;"
-          value="2022-07-15 18:56:45"
+          :value="order.createDate"
         />
         <van-cell
           title="提交人"
           title-style="color:#999;"
-          value="陈都(458956)"
+          :value="order.submitter"
         />
         <van-cell
           title="联系方式"
           title-style="color:#999;"
-          value="13157864585"
+          :value="order.phone"
         />
       </van-cell-group>
       <van-cell-group inset class="group">
         <van-cell title="问题描述" title-style="color:#999;" :border="false" />
-        <van-cell title="想查看订单时异常退出" />
+        <van-cell :title="order.describe" />
       </van-cell-group>
       <van-cell-group inset class="tu">
-        <van-image width="60" height="60" src="./assets/image/leaf.jpg" />
-        <van-image width="60" height="60" src="./assets/image/leaf.jpg" />
+        <van-image width="60" height="60" :src="order.images" />
+        <!-- <van-image width="60" height="60" src="./assets/image/leaf.jpg" /> -->
+      </van-cell-group>
+      <van-cell-group inset class="group" v-show="order.status == 1">
+        <van-cell title="处理记录" :border="false" />
+        <van-field
+          v-model="message"
+          rows="6"
+          type="textarea"
+          placeholder="工单处理记录..."
+        />
+      </van-cell-group>
+      <van-cell-group inset class="group" v-show="order.status == 2">
+        <van-cell title="处理记录" :border="false" />
+        <van-cell :title="order.record"></van-cell>
       </van-cell-group>
     </main>
     <footer>
-      <van-button round type="info">更进处理</van-button>
+      <van-button
+        round
+        type="info"
+        @click="update(order.status)"
+        class="one_btn"
+        v-show="order.status == 0"
+        >更进处理</van-button
+      >
+      <div class="two_btn" v-show="order.status == 1">
+        <van-button round type="info" color="#E52A2A" plain @click="cancel()"
+          >取消处理</van-button
+        >
+        <van-button round type="info" @click="update(order.status)"
+          >处理完成</van-button
+        >
+      </div>
     </footer>
   </div>
 </template>
 
 <script>
 import white from "../../components/Nav/white.vue";
+import { getworkorder, updateWork } from "@/api/workOrder";
+import { Dialog } from "vant";
+
 export default {
   components: { white },
   data() {
     return {
       title: "工单详情",
+      order: {},
+      message: "",
+      workOrderId: "",
     };
+  },
+  created() {
+    this.workOrderId = this.$route.query.workOrderId;
+    getworkorder(this.workOrderId).then((res) => {
+      res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
+        "YYYY-MM-DD"
+      );
+
+      this.order = res.data.items;
+    });
   },
   methods: {
     onClickLeft() {
       history.go(-1);
+    },
+    cancel() {
+      Dialog.confirm({
+        title: "取消提示",
+        message: "确定取消处理该工单？",
+      })
+        .then(() => {
+          updateWork({
+            workOrderId: this.workOrderId,
+            workOrderStatus: 0,
+            record: this.message,
+          }).then((res) => {
+            console.log(res);
+            this.$router.push({
+              path: "/pending",
+            });
+          });
+        })
+        .catch(() => {});
+    },
+    update(status) {
+      Dialog.confirm({
+        title: "处理完成",
+        message: "请确定该工单问题已处理完成,点击确定完成",
+      })
+        .then(() => {
+          updateWork({
+            workOrderId: this.workOrderId,
+            workOrderStatus: status + 1,
+            record: this.message,
+          }).then((res) => {
+            console.log(res);
+            this.$router.push({
+              path: "/pending",
+              query: { status: status + 1 },
+            });
+          });
+        })
+        .catch(() => {});
     },
   },
 };
@@ -80,16 +163,24 @@ export default {
 }
 .tu {
   .van-image {
-    margin: 0 6.4px;
+    margin: 0 10px;
   }
 }
-.van-button {
-  width: 352px;
+.one_btn {
+  width: 90%;
   position: absolute;
   bottom: 16px;
   right: 0;
   left: 0;
   margin: 0 auto;
   bottom: 20px;
+}
+.two_btn {
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-around;
+  .van-button {
+    width: 176px;
+  }
 }
 </style>

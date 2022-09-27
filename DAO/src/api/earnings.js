@@ -8,7 +8,7 @@ export function gettotalincome(data) {
   });
 }
 //收益详情
-export function getincome(data, page, itemsPerPage) {
+export function getincome(page, itemsPerPage) {
   let params = {
     page: page,
     itemsPerPage: itemsPerPage,
@@ -16,7 +16,6 @@ export function getincome(data, page, itemsPerPage) {
   return request({
     url: "api/incomedetails/getincomedetails",
     method: "post",
-    data,
     params,
   });
 }

@@ -75,6 +75,7 @@
         >解除风控</span
       >
     </div>
+    <!-- v-show="items == 1 || items == 2" -->
     <Notification
       title="系统检测您的账号存在异常"
       message="暂无法使用该系统，请根据提示解除风控"
@@ -91,6 +92,7 @@
 import TanchuVue from "./components/tanchu.vue";
 import ChuangKou from "./components/chuangkou.vue";
 import Notification from "@/components/notification";
+import { getuserrisklevel } from "@/api/pneumatic";
 export default {
   components: { TanchuVue, ChuangKou, Notification },
   name: "home",
@@ -107,12 +109,19 @@ export default {
         { text: "日语", value: 2 },
       ],
       tanShow: false,
+      items: 0,
     };
   },
   // mounted(){
   //   console.log(1111111)
   //   this.shouw=false
   // },
+  created() {
+    getuserrisklevel().then((res) => {
+      // console.log(res);
+      this.items = res.data.items;
+    });
+  },
   methods: {
     chufa() {
       this.shouw = !this.shouw;
