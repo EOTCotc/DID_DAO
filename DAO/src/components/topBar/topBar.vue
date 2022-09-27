@@ -2,13 +2,13 @@
   <div>
     <div class="heade">
       <div @click="handleMenu">
-        <img class="icon_menu" src="../../assets/imgs/icon_menu.png" />
+        <img class="icon_menu" src="@/assets/imgs/icon_menu.png" />
       </div>
       <div @click="toHome">
-        <img class="logo" src="../../assets/imgs/logo.png" />
+        <img class="logo" src="@/assets/imgs/logo.png" />
       </div>
       <div @click="toMy">
-        <img class="icon_my" src="../../assets/imgs/icon_my.png" />
+        <img class="icon_my" src="@/assets/imgs/icon_my.png" />
       </div>
     </div>
     <!-- 菜单 -->
@@ -18,9 +18,9 @@
       position="left"
     >
       <div class="menu">
-        <div class="menu-every" v-for="(item, index) in 5" :key="index">
-          <span>的雷克萨就到了</span>
-          <img src="../../assets/imgs/r_t_arrow.png" alt="">
+        <div class="menu-every" v-for="item in list" :key="item.id">
+          <span>{{item.name}}</span>
+          <img src="@/assets/imgs/r_t_arrow.png" alt="" />
         </div>
       </div>
     </van-popup>
@@ -34,6 +34,19 @@ export default {
   data() {
     return {
       showPopup: false,
+      list: [
+        { id: 0, name: "EOTC官网" },
+        { id: 1, name: "去中心化OTC交易所" },
+        { id: 2, name: "去中心化币币交易所" },
+        { id: 3, name: "去中心化借贷交易所" },
+        { id: 4, name: "去中心化合约交易所" },
+        { id: 5, name: "链上理财赚币" },
+        { id: 6, name: "DID去中心化身份系统" },
+        { id: 7, name: "去中心化应用系统" },
+        { id: 8, name: "EOTC NFT" },
+        { id: 9, name: "EOTC 元宇宙" },
+        { id: 10, name: "EOTC DAO" },
+      ],
     };
   },
   methods: {
@@ -46,7 +59,7 @@ export default {
     },
     // 去我的页面
     toMy() {
-      this.$router.push("/my");
+      this.$router.push("/personage");
     },
   },
 };
@@ -61,7 +74,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100px;
+  height: 88px;
   background: #1b2945;
   z-index: 9999;
   div {
@@ -95,7 +108,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 100px;
-    font-size: 32px;
+    font-size: 28px;
     color: #b4b7c2;
     border-bottom: 1px solid #2b374f;
     img {
