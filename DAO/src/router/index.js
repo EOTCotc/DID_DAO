@@ -15,8 +15,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/HOME/home"),
+    component: () => import("@/views/HOME/home"),
   },
   {
     path: "/personage",
@@ -24,8 +23,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/HOME/personage"),
+    component: () => import("@/views/HOME/personage"),
   },
   {
     path: "/Home_detail",
@@ -33,8 +31,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/HOME/detail"),
+    component: () => import("@/views/HOME/detail"),
   },
   {
     path: "/Bill_list",
@@ -42,8 +39,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/Proposal/Bill_list"),
+    component: () => import("@/views/Proposal/Bill_list"),
   },
   {
     path: "/Create",
@@ -51,8 +47,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/Proposal/Create"),
+    component: () => import("@/views/Proposal/Create"),
   },
   {
     path: "/detail",
@@ -60,8 +55,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/Proposal/detail"),
+    component: () => import("@/views/Proposal/detail"),
   },
   {
     path: "/pending",
@@ -69,8 +63,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/ticket_system/pending"),
+    component: () => import("@/views/ticket_system/pending"),
   },
   {
     path: "/order_details",
@@ -78,10 +71,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        "@/views/ticket_system/order_details"
-        ),
+    component: () => import("@/views/ticket_system/order_details"),
   },
   {
     path: "/Destruction",
@@ -89,8 +79,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/destroy/Destruction"),
+    component: () => import("@/views/destroy/Destruction"),
   },
   {
     path: "/blue-nav",
@@ -118,6 +107,11 @@ const routes = [
     ],
   },
   {
+    path: "/relieve",
+    name: "relieve",
+    component: () => import("@/views/pneumatic/relieve"),
+  },
+  {
     path: "/check",
     name: "check",
     component: () => import("@/views/pneumatic/check"),
@@ -128,8 +122,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/Arbitration/examination"),
+    component: () => import("@/views/Arbitration/examination"),
   },
   {
     path: "/news",
@@ -137,8 +130,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import("@/views/Arbitration/news"),
+    component: () => import("@/views/Arbitration/news"),
   },
   {
     path: "/meetTheConditions",
@@ -146,10 +138,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        "@/views/Arbitration/meetTheConditions"
-        ),
+    component: () => import("@/views/Arbitration/meetTheConditions"),
   },
   {
     path: "/understandLearningRules",
@@ -157,10 +146,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        "@/views/Arbitration/understandLearningRules"
-        ),
+    component: () => import("@/views/Arbitration/understandLearningRules"),
   },
   {
     path: "/user/approval",
@@ -168,10 +154,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        "@/views/approval"
-        ),
+    component: () => import("@/views/approval"),
   },
   {
     path: "/user/approval/identity",

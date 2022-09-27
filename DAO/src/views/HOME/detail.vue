@@ -21,7 +21,13 @@
         </van-row>
         <div class="record">没有更多记录了</div>
       </div>
-      <div class="zan" v-else>暂无记录噢~</div>
+      <div class="zan" v-else>
+        <van-empty
+          class="custom-image"
+          :image="require('./../../assets/img/empty.png')"
+          description="暂无任何数据"
+        />
+      </div>
     </main>
     <footer></footer>
   </div>
@@ -68,9 +74,9 @@ export default {
   height: 100vh;
 }
 .title {
-background: #f3f4f5;
+  background: #f3f4f5;
   text-align: center;
-  line-height: 3rem;
+  line-height: 48px;
 }
 .box {
   background: #fff;
@@ -78,19 +84,19 @@ background: #f3f4f5;
   color: #666666;
   text-align: center;
   .van-row {
-    line-height: 3rem;
+    line-height: 48px;
     font-size: 14px;
     border-bottom: 1px solid #f3f4f5;
   }
 }
 .record {
-  margin-top: 3rem;
+  margin-top: 48px;
   color: #999999;
 }
 .zan {
   height: 400px;
-  font-size: 18px;
-  padding-top: 3rem;
+  font-size: 30px;
+  padding-top: 48px;
   display: flex;
   justify-content: center;
   align-items: center;

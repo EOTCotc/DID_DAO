@@ -15,12 +15,30 @@
           <div @click="showPopup">筛选</div>
         </template>
       </van-search>
-      <van-cell-group inset v-for="(item, index) in destroyList" :key="index">
+      <van-cell-group
+        v-show="destroyList.length > 0"
+        inset
+        v-for="(item, index) in destroyList"
+        :key="index"
+      >
         <van-cell title="游戏消耗" value="2022年7月27日" />
         <van-cell :title="item.memo" :border="false" />
         <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell :title="item.destructionId" :border="false" />
+        <van-cell
+          :title="item.destructionId"
+          :border="false"
+          id="destId"
+          @click="copy"
+        />
       </van-cell-group>
+
+      <van-empty
+        v-show="!destroyList.length"
+        class="custom-image"
+        :image="require('./../../assets/img/empty.png')"
+        description="暂无任何数据"
+      />
+
       <van-popup
         v-model="show"
         position="right"
@@ -42,9 +60,9 @@
             ><span v-if="start == ''">起始时间</span
             ><span>{{ start }}</span></van-button
           >
-          <p style="width: 10px; border: 0.5px solid #cccccc"></p>
+          <p style="width: 10px; height: 1px; background: #ccc"></p>
           <van-button round type="default"
-            ><span v-if="end == ''">起始时间</span
+            ><span v-if="end == ''">截至时间</span
             ><span>{{ end }}</span></van-button
           >
         </div>
@@ -69,6 +87,8 @@
 <script>
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
+import Clipboard from "clipboard";
+import { Toast } from "vant";
 export default {
   components: { White },
   data() {
@@ -101,6 +121,9 @@ export default {
       destroyList: [],
     };
   },
+  created() {
+    this.inquiry();
+  },
   methods: {
     //筛选、取消按钮
     showPopup() {
@@ -109,6 +132,23 @@ export default {
       } else {
         this.value = "";
       }
+    },
+    //复制
+    copy() {
+      var clipboard = new Clipboard("#destId");
+      clipboard.on("success", () => {
+        Toast("复制成功");
+
+        // 释放内存
+
+        clipboard.destroy();
+      });
+      clipboard.on("error", () => {
+        // 不支持复制
+        Toast("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+      });
     },
 
     //搜索框
@@ -142,13 +182,9 @@ export default {
         this.showDate = true;
       }
     },
-    // onConfirm(date) {
-    //   this.show = false;
-    //   this.text = `选择了 ${date.length} 个日期`;
-    // },
+
     //查询销毁
     inquiry() {
-      console.log(this.start, this.end);
       let walletAddress = localStorage.getItem("myaddress");
       let otype = localStorage.getItem("netType");
       let sign = localStorage.getItem("mysign");
@@ -158,9 +194,9 @@ export default {
         walletAddress: walletAddress,
         otype: otype,
         sign: sign,
-        keyWord: this.value,
-        beginDate: beginDate,
-        endDate: endDate,
+        keyWord: this.value || undefined,
+        beginDate: beginDate || undefined,
+        endDate: endDate || undefined,
         page: this.page,
         itemsPerPage: this.itemsPerPage,
       }).then((res) => {
@@ -179,56 +215,78 @@ export default {
 }
 
 .van-cell-group {
-  margin-top: 1rem;
+  margin-top: 16px;
   .van-cell:first-child {
-    line-height: 1.5rem;
-    margin-bottom: 0.3rem;
+    line-height: 24px;
+    margin-bottom: 4.8px;
   }
   .van-cell {
-    line-height: 0.5rem;
+    line-height: 8px;
   }
   .van-cell:last-child {
     color: #237ff8;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
   }
 }
 .van-popup {
-  height: 20rem;
-  padding: 1rem;
-  margin-top: 2rem;
+  width: 95%;
+  height: 320px;
+  padding: 16px;
+  margin-top: 32px;
+  color: #000;
+  font-size: 20px;
 }
 .tag {
   display: flex;
   justify-content: center;
+  font-size: 20px;
+  margin: 20px 0;
 }
 .tag div {
+  width: 110px;
   display: inline-block;
-  padding: 0.4rem 1.4rem;
-  margin: 1rem 0.5rem 0;
+  text-align: center;
+  padding: 8px 15px;
+  margin: 16px 20px 0;
   border-radius: 16px;
 }
 .noActive {
   border: 1px solid #f3f4f5;
   background: #f3f4f5;
+  color: #999;
 }
 .active {
   border: 1px solid #247ff7;
   color: #247ff7;
+  background: #e8f2ff;
 }
 .van-tag {
-  padding: 0.5rem 1.3rem;
-  margin: 1rem 0.6rem 0;
+  padding: 8px 20.8px;
+  margin: 16px 9.6px 0;
 }
 .btn {
   position: fixed;
-  bottom: 1rem;
+  bottom: 16px;
   .van-button:first-child {
-    width: 6rem;
-    margin-left: 1rem;
-    margin-right: 1.2rem;
+    width: 96px;
+    margin-left: 16px;
+    margin-right: 19.2px;
   }
   .van-button:last-child {
-    width: 8.5rem;
+    width: 136px;
+  }
+}
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  .van-button {
+    height: 35px;
+    padding: 0 33px;
+    border: 1px solid #f3f4f5;
+    background: #f3f4f5;
+    color: #999;
   }
 }
 </style>

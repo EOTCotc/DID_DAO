@@ -62,9 +62,9 @@ export default {
 }
 
 .van-cell-group {
-  margin-top: 1rem;
+  margin-top: 16px;
   color: #999;
-  padding: 0.8rem 0.2rem;
+  padding: 12.8px 3.2px;
   .van-cell {
     font-size: 16px;
   }
@@ -75,18 +75,18 @@ export default {
 .group {
   .van-cell {
     font-size: 16px;
-    line-height: 0.8rem;
+    line-height: 12.8px;
   }
 }
 .tu {
   .van-image {
-    margin: 0 0.4rem;
+    margin: 0 6.4px;
   }
 }
 .van-button {
-  width: 22rem;
+  width: 352px;
   position: absolute;
-  bottom: 1rem;
+  bottom: 16px;
   right: 0;
   left: 0;
   margin: 0 auto;
