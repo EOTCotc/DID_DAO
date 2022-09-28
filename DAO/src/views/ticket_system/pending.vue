@@ -1,9 +1,9 @@
 <template>
-  <div class="home">
+  <div>
     <header>
       <white :title="title"></white>
     </header>
-    <main>
+    <main class="home">
       <van-tabs v-model="activeName" @change="tabs">
         <!-- 待处理 -->
         <van-tab title="待处理" :name="0">
@@ -24,7 +24,16 @@
             v-for="(item, index) in pengList"
             :key="index"
           >
-            <van-cell title="BUG反馈" :value="item.createDate" />
+            <van-cell
+              v-if="item.type == 0"
+              title="BUG反馈"
+              :value="item.createDate"
+            />
+            <van-cell
+              v-if="item.type == 1"
+              title="功能建议"
+              :value="item.createDate"
+            />
             <van-cell :title="'提交人:' + item.submitter" :border="false" />
             <van-cell :title="item.describe" :border="false" />
             <van-button
@@ -32,7 +41,7 @@
               round
               size="small"
               type="info"
-              @click="chuli()"
+              @click="chuli(item.workOrderId)"
               >去处理</van-button
             >
           </van-cell-group>
@@ -52,14 +61,32 @@
             class="chu"
             :key="index"
           >
-            <van-cell title="BUG反馈" :value="item.createDate" />
+            <van-cell
+              v-if="item.type == 0"
+              title="BUG反馈"
+              :value="item.createDate"
+            />
+            <van-cell
+              v-if="item.type == 1"
+              title="功能建议"
+              :value="item.createDate"
+            />
             <van-cell :title="'提交人:' + item.submitter" :border="false" />
             <van-cell :title="item.describe" :border="false" />
             <div class="btn">
-              <van-button round size="small" color="#FDE9E9" class="red"
+              <van-button
+                round
+                size="small"
+                color="#FDE9E9"
+                class="red"
+                @click="cancel(item.workOrderId)"
                 >取消处理</van-button
               >
-              <van-button round size="small" color="#E8F2FF"
+              <van-button
+                round
+                size="small"
+                color="#E8F2FF"
+                @click="chuli(item.workOrderId)"
                 >更进处理中</van-button
               >
             </div>
@@ -80,10 +107,23 @@
             v-for="(item, index) in pengList"
             :key="index"
           >
-            <van-cell title="BUG反馈" :value="item.createDate" />
+            <van-cell
+              v-if="item.type == 0"
+              title="BUG反馈"
+              :value="item.createDate"
+            />
+            <van-cell
+              v-if="item.type == 1"
+              title="功能建议"
+              :value="item.createDate"
+            />
             <van-cell :title="'提交人:' + item.submitter" :border="false" />
             <van-cell :title="item.describe" :border="false" />
-            <van-cell class="yi" title="已完成处理" />
+            <van-cell
+              class="yi"
+              title="已完成处理"
+              @click="chuli(item.workOrderId)"
+            />
           </van-cell-group>
           <van-empty
             v-show="!pengList.length"
@@ -100,7 +140,8 @@
 
 <script>
 import white from "../../components/Nav/white.vue";
-import { getworkorderlist } from "@/api/workOrder";
+import { getworkorderlist, updateWork } from "@/api/workOrder";
+import { Dialog } from "vant";
 export default {
   components: { white },
   data() {
@@ -114,7 +155,7 @@ export default {
       type: [
         {
           title: "全部",
-          index: 2,
+          index: undefined,
         },
         {
           title: "BUG反馈",
@@ -131,22 +172,16 @@ export default {
     this.tabs();
   },
   methods: {
-    chuli() {
-      this.$router.push("/order_details");
+    chuli(id) {
+      this.$router.push({ path: "/order_details", query: { workOrderId: id } });
     },
     changeType(index) {
+      console.log(index);
       this.active = index;
       this.tabs();
     },
     tabs() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
-
       getworkorderlist({
-        walletAddress: walletAddress,
-        otype: otype,
-        sign: sign,
         workOrderStatus: this.activeName,
         workOrderType: this.active,
         page: this.page,
@@ -158,6 +193,23 @@ export default {
         console.log(res.data.items);
         this.pengList = res.data.items;
       });
+    },
+    cancel(id) {
+      Dialog.confirm({
+        title: "取消提示",
+        message: "确定取消处理该工单？",
+      })
+        .then(() => {
+          updateWork({
+            workOrderId: id,
+            workOrderStatus: 0,
+            record: this.message,
+          }).then((res) => {
+            console.log(res);
+            this.tabs();
+          });
+        })
+        .catch(() => {});
     },
   },
 };

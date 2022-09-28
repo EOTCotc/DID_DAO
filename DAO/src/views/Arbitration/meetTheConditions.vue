@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="box">
     <header>
       <white :title="title"></white>
     </header>
@@ -7,12 +7,18 @@
       <van-image width="100vw"
                  height="140px"
                  :src="require('./IMG/bg.png')" />
-      <div class="text">
+      <div class="text"
+           v-if="displayApplicationConditions">
         <p>成为仲裁员</p>
         <p>维护安全稳定信任的交易环境</p>
       </div>
+      <div class="text2"
+           v-else>
+        <p>维护安全稳定信任的交易环境</p>
+      </div>
     </div>
-    <div class="applicationConditions">
+    <div class="applicationConditions"
+         v-if="displayApplicationConditions">
       <h4>申请条件</h4>
       <div class="conditionsList">
         <div class="list list1">
@@ -21,8 +27,14 @@
             <p>DID身份认证</p>
           </div>
           <div class="right"
-               @click="auditing('arbitrationCase') ">去认证
+               @click="auditing('ArbitrationByFormula') "
+               v-if="qualificationPassed==false">去认证
             <van-icon name="arrow" />
+          </div>
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F " />
           </div>
         </div>
         <div class="list">
@@ -30,8 +42,14 @@
             <van-icon name="cart-circle-o" />
             <p>质押5000 EOTC以上</p>
           </div>
-          <div class="right">去质押
+          <div class="right"
+               v-if="qualificationPassed==false">去质押
             <van-icon name="arrow" />
+          </div>
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F " />
           </div>
         </div>
         <div class="list">
@@ -40,8 +58,14 @@
             <p>了解学习仲裁规则</p>
           </div>
           <div class="right"
-               @click="auditing('understandLearningRules')">去学习
+               @click="auditing('understandLearningRules')"
+               v-if="qualificationPassed==false">去学习
             <van-icon name="arrow" />
+          </div>
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F " />
           </div>
         </div>
         <div class="list listn">
@@ -50,14 +74,59 @@
             <div class="examinationColumn"><span>通过考试</span><span style="color:#999999;font-size:12px ">考试成绩达到90分以上</span></div>
           </div>
           <div class="right"
-               @click="ExamTips">去考试
+               @click="ExamTips"
+               v-if="qualificationPassed==false">去考试
             <van-icon name="arrow" />
+
+          </div>
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F " />
           </div>
         </div>
       </div>
     </div>
+    <div v-if="displayApplicationConditions==false"
+         class="identityCard">
+      <div class="top">
+        <div>
+          <div class="first">
+            <van-image width="20"
+                       height="20"
+                       :src="require('./IMG/组 490@2x.png')" />
+            <span>仲裁员</span>
+          </div>
+          <div>李木子</div>
+        </div>
+        <div>
+          <div>身份编号</div>
+          <div>012022052601</div>
+        </div>
+        <div>
+          <div>申请时间</div>
+          <div>2022.05.26</div>
+        </div>
+        <div>
+          <div>仲裁次数</div>
+          <div>2</div>
+        </div>
+      </div>
+      <div class="bottom">
+        <div>
+          <div>仲裁案(个)</div>
+          <div>40<span>/45</span></div>
+        </div>
+        <div class="line"></div>
+        <div>
+          <div>收益(EOTC)</div>
+          <div>3000</div>
+        </div>
+      </div>
+    </div>
     <van-overlay :show="show"
-                 @click="toggle2">
+                 @click="toggle2"
+                 closeOnClickOverlay="true">
       <div class="wrapper"
            @click.stop>
         <div class="block">
@@ -100,7 +169,17 @@
                   block
                   type="info"
                   color="#1B2945"
-                  @click="applyNow">立即申请</van-button>
+                  :disabled="!qualificationPassed"
+                  @click="applyNow"
+                  v-if="displayApplicationConditions">立即申请</van-button>
+      <van-button round
+                  block
+                  type="info"
+                  color="#fff"
+                  :disabled="!qualificationPassed"
+                  @click="dismissal"
+                  v-if="displayApplicationConditions==false"
+                  class="vanbtn">解除身份</van-button>
     </footer>
   </div>
 </template>
@@ -110,7 +189,7 @@ import notification from '@/components/notification.vue'
 import icon1 from './IMG/icon.png'
 import icon2 from './IMG/icon2.png'
 import icon3 from './IMG/icon3.png'
-
+import { Dialog } from 'vant'
 export default {
   components: { white, notification },
   data() {
@@ -120,7 +199,9 @@ export default {
       showFraction: false,
       applynow: false,
       headerIcon: '',
-      title1: 91.5,
+      displayApplicationConditions: true,
+      title1: null,
+      qualificationPassed: false,
       message: '恭喜通过仲裁考试',
       buttonColor: '#237FF8',
       buttonText: '知道了',
@@ -128,18 +209,20 @@ export default {
     }
   },
   mounted() {
-    this.showFraction = this.$route.query.showFraction
+    this.title1 = this.$route.query.totalScore
     if (this.title1 > 90) {
       this.headerIcon = icon1
-      this.messag = '恭喜通过仲裁考试'
+      this.message = '恭喜通过仲裁考试'
     } else {
       this.headerIcon = icon2
-      this.messag = '很遗憾未通过仲裁考试'
+      this.message = '很遗憾未通过仲裁考试'
     }
-    this.message.length &&
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(true)
-      })
+    if (this.title1 != null) {
+      this.message.length &&
+        this.$nextTick().then(() => {
+          this.$refs.notification.toggle(true)
+        })
+    }
   },
 
   methods: {
@@ -163,10 +246,111 @@ export default {
       this.buttonText = '好的'
       this.closeOnClick = true
     },
+    dismissal() {
+      Dialog.confirm({
+        title: '温馨提示',
+        message:
+          '解除身份后平台将不会再委派处理仲裁案，再申请仲裁员身份需要重新学习和考试',
+        confirmButtonText: '知道了',
+        confirmButtonColor: '#1B2945',
+        cancelButtonText: '我再想想',
+        cancelButtonColor: '#666666 ',
+        className: 'dismissalDialog',
+      })
+        .then(() => {
+          // on confirm
+          Dialog.confirm({
+            title: '解除提示',
+            message: '确定解除仲裁员身份？',
+            confirmButtonColor: '#1B2945',
+            cancelButtonColor: '#666666 ',
+            className: 'dismissalDialog',
+          })
+            .then(() => {
+              this.displayApplicationConditions = true
+              // on confirm
+            })
+            .catch(() => {
+              // on cancel
+            })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
+.box {
+  background-color: #f3f4f5;
+  height: 100vh;
+}
+.dismissalDialog {
+  .van-dialog__header {
+    color: #333333;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  .van-dialog__message--has-title {
+    color: #f37a4c !important;
+  }
+}
+.identityCard {
+  padding: 0 35px;
+  position: relative;
+  top: -165px;
+  left: 0;
+  .top {
+    background: linear-gradient(#fff1e9, #f3c9b0);
+    border-radius: 20px;
+    height: 312px;
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 28px;
+      padding: 6px 15px;
+      color: #333333;
+      .first {
+        font-weight: bold;
+        font-size: 35px;
+        color: #c26e42;
+        padding: 20px 0;
+      }
+    }
+  }
+  .bottom {
+    background-color: #fff;
+    margin-top: 30px;
+    border-radius: 20px;
+    height: 128px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    div {
+      &:nth-child(1) {
+        font-size: 30px;
+      }
+      &:nth-child(2) {
+        font-size: 36px;
+        font-weight: bold;
+        span {
+          font-size: 24px;
+          display: inline-block;
+        }
+      }
+      div {
+        padding: 8px 0;
+      }
+    }
+    .line {
+      width: 1px;
+      height: 50px;
+      background: #f3f4f5;
+    }
+  }
+}
 .wrapper {
   display: flex;
   align-items: center;
@@ -253,12 +437,24 @@ export default {
       font-size: 27px;
     }
   }
+  .text2 {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 30px;
+    width: 100%;
+  }
 }
 .applicationConditions {
   color: #333333;
   padding: 0 30px;
   h4 {
     font-size: 28px;
+    margin-bottom: 0px;
+    padding: 0 20px;
   }
   .conditionsList {
     background-color: #f3f4f5;
@@ -305,5 +501,9 @@ footer {
   padding: 0 16px;
   position: fixed;
   bottom: 32px;
+  .vanbtn {
+    color: #999999 !important;
+    font-weight: bold;
+  }
 }
 </style>

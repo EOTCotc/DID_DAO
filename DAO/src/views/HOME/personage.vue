@@ -1,7 +1,7 @@
 <template>
   <div class="personage">
     <header>
-      <Right></Right>
+      <TopBar />
     </header>
     <main>
       <van-cell-group inset :border="false">
@@ -20,26 +20,18 @@
 </template>
 
 <script>
-import Right from "../../components/Nav/right.vue";
+import TopBar from "@/components/topBar/topBar";
 import List from "../../components/Nav/List.vue";
 import { gettotalincome } from "@/api/earnings";
 export default {
-  components: { Right, List },
+  components: { TopBar, List },
   data() {
     return {
       total: 0,
     };
   },
   created() {
-    let walletAddress = localStorage.getItem("myaddress");
-    let otype = localStorage.getItem("netType");
-    let sign = localStorage.getItem("mysign");
-
-    gettotalincome({
-      walletAddress: walletAddress,
-      otype: otype,
-      sign: sign,
-    }).then((res) => {
+    gettotalincome().then((res) => {
       console.log(res);
       this.total = res.data.items;
     });
@@ -54,9 +46,10 @@ export default {
 
 <style lang="scss" scoped>
 .personage {
+  padding-top: 88px;
   width: 100wh;
   background: #070a0e;
-  height: 100vh;
+  min-height: 100vh;
   color: #000;
 }
 .van-cell-group {
