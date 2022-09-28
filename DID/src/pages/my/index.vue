@@ -44,7 +44,7 @@
           v-if="userInfo.authType == 2"
           is-link
           :border="false"
-          :to="userInfo.refUid?'/my/identity/approval':''"
+          :to="userInfo.refUid ? '/my/identity/approval' : ''"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -76,7 +76,7 @@
           </template>
         </van-cell>
         <!-- 身份信息 -->
-        <van-cell is-link :border="false" :to="identifyRouter">
+        <van-cell is-link :border="false" v-if="!!userInfo.authType" :to="identifyRouter">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenfen.png" />

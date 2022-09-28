@@ -42,6 +42,8 @@
 
 <script>
 import pageHeader from "@/components/topBar/pageHeader";
+import {personnelList} from '@/api/arbitration/publicity'
+
 export default {
   name: "arbitrationPersonnel",
   components: {
@@ -69,11 +71,22 @@ export default {
     }
   },
   methods: {
-    getList() {},
+    // 获取列表
+    getList() {
+      personnelList().then(res => {
+        if (res.data.code) {
+        } else {
+          console.log(res)
+        }
+      })
+    },
     // 下拉刷新
     refresh() {},
     // 翻页
     onLoad() {}
+  },
+  created() {
+    this.getList()
   }
 }
 </script>
