@@ -13,7 +13,6 @@ router.beforeEach((to, from, next) => {
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     if (to.path === '/loginBlank') {
-
       next({ path: '/' })
       NProgress.done()
 

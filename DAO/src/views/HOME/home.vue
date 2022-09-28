@@ -1,79 +1,85 @@
 <template>
   <div>
-    <van-row class="home">
-      <van-col span="3" class="header">
-        <van-row>
-          <van-col @click="chufa" span="2"
-            ><van-icon :name="shouw ? 'cross' : 'bars'" color="white" />
-          </van-col>
-          <van-col class="vancol2" span="20"
-            ><img src="./assets/image/eotc.png" alt=""
-          /></van-col>
-          <van-col span="2"
-            ><van-icon @click="personage" name="manager-o" color="white"
-          /></van-col>
-        </van-row>
-      </van-col>
-
-      <van-col span="11" class="main1">
-        <main>
-          <van-row class="rowa">
-            <van-col span="12" class="imgs2">
-              <van-image
-                class="vanimg"
-                width="100"
-                height="100"
-                src="https://img01.yzcdn.cn/vant/cat.jpeg"
-              />
-            </van-col>
-            <van-col style="width: 100%" span="4">
-              <h2 class="h2">{{ daojn }}</h2>
-            </van-col>
-            <van-col class="vancol5" span="4" style="width: 100%">
-              <p class="pp1">{{ dao1 }}</p>
-            </van-col>
-            <van-col span="4" class="vanhh">
-              <van-button type="info" round size="normal">创建提案</van-button>
-            </van-col>
-          </van-row>
-          <Tanchu-vue :show="shouw"></Tanchu-vue>
-        </main>
-      </van-col>
-      <van-col span="8" class="main2">
-        <div class="newtian">
-          <van-row>
-            <van-col span="19"><span>最新提案</span></van-col>
-            <van-col @click="newgengduo" span="5"
-              ><span @click="me">查看更多 ></span></van-col
-            >
-          </van-row>
+    <TopBar />
+    <div class="content">
+      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
+      <div class="home-title">
+        <p>围绕EOTC所有去中去化业务建立的团队</p>
+        <p>允许任何成员做出决定，参加治理</p>
+      </div>
+      <button class="home-btn" @click="$router.push('/Create')">
+        创建提案
+      </button>
+      <!-- 最新提案 -->
+      <div class="proposal-list">
+        <div class="proposal-title">
+          <span>最新提案</span>
+          <span @click="$router.push('/Bill_list')">
+            查看更多
+            <van-icon name="arrow" color="#fff" />
+          </span>
         </div>
-        <ChuangKou></ChuangKou>
-        <div class="dibu2">
-          <p class="pp1">{{ dibu2 }}</p>
+        <div class="list-box">
+          <div
+            class="list-every"
+            v-for="(item, index) in proposalList"
+            :key="index"
+            @click="$router.push({ path: '/detail', query: item.proposalId })"
+          >
+            <div class="every-title">{{ item.title }}</div>
+            <div class="every-type">
+              <span>{{ item.total }}票</span>
+              <div class="every-status">
+                <span
+                  :style="
+                    item.state == 0
+                      ? 'background:#237FF8;'
+                      : item.state == 1
+                      ? ''
+                      : item.state == 2
+                      ? 'background:#00B87A;'
+                      : ''
+                  "
+                ></span>
+                <span>{{
+                  item.state == 0
+                    ? "进行中"
+                    : item.state == 1
+                    ? "未通过"
+                    : item.state == 2
+                    ? "已通过"
+                    : "已终止"
+                }}</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </van-col>
-      <van-col span="2" class="foot">
-        <van-row style="width: 100%; height: 100%">
-          <van-col span="15" class="span22">
-            <!-- <van-icon name="chat-o" color="#ee0a24" /> -->
-            <span>&copy;</span>
-            <span style="font-size: 0.14em; margin-left: 0.2rem"
-              >2022年EOTC版权所有。</span
-            >
-          </van-col>
-          <van-col span="9" class="dropdown">
-            <van-dropdown-menu direction="up">
-              <van-dropdown-item v-model="value1" :options="option1" />
-            </van-dropdown-menu>
-          </van-col>
-        </van-row>
-      </van-col>
-    </van-row>
-    <div v-show="tanShow == true" class="tan" @click="relieve">
-      <img src="../../assets/img/jin.png" width="30px;" height="30px" /><span
-        >解除风控</span
+      </div>
+      <!-- 条件 -->
+      <div class="condition">提交提案最低门槛为持有10000EOTC</div>
+      <!-- 底部 -->
+      <div class="tail">
+        <div>
+          <img src="@/assets/imgs/c.png" />
+          <span> 2022年EOTC版权所有。</span>
+        </div>
+        <div @click="handleTabLang">
+          <span class="tab-lang">简体中文</span>
+          <van-icon :name="iconLang" />
+        </div>
+      </div>
+      <!-- 选择语言 -->
+      <van-popup
+        v-model="showPopup"
+        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+        position="right"
       >
+        <div class="menu">
+          <div class="menu-every" v-for="item in lang" :key="item.id">
+            <span>{{ item.text }}</span>
+          </div>
+        </div>
+      </van-popup>
     </div>
     <!-- v-show="items == 1 || items == 2" -->
     <Notification
@@ -89,94 +95,197 @@
 </template>
 
 <script>
-import TanchuVue from "./components/tanchu.vue";
-import ChuangKou from "./components/chuangkou.vue";
+import TopBar from "@/components/topBar/topBar";
 import Notification from "@/components/notification";
 import { getuserrisklevel } from "@/api/pneumatic";
+import { getproposallist } from "@/api/viewsApi/home";
 export default {
-  components: { TanchuVue, ChuangKou, Notification },
+  components: { TopBar, Notification },
   name: "home",
   data() {
     return {
-      shouw: false,
-      daojn: "EOTC DAO",
-      dao1: "围绕EOTC所有去中去化业务建立的团队 允许任何成员做出决定，参加治理",
-      dibu2: "提交提案最低门槛为持有10000EOTC",
-      value1: 0,
-      option1: [
-        { text: "中文", value: 0 },
-        { text: "英文", value: 1 },
-        { text: "日语", value: 2 },
+      iconLang: "arrow-down",
+      showPopup: false,
+      lang: [
+        { id: 0, text: "简体中文", lang: "zh" },
+        { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
       items: 0,
     };
   },
-  // mounted(){
-  //   console.log(1111111)
-  //   this.shouw=false
-  // },
   created() {
     getuserrisklevel().then((res) => {
-      // console.log(res);
       this.items = res.data.items;
     });
+      proposalList: [], //提案列表
+    };
+  },
+  mounted() {
+    this.getProposal();
   },
   methods: {
-    chufa() {
-      this.shouw = !this.shouw;
-    },
-    newgengduo() {
-      console.log("查看更多");
-    },
-    personage() {
-      this.$router.push("/personage");
-    },
-    me() {
-      this.$router.push("/Bill_list");
-    },
-    relieve() {
-      this.$router.push({ path: "/relieve" });
-    },
     buttonClick() {
-      // console.log(111);
       this.tanShow = true;
+    },
+    // 获取最新的十个提案
+    getProposal() {
+      getproposallist({ page: 1, itemsPerPage: 10 }).then((res) => {
+        if (res.data.code == 0) {
+          this.proposalList = res.data.items;
+        }
+      });
+    },
+    // 选择语言
+    handleTabLang() {
+      if (this.showPopup) {
+        this.iconLang = "arrow-down";
+      } else {
+        this.iconLang = "arrow-up";
+      }
+      this.showPopup = !this.showPopup;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.home {
-  background: #070a0e;
-  height: 100vh;
+.content {
+  padding: 88px 30px 208px 30px;
   width: 100vw;
-  display: flex;
-  flex-direction: column;
-}
-.header {
-  width: 100%;
-  padding: 16px 16px 0 16px;
-}
-.vancol2 {
+  min-height: 100vh;
   text-align: center;
+  background: #070a0e;
+  overflow: hidden;
+  .home-logo {
+    margin-top: 60px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 381px;
+    height: 403px;
+  }
+  .home-title {
+    margin-top: 77px;
+    padding: 0 61px;
+    line-height: 64px;
+    font-size: 28px;
+    color: #fff;
+  }
+  .home-btn {
+    width: 280px;
+    height: 88px;
+    font-size: 32px;
+    color: #fff;
+    background: #237ff8;
+    border-radius: 44px;
+  }
 }
-.tan {
+// 最新提案
+.proposal-list {
+  margin-top: 100px;
+  color: #fff;
+  .proposal-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span:first-of-type {
+      font-size: 36px;
+      line-height: 56px;
+    }
+    span:last-of-type {
+      font-size: 32px;
+      color: #9296a2;
+    }
+  }
+  .list-box {
+    margin-top: 37px;
+    text-align: left;
+    .list-every + .list-every {
+      margin-top: 20px;
+    }
+    .list-every {
+      padding: 30px 40px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      .every-title {
+        line-height: 56px;
+        font-size: 32px;
+      }
+      .every-type {
+        margin-top: 37px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 28px;
+        color: #9296a2;
+      }
+      .every-status {
+        span:first-of-type {
+          margin-right: 12px;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #fc7542;
+        }
+      }
+    }
+  }
+}
+// 条件
+.condition {
+  margin-top: 44px;
+  font-size: 28px;
+  color: #f9fbff;
+}
+.tail {
   position: fixed;
-  right: 20px;
-  bottom: 20%;
-  background: #fff;
+  bottom: 0;
+  left: 0;
+  padding: 0 40px;
+  width: 100%;
+  height: 96px;
+  font-size: 24px;
+  background: #111a2d;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 15px;
-  height: 90px;
-  padding: 0 20px;
-  color: #f34747;
-  border-radius: 50px 0 0 50px;
+  z-index: 9999;
+  div:first-of-type {
+    display: flex;
+    align-items: center;
+    color: #dcdcdc;
+    img {
+      margin-right: 10px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+  div:last-of-type {
+    color: #fff;
+    span {
+      margin-right: 10px;
+    }
+  }
 }
-.dialog_wrap {
-  height: 500px;
-  border: 1px solid red;
+// 语言
+.menu {
+  margin-top: 88px;
+  margin-bottom: 200px;
+  .menu-every {
+    margin: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    font-size: 32px;
+    color: #b4b7c2;
+    border-bottom: 1px solid #2b374f;
+    img {
+      margin-left: 50px;
+      width: 40px;
+      height: 40px;
+    }
+  }
 }
 </style>

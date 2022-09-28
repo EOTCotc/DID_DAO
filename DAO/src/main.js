@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import "../src/views/HOME/assets/styles/home.scss";
 import "./assets/styles/index.scss";
 
+
 Vue.prototype.$md5 = md5;
 Vue.prototype.$qs = qs;
 Vue.prototype.$http = axios;
