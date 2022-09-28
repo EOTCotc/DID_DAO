@@ -14,7 +14,7 @@
           round
           size="small"
           color="#237FF8"
-          @click="check(item.userRiskId)"
+          @click="check(item.userRiskId, item.authStatus)"
           >核对身份信息</van-button
         >
         <van-button round size="small" color="#F3F4F5" class="jie" disabled
@@ -28,10 +28,21 @@
             style="margin-right: 5px"
           />已核对身份</van-button
         >
-        <van-button round size="small" color="#237FF8">解除风控</van-button>
+        <van-button
+          round
+          size="small"
+          color="#237FF8"
+          @click="relieve(item.userRiskId)"
+          >解除风控</van-button
+        >
       </div>
       <div class="btn" v-show="item.authStatus == 2">
-        <van-button round size="small" color="#F34747" plain
+        <van-button
+          round
+          size="small"
+          color="#F34747"
+          plain
+          @click="check(item.userRiskId, item.authStatus)"
           >核对身份异常</van-button
         >
         <van-button round size="small" color="#F3F4F5" class="jie" disabled
@@ -49,7 +60,8 @@
 </template>
 
 <script>
-import { getUserrisk } from "@/api/pneumatic";
+import { getUserrisk, removerisk } from "@/api/pneumatic";
+import { Toast } from "vant";
 export default {
   data() {
     return {
@@ -57,22 +69,35 @@ export default {
     };
   },
   created() {
-    let walletAddress = localStorage.getItem("myaddress");
-    let otype = localStorage.getItem("netType");
-    let sign = localStorage.getItem("mysign");
-    console.log(walletAddress);
-    getUserrisk({
-      walletAddress: walletAddress,
-      otype: otype,
-      sign: sign,
-    }).then((res) => {
-      console.log(res);
-      this.maticList = res.data.items;
-    });
+    this.getUser();
   },
   methods: {
-    check(id) {
-      this.$router.push({ path: "/check", query: { userRiskId: id } });
+    getUser() {
+      getUserrisk().then((res) => {
+        console.log(res);
+        res.data.items.map((item) => {
+          item.createDate = this.$dayjs(item.createDate).format("YYYY-MM-DD");
+        });
+        this.maticList = res.data.items;
+      });
+    },
+
+    check(id, status) {
+      this.$router.push({
+        path: "/check",
+        query: { userRiskId: id, authStatus: status },
+      });
+    },
+    relieve(id) {
+      removerisk({
+        userRiskId: id,
+      }).then((res) => {
+        console.log(res);
+        if (res.status == 200) {
+          Toast("解除风控");
+          this.getUser();
+        }
+      });
     },
   },
 };

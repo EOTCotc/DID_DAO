@@ -28,7 +28,7 @@
           :title="item.destructionId"
           :border="false"
           id="destId"
-          @click="copy"
+          @click="copy()"
         />
       </van-cell-group>
 
@@ -68,7 +68,7 @@
         </div>
 
         <div class="btn">
-          <van-button round type="default">重置</van-button>
+          <van-button round type="default" @click="chongzhi()">重置</van-button>
           <van-button round type="info" @click="que">确定</van-button>
         </div>
       </van-popup>
@@ -87,7 +87,7 @@
 <script>
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
-import Clipboard from "clipboard";
+
 import { Toast } from "vant";
 export default {
   components: { White },
@@ -133,22 +133,30 @@ export default {
         this.value = "";
       }
     },
+    chongzhi() {
+      this.end = "";
+      this.start = "";
+      this.active = 0;
+    },
     //复制
     copy() {
-      var clipboard = new Clipboard("#destId");
-      clipboard.on("success", () => {
-        Toast("复制成功");
+      var value = document.getElementById("destId");
 
-        // 释放内存
+      var cInput = document.createElement("input");
+      console.log(value.innerText);
+      cInput.value = value.innerText;
+      document.body.appendChild(cInput);
+      cInput.select(); // 选取文本框内容
 
-        clipboard.destroy();
-      });
-      clipboard.on("error", () => {
-        // 不支持复制
-        Toast("该浏览器不支持自动复制");
-        // 释放内存
-        clipboard.destroy();
-      });
+      // 执行浏览器复制命令
+      // 复制命令会将当前选中的内容复制到剪切板中（这里就是创建的input标签）
+      // Input要在正常的编辑状态下原生复制方法才会生效
+
+      document.execCommand("copy");
+
+      Toast("复制成功");
+      // // 复制成功后再将构造的标签 移除
+      document.body.removeChild(cInput);
     },
 
     //搜索框
@@ -185,15 +193,9 @@ export default {
 
     //查询销毁
     inquiry() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
       let beginDate = this.start;
       let endDate = this.end;
       getdestruction({
-        walletAddress: walletAddress,
-        otype: otype,
-        sign: sign,
         keyWord: this.value || undefined,
         beginDate: beginDate || undefined,
         endDate: endDate || undefined,

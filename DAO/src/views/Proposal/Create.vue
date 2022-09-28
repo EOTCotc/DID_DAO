@@ -44,13 +44,7 @@ export default {
       history.go(-1);
     },
     submit() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
       putproposal({
-        walletAddress: walletAddress,
-        otype: otype,
-        sign: sign,
         title: this.value,
         summary: this.message,
       }).then((res) => {

@@ -156,7 +156,7 @@ export default {
 
 <style lang="scss" scoped>
 .feedbackTitle {
-  font-size: 18px;
+  font-size: 30px;
   color: #333333;
   font-weight: 700;
   margin: 10px 0;
@@ -194,7 +194,7 @@ export default {
 
 .custom-msg {
   color: #999999;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .van-uploader {
@@ -209,8 +209,10 @@ export default {
 }
 
 .bottom {
+  position: fixed;
+  bottom: 20px;
   margin: 32px;
-  width: auto;
+  width: 90%;
 }
 
 .bottomBtn {
