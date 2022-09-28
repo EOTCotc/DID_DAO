@@ -156,6 +156,7 @@ export default {
     // 推出登录
     logout() {
       this.cookie.remove("token");
+      localStorage.clear()
       this.$toast.success("退出登录成功");
       setTimeout(() => {
         this.$router.push("/login");

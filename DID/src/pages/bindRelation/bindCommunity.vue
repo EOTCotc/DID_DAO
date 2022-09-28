@@ -72,6 +72,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.cookie.get('country'));
     this.getCommList();
   },
   components: {
@@ -95,7 +96,7 @@ export default {
       } else {
         //从上个页面过来
         let data = this.$router.params;
-        console.log(data);
+        console.log(JSON.parse(this.cookie.get('country')));
         let area = JSON.parse(data.area);
         let country = data.country;
         // 赋值展示的数据

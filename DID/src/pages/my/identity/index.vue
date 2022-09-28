@@ -120,7 +120,7 @@
             :loading-text="step.active < 3 ? '图片上传中…' : '审核信息提交中…'"
             @click="next"
         >
-          下一步
+          {{ step.active < 3 ? '下一步' : '提交' }}
         </van-button>
       </div>
     </van-form>
