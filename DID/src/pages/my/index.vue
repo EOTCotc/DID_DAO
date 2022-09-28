@@ -202,15 +202,6 @@ export default {
     this.handleRefresh();
   },
   computed: {
-    identifyStatus() {
-      if (this.userInfo.authType === 1) {
-        return "审核中";
-      } else if (this.userInfo.authType === 2) {
-        return "审核成功";
-      } else if (this.userInfo.authType === 3) {
-        return "审核失败";
-      }
-    },
     // 身份信息跳转
     identifyRouter() {
       if (this.userInfo.authType === 0) {
@@ -235,6 +226,7 @@ export default {
       getuserinfo()
         .then((res) => {
           this.userInfo = res.data.items;
+          this.cookie.set('userInfo', JSON.stringify(this.userInfo))
           if (
             this.userInfo &&
             this.userInfo.comAuditType === 2 &&

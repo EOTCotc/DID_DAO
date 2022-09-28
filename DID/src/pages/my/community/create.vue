@@ -135,7 +135,7 @@
       // 选择国家省市区
       selectAddress() {
         this.cookie.set("communityForm", JSON.stringify(this.form.data))
-        this.$router.push({path: '/locality', query: {form: this.$route.path}})
+        this.$router.push({path: '/site', query: {form: this.$route.name}})
       },
       handleSubmit() {
         this.$dialog.confirm({
@@ -169,6 +169,7 @@
       if(!!formStr) {
         Object.assign(this.form.data, JSON.parse(formStr))
       }
+      console.log(this.$route.params)
       if (!!this.$route.params.code) {
         let country = null
         if (!!this.cookie.get('country')) {
@@ -190,7 +191,7 @@
       this.getOldFormData()
     },
     beforeRouteEnter(to, from, next) {
-      if (from.path !== '/locality') {
+      if (from.path !== '/site') {
         jsCookie.remove('communityForm')
       }
       next()

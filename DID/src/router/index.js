@@ -14,6 +14,7 @@ const router = new VueRouter({
     { path: '/bindRelation/bindCommunity', name: 'bindCommunity', component: () => import('@/pages/bindRelation/bindCommunity') },// 推荐人绑定
     { path: '/myReferrer', name: 'myReferrer', component: () => import('@/pages/setup/myReferrer') },//邀请码
     { path: '/locality', name: 'locality', component: () => import('@/pages/locality') },//所在地
+    { path: '/site', name: 'site', component: () => import('@/pages/site') },//定位
     { path: '/nation', name: 'nation', component: () => import('@/pages/locality/nation') },//国家
     { path: '/setup/setPassword', name: 'setPassword', component: () => import('@/pages/setup/setPassword') },//修改密码
     { path: '/setup/setEmail', name: 'setEmail', component: () => import('@/pages/setup/setEmail') },//修改邮箱
