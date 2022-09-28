@@ -69,6 +69,7 @@ export default {
 .heade {
   position: fixed;
   top: 0;
+  left: 0;
   padding: 0 20px;
   display: flex;
   justify-content: space-between;

@@ -172,9 +172,6 @@ const routes = [
   {
     path: "/user/arbitration/case/detail",
     name: "arbitrationCaseDetail",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/publicity/case/detail"),
   },
   {
@@ -202,17 +199,23 @@ const routes = [
     name: "arbitrationCasePlaintiff",
     component: () => import("@/views/Arbitration/case/plaintiff"),
   },
-  //仲裁相关消息（延期申请）
+  // 仲裁相关消息（消息列表）
   {
+    path: '/arbitrationList',
+    name: 'arbitrationList',
+    component: () => import('@/views/Arbitration/arbitrationMsg')
+  },
+   //仲裁相关消息（延期申请）
+   {
     path: '/arbitrationMsg',
     name: 'arbitrationMsg',
-    component: () => import('@/views/Arbitration/arbitrationMsg')
-  }
+    component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
+  },
 ];
 
 // 解决重复点击同一各路由会报错
 const VueRouterPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (to) {
+VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
 
