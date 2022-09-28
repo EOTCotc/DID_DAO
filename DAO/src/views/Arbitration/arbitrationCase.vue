@@ -132,8 +132,8 @@ export default {
 }
 .body {
   background-color: #f3f4f5;
-  height: 86.8vh;
-  padding: 30px;
+  height: 90vh;
+  padding: 25px 18px;
   .content {
     border-radius: 25px;
     padding: 25px;
@@ -144,7 +144,6 @@ export default {
       justify-content: space-between;
       border-bottom: 1px solid #cccccc;
       padding: 5px 0 25px 0;
-
       .left {
         display: flex;
         justify-content: space-between;

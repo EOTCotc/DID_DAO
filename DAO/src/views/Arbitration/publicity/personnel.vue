@@ -1,37 +1,32 @@
 <template>
-  <van-pull-refresh v-model="list.uploading" @refresh="refresh">
+  <van-pull-refresh v-model="list.uploading"
+                    @refresh="refresh">
     <div class="personnel_wrap fullscreen bg-gray">
       <page-header title="仲裁员公示"></page-header>
       <div class="content">
-        <van-list
-          v-model="list.btloading"
-          :finished="list.finished"
-          finished-text="没有更多了"
-          @load="onLoad"
-        >
+        <van-list v-model="list.btloading"
+                  :finished="list.finished"
+                  finished-text="没有更多了"
+                  @load="onLoad">
           <ul class="list">
-            <li class="item" v-for="item in list.data" :key="item.id">
-              <van-cell
-                title-class="title name"
-                value-class="value"
-                :border="false"
-                :title="item.name"
-                :value="item.id"
-              />
-              <van-cell
-                title-class="title"
-                value-class="value"
-                title="申请时间"
-                :border="false"
-                :value="item.date"
-              />
-              <van-cell
-                title-class="title"
-                value-class="value"
-                title="仲裁次数"
-                :border="false"
-                :value="item.count"
-              />
+            <li class="item"
+                v-for="item in list.data"
+                :key="item.id">
+              <van-cell title-class="title name"
+                        value-class="value"
+                        :border="false"
+                        :title="item.name"
+                        :value="item.id" />
+              <van-cell title-class="title"
+                        value-class="value"
+                        title="申请时间"
+                        :border="false"
+                        :value="item.date" />
+              <van-cell title-class="title"
+                        value-class="value"
+                        title="仲裁次数"
+                        :border="false"
+                        :value="item.count" />
             </li>
           </ul>
         </van-list>
@@ -41,11 +36,16 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+import pageHeader from '@/components/topBar/pageHeader'
+// import { personnelList } from '@/api/arbitration/publicity'
+=======
 import pageHeader from "@/components/topBar/pageHeader";
 import { personnelList } from "@/api/arbitration/publicity";
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 
 export default {
-  name: "arbitrationPersonnel",
+  name: 'arbitrationPersonnel',
   components: {
     pageHeader,
   },
@@ -57,9 +57,15 @@ export default {
         finished: true,
         data: [
           {
+<<<<<<< HEAD
+            id: '459873564223',
+            name: '李**',
+            date: '2022.05.26',
+=======
             id: "459873564223",
             name: "李**",
             date: "2022.05.26",
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
             count: 2,
           },
         ],
@@ -68,11 +74,23 @@ export default {
           itemsPerPage: 10,
         },
       },
+<<<<<<< HEAD
+    }
+=======
     };
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
   },
   methods: {
     // 获取列表
     getList() {
+<<<<<<< HEAD
+      // personnelList().then((res) => {
+      //   if (res.data.code) {
+      //   } else {
+      //     console.log(res)
+      //   }
+      // })
+=======
       personnelList().then((res) => {
         if (res.data.code) {
           console.log(res);
@@ -80,6 +98,7 @@ export default {
           console.log(res);
         }
       });
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
     },
     // 下拉刷新
     refresh() {},
@@ -87,9 +106,15 @@ export default {
     onLoad() {},
   },
   created() {
+<<<<<<< HEAD
+    this.getList()
+  },
+}
+=======
     this.getList();
   },
 };
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 </script>
 
 <style scoped lang="scss">
