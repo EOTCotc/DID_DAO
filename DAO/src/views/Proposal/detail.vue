@@ -182,7 +182,6 @@ export default {
 
 .box {
   background: #fff;
-  height: 100vh;
   color: #000;
 }
 .van-nav-bar .van-icon {
@@ -197,7 +196,7 @@ export default {
   font-weight: bold;
 }
 .one_an {
-  margin: 20px;
+  margin: 30px;
   padding: 16px 0 0;
   line-height: 60px;
   font-size: 30px;
@@ -217,11 +216,10 @@ export default {
   }
 }
 .jindu {
-  width: 660px;
-  height: 387px;
+  width: 92%;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 0 16px;
+  margin: 0 auto;
   padding: 16px;
   font-size: 30px;
   color: #000;
@@ -258,11 +256,11 @@ export default {
 }
 .xiang {
   color: #000;
-  width: 660px;
+  width: 92%;
   font-size: 28px;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 16px 20px 0;
+  margin: 30px auto;
   line-height: 48px;
   padding: 16px;
   .wen {
@@ -272,10 +270,10 @@ export default {
 .ti {
   font-size: 25px;
   color: #000;
-  width: 660px;
+  width: 92%;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 16px;
+  margin: 16px auto;
   font-size: 30px;
   padding: 16px;
   .van-button {

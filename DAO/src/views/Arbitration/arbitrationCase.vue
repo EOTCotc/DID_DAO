@@ -1,63 +1,58 @@
 <template>
-  <van-pull-refresh v-model="list.uploading"
-                    @refresh="refresh">
+  <van-pull-refresh v-model="list.uploading" @refresh="refresh">
     <header>
       <white :title="title"></white>
     </header>
-    <van-tabs v-model="activeName"
-              sticky
-              color="#237DF4">
-      <van-tab title="待仲裁"
-               name="a">
-
+    <van-tabs v-model="activeName" sticky color="#237DF4">
+      <van-tab title="待仲裁" name="a">
         <div class="body">
           <!-- <van-list v-model="list.btloading"
                     :finished="list.finished"
                     finished-text="没有更多了"
                     @load="onLoad"> -->
-          <div class="content"
-               v-for="item in list.data"
-               :key="item.id">
+          <div class="content" v-for="item in list.data" :key="item.id">
             <div class="aim">
-              <div class="left"
-                   v-if="item.title=='仲裁中'">
+              <div class="left" v-if="item.title == '仲裁中'">
                 <van-icon name="aim" />
-                <van-count-down :time="time"
-                                format="DD 天 HH 时 mm 分" />
+                <van-count-down :time="time" format="DD 天 HH 时 mm 分" />
               </div>
-              <div class="left leftaim"
-                   v-else>
+              <div class="left leftaim" v-else>
                 <van-icon name="aim" />
                 <div>等待仲裁结果</div>
               </div>
-              <div class="right">
-                2022.05.26 12:54
-              </div>
+              <div class="right">2022.05.26 12:54</div>
             </div>
             <div class="contactAvatar">
               <div class="headPortrait left">
                 <div class="vanimage">
-                  <van-image width="30"
-                             round
-                             height="30"
-                             src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-                  <div class="name2"><span>{{item.plaintiffName}}</span>(卖家)</div>
+                  <van-image
+                    width="30"
+                    round
+                    height="30"
+                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                  />
+                  <div class="name2">
+                    <span>{{ item.plaintiffName }}</span
+                    >(卖家)
+                  </div>
                 </div>
                 <div class="litigation2">原告</div>
               </div>
               <div class="headPortrait right">
                 <div class="vanimage">
-                  <div class="name"
-                       v-if="item.title=='仲裁中'">
-                    <span class="span1">(买家)</span><span class="span2">{{item.defendantName}}</span>
+                  <div class="name" v-if="item.title == '仲裁中'">
+                    <span class="span1">(买家)</span
+                    ><span class="span2">{{ item.defendantName }}</span>
                   </div>
                   <div v-else>
-                    (买家)<span>{{item.defendantName}}</span>
+                    (买家)<span>{{ item.defendantName }}</span>
                   </div>
-                  <van-image width="30"
-                             round
-                             height="30"
-                             src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+                  <van-image
+                    width="30"
+                    round
+                    height="30"
+                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                  />
                 </div>
                 <div class="litigation">
                   <div>原告</div>
@@ -65,15 +60,11 @@
               </div>
             </div>
             <div class="describe">原告卖家发起仲裁，仲裁事件为账号冻结</div>
-            <div class="btn"
-                 v-if="item.title=='仲裁中'">
-              <van-button plain
-                          type="info">申请延期</van-button>
-              <van-button icon="description"
-                          type="info">仲裁详情</van-button>
+            <div class="btn" v-if="item.title == '仲裁中'">
+              <van-button plain type="info">申请延期</van-button>
+              <van-button icon="description" type="info">仲裁详情</van-button>
             </div>
-            <div class="DetailsOfArbitration"
-                 v-else>
+            <div class="DetailsOfArbitration" v-else>
               <div class="left">
                 <van-icon name="description" />
                 <span>仲裁详情</span>
@@ -83,26 +74,21 @@
           </div>
         </div>
         <div class="bottomMessage">
-          <van-button type="default"
-                      icon="envelop-o">消息</van-button>
-
+          <van-button type="default" icon="envelop-o">消息</van-button>
         </div>
       </van-tab>
-      <van-tab title="已结案"
-               name="b"
-               style="color:#999999 ">已结案</van-tab>
+      <van-tab title="已结案" name="b" style="color: #999999">已结案</van-tab>
     </van-tabs>
-
   </van-pull-refresh>
 </template>
 <script>
-import white from '@/components/Nav/white.vue'
+import white from "@/components/Nav/white.vue";
 export default {
   components: { white },
   data() {
     return {
-      title: '仲裁案件',
-      activeName: 'a',
+      title: "仲裁案件",
+      activeName: "a",
       time: 30 * 60 * 60 * 1000,
       list: {
         uploading: false,
@@ -111,15 +97,15 @@ export default {
         data: [
           {
             id: 1,
-            title: '仲裁中',
-            plaintiffName: '我',
-            defendantName: '王晓雷',
+            title: "仲裁中",
+            plaintiffName: "我",
+            defendantName: "王晓雷",
           },
           {
             id: 2,
-            title: '等待仲裁结果',
-            plaintiffName: '我',
-            defendantName: '王晓雷',
+            title: "等待仲裁结果",
+            plaintiffName: "我",
+            defendantName: "王晓雷",
           },
         ],
         query: {
@@ -127,7 +113,7 @@ export default {
           itemsPerPage: 10,
         },
       },
-    }
+    };
   },
   methods: {
     showArbitrationList() {},
@@ -137,7 +123,7 @@ export default {
     // 翻页
     onLoad() {},
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 ::v-deep .van-tab {
@@ -147,12 +133,12 @@ export default {
 .body {
   background-color: #f3f4f5;
   height: 86.8vh;
-  padding: 25px 18px;
+  padding: 30px;
   .content {
     border-radius: 25px;
     padding: 25px;
     background-color: #fff;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     .aim {
       display: flex;
       justify-content: space-between;

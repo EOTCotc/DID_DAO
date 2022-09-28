@@ -84,7 +84,7 @@ export default {
 }
 .one_an {
   color: #000;
-  margin: 20px;
+  margin: 30px;
   border-bottom: 1px solid #eeeeee;
   line-height: 60px;
   font-size: 30px;

@@ -7,8 +7,9 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import Cookie from "js-cookie";
 
-import "normalize.css"
+import "normalize.css";
 import "amfe-flexible";
 import "./registerServiceWorker";
 
@@ -17,7 +18,7 @@ import dayjs from "dayjs";
 import "../src/views/HOME/assets/styles/home.scss";
 import "./assets/styles/index.scss";
 
-
+Vue.prototype.cookie = Cookie;
 Vue.prototype.$md5 = md5;
 Vue.prototype.$qs = qs;
 Vue.prototype.$http = axios;

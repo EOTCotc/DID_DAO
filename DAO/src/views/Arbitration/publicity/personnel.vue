@@ -4,33 +4,33 @@
       <page-header title="仲裁员公示"></page-header>
       <div class="content">
         <van-list
-            v-model="list.btloading"
-            :finished="list.finished"
-            finished-text="没有更多了"
-            @load="onLoad"
+          v-model="list.btloading"
+          :finished="list.finished"
+          finished-text="没有更多了"
+          @load="onLoad"
         >
           <ul class="list">
             <li class="item" v-for="item in list.data" :key="item.id">
               <van-cell
-                  title-class="title name"
-                  value-class="value"
-                  :border="false"
-                  :title="item.name"
-                  :value="item.id"
+                title-class="title name"
+                value-class="value"
+                :border="false"
+                :title="item.name"
+                :value="item.id"
               />
               <van-cell
-                  title-class="title"
-                  value-class="value"
-                  title="申请时间"
-                  :border="false"
-                  :value="item.date"
+                title-class="title"
+                value-class="value"
+                title="申请时间"
+                :border="false"
+                :value="item.date"
               />
               <van-cell
-                  title-class="title"
-                  value-class="value"
-                  title="仲裁次数"
-                  :border="false"
-                  :value="item.count"
+                title-class="title"
+                value-class="value"
+                title="仲裁次数"
+                :border="false"
+                :value="item.count"
               />
             </li>
           </ul>
@@ -42,12 +42,12 @@
 
 <script>
 import pageHeader from "@/components/topBar/pageHeader";
-import {personnelList} from '@/api/arbitration/publicity'
+import { personnelList } from "@/api/arbitration/publicity";
 
 export default {
   name: "arbitrationPersonnel",
   components: {
-    pageHeader
+    pageHeader,
   },
   data() {
     return {
@@ -57,38 +57,39 @@ export default {
         finished: true,
         data: [
           {
-            id: '459873564223',
+            id: "459873564223",
             name: "李**",
             date: "2022.05.26",
-            count: 2
+            count: 2,
           },
         ],
         query: {
           page: 1,
-          itemsPerPage: 10
-        }
-      }
-    }
+          itemsPerPage: 10,
+        },
+      },
+    };
   },
   methods: {
     // 获取列表
     getList() {
-      personnelList().then(res => {
+      personnelList().then((res) => {
         if (res.data.code) {
+          console.log(res);
         } else {
-          console.log(res)
+          console.log(res);
         }
-      })
+      });
     },
     // 下拉刷新
     refresh() {},
     // 翻页
-    onLoad() {}
+    onLoad() {},
   },
   created() {
-    this.getList()
-  }
-}
+    this.getList();
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -99,7 +100,7 @@ export default {
       .item {
         padding: 20px;
         border-radius: 20px;
-        background-color: #FFF;
+        background-color: #fff;
         margin-bottom: 25px;
         &:last-of-type {
           margin-bottom: 0;
