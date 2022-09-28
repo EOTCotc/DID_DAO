@@ -7,7 +7,7 @@
           title="仲裁员公示"
           title-class="row-title"
           is-link
-          to="/user/arbitration/personnel"
+          to="/user/arbitration/publicity/personnel"
         />
         <van-cell
           title="仲裁案公示"
@@ -26,7 +26,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import PageHeader from "@/components/topBar/pageHeader";
 export default {
@@ -39,11 +38,16 @@ export default {
 .publicity_wrap {
   .content {
     padding: 30px;
+    height: 100vh;
+    background: #f3f4f5;
     .main {
       border-radius: 20px;
       overflow: hidden;
       .row-title {
         font-size: 32px;
+      }
+      .van-cell {
+        line-height: 35px;
       }
     }
   }

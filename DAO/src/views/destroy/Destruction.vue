@@ -87,7 +87,6 @@
 <script>
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
-
 import { Toast } from "vant";
 export default {
   components: { White },
@@ -137,6 +136,7 @@ export default {
       this.end = "";
       this.start = "";
       this.active = 0;
+      this.inquiry();
     },
     //复制
     copy() {
@@ -231,10 +231,9 @@ export default {
   }
 }
 .van-popup {
-  width: 95%;
+  width: 100%;
   height: 320px;
   padding: 16px;
-  margin-top: 32px;
   color: #000;
   font-size: 20px;
 }
@@ -290,5 +289,8 @@ export default {
     background: #f3f4f5;
     color: #999;
   }
+}
+.dest ::v-deep .van-dialog__message--has-title {
+  color: #f37a4c !important;
 }
 </style>

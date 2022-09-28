@@ -197,7 +197,9 @@ export default {
     cancel(id) {
       Dialog.confirm({
         title: "取消提示",
+        confirmButtonColor: "#000",
         message: "确定取消处理该工单？",
+        getContainer: ".home",
       })
         .then(() => {
           updateWork({
@@ -292,5 +294,8 @@ export default {
       font-weight: bold;
     }
   }
+}
+.home ::v-deep .van-dialog__message--has-title {
+  color: #f37a4c !important;
 }
 </style>

@@ -39,15 +39,23 @@
               <van-col class="lf"
                        :span="12">
                 <div class="user_wrap">
+<<<<<<< HEAD
                   <img src="https://img01.yzcdn.cn/vant/cat.jpeg"
                        alt=""
                        class="avatar">
+=======
+                  <img
+                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                    alt=""
+                    class="avatar"
+                  />
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
                   <span class="name">{{ item.plaintiffName }}</span>
                   <span class="identity">（卖家）</span>
                 </div>
                 <div class="count_wrap">
                   <span class="text">原告</span>
-                  <span class="num">{{item.plaintiffCount}}票</span>
+                  <span class="num">{{ item.plaintiffCount }}票</span>
                 </div>
               </van-col>
               <van-col class="rt"
@@ -55,24 +63,42 @@
                 <div class="user_wrap">
                   <span class="identity">（卖家）</span>
                   <span class="name">{{ item.defendantName }}</span>
+<<<<<<< HEAD
                   <img src="https://img01.yzcdn.cn/vant/cat.jpeg"
                        alt=""
                        class="avatar">
+=======
+                  <img
+                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                    alt=""
+                    class="avatar"
+                  />
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
                 </div>
                 <div class="count_wrap">
-                  <span class="num">{{item.defendantCount}}票</span>
+                  <span class="num">{{ item.defendantCount }}票</span>
                   <span class="text">被告</span>
                 </div>
               </van-col>
             </van-row>
             <div class="process_wrap">
+<<<<<<< HEAD
               <div class="lt chunk"
                    :style="{'flex': `0 0 ${item.plaintiffCount / item.total * 100}%`}"></div>
+=======
+              <div
+                class="lt chunk"
+                :style="{
+                  flex: `0 0 ${(item.plaintiffCount / item.total) * 100}%`,
+                }"
+              ></div>
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
               <div class="border"></div>
               <div class="rt chunk"></div>
             </div>
             <div class="row">
               <div class="message">
+<<<<<<< HEAD
                 <div class="more"
                      style="text-align: left;color: #237FF8;">
                   <van-icon name="description" /> 详情
@@ -80,21 +106,35 @@
                 <div class="more">
                   <van-icon name="arrow" />
                 </div>
+=======
+                <div class="more" style="text-align: left; color: #237ff8">
+                  <van-icon name="description" /> 详情
+                </div>
+                <div class="more"><van-icon name="arrow" /></div>
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
               </div>
             </div>
             <div class="row">
               <div class="title">仲裁结果</div>
               <div class="message">
+<<<<<<< HEAD
                 <p>本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…</p>
                 <div class="more">
                   <van-icon name="description" /> 详情
                 </div>
+=======
+                <p>
+                  本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…
+                </p>
+                <div class="more"><van-icon name="description" /> 详情</div>
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
               </div>
             </div>
             <van-row class="row"
                      gutter="20"
                      v-if="tab.active === 0">
               <van-col span="12">
+<<<<<<< HEAD
                 <van-button class="more"
                             color="#237FF8"
                             round
@@ -102,16 +142,44 @@
                             block
                             type="primary"
                             @click.stop="$router.push({path: '/user/arbitration/case/initiateNewProof'})">
+=======
+                <van-button
+                  class="more"
+                  color="#237FF8"
+                  round
+                  plain
+                  block
+                  type="primary"
+                  @click.stop="
+                    $router.push({
+                      path: '/user/arbitration/case/initiateNewProof',
+                    })
+                  "
+                >
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
                   重新举证
                 </van-button>
               </van-col>
               <van-col span="12">
+<<<<<<< HEAD
                 <van-button class="more"
                             round
                             block
                             color="#237FF8"
                             type="primary"
                             @click.stop="$router.push({path: '/user/arbitration/case/detail'})">
+=======
+                <van-button
+                  class="more"
+                  round
+                  block
+                  color="#237FF8"
+                  type="primary"
+                  @click.stop="
+                    $router.push({ path: '/user/arbitration/case/detail' })
+                  "
+                >
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
                   <i class="icon icon-court"></i> 去判决
                 </van-button>
               </van-col>
@@ -119,20 +187,37 @@
           </li>
         </ul>
       </van-list>
+<<<<<<< HEAD
       <van-empty v-show="!list.data.length"
                  class="custom-image"
                  :image="require('../../../assets/imgs/empty.png')"
                  description="暂无任何数据" />
+=======
+      <van-empty
+        v-show="!list.data.length"
+        class="custom-image"
+        :image="require('../../../assets/imgs/empty.png')"
+        description="暂无任何数据"
+      />
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
     </div>
   </van-pull-refresh>
 </template>
 
 <script>
+<<<<<<< HEAD
 import pageHeader from '@/components/topBar/pageHeader.vue'
 import { transformUTCDate } from '@/utils/utils'
 
 export default {
   name: 'approvalCommunity',
+=======
+import pageHeader from "@/components/topBar/pageHeader.vue";
+import { transformUTCDate } from "@/utils/utils";
+
+export default {
+  name: "approvalCommunity",
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
   components: {
     pageHeader,
   },
@@ -141,7 +226,11 @@ export default {
       // 当前选择的列表项的id
       id: null,
       tab: {
+<<<<<<< HEAD
         data: ['待仲裁', '已结案'],
+=======
+        data: ["待仲裁", "已结案"],
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
         active: 0,
       },
       list: {
@@ -155,14 +244,21 @@ export default {
         data: [
           {
             id: 1,
+<<<<<<< HEAD
             plaintiffName: '吴敏',
             plaintiffCount: 11,
             defendantName: '王晓雷',
+=======
+            plaintiffName: "吴敏",
+            plaintiffCount: 11,
+            defendantName: "王晓雷",
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
             defendantCount: 2,
             total: 13,
           },
         ],
       },
+<<<<<<< HEAD
     }
   },
   methods: {
@@ -182,6 +278,27 @@ export default {
       this.list.query.page++
       this.list.UpRefreshLoading = true
       this.getList()
+=======
+    };
+  },
+  methods: {
+    handleChangeTab() {
+      this.list.query.page = 1;
+      this.list.finished = false;
+      this.list.data = [];
+      this.getList();
+    },
+    // 下拉刷新
+    handleBottomRefresh() {
+      this.list.uploading = true;
+      this.getList();
+    },
+    // 滚动到底翻页
+    handleUpRefresh() {
+      this.list.query.page++;
+      this.list.UpRefreshLoading = true;
+      this.getList();
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
     },
     // 获取列表
     getList() {
@@ -211,9 +328,15 @@ export default {
     transformUTCDate,
   },
   created() {
+<<<<<<< HEAD
     this.getList()
   },
 }
+=======
+    this.getList();
+  },
+};
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 </script>
 
 <style lang="scss" scoped>
@@ -229,6 +352,10 @@ export default {
     overflow: auto;
 
     .list {
+<<<<<<< HEAD
+=======
+      margin: 30px 30px 0;
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
       .item {
         padding: 30px;
         border-radius: 20px;

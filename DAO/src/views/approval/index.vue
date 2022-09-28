@@ -27,9 +27,15 @@
 <script>
 import PageHeader from '@/components/topBar/pageHeader'
 export default {
+<<<<<<< HEAD
   name: 'approval',
   components: { PageHeader },
 }
+=======
+  name: "approval",
+  components: { PageHeader },
+};
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 </script>
 
 <style scoped lang="scss">
@@ -41,6 +47,9 @@ export default {
       overflow: hidden;
       .row-title {
         font-size: 32px;
+      }
+      .van-cell {
+        line-height: 35px;
       }
     }
   }

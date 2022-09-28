@@ -26,7 +26,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { getuserrisklevel } from '@/api/viewsApi/home'
+=======
+>>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 export default {
   name: 'notification',
   props: {
