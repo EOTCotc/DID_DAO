@@ -204,7 +204,8 @@ export default {
   .piao {
     display: flex;
     color: #9296a2;
-    font-size: 16px;
+    margin-top: 15px;
+    font-size: 28px;
     justify-content: space-between;
     .ion {
       display: inline-block;
@@ -216,21 +217,25 @@ export default {
   }
 }
 .jindu {
+  width: 660px;
+  height: 387px;
   background: #f3f4f5;
   border-radius: 8px;
   margin: 0 16px;
   padding: 16px;
   font-size: 30px;
   color: #000;
+  font-size: 29px;
+  line-height: 45px;
   .hui {
     color: #999999;
-    font-size: 8px;
+    font-size: 18px;
   }
   .van-progress {
     margin: 16px 0;
   }
   .num {
-    font-size: 20px;
+    font-size: 50px;
     color: #878888;
     margin-top: 16px;
     margin-bottom: 16px;
@@ -242,14 +247,18 @@ export default {
   }
 }
 .tou {
+  font-size: 29px;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #cccccc;
-  padding-bottom: 17px;
-  margin-bottom: 16px;
+  padding-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  align-items: center;
 }
 .xiang {
   color: #000;
+  width: 660px;
   font-size: 28px;
   background: #f3f4f5;
   border-radius: 8px;
@@ -261,7 +270,9 @@ export default {
   }
 }
 .ti {
+  font-size: 25px;
   color: #000;
+  width: 660px;
   background: #f3f4f5;
   border-radius: 8px;
   margin: 16px;

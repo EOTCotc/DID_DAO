@@ -98,7 +98,7 @@ const routes = [
     component: () => import("@/views/Arbitration/news"),
   },
   {
-    path: "/meetTheConditions",
+    path: "/user/meetTheConditions",
     name: "meetTheConditions",
     component: () =>
       import(
@@ -167,8 +167,19 @@ const routes = [
     component: () => import("@/views/Arbitration/publicity/case"),
   },
   {
-    path: "/user/arbitration/publicity/case/detail",
-    name: "arbitrationPublicityCaseDetail",
+    path: "/arbitration/arbitrationCase",
+    name: "ArbitrationByFormula",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("@/views/Arbitration/arbitrationCase"),
+  },
+  {
+    path: "/user/arbitration/case/detail",
+    name: "arbitrationCaseDetail",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/publicity/case/detail"),
   },
   {
@@ -206,7 +217,7 @@ const routes = [
 
 // 解决重复点击同一各路由会报错
 const VueRouterPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(to) {
+VueRouter.prototype.push = function push (to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
 
