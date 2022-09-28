@@ -19,38 +19,26 @@
         <van-icon name="location-o" color="#999" size="12" />
         <span>{{ area }}</span>
       </div>
-      <div v-for="(item, index) in list" :key="index">
-        <div class="info">
-          <p>{{ item.name }}</p>
-          <img :src="item.image || ''" />
-          <p>社区简介</p>
-          <p>{{ item.describe }}</p>
-          <p>电报群</p>
-          <a :href="item.telegram">{{ item.telegram }}</a>
+
+      <van-list :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <div v-for="(item, index) in list" :key="index">
+          <div class="info">
+            <p>{{ item.name }}</p>
+            <img :src="item.image || ''" />
+            <p>社区简介</p>
+            <p>{{ item.describe }}</p>
+            <p>电报群</p>
+            <a :href="item.telegram">{{ item.telegram }}</a>
+          </div>
         </div>
-      </div>
-      <!-- 下拉加载更多 -->
-      <infinite-loading
-        spinner="spiral"
-        @infinite="infiniteHandler"
-        :distance="200"
-        class="infinite-loading-wrap"
-      >
-        <div slot="spinner">加载中...</div>
-        <div slot="no-more">没有更多数据</div>
-        <div slot="no-results">没有数据</div>
-        <!-- <div slot="error" slot-scope="{ trigger }">
-          Error Data, click
-          <a href="javascript:;" @click="trigger">here</a> toretry
-        </div> -->
-      </infinite-loading>
+      </van-list>
     </div>
   </div>
 </template>
 
 <script>
-import InfiniteLoading from "vue-infinite-loading";
 import { getcomlist } from "@/api/pagesApi/bindRelation";
+import { getcomselect } from "@/api/pagesApi/home";
 export default {
   name: "bindCommunity",
   data() {
@@ -59,7 +47,7 @@ export default {
       // 展示页面的数据
       country: "",
       area: "",
-      // 请求参数
+      // 请求社区列表参数
       reqComm: {
         country: "",
         province: "",
@@ -68,57 +56,55 @@ export default {
         page: 1,
         itemsPerPage: 5,
       },
+      // 社区列表
       list: [],
+      finished: true, //ture为没有更多，false为加载更多
     };
   },
   mounted() {
-    console.log(this.cookie.get('country'));
-    this.getCommList();
-  },
-  components: {
-    InfiniteLoading,
+    this.getComSelect();
   },
   methods: {
-    // 获取社区列表
-    getCommList() {
-      // 从home过来
-      if (this.$route.params.home == "home") {
-        //个人信息有位置信息，不需要再选位置
-        let site = JSON.parse(this.$route.params.site);
-        // 展示数据
-        this.country = site.country.name;
-        this.area = `${site.province.name}-${site.city.name}-${site.county.name}`;
-        // 请求数据
-        this.reqComm.country = site.country.code;
-        this.reqComm.province = site.province.code;
-        this.reqComm.city = site.city.code;
-        this.reqComm.area = site.county.code;
-      } else {
-        //从上个页面过来
-        let data = this.$router.params;
-        console.log(JSON.parse(this.cookie.get('country')));
-        let area = JSON.parse(data.area);
-        let country = data.country;
-        // 赋值展示的数据
-        this.country = country[1]; //国家
-        this.area = `${area[0].name}-${area[1].name}-${area[2].name}`; //省市区
-        // 赋值请求参数
-        this.reqComm.country = country[0];
-        this.reqComm.province = area[0].code;
-        this.reqComm.city = area[1].code;
-        this.reqComm.area = area[2].code;
-      }
+    // 获取用户选择的位置
+    getComSelect() {
+      getcomselect().then((res) => {
+        if (res.data.code == 0) {
+          let data = res.data.items;
+          // 获取社区列表需要的参数
+          this.reqComm.country = data.country.code;
+          this.reqComm.province = data.province.code;
+          this.reqComm.city = data.city.code;
+          this.reqComm.area = data.county.code;
+          // 展示位置给用户看
+          this.country = data.country.name;
+          // 如果是中国，则显示省市区；如果是国外，则显示国家-省
+          if (data.country.code == "CHN") {
+            this.area = `${data.province.name}-${
+              data.city.name ? "-" + data.city.name : ""
+            }${data.county.name ? "-" + data.county.name : ""}`;
+          } else {
+            this.area = `${data.country.name}${
+              data.province.name ? "-" + data.province.name : ""
+            }`;
+          }
+          // 获取社区列表
+          this.onLoad();
+        }
+      });
     },
-    // 上拉加载更多
-    infiniteHandler($state) {
+    // 获取社区列表
+    onLoad() {
       getcomlist(this.reqComm).then((res) => {
-        if (res.data.items.length) {
-          this.reqComm.page += 1; // 下一页
-          let arr = res.data.items;
-          this.list = [...this.list, ...arr];
-          $state.loaded();
-        } else {
-          $state.complete();
+        if (res.data.code == 0) {
+          let data = res.data.items;
+          this.list = [...this.list, data[0]];
+          if (data.length < this.reqComm.itemsPerPage) {
+            // 没有更多数据
+            this.finished = true;
+          } else {
+            // 加载更多
+            this.finished = false;
+          }
         }
       });
     },

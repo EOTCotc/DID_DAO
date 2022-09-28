@@ -41,8 +41,16 @@
     </van-popup>
 
     <div class="btn">
-      <div>为了便于线下建立推荐关系请谨慎选择当前所在地，一旦绑定不可更改</div>
-      <button>确认，前往下一步</button>
+      <div class="tip">为了便于线下建立推荐关系请谨慎选择当前所在地，一旦绑定不可更改</div>
+      <van-button
+        round
+        block
+        color="#1b2945"
+        :disabled="!selected"
+        @click="$router.replace({name: $route.query.form, params: {code: selected}})"
+      >
+        确认，前往下一步
+      </van-button>
     </div>
   </div>
 </template>
@@ -58,11 +66,13 @@ export default {
       region: "", //省市区
       columns: [],
       showPopup: false,
+      selected: null
     };
   },
   mounted() {
+    let country = this.cookie.get("country");
     this.getNowLocation(); //获取当前位置
-    this.getCountry(); //获取选择的国家
+    country && this.getCountry(country); //获取选择的国家
   },
   methods: {
     // 获取当前位置
@@ -81,8 +91,8 @@ export default {
       }
     },
     // 获取选择的国家以及处理省市区的数据
-    getCountry() {
-      let country = this.cookie.get("country"); //获取的是字符串
+    getCountry(country) {
+       //获取的是字符串
       this.country = country.split(",");
       // 添加省级对象
       let province = this.district_zh[this.country[0]];
@@ -130,11 +140,11 @@ export default {
     // 确定选择的位置
     tabConfirm(e, i) {
       this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
-      console.log(
-        this.columns[i[0]].eng,
-        this.columns[i[0]].children[i[1]].eng,
-        this.columns[i[0]].children[i[1]].children[i[2]].eng
-      );
+      this.selected = {
+        province: [i[0], e[0]],
+        city: [i[1], e[1]],
+        area: [i[2], e[2]]
+      }
       this.showPopup = false;
     },
     // 导航栏返回
@@ -159,27 +169,14 @@ export default {
   }
 }
 .btn {
-  position: fixed;
-  bottom: 60px;
-  left: 4%;
-  width: 92%;
-  div {
+  @include posi($b: 30px, $l: 30px, $r: 30px);
+  .tip {
     padding: 24px;
     font-size: 28px;
     color: #fc7542;
     border-radius: 8px;
     background: #fffbe8;
-  }
-  button {
-    margin-top: 43px;
-    width: 100%;
-    height: 96px;
-    font-size: 31px;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 48px;
-    border: none;
-    background: #8c93a1;
+    margin-bottom: 30px;
   }
 }
 </style>
