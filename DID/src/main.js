@@ -40,7 +40,7 @@ import {
   Step,
   Uploader,
   ImagePreview,
-  Tag, SwipeCell, Switch, PasswordInput, CountDown
+  Tag, SwipeCell, Switch, PasswordInput, CountDown, ActionSheet
 } from 'vant';
 
 Vue.config.productionTip = false//关闭生产提示
@@ -83,6 +83,7 @@ Vue.use(SwipeCell)
 Vue.use(Switch)
 Vue.use(PasswordInput)
 Vue.use(CountDown)
+Vue.use(ActionSheet)
 
 new Vue({
   render: h => h(App),

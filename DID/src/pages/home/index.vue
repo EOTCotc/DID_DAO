@@ -90,17 +90,36 @@
         </div>
       </div>
     </van-overlay>
+    <notification
+      ref="notification"
+      title="系统检测您的账号存在异常"
+      message="暂无法使用该系统，请根据提示解除风控"
+      button-text="解除风控"
+      button-color="#F65F5F"
+      :header-icon="headerIcon"
+      @closed="handleClosed"
+      @buttonClick="() => $router.push('/risk')"
+    />
+    <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
+      <img src="../../assets/imgs/jin.png" alt="" class="img">
+      <div class="text">解除风控</div>
+    </div>
   </div>
 </template>
 
 <script>
+import Notification from '@/components/notification'
+import headerIcon from "@/assets/imgs/jin.png"
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
 import { login } from "@/api/pagesApi/login";
 import { loadweb3 } from "@/utils/web3";
+import {risklevel} from '@/api/risk'
 export default {
   data() {
     return {
+      headerIcon,
+      show: false,
       iconLang: "arrow-down", //语言的箭头
       showPopup2: false, //选择语言
       showOverlay: false, //遮罩层
@@ -113,6 +132,20 @@ export default {
   },
   components: {
     TopBar,
+    Notification
+  },
+  created() {
+    risklevel().then((res) => {
+      const {code, items: level} = res.data
+      if (code === 0) {
+        if (level === 2) {
+          this.cookie.set('riskLevel', level)
+          this.$nextTick().then(() => {
+            this.$refs.notification.toggle(true)
+          })
+        }
+      }
+    });
   },
   mounted() {
     if (this.cookie.get("token")) {
@@ -127,6 +160,11 @@ export default {
     }
   },
   methods: {
+    // 关闭风险弹窗
+    handleClosed() {
+      console.log(2)
+      this.show = true
+    },
     // 根据钱包、签名、网络登录，如果不行就跳登录页
     login() {
       let walletAddress = localStorage.getItem("myaddress");
@@ -358,7 +396,24 @@ export default {
   justify-content: center;
   height: 100%;
 }
-
+.risk_mask_wrap {
+  @include posi($p: fixed, $r: 0, $b: 20%);
+  display: flex;
+  align-items: center;
+  background-color: #FFF;
+  padding: 20px;
+  border-radius: 100px 0 0 100px;
+  .img {
+    display: block;
+    width: 60px;
+  }
+  .text {
+    flex: 1;
+    color: #F34747;
+    margin-left: 20px;
+    font-size: 28px;
+  }
+}
 .block {
   position: relative;
   width: 590px;

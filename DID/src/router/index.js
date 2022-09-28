@@ -61,6 +61,8 @@ const router = new VueRouter({
     { path: '/my/wallets', name: 'wallets', component: () => import('@/pages/my/wallets') },
     // DID绑定各项目
     { path: '/my/projects', name: 'projects', component: () => import('@/pages/my/projects') },
+    // 风险解除
+    { path: '/risk', name: 'risk', component: () => import('@/pages/risk') },
   ]
 });
 
@@ -78,7 +80,15 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next()
+    if (Cookies.get('riskLevel') * 1 !== 2) {
+      next()
+    } else {
+      if (to.path === '/risk') {
+        next()
+      } else {
+        to.path === '/' ? next() : next('/')
+      }
+    }
   }
 });
 

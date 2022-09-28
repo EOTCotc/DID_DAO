@@ -7,16 +7,18 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import dayjs from "dayjs";
+// import VueI18n from "vue-i18n"
 import Cookie from "js-cookie";
 
-import "normalize.css";
+import "normalize.css"
 import "amfe-flexible";
 import "./registerServiceWorker";
 
 import "@/assets/font/style.css";
-import dayjs from "dayjs";
 import "../src/views/HOME/assets/styles/home.scss";
 import "./assets/styles/index.scss";
+
 
 Vue.prototype.cookie = Cookie;
 Vue.prototype.$md5 = md5;
