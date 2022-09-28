@@ -49,7 +49,6 @@ export default {
   created() {
     getincome(this.page, this.itemsPerPage).then((res) => {
       this.personageArr = res.data.items;
-      console.log(this.personageArr);
     });
   },
   methods: {},

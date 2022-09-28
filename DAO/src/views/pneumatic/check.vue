@@ -6,12 +6,13 @@
       <van-form class="form_wrap">
         <div class="main steps_wrap">
           <div class="info_wrap step-1">
-            <van-field name="name" label="姓名" v-model="name" />
-            <van-field name="phoneNum" label="手机号" v-model="phoneNum" />
-            <van-field name="code" label="证件号" v-model="code" border />
+            <van-field label="姓名" v-model="name" />
+            <van-field label="手机号" v-model="phoneNum" />
+            <van-field label="证件号" v-model="idCard" border />
           </div>
           <div class="upload_wrap step-2">
             <div class="title">身份证</div>
+
             <div class="example_wrap">
               <img class="img" src="../../assets/img/shen.png" alt="" />
               <img class="img" src="../../assets/img/ju.png" alt="" />
@@ -51,20 +52,8 @@
         </div>
       </van-form>
     </div>
-    <van-overlay :show="over_show">
-      <div class="dialog_wrap">
-        <slot name="headerIcon">
-          <img
-            class="dialog-header-icon"
-            src="../../assets/img/gou.png"
-            alt=""
-          />
-        </slot>
-        <div class="dialog-title">身份核对成功</div>
-        <div class="dialog-message">解除风控后即可</div>
-        <div class="dialog-zhi" @click="over_show = false">知道了</div>
-      </div>
-    </van-overlay>
+    <!--  图片预览  -->
+    <van-image-preview v-model="imgPreview.show" :images="imgPreview.images" />
   </div>
 </template>
 
@@ -82,10 +71,15 @@ export default {
       title: "核对身份信息",
       name: "吴敏",
       phoneNum: "1344569****",
-      code: "43589615524****",
+      idCard: "43589615524****",
       id: "",
       authStatus: 0,
       over_show: false,
+      user: {},
+      imgPreview: {
+        show: false,
+        images: [],
+      },
     };
   },
   created() {
@@ -96,19 +90,26 @@ export default {
   },
   mounted() {},
   methods: {
+    // 预览图片
+    preview(src) {
+      this.imgPreview.show = true;
+      this.$set(this.imgPreview.images, 0, src);
+    },
     userInfo() {
       getuserinfo({
         userRiskId: this.id,
       }).then((res) => {
         console.log(res);
+        this.user = res.data.items;
       });
     },
     //核对信息异常
     abnormal() {
       Dialog.confirm({
         title: "核对信息",
+        confirmButtonColor: "#000",
         message: "请确保已进行视频身份核对，身份信息不一致，处理为异常!",
-        className: "dialog__message",
+        getContainer: ".meun",
       })
         .then(() => {
           userriskstatus({
@@ -128,11 +129,23 @@ export default {
     success() {
       Dialog.confirm({
         title: "核对信息",
+        confirmButtonColor: "#000",
         message: "请确保已进行视频身份核对，身份信息确认无误!",
-        className: "dialog__message",
+        getContainer: ".meun",
       })
         .then(() => {
-          this.xinXi();
+          userriskstatus({
+            userRiskId: this.id,
+            authStatus: 1,
+          }).then((res) => {
+            console.log(res);
+            if (res.status == 200) {
+              this.$router.push({
+                name: "pneumatic",
+                params: { authStatus: 1 },
+              });
+            }
+          });
         })
         .catch(() => {});
     },
@@ -141,25 +154,22 @@ export default {
     Remedy() {
       Dialog.confirm({
         title: "解除异常",
+        confirmButtonColor: "#000",
         message: "请确保已再次进行视频身份核对，身份信息无误，解除异常",
-        className: "dialog__message",
+        getContainer: ".meun",
       })
         .then(() => {
-          this.xinXi();
+          userriskstatus({
+            userRiskId: this.id,
+            authStatus: 1,
+          }).then((res) => {
+            console.log(res);
+            if (res.status == 200) {
+              history.go(-1);
+            }
+          });
         })
         .catch(() => {});
-    },
-
-    xinXi() {
-      userriskstatus({
-        userRiskId: this.id,
-        authStatus: 1,
-      }).then((res) => {
-        console.log(res);
-        if (res.status == 200) {
-          history.go(-1);
-        }
-      });
     },
   },
 };
@@ -219,45 +229,8 @@ export default {
     }
   }
 }
-.van-dialog ::v-deep .van-dialog__message--has-title {
-  color: #f37a4c !important;
-}
 
-.dialog_wrap {
-  @include centered();
-  top: 40%;
-  width: 70%;
-  padding: 20px;
-  border-radius: 48px;
-  box-sizing: border-box;
-  background-color: #fff;
-  .dialog-header-icon {
-    display: block;
-    width: 150px;
-    margin: -80px auto 0;
-  }
-  .dialog-title {
-    color: #333;
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: 30px;
-    text-align: center;
-  }
-  .dialog-message {
-    color: #333;
-    font-weight: bold;
-    font-size: 25px;
-    margin-top: 20px;
-    line-height: 1.3;
-    text-align: center;
-  }
-  .dialog-zhi {
-    border-top: 0.5px solid #f3f4f5;
-    text-align: center;
-    margin-top: 30px;
-    font-size: 30px;
-    font-weight: bold;
-    padding: 15px 0;
-  }
+.meun ::v-deep .van-dialog__message--has-title {
+  color: #f37a4c !important;
 }
 </style>

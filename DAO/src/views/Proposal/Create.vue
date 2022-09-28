@@ -68,12 +68,13 @@ export default {
 
 .section {
   height: 100vh;
-  margin-top: 16px;
+  margin-top: 30px;
   padding: 16px;
   background: #fff;
   .title {
     color: #000;
     margin: 16px 0;
+    font-size: 30px;
   }
   .van-field {
     background: #f3f4f5;

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Cookie from "js-cookie";
 
 Vue.use(VueRouter);
 
@@ -42,10 +43,7 @@ const routes = [
   {
     path: "/order_details",
     name: "order_details",
-    component: () =>
-      import(
-        "@/views/ticket_system/order_details"
-      ),
+    component: () => import("@/views/ticket_system/order_details"),
   },
   {
     path: "/Destruction",
@@ -69,13 +67,6 @@ const routes = [
     path: "/pneumatic",
     name: "pneumatic",
     component: () => import("@/views/pneumatic/index"),
-    children: [
-      {
-        path: "pneumatic_control",
-        name: "pneumatic_control",
-        component: () => import("@/components/pneumatic_control/index.vue"),
-      },
-    ],
   },
   {
     path: "/relieve",
@@ -100,26 +91,17 @@ const routes = [
   {
     path: "/user/meetTheConditions",
     name: "meetTheConditions",
-    component: () =>
-      import(
-        "@/views/Arbitration/meetTheConditions"
-      ),
+    component: () => import("@/views/Arbitration/meetTheConditions"),
   },
   {
     path: "/understandLearningRules",
     name: "understandLearningRules",
-    component: () =>
-      import(
-        "@/views/Arbitration/understandLearningRules"
-      ),
+    component: () => import("@/views/Arbitration/understandLearningRules"),
   },
   {
     path: "/user/approval",
     name: "approval",
-    component: () =>
-      import(
-        "@/views/approval"
-      ),
+    component: () => import("@/views/approval"),
   },
   {
     path: "/user/approval/identity",
@@ -226,4 +208,15 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (Cookie.get("riskLevel") * 1 !== 2) {
+    next();
+  } else {
+    if (to.path === "/risk") {
+      next();
+    } else {
+      to.path === "/" ? next() : next("/");
+    }
+  }
+});
 export default router;

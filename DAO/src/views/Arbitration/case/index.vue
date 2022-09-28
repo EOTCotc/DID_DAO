@@ -1,47 +1,47 @@
 <template>
-  <van-pull-refresh v-model="list.uploading" @refresh="handleBottomRefresh">
+  <van-pull-refresh v-model="list.uploading"
+                    @refresh="handleBottomRefresh">
     <div class="certificationAudit_wrap bg-gray fullscreen">
       <page-header title="仲裁案件" />
-      <van-tabs
-        v-model="tab.active"
-        swipeable
-        title-inactive-color="#8D94A2"
-        @change="handleChangeTab"
-      >
-        <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
+      <van-tabs v-model="tab.active"
+                swipeable
+                title-inactive-color="#8D94A2"
+                @change="handleChangeTab">
+        <van-tab v-for="item in tab.data"
+                 :key="item"
+                 :title="item">
+        </van-tab>
       </van-tabs>
-      <van-list
-        class="list_wrap"
-        v-show="!!list.data.length"
-        v-model="list.UpRefreshLoading"
-        :finished="list.finished"
-        finished-text="没有更多了"
-        @load="handleUpRefresh"
-      >
+      <van-list class="list_wrap"
+                v-show="!!list.data.length"
+                v-model="list.UpRefreshLoading"
+                :finished="list.finished"
+                finished-text="没有更多了"
+                @load="handleUpRefresh">
         <ul class="list">
-          <li
-            class="item"
-            v-for="item in list.data"
-            :key="item.id"
-            @click="
-              $router.push({
-                path: '/user/arbitration/case/detail',
-                query: { id: item.id },
-              })
-            "
-          >
-            <van-row class="header" type="flex" align="center">
+          <li class="item"
+              v-for="item in list.data"
+              :key="item.id"
+              @click="$router.push({path: '/user/arbitration/case/detail', query: {id: item.id} })">
+            <van-row class="header"
+                     type="flex"
+                     align="center">
               <van-col :span="12">
                 <div class="status">
                   <van-icon name="underway-o" />
                   <span class="text">双方举证中</span>
                 </div>
               </van-col>
-              <van-col :span="12" class="date">2022.05.26 12:54</van-col>
+              <van-col :span="12"
+                       class="date">2022.05.26 12:54</van-col>
             </van-row>
             <van-row>
-              <van-col class="lf" :span="12">
+              <van-col class="lf"
+                       :span="12">
                 <div class="user_wrap">
+                  <img src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                       alt=""
+                       class="avatar">
                   <img
                     src="https://img01.yzcdn.cn/vant/cat.jpeg"
                     alt=""
@@ -55,10 +55,14 @@
                   <span class="num">{{ item.plaintiffCount }}票</span>
                 </div>
               </van-col>
-              <van-col class="rt" :span="12">
+              <van-col class="rt"
+                       :span="12">
                 <div class="user_wrap">
                   <span class="identity">（卖家）</span>
                   <span class="name">{{ item.defendantName }}</span>
+                  <img src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                       alt=""
+                       class="avatar">
                   <img
                     src="https://img01.yzcdn.cn/vant/cat.jpeg"
                     alt=""
@@ -72,6 +76,8 @@
               </van-col>
             </van-row>
             <div class="process_wrap">
+              <div class="lt chunk"
+                   :style="{'flex': `0 0 ${item.plaintiffCount / item.total * 100}%`}"></div>
               <div
                 class="lt chunk"
                 :style="{
@@ -83,6 +89,13 @@
             </div>
             <div class="row">
               <div class="message">
+                <div class="more"
+                     style="text-align: left;color: #237FF8;">
+                  <van-icon name="description" /> 详情
+                </div>
+                <div class="more">
+                  <van-icon name="arrow" />
+                </div>
                 <div class="more" style="text-align: left; color: #237ff8">
                   <van-icon name="description" /> 详情
                 </div>
@@ -92,13 +105,19 @@
             <div class="row">
               <div class="title">仲裁结果</div>
               <div class="message">
+                <p>本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…</p>
+                <div class="more">
+                  <van-icon name="description" /> 详情
+                </div>
                 <p>
                   本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…
                 </p>
                 <div class="more"><van-icon name="description" /> 详情</div>
               </div>
             </div>
-            <van-row class="row" gutter="20" v-if="tab.active === 0">
+            <van-row class="row"
+                     gutter="20"
+                     v-if="tab.active === 0">
               <van-col span="12">
                 <van-button
                   class="more"
@@ -180,7 +199,26 @@ export default {
           },
         ],
       },
-    };
+    }
+  },
+  methods: {
+    handleChangeTab() {
+      this.list.query.page = 1
+      this.list.finished = false
+      this.list.data = []
+      this.getList()
+    },
+    // 下拉刷新
+    handleBottomRefresh() {
+      this.list.uploading = true
+      this.getList()
+    },
+    // 滚动到底翻页
+    handleUpRefresh() {
+      this.list.query.page++
+      this.list.UpRefreshLoading = true
+      this.getList()
+    },
   },
   methods: {
     handleChangeTab() {
@@ -231,6 +269,7 @@ export default {
     this.getList();
   },
 };
+
 </script>
 
 <style lang="scss" scoped>
@@ -246,6 +285,7 @@ export default {
     overflow: auto;
 
     .list {
+      margin: 30px 30px 0;
       .item {
         padding: 30px;
         border-radius: 20px;
