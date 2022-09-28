@@ -35,7 +35,7 @@
         title="风险解除"
         :border="false"
         is-link
-        @click="auditing('pneumatic_control')"
+        @click="auditing('pneumatic')"
       >
         <template #icon>
           <i class="iconfont icon-lianxiwomen icon_left"></i>

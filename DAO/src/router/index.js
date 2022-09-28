@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Cookie from "js-cookie";
 
 Vue.use(VueRouter);
 
@@ -42,10 +43,7 @@ const routes = [
   {
     path: "/order_details",
     name: "order_details",
-    component: () =>
-      import(
-        "@/views/ticket_system/order_details"
-      ),
+    component: () => import("@/views/ticket_system/order_details"),
   },
   {
     path: "/Destruction",
@@ -69,13 +67,6 @@ const routes = [
     path: "/pneumatic",
     name: "pneumatic",
     component: () => import("@/views/pneumatic/index"),
-    children: [
-      {
-        path: "pneumatic_control",
-        name: "pneumatic_control",
-        component: () => import("@/components/pneumatic_control/index.vue"),
-      },
-    ],
   },
   {
     path: "/relieve",
@@ -100,26 +91,17 @@ const routes = [
   {
     path: "/user/meetTheConditions",
     name: "meetTheConditions",
-    component: () =>
-      import(
-        "@/views/Arbitration/meetTheConditions"
-      ),
+    component: () => import("@/views/Arbitration/meetTheConditions"),
   },
   {
     path: "/understandLearningRules",
     name: "understandLearningRules",
-    component: () =>
-      import(
-        "@/views/Arbitration/understandLearningRules"
-      ),
+    component: () => import("@/views/Arbitration/understandLearningRules"),
   },
   {
     path: "/user/approval",
     name: "approval",
-    component: () =>
-      import(
-        "@/views/approval"
-      ),
+    component: () => import("@/views/approval"),
   },
   {
     path: "/user/approval/identity",
@@ -172,9 +154,6 @@ const routes = [
   {
     path: "/user/arbitration/case/detail",
     name: "arbitrationCaseDetail",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/publicity/case/detail"),
   },
   {
@@ -202,17 +181,23 @@ const routes = [
     name: "arbitrationCasePlaintiff",
     component: () => import("@/views/Arbitration/case/plaintiff"),
   },
-  //仲裁相关消息（延期申请）
+  // 仲裁相关消息（消息列表）
   {
+    path: '/arbitrationList',
+    name: 'arbitrationList',
+    component: () => import('@/views/Arbitration/arbitrationMsg')
+  },
+   //仲裁相关消息（延期申请）
+   {
     path: '/arbitrationMsg',
     name: 'arbitrationMsg',
-    component: () => import('@/views/Arbitration/arbitrationMsg')
-  }
+    component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
+  },
 ];
 
 // 解决重复点击同一各路由会报错
 const VueRouterPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (to) {
+VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
 
@@ -223,4 +208,15 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (Cookie.get("riskLevel") * 1 !== 2) {
+    next();
+  } else {
+    if (to.path === "/risk") {
+      next();
+    } else {
+      to.path === "/" ? next() : next("/");
+    }
+  }
+});
 export default router;

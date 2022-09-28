@@ -31,7 +31,7 @@
         <!-- <van-image width="60" height="60" src="./assets/image/leaf.jpg" /> -->
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 1">
-        <van-cell title="处理记录" :border="false" />
+        <van-cell title="处理记录" style="color: #999" :border="false" />
         <van-field
           v-model="message"
           rows="6"
@@ -40,7 +40,7 @@
         />
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 2">
-        <van-cell title="处理记录" :border="false" />
+        <van-cell title="处理记录" style="color: #999" :border="false" />
         <van-cell :title="order.record"></van-cell>
       </van-cell-group>
     </main>
@@ -97,7 +97,9 @@ export default {
     cancel() {
       Dialog.confirm({
         title: "取消提示",
+        confirmButtonColor: "#000",
         message: "确定取消处理该工单？",
+        getContainer: ".order",
       })
         .then(() => {
           updateWork({
@@ -114,24 +116,40 @@ export default {
         .catch(() => {});
     },
     update(status) {
-      Dialog.confirm({
-        title: "处理完成",
-        message: "请确定该工单问题已处理完成,点击确定完成",
-      })
-        .then(() => {
-          updateWork({
-            workOrderId: this.workOrderId,
-            workOrderStatus: status + 1,
-            record: this.message,
-          }).then((res) => {
-            console.log(res);
-            this.$router.push({
-              path: "/pending",
-              query: { status: status + 1 },
-            });
+      console.log(status);
+      if (status == 0) {
+        updateWork({
+          workOrderId: this.workOrderId,
+          workOrderStatus: status + 1,
+          record: this.message,
+        }).then((res) => {
+          console.log(res);
+          this.$router.push({
+            path: "/pending",
+            query: { status: status + 1 },
           });
+        });
+      } else {
+        Dialog.confirm({
+          title: "处理完成",
+          confirmButtonColor: "#000",
+          message: "请确定该工单问题已处理完成,点击确定完成",
         })
-        .catch(() => {});
+          .then(() => {
+            updateWork({
+              workOrderId: this.workOrderId,
+              workOrderStatus: status + 1,
+              record: this.message,
+            }).then((res) => {
+              console.log(res);
+              this.$router.push({
+                path: "/pending",
+                query: { status: status + 1 },
+              });
+            });
+          })
+          .catch(() => {});
+      }
     },
   },
 };
@@ -182,5 +200,8 @@ export default {
   .van-button {
     width: 176px;
   }
+}
+.order ::v-deep .van-dialog__message--has-title {
+  color: #f37a4c !important;
 }
 </style>

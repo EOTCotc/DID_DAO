@@ -16,7 +16,7 @@
       <van-cell
         class="now"
         title="国家"
-        :value="country[1]"
+        :value="country"
         is-link
         to="/nation"
       />
@@ -58,17 +58,11 @@ export default {
       showPopup: false,
       // 更新所在地
       req: {},
-      code: {
-        country: [], // 国家
-        province: [], // 省
-        city: [], // 市
-        area: [] // 区
-      }
     };
   },
   mounted() {
     this.getNowLocation(); //获取当前位置
-    this.getCountry(); //获取选择的国家
+    this.getCountry(); //获取用户选择的国家
   },
   methods: {
     // 获取当前位置
@@ -89,11 +83,11 @@ export default {
     // 获取选择的国家以及处理省市区的数据
     getCountry() {
       if (this.cookie.get("country")) {
-        let country = this.cookie.get("country");
-        this.country = country.split(",");
-        this.req.country = this.country[0];
+        let country = this.cookie.get("country").split(",");
+        this.country = country[1];
+        this.req.country = country[0];
         // 添加省级对象
-        let province = this.district_zh[this.country[0]];
+        let province = this.district_zh[this.req.country];
         // 有的国家没有省 比如：阿鲁巴
         if (province) {
           for (const key_p in province) {
@@ -156,50 +150,46 @@ export default {
     },
     // 确定选择的位置
     tabConfirm(e, i) {
-      // 判断省市区是否有
+      // 判断省市区是否有,this.region展示给用户看
       if (e[0] == "") {
         //只有国家
         this.region = "";
       } else if (e[0] != "" && e[1] == "") {
         //只有省
         this.region = `${e[0]}`;
-        this.code.province[1] = e[0]
       } else if (e[0] != "" && e[1] != "" && e[2] == "") {
         //只有省市
         this.region = `${e[0]} - ${e[1]}`;
-        this.code.province[1] = e[0]
-        this.code.city[1] = e[1]
       } else if (e[0] != "" && e[1] != "" && e[2] != "") {
         this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
-        this.code.province[1] = e[0]
-        this.code.city[1] = e[1]
-        this.code.area[1] = e[2]
       }
-
       // 省市区的code，传给后端
       // this.columns[i[0]].eng,
       // this.columns[i[0]].children[i[1]].eng,
       // this.columns[i[0]].children[i[1]].children[i[2]].eng
-      // 判断省市区为不为空，为空就不传
-      if (this.columns[i[0]].eng != "") {
-        this.req.province = this.columns[i[0]].eng;
-        this.code.province[0] = this.req.province
-      }
-      if (this.columns[i[0]].children[i[1]].eng != "") {
-        this.req.city = this.columns[i[0]].children[i[1]].eng;
-        this.code.city[0] = this.req.city
-      }
-      if (this.columns[i[0]].children[i[1]].children[i[2]].eng != "") {
-        this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
-        this.code.area[0] = this.req.area
-      }
+      this.req.province = this.columns[i[0]].eng;
+      this.req.city = this.columns[i[0]].children[i[1]].eng;
+      this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
       // 选择省市区的显示隐藏
       this.showPopup = false;
     },
     // 保存按钮
     save() {
-      if (this.$route.query.form === "/my/community/create") {
-        this.$router.replace({name: 'communityCreate', params: {code: this.code}})
+      if (this.req.country == "CHN") {
+        if (this.req.province) {
+          setuserinfo(this.req).then((res) => {
+            if (res.data.code == 0) {
+              this.$toast.success("保存成功");
+              setTimeout(() => {
+                this.$router.back();
+              }, 600);
+            } else {
+              this.$toast.fail(res.data.message);
+            }
+          });
+        } else {
+          this.$toast("请选择省份");
+        }
       } else {
         setuserinfo(this.req).then((res) => {
           if (res.data.code == 0) {
@@ -208,7 +198,7 @@ export default {
               this.$router.back();
             }, 600);
           } else {
-            this.$toast.fail("保存失败");
+            this.$toast.fail(res.data.message);
           }
         });
       }

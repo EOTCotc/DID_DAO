@@ -233,10 +233,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({
-            name: "bindCommunity",
-            params: { site: JSON.stringify(res.data.items), home: "home" },
-          });
+          this.$router.push({name: "bindCommunity",});
         }
       });
     },
