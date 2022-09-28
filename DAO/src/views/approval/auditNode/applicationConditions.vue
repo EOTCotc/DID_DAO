@@ -1,5 +1,5 @@
 <template>
-  <div :class="displayApplicationConditions? 'box2':'box'">
+  <div class="box">
     <header>
       <white :title="title"></white>
     </header>
@@ -9,7 +9,7 @@
                  :src="require('./IMG/bg.png')" />
       <div class="text"
            v-if="displayApplicationConditions">
-        <p>成为仲裁员</p>
+        <p>成为审核节点</p>
         <p>维护安全稳定信任的交易环境</p>
       </div>
       <div class="text2"
@@ -58,7 +58,7 @@
             <p>了解学习仲裁规则</p>
           </div>
           <div class="right"
-               @click="auditing('understandLearningRules')"
+               @click="auditing('examineUnderstandLearningRules')"
                v-if="qualificationPassed3==false">去学习
             <van-icon name="arrow" />
           </div>
@@ -97,19 +97,19 @@
                        :src="require('./IMG/组 490@2x.png')" />
             <span>仲裁员</span>
           </div>
-          <div>{{ArbitratorsIdentityInformation.name}}</div>
+          <div>李木子</div>
         </div>
         <div>
           <div>身份编号</div>
-          <div>{{ArbitratorsIdentityInformation.number}}</div>
+          <div>012022052601</div>
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{ArbitratorsIdentityInformation.createDate}}</div>
+          <div>2022.05.26</div>
         </div>
         <div>
           <div>仲裁次数</div>
-          <div>{{ArbitratorsIdentityInformation.arbitrateNum}}</div>
+          <div>2</div>
         </div>
       </div>
       <div class="bottom">
@@ -133,7 +133,8 @@
                       size="large ">
             考试说明
           </van-button>
-          <van-button color="#F3F4F5 ">90分即通过</van-button>
+          <van-button color="#F3F4F5 "
+                      style="color:#333333 ">90分即通过</van-button>
           <div class="middle">
             <div class="middleTitle">
               <p>题目数量</p>
@@ -147,7 +148,7 @@
           </div>
           <van-button color="#237FF8"
                       class="startBtn"
-                      @click="auditing('examination') ">开始答题</van-button>
+                      @click="auditing('auditNodeExamination') ">开始答题</van-button>
           <van-icon name="close"
                     color="#fff"
                     size="29"
@@ -190,7 +191,6 @@
 </template>
 <script>
 import white from '@/components/Nav/white.vue'
-import { TerminationArbitrator } from '@/api/TerminationOfArbitrator'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
 import icon1 from './IMG/icon.png'
@@ -201,19 +201,11 @@ export default {
   components: { white, notification1, notification2 },
   data() {
     return {
-      title: '仲裁员',
-      ArbitratorsIdentityInformation: [
-        {
-          name: '李木子',
-          number: '012022052601',
-          createDate: '2022-09-28T08:03:49.797Z',
-          arbitrateNum: 0,
-        },
-      ],
+      title: '审核节点',
       show: false,
       showFraction: false,
       applynow: false,
-      displayApplicationConditions: false,
+      displayApplicationConditions: true,
       qualificationPassed: false,
       qualificationPassed1: false,
       qualificationPassed2: false,
@@ -306,7 +298,6 @@ export default {
           })
             .then(() => {
               this.displayApplicationConditions = true
-              TerminationArbitrator(this.IDNo)
               // on confirm
             })
             .catch(() => {
@@ -322,7 +313,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .box {
-  background-color: #f3f4f5;
+  background-color: #fff;
   height: 100vh;
 }
 .box {
@@ -330,15 +321,6 @@ export default {
     color: #f37a4c !important;
   }
 }
-.box2 {
-  background-color: #fff;
-  height: 100vh;
-}
-// .box2 {
-//   ::v-deep .van-dialog__message--has-title {
-//     color: #f37a4c !important;
-//   }
-// }
 .dismissalDialog {
   .van-dialog__header {
     color: #333333;
@@ -518,6 +500,7 @@ export default {
     .list1 {
       margin-top: 20px;
     }
+
     .list {
       padding: 20px 20px;
       display: flex;

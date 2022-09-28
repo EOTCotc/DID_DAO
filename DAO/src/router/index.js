@@ -142,11 +142,6 @@ const routes = [
     component: () => import("@/views/Arbitration"),
   },
   {
-    path: "/user/arbitration/personnel",
-    name: "arbitrationPersonnel",
-    component: () => import("@/views/Arbitration/personnel"),
-  },
-  {
     path: "/user/arbitration/case",
     name: "arbitrationCase",
     component: () => import("@/views/Arbitration/case"),
@@ -212,7 +207,24 @@ const routes = [
     path: '/arbitrationMsg',
     name: 'arbitrationMsg',
     component: () => import('@/views/Arbitration/arbitrationMsg')
+  },
+  // 审核节点
+  {
+    path: '/user/approval/auditNode/applicationConditions',
+    name: 'applicationConditions',
+    component: () => import('@/views/approval/auditNode/applicationConditions')
+  },
+  {
+    path: '/examineUnderstandLearningRules',
+    name: 'examineUnderstandLearningRules',
+    component: () => import('@/views/approval/auditNode/examineUnderstandLearningRules')
+  },
+  {
+    path: '/auditNodeExamination',
+    name: 'auditNodeExamination',
+    component: () => import('@/views/approval/auditNode/auditNodeExamination')
   }
+
 ];
 
 // 解决重复点击同一各路由会报错

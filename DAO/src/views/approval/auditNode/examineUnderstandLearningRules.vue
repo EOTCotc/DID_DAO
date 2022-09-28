@@ -70,7 +70,7 @@ export default {
   methods: {
     completeLearning() {
       this.$router.replace({
-        name: 'meetTheConditions',
+        name: 'applicationConditions',
         params: {
           qualificationPassed3: this.qualificationPassed3,
         },

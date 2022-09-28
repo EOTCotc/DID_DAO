@@ -403,7 +403,7 @@ export default {
       })
       //提交表单
       this.$router.replace({
-        name: 'meetTheConditions',
+        name: 'applicationConditions',
         params: {
           totalScore: this.totalScore,
         },
@@ -417,7 +417,7 @@ export default {
   mounted() {
     if (this.time <= 0) {
       this.$router.push({
-        name: 'meetTheConditions',
+        name: 'applicationConditions',
       })
     }
   },
