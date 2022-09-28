@@ -1,5 +1,5 @@
 <template>
-  <div class="publicity_wrap fullscreen bg-gray">
+  <div class="publicity_wrap fullscreen">
     <page-header title="仲裁" />
     <div class="content">
       <div class="main">

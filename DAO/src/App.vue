@@ -5,4 +5,13 @@
 </template>
 
 <style lang="scss">
+div{
+  box-sizing: border-box;
+}
+button{
+  border: none;
+}
+p{
+  margin: 0;
+}
 </style>
