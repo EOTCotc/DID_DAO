@@ -5,7 +5,7 @@
       <div class="content">
         <van-list
             v-model="list.btloading"
-            :finished="list.finished"
+            :finished="!!list.data.length && list.finished"
             finished-text="没有更多了"
             @load="onLoad"
         >

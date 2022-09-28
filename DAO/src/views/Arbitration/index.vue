@@ -6,11 +6,11 @@
         <van-cell title="仲裁员公示"
                   title-class="row-title"
                   is-link
-                  to="/user/arbitration/personnel" />
+                  to="/user/arbitration/publicity/personnel" />
         <van-cell title="仲裁案公示"
                   title-class="row-title"
                   is-link
-                  to="/user/arbitration/case" />
+                  to="/user/arbitration/publicity/case" />
         <van-cell title="成为仲裁员"
                   title-class="row-title"
                   is-link
