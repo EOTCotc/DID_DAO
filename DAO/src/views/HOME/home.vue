@@ -81,6 +81,7 @@
         </div>
       </van-popup>
     </div>
+    <!-- v-show="items == 1 || items == 2" -->
     <Notification
       title="系统检测您的账号存在异常"
       message="暂无法使用该系统，请根据提示解除风控"
@@ -96,6 +97,7 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import Notification from "@/components/notification";
+import { getuserrisklevel } from "@/api/pneumatic";
 import { getproposallist } from "@/api/viewsApi/home";
 export default {
   components: { TopBar, Notification },
@@ -108,6 +110,14 @@ export default {
         { id: 0, text: "简体中文", lang: "zh" },
         { id: 1, text: "English", lang: "en" },
       ],
+      tanShow: false,
+      items: 0,
+    };
+  },
+  created() {
+    getuserrisklevel().then((res) => {
+      this.items = res.data.items;
+    });
       proposalList: [], //提案列表
     };
   },

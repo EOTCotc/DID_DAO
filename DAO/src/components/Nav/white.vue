@@ -7,7 +7,6 @@
       left-arrow
       @click-left="onClickLeft"
     />
-  
   </div>
 </template>
 
@@ -32,7 +31,7 @@ export default {
 .van-nav-bar .van-icon {
   color: #000;
 }
-.van-button{
+.van-button {
   display: inline-block !important;
 }
 

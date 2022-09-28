@@ -10,39 +10,40 @@
       </div>
     </header>
     <main class="section">
-      <van-cell-group inset>
-        <van-cell title="解除风控联系①" />
-        <van-field label="联系人" value="程莉莉" readonly :border="false" />
-        <van-field
-          label="手机号"
-          class="phone"
-          value="13145698742"
-          readonly
-          @click="copy"
-        />
+      <van-cell-group inset v-for="(item, index) in riskList" :key="index">
+        <van-cell title="解除风控联系">
+          <template #right-icon>
+            <van-image
+              width="25"
+              height="25"
+              v-if="item.status == 0"
+              :src="require('../../assets/img/quan.png')"
+            />
+            <van-image
+              width="25"
+              height="25"
+              v-if="item.status == 2"
+              :src="require('../../assets/img/feng_jin.png')"
+            />
+          </template>
+        </van-cell>
+        <van-row class="wen">
+          <van-col span="4">联系人</van-col>
+          <van-col span="10" offset="4" @click="copy">{{ item.name }}</van-col>
+        </van-row>
+        <van-row class="wen">
+          <van-col span="4">手机号</van-col>
+          <van-col span="10" offset="4" id="phone" @click="copy">{{
+            item.phone
+          }}</van-col>
+        </van-row>
       </van-cell-group>
-      <van-cell-group inset>
-        <van-cell title="解除风控联系①" />
-        <van-field label="联系人" value="程莉莉" readonly :border="false" />
-        <van-field
-          label="手机号"
-          class="phone"
-          value="13145698742"
-          readonly
-          @click="copy"
-        />
-      </van-cell-group>
-      <van-cell-group inset>
-        <van-cell title="解除风控联系①" />
-        <van-field label="联系人" value="程莉莉" readonly :border="false" />
-        <van-field
-          label="手机号"
-          class="phone"
-          value="13145698742"
-          readonly
-          @click="copy"
-        />
-      </van-cell-group>
+      <van-empty
+        v-show="!riskList.length"
+        class="custom-image"
+        :image="require('./../../assets/img/empty.png')"
+        description="暂无任何数据"
+      />
       <van-action-sheet
         v-model="show"
         :actions="actions"
@@ -58,6 +59,7 @@
 <script>
 import White from "@/components/Nav/white.vue";
 import { Toast } from "vant";
+import { getrisklist } from "@/api/pneumatic";
 export default {
   components: {
     White,
@@ -67,9 +69,16 @@ export default {
       title: "解除风控",
       show: false,
       actions: [{ name: "呼叫" }, { name: "复制号码" }],
+      riskList: [],
     };
   },
   mounted() {},
+  created() {
+    getrisklist().then((res) => {
+      console.log(res);
+      this.riskList = res.data.items;
+    });
+  },
   methods: {
     copy() {
       this.show = true;
@@ -79,7 +88,18 @@ export default {
     },
     onSelect(item) {
       if (item.name == "复制号码") {
-        console.log(111);
+        // 模拟 输入框
+        var cInput = document.createElement("input");
+        var value = document.getElementById("phone");
+        cInput.value = value.innerText;
+        document.body.appendChild(cInput);
+        cInput.select(); // 选取文本框内容
+
+        document.execCommand("copy");
+
+        Toast("复制成功");
+        // 复制成功后再将构造的标签 移除
+        document.body.removeChild(cInput);
       }
     },
   },
@@ -99,5 +119,11 @@ export default {
       }
     }
   }
+}
+.wen {
+  font-size: 26px;
+  /* maring: ; */
+  padding: 10px 30px;
+  line-height: 48px;
 }
 </style>

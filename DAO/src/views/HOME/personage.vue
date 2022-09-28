@@ -31,15 +31,7 @@ export default {
     };
   },
   created() {
-    let walletAddress = localStorage.getItem("myaddress");
-    let otype = localStorage.getItem("netType");
-    let sign = localStorage.getItem("mysign");
-
-    gettotalincome({
-      walletAddress: walletAddress,
-      otype: otype,
-      sign: sign,
-    }).then((res) => {
+    gettotalincome().then((res) => {
       console.log(res);
       this.total = res.data.items;
     });
