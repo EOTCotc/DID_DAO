@@ -112,14 +112,13 @@ export default {
       ],
       tanShow: false,
       items: 0,
+      proposalList: [], //提案列表
     };
   },
   created() {
     getuserrisklevel().then((res) => {
       this.items = res.data.items;
     });
-      proposalList: [], //提案列表
-    };
   },
   mounted() {
     this.getProposal();

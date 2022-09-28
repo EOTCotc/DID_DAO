@@ -142,11 +142,6 @@ const routes = [
     component: () => import("@/views/Arbitration"),
   },
   {
-    path: "/user/arbitration/personnel",
-    name: "arbitrationPersonnel",
-    component: () => import("@/views/Arbitration/personnel"),
-  },
-  {
     path: "/user/arbitration/case",
     name: "arbitrationCase",
     component: () => import("@/views/Arbitration/case"),
