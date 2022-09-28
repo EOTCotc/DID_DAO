@@ -479,6 +479,7 @@ export default {
       h3 {
         color: #333333;
         font-size: 35px;
+        line-height: 60px;
       }
       h4 {
         color: #999999;
@@ -513,12 +514,12 @@ export default {
     .answerOptions {
       div {
         background-color: #f9f9f9;
-        border-radius: 10px;
+        border-radius: 20px;
         color: #666666;
         font-size: 30px;
         margin: 25px 0;
         display: flex;
-        padding: 11px;
+        padding: 11px 30px;
         line-height: 55px;
         span {
           color: #666666;

@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       title: '了解学习相关规则',
-      qualificationPassed3: true,
+      examinequalificationPassed3: true,
       flag: true,
     }
   },
@@ -69,10 +69,10 @@ export default {
   },
   methods: {
     completeLearning() {
-      this.$router.replace({
-        name: 'applicationConditions',
-        params: {
-          qualificationPassed3: this.qualificationPassed3,
+      this.$router.push({
+        path: '/user/approval/auditNode/applicationConditions',
+        query: {
+          examinequalificationPassed3: this.examinequalificationPassed3,
         },
       })
     },
@@ -97,20 +97,20 @@ export default {
       font-size: 35px;
     }
     div {
-      font-size: 25px;
+      font-size: 27px;
       margin-bottom: 20px;
     }
   }
   .BasicRules {
     div {
-      line-height: 48px;
+      line-height: 50px;
     }
   }
   .DeductionRules {
     div {
-      line-height: 48px;
+      line-height: 50px;
       div {
-        line-height: 48px;
+        line-height: 50px;
       }
     }
   }

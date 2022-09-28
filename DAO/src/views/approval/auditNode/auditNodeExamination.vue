@@ -32,7 +32,7 @@
           <div class="completion"
                v-if="item.topicType=='(填空题)'">
             <h4>{{item.topicType}}</h4>
-            <div>{{item.questionContant[0]}}
+            <div class="filed">{{item.questionContant[0]}}
               <van-field v-model="text"
                          @blur="getText(item)" />{{item.questionContant[1]}}
             </div>
@@ -479,6 +479,7 @@ export default {
       h3 {
         color: #333333;
         font-size: 35px;
+        line-height: 60px;
       }
       h4 {
         color: #999999;
@@ -496,6 +497,7 @@ export default {
       }
       div {
         margin-top: 5px;
+
         font-size: 31px;
         line-height: 55px;
       }
@@ -505,20 +507,22 @@ export default {
         margin-top: 20px;
       }
       .van-field {
-        border-bottom: 1px solid black;
         display: inline-block;
         width: 100px;
+      }
+      ::v-deep .van-field__control {
+        border-bottom: 1px solid black;
       }
     }
     .answerOptions {
       div {
         background-color: #f9f9f9;
-        border-radius: 10px;
+        border-radius: 20px;
         color: #666666;
         font-size: 30px;
         margin: 25px 0;
         display: flex;
-        padding: 11px;
+        padding: 11px 30px;
         line-height: 55px;
         span {
           color: #666666;
