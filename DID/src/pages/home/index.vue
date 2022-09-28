@@ -191,14 +191,11 @@ export default {
       // 判断有没有选位置，有就直接调到社区
       // 没有就跳到选择已有的社区页面
       getcomselect().then((res) => {
-        if (res.data.items.country == '-') {
+        if (!res.data.items.country) {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({
-            name: "bindCommunity",
-            params: { site: JSON.stringify(res.data.items), home: "home" },
-          });
+          this.$router.push({name: "bindCommunity",});
         }
       });
     },

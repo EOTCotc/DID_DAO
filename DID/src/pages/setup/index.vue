@@ -90,8 +90,8 @@ export default {
       site: "", //所在地
       telegram: "", //电报群
       userInfo: "", //用户信息
-      showPopup: false,//设置电报群弹出层
-      showLogout: false,//退出登录弹出层
+      showPopup: false, //设置电报群弹出层
+      showLogout: false, //退出登录弹出层
     };
   },
   mounted() {
@@ -106,24 +106,26 @@ export default {
     getUserInfo() {
       getuserinfo().then((res) => {
         if (res.data.code == 0) {
-          this.$toast.clear();
           let info = res.data.items;
           this.userInfo = info;
-          this.cookie.set("userInfo", JSON.stringify(info));
+          this.cookie.set("userInfo", JSON.stringify(info)); //更新用户信息
           if (info.country) {
             let arrCountry = info.country.split("-");
             let arrProvince = info.province.split("-");
             let arrCity = info.province.split("-");
             let arrArea = info.area.split("-");
             // 如果是中国，不显示国家，只显示省市区
-            if (info.country == "中国") {
-              this.site = `${arrProvince[1]}-${arrCity[1]}-${arrArea[1]}`;
+            if (arrCountry[0] == "CHN") {
+              this.site = `${arrProvince[1] ? arrProvince[1] : ""}
+              ${arrCity[1] ? "-" + arrCity[1] : ""}
+              ${arrArea[1] ? "-" + arrArea[1] : ""}`;
             } else if (info.province == "-") {
               //外国 没有省 只显示国家
               this.site = arrCountry[1];
             } else if (info.province) {
               //有省就显示  国家-省
-              this.site = `${arrCountry[1]}-${arrProvince[1]}`;
+              this.site = `${arrCountry[1] ? arrCountry[1] + "-" : ""}
+              ${arrProvince[1] ? arrProvince[1]: ""}`;
             }
           }
         }
@@ -156,6 +158,7 @@ export default {
     // 推出登录
     logout() {
       this.cookie.remove("token");
+      localStorage.clear();
       this.$toast.success("退出登录成功");
       setTimeout(() => {
         this.$router.push("/login");
@@ -174,7 +177,7 @@ export default {
   background: #1b2945;
 }
 :deep(.van-cell) {
-  height: 48px;
+  min-height: 48px;
 }
 .bar {
   font-size: 36px;

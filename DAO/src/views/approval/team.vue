@@ -5,8 +5,6 @@
       <van-tabs
           v-model="tab.active"
           swipeable
-          background="#1b2945"
-          title-active-color="#FFF"
           title-inactive-color="#8D94A2"
           @change="handleChangeTab"
       >

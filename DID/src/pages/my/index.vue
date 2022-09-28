@@ -44,7 +44,7 @@
           v-if="userInfo.authType == 2"
           is-link
           :border="false"
-          :to="userInfo.refUid?'/my/identity/approval':''"
+          :to="userInfo.refUid ? '/my/identity/approval' : ''"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -76,7 +76,7 @@
           </template>
         </van-cell>
         <!-- 身份信息 -->
-        <van-cell is-link :border="false" :to="identifyRouter">
+        <van-cell is-link :border="false" v-if="!!userInfo.authType" :to="identifyRouter">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenfen.png" />
@@ -202,15 +202,6 @@ export default {
     this.handleRefresh();
   },
   computed: {
-    identifyStatus() {
-      if (this.userInfo.authType === 1) {
-        return "审核中";
-      } else if (this.userInfo.authType === 2) {
-        return "审核成功";
-      } else if (this.userInfo.authType === 3) {
-        return "审核失败";
-      }
-    },
     // 身份信息跳转
     identifyRouter() {
       if (this.userInfo.authType === 0) {
@@ -235,6 +226,7 @@ export default {
       getuserinfo()
         .then((res) => {
           this.userInfo = res.data.items;
+          this.cookie.set('userInfo', JSON.stringify(this.userInfo))
           if (
             this.userInfo &&
             this.userInfo.comAuditType === 2 &&

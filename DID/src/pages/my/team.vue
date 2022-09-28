@@ -81,6 +81,9 @@
               class="more"
               color="#1B2945"
               type="primary"
+              :loading="moreLoading"
+              :disabled="moreLoading"
+              loading-text="申请提交中…"
               @click="getMore"
           >
             更多团队成员
@@ -101,7 +104,7 @@
 
 <script>
 import { Dialog } from 'vant'
-import {list} from "@/api/pagesApi/team"
+import {list, morePersonnel} from "@/api/pagesApi/team"
 import {transformUTCDate, copy} from "@/utils/utils";
 
 export default {
@@ -111,6 +114,7 @@ export default {
       loading: false,
       teamNumber: 0,
       pushNumber: 0,
+      moreLoading: false,
       tab: {
         data: ['全部', '已认证', '未认证'],
         active: 0
@@ -197,7 +201,14 @@ export default {
         cancelButtonText: "稍后联系",
         beforeClose: (action, done) => {
           if (action === "confirm") {
-            this.$toast.success('申请成功！');
+            this.moreLoading = true
+            morePersonnel().then(res => {
+              if (res.data.code) {
+                this.$toast.fail('申请失败');
+              } else {
+                this.$toast.success('申请已提交');
+              }
+            }).finally(() => this.moreLoading = false)
             done()
           } else {
             done()

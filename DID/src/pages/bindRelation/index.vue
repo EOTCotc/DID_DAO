@@ -174,7 +174,6 @@ export default {
     toCommunity() {
       // 请求参数和获取社区数量参数一样
       setcomselect(this.reqComNum).then((res) => {
-        console.log(res);
         if (res.data.code == 0) {
           this.$router.push({
             name: "bindCommunity",

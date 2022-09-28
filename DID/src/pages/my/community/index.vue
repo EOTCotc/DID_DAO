@@ -2,8 +2,8 @@
   <div class="community_wrap fullscreen">
     <page-header title="我的社区" theme="dark" />
     <div class="content">
-      <van-cell class="title">
-        <template slot="title"><div>{{community.comName}}</div></template>
+      <van-cell class="title" v-if="userInfo.communityId">
+        <template #title><div>{{community.comName}}</div></template>
         <i class="icon icon-setting" v-if="userInfo.authType === 2" @click="$router.push('/my/community/setting')"></i>
       </van-cell>
       <img class="img" :src="community.image" alt="">
@@ -77,7 +77,7 @@ export default {
             message: res.data.message
           })
         }
-      }).finally(err => {
+      }).finally(() => {
         this.$toast.clear()
       })
     },

@@ -8,7 +8,7 @@ export function getmyprops (data) {
   });
 }
 //提案详情
-export function getproposal (proposalId) {
+export function getproposal(proposalId) {
   let params = {
     proposalId: proposalId,
   };
@@ -28,28 +28,26 @@ export function putproposal (data) {
 }
 
 //取消提案
-export function cancelproposal (data, proposalId) {
+export function cancelproposal(proposalId) {
   let params = {
-    proposalId: proposalId
+    proposalId: proposalId,
   };
   return request({
     url: "api/proposal/cancelproposal",
     method: "post",
     params,
-    data,
   });
 }
 
 //投票
-export function proposalvote (data, proposalId, vote) {
+export function proposalvote(proposalId, vote) {
   let params = {
     proposalId: proposalId,
-    vote: vote
+    vote: vote,
   };
   return request({
     url: "api/proposal/proposalvote",
     method: "post",
     params,
-    data,
   });
 }

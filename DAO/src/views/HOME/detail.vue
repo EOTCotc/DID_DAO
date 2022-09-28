@@ -47,19 +47,7 @@ export default {
     };
   },
   created() {
-    let walletAddress = localStorage.getItem("myaddress");
-    let otype = localStorage.getItem("netType");
-    let sign = localStorage.getItem("mysign");
-
-    getincome(
-      {
-        walletAddress: walletAddress,
-        otype: otype,
-        sign: sign,
-      },
-      this.page,
-      this.itemsPerPage
-    ).then((res) => {
+    getincome(this.page, this.itemsPerPage).then((res) => {
       this.personageArr = res.data.items;
       console.log(this.personageArr);
     });

@@ -4,19 +4,19 @@
     <div class="fail_wrap">
       <van-row class="row">
         <van-col :span="8" class="title">姓   名</van-col>
-        <van-col :span="16" class="value">伍铭</van-col>
+        <van-col :span="16" class="value">{{ info.name }}</van-col>
       </van-row>
       <van-row class="row">
         <van-col :span="8" class="title">手机号</van-col>
-        <van-col :span="16" class="value">13445692541</van-col>
+        <van-col :span="16" class="value">{{ info.phoneNum }}</van-col>
       </van-row>
       <van-row class="row">
         <van-col :span="8" class="title">证件号</van-col>
-        <van-col :span="16" class="value">435896155245878</van-col>
+        <van-col :span="16" class="value">{{ info.idCard }}</van-col>
       </van-row>
       <van-row class="row">
         <van-col :span="8" class="title">审核节点</van-col>
-        <van-col :span="24" class="value" v-if="info.auths">
+        <van-col :span="24" class="value" v-if="!!(info.auths && info.auths.length)">
           <van-steps direction="vertical" :active="2" active-color="#227AEE" inactive-color="#227AEE">
             <van-step v-for="item in info.auths" :key="item.auditStep">
               <van-row>

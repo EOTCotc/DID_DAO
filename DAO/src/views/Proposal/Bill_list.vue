@@ -51,16 +51,12 @@ export default {
   data() {
     return {
       title: "我的提案",
-      query: {
-        walletAddress: localStorage.getItem("myaddress"),
-        otype: localStorage.getItem("netType"),
-        sign: localStorage.getItem("mysign"),
-      },
+
       List: [],
     };
   },
   created() {
-    getmyprops(this.query).then((res) => {
+    getmyprops().then((res) => {
       this.List = res.data.items;
       console.log(this.List);
     });
@@ -79,7 +75,6 @@ export default {
 .meun {
   height: 100vh;
   background: #f3f4f5;
-  margin-bottom: 16px;
   position: relative;
 }
 .box {
@@ -89,19 +84,19 @@ export default {
 }
 .one_an {
   color: #000;
-  margin: 16px;
+  margin: 20px;
   border-bottom: 1px solid #eeeeee;
-  line-height: 32px;
-  font-size: 16px;
+  line-height: 60px;
+  font-size: 30px;
   .piao {
     display: flex;
     color: #9296a2;
-    font-size: 12.8px;
+    font-size: 16px;
     justify-content: space-between;
     .ion {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       background: #fc7542;
     }
