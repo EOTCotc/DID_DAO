@@ -4,97 +4,98 @@
       <white :title="title"></white>
     </header>
     <div class="backgroundPicture">
-      <van-image width="100vw"
-                 height="140px"
-                 :src="require('./IMG/bg.png')" />
-      <div class="text"
-           v-if="displayApplicationConditions">
+      <van-image width="100vw" height="140px" :src="require('./IMG/bg.png')" />
+      <div class="text" v-if="displayApplicationConditions">
         <p>成为仲裁员</p>
         <p>维护安全稳定信任的交易环境</p>
       </div>
-      <div class="text2"
-           v-else>
+      <div class="text2" v-else>
         <p>维护安全稳定信任的交易环境</p>
       </div>
     </div>
-    <div class="applicationConditions"
-         v-if="displayApplicationConditions">
+    <div class="applicationConditions" v-if="displayApplicationConditions">
       <h4>申请条件</h4>
       <div class="conditionsList">
         <div class="list list1">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div class="right"
-               @click="auditing('ArbitrationByFormula') "
-               v-if="qualificationPassed==false">去认证
+          <div
+            class="right"
+            @click="auditing('ArbitrationByFormula')"
+            v-if="qualificationPassed == false"
+          >
+            去认证
             <van-icon name="arrow" />
           </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F " />
+          <div class="right" v-else>
+            <van-icon name="success" color="#1D9C3F " />
           </div>
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="refund-o" />
             <p>质押5000 EOTC以上</p>
           </div>
-          <div class="right"
-               v-if="qualificationPassed==false">去质押
+          <div class="right" v-if="qualificationPassed == false">
+            去质押
             <van-icon name="arrow" />
           </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F " />
+          <div class="right" v-else>
+            <van-icon name="success" color="#1D9C3F " />
           </div>
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="orders-o" />
             <p>了解学习仲裁规则</p>
           </div>
-          <div class="right"
-               @click="auditing('understandLearningRules')"
-               v-if="qualificationPassed==false">去学习
+          <div
+            class="right"
+            @click="auditing('understandLearningRules')"
+            v-if="qualificationPassed == false"
+          >
+            去学习
             <van-icon name="arrow" />
           </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F " />
+          <div class="right" v-else>
+            <van-icon name="success" color="#1D9C3F " />
           </div>
         </div>
         <div class="list listn">
           <div class="left">
-            <van-icon name="cart-circle-o" />
-            <div class="examinationColumn"><span>通过考试</span><span style="color:#999999;font-size:12px ">考试成绩达到90分以上</span></div>
+            <van-icon name="sign" />
+            <div class="examinationColumn">
+              <span>通过考试</span
+              ><span style="color: #999999; font-size: 12px"
+                >考试成绩达到90分以上</span
+              >
+            </div>
           </div>
-          <div class="right"
-               @click="ExamTips"
-               v-if="qualificationPassed==false">去考试
+          <div
+            class="right"
+            @click="ExamTips"
+            v-if="qualificationPassed == false"
+          >
+            去考试
             <van-icon name="arrow" />
-
           </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F " />
+          <div class="right" v-else>
+            <van-icon name="success" color="#1D9C3F " />
           </div>
         </div>
       </div>
     </div>
-    <div v-if="displayApplicationConditions==false"
-         class="identityCard">
+    <div v-if="displayApplicationConditions == false" class="identityCard">
       <div class="top">
         <div>
           <div class="first">
-            <van-image width="20"
-                       height="20"
-                       :src="require('./IMG/组 490@2x.png')" />
+            <van-image
+              width="20"
+              height="20"
+              :src="require('./IMG/组 490@2x.png')"
+            />
             <span>仲裁员</span>
           </div>
           <div>李木子</div>
@@ -124,18 +125,18 @@
         </div>
       </div>
     </div>
-    <van-overlay :show="show"
-                 @click="toggle2"
-                 closeOnClickOverlay="true">
-      <div class="wrapper"
-           @click.stop>
+    <van-overlay :show="show" @click="toggle2" closeOnClickOverlay="true">
+      <div class="wrapper" @click.stop>
         <div class="block">
-          <van-button color="linear-gradient(to right, #3EBDFF, #006BF8)"
-                      size="large ">
+          <van-button
+            color="linear-gradient(to right, #3EBDFF, #006BF8)"
+            size="large "
+          >
             考试说明
           </van-button>
-          <van-button color="#F3F4F5 "
-                      style="color:#333333 ">90分即通过</van-button>
+          <van-button color="#F3F4F5 " style="color: #333333"
+            >90分即通过</van-button
+          >
           <div class="middle">
             <div class="middleTitle">
               <p>题目数量</p>
@@ -147,81 +148,89 @@
               <p class="p2"><span>30</span>分钟</p>
             </div>
           </div>
-          <van-button color="#237FF8"
-                      class="startBtn"
-                      @click="auditing('examination') ">开始答题</van-button>
-          <van-icon name="close"
-                    color="#fff"
-                    size="29"
-                    @click="show = false" />
+          <van-button
+            color="#237FF8"
+            class="startBtn"
+            @click="auditing('examination')"
+            >开始答题</van-button
+          >
+          <van-icon name="close" color="#fff" size="29" @click="show = false" />
         </div>
       </div>
     </van-overlay>
-    <notification ref="notification"
-                  :buttonText="buttonText"
-                  :buttonColor="buttonColor"
-                  :headerIcon="headerIcon"
-                  :title="title1"
-                  :message="message"
-                  :closeOnClick="closeOnClick"></notification>
+    <notification
+      ref="notification"
+      :buttonText="buttonText"
+      :buttonColor="buttonColor"
+      :headerIcon="headerIcon"
+      :title="title1"
+      :message="message"
+      :closeOnClick="closeOnClick"
+    ></notification>
     <footer>
-      <van-button round
-                  block
-                  type="info"
-                  color="#1B2945"
-                  :disabled="!qualificationPassed"
-                  @click="applyNow"
-                  v-if="displayApplicationConditions">立即申请</van-button>
-      <van-button round
-                  block
-                  type="info"
-                  color="#fff"
-                  :disabled="!qualificationPassed"
-                  @click="dismissal"
-                  v-if="displayApplicationConditions==false"
-                  class="vanbtn">解除身份</van-button>
+      <van-button
+        round
+        block
+        type="info"
+        color="#1B2945"
+        :disabled="!qualificationPassed"
+        @click="applyNow"
+        v-if="displayApplicationConditions"
+        >立即申请</van-button
+      >
+      <van-button
+        round
+        block
+        type="info"
+        color="#fff"
+        :disabled="!qualificationPassed"
+        @click="dismissal"
+        v-if="displayApplicationConditions == false"
+        class="vanbtn"
+        >解除身份</van-button
+      >
     </footer>
   </div>
 </template>
 <script>
-import white from '@/components/Nav/white.vue'
-import notification from '@/components/notification.vue'
-import icon1 from './IMG/icon.png'
-import icon2 from './IMG/icon2.png'
-import icon3 from './IMG/icon3.png'
-import { Dialog } from 'vant'
+import white from "@/components/Nav/white.vue";
+import notification from "@/components/notification.vue";
+import icon1 from "./IMG/icon.png";
+import icon2 from "./IMG/icon2.png";
+import icon3 from "./IMG/icon3.png";
+import { Dialog } from "vant";
 export default {
   components: { white, notification },
   data() {
     return {
-      title: '仲裁员',
+      title: "仲裁员",
       show: false,
       showFraction: false,
       applynow: false,
-      headerIcon: '',
+      headerIcon: "",
       displayApplicationConditions: true,
       title1: null,
       qualificationPassed: false,
-      message: '恭喜通过仲裁考试',
-      buttonColor: '#237FF8',
-      buttonText: '知道了',
+      message: "恭喜通过仲裁考试",
+      buttonColor: "#237FF8",
+      buttonText: "知道了",
       closeOnClick: true,
-    }
+    };
   },
   mounted() {
-    this.title1 = this.$route.query.totalScore
+    this.title1 = this.$route.query.totalScore;
     if (this.title1 > 90) {
-      this.headerIcon = icon1
-      this.message = '恭喜通过仲裁考试'
+      this.headerIcon = icon1;
+      this.message = "恭喜通过仲裁考试";
     } else {
-      this.headerIcon = icon2
-      this.message = '很遗憾未通过仲裁考试'
+      this.headerIcon = icon2;
+      this.message = "很遗憾未通过仲裁考试";
     }
     if (this.title1 != null) {
       this.message.length &&
         this.$nextTick().then(() => {
-          this.$refs.notification.toggle(true)
-        })
+          this.$refs.notification.toggle(true);
+        });
     }
   },
 
@@ -229,61 +238,61 @@ export default {
     auditing(name) {
       this.$router.push({
         name: name,
-      })
+      });
     },
     toggle2() {
-      console.log(false)
+      console.log(false);
     },
     ExamTips() {
-      this.show = true
+      this.show = true;
     },
     applyNow() {
-      this.$refs.notification.toggle(true)
-      this.headerIcon = icon3
-      this.title1 = '申请成功'
-      this.message = '成为仲裁员后平台会给您委派仲裁案'
-      this.buttonColor = '#237FF8'
-      this.buttonText = '好的'
-      this.closeOnClick = true
+      this.$refs.notification.toggle(true);
+      this.headerIcon = icon3;
+      this.title1 = "申请成功";
+      this.message = "成为仲裁员后平台会给您委派仲裁案";
+      this.buttonColor = "#237FF8";
+      this.buttonText = "好的";
+      this.closeOnClick = true;
     },
     dismissal() {
       Dialog.confirm({
-        title: '温馨提示',
+        title: "温馨提示",
         message:
-          '解除身份后平台将不会再委派处理仲裁案，再申请仲裁员身份需要重新学习和考试',
-        confirmButtonText: '知道了',
-        confirmButtonColor: '#1B2945',
-        cancelButtonText: '我再想想',
-        cancelButtonColor: '#666666 ',
-        className: 'dismissalDialog',
+          "解除身份后平台将不会再委派处理仲裁案，再申请仲裁员身份需要重新学习和考试",
+        confirmButtonText: "知道了",
+        confirmButtonColor: "#1B2945",
+        cancelButtonText: "我再想想",
+        cancelButtonColor: "#666666 ",
+        className: "dismissalDialog",
       })
         .then(() => {
           // on confirm
           Dialog.confirm({
-            title: '解除提示',
-            message: '确定解除仲裁员身份？',
-            confirmButtonColor: '#1B2945',
-            cancelButtonColor: '#666666 ',
-            className: 'dismissalDialog',
+            title: "解除提示",
+            message: "确定解除仲裁员身份？",
+            confirmButtonColor: "#1B2945",
+            cancelButtonColor: "#666666 ",
+            className: "dismissalDialog",
           })
             .then(() => {
-              this.displayApplicationConditions = true
+              this.displayApplicationConditions = true;
               // on confirm
             })
             .catch(() => {
               // on cancel
-            })
+            });
         })
         .catch(() => {
           // on cancel
-        })
+        });
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .box {
-  background-color: #f3f4f5;
+  background-color: #fff;
   height: 100vh;
 }
 .dismissalDialog {
@@ -424,6 +433,7 @@ export default {
   position: relative;
   .text {
     color: #fff;
+    line-height: 75px;
     position: absolute;
     top: 0;
     left: 50%;
@@ -452,14 +462,14 @@ export default {
   color: #333333;
   padding: 0 30px;
   h4 {
-    font-size: 28px;
+    font-size: 35px;
     margin-bottom: 0px;
-    padding: 0 20px;
+    padding: 0 0 20px;
   }
   .conditionsList {
     background-color: #f3f4f5;
     height: 448px;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 16px 0;
     box-sizing: border-box;
     .list1 {
@@ -467,6 +477,7 @@ export default {
     }
 
     .list {
+      line-height: 70px;
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
@@ -484,6 +495,7 @@ export default {
         .examinationColumn {
           font-size: 23px;
           display: flex;
+          line-height: 35px;
           flex-direction: column;
           margin-left: 15px;
         }

@@ -81,8 +81,17 @@
         </div>
       </van-popup>
     </div>
-    <!-- v-show="items == 1 || items == 2" -->
+    <div class="filed" v-show="tanShow == true" @click="Remove_risk">
+      <van-image
+        width="30"
+        height="30"
+        style="margin-right: 5px"
+        :src="require('../../assets/img/jin.png')"
+      />
+      <span>解除风控</span>
+    </div>
     <Notification
+      ref="notification"
       title="系统检测您的账号存在异常"
       message="暂无法使用该系统，请根据提示解除风控"
       :headerIcon="require('../../assets/img/jin.png')"
@@ -97,7 +106,7 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import Notification from "@/components/notification";
-import { getuserrisklevel } from "@/api/pneumatic";
+import { getuserrisklevel } from "@/api/viewsApi/home";
 import { getproposallist } from "@/api/viewsApi/home";
 export default {
   components: { TopBar, Notification },
@@ -111,13 +120,21 @@ export default {
         { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
-      items: 0,
+
       proposalList: [], //提案列表
     };
   },
   created() {
+    // 获取风险等级
     getuserrisklevel().then((res) => {
-      this.items = res.data.items;
+      if (res.data.code == 0) {
+        this.cookie.set("riskLevel", res.data.items);
+        if (res.data.items == 2) {
+          this.$nextTick().then(() => {
+            this.$refs.notification.toggle(true);
+          });
+        }
+      }
     });
   },
   mounted() {
@@ -134,6 +151,10 @@ export default {
           this.proposalList = res.data.items;
         }
       });
+    },
+    //跳转到解除风控
+    Remove_risk() {
+      this.$router.push("/relieve");
     },
     // 选择语言
     handleTabLang() {
@@ -286,5 +307,20 @@ export default {
       height: 40px;
     }
   }
+}
+//固定
+.filed {
+  width: 200px;
+  line-height: 90px;
+  background: #fff;
+  font-size: 28px;
+  color: #f34747;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px 0px 0px 50px;
+  position: fixed;
+  right: 0px;
+  bottom: 20%;
 }
 </style>

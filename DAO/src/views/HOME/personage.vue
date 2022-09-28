@@ -32,7 +32,6 @@ export default {
   },
   created() {
     gettotalincome().then((res) => {
-      console.log(res);
       this.total = res.data.items;
     });
   },
