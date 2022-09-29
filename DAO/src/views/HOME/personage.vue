@@ -33,6 +33,7 @@ export default {
   created() {
     gettotalincome().then((res) => {
       this.total = res.data.items;
+      localStorage.setItem("itms", res.data.items);
     });
   },
   methods: {

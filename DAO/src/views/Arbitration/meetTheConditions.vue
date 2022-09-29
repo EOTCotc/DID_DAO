@@ -557,7 +557,7 @@ export default {
   position: relative;
   .text {
     color: #fff;
-    line-height: 75px;
+    line-height: 55px;
     position: absolute;
     top: 0;
     left: 50%;
@@ -588,7 +588,7 @@ export default {
   padding: 0 35px;
   h4 {
     font-size: 32px;
-    padding: 35px 5px 25px 5px;
+    padding: 25px 0;
   }
   .conditionsList {
     background-color: #f3f4f5;

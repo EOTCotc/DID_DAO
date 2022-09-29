@@ -15,7 +15,6 @@ export function TerminationArbitrator () {
 //   });
 // }
 
-
 // 成为仲裁员
 export function becomeAnArbitrator () {
   return request({
