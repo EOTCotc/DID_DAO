@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">修改邮箱地址</span>
+        <span class="title">{{$t('setup.set_email')}}</span>
       </template>
     </van-nav-bar>
     <!-- 内容 -->
@@ -19,12 +19,16 @@
       <van-form ref="form" validate-trigger="onBlur">
         <!-- 邮箱地址 -->
         <div class="form-item">
-          <p>新邮箱地址</p>
-          <van-field v-model="form.mail" center placeholder="请输入新邮箱地址">
+          <p>{{ $t("setup.new_email") }}</p>
+          <van-field
+            v-model="form.mail"
+            center
+            :placeholder="$t('setup.input_email')"
+          >
             <template #button>
               <van-button @click="sendCode" v-show="!isSendCode" size="small"
                 ><span :style="form.mail ? 'color:#237FF8;' : ''"
-                  >发送验证码</span
+                  >{{$t('content.send_code')}}</span
                 ></van-button
               >
               <span v-show="isSendCode">{{ times }}S</span>
@@ -33,14 +37,14 @@
         </div>
         <!-- 邮箱验证码 -->
         <div class="form-item">
-          <p>新邮箱验证码</p>
+          <p>{{$t('setup.new_code')}}</p>
           <van-field
             type="number"
             v-model="form.code"
             center
             :disabled="form.mail ? false : true"
             @input="handleCode"
-            placeholder="请输入新邮箱验证码"
+            :placeholder="$t('setup.input_code')"
           >
           </van-field>
         </div>
@@ -59,7 +63,7 @@
             "
             @click="btnAuthorization"
           >
-            <span>授权</span>
+            <span>{{$t('setup.impower')}}</span>
             <div
               :style="
                 isStyle == 1
@@ -81,7 +85,7 @@
             :style="isStyle == 2 ? 'background:#247FF6;' : ''"
             @click="commitChange"
           >
-            <span>提交修改</span>
+            <span>{{$t('setup.cimmit_change')}}</span>
             <div :style="isStyle == 2 ? 'background:#247FF6;' : ''">2</div>
           </div>
         </div>

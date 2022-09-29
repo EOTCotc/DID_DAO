@@ -1,15 +1,15 @@
 <template>
   <!-- 确定信息 -->
   <div ref="child" class="container-child" :style="`min-height:${height}px;`">
-    <div class="title">确定信息</div>
+    <div class="title">{{ $t("logout.conf_info") }}</div>
     <div class="asset">
-      <span>账号资产</span>
+      <span>{{ $t("logout.acc_property") }}</span>
       <van-icon v-show="isIcon" name="warning-o" color="#FC7542" />
       <van-icon v-show="!isIcon" name="passed" color="#1D9C3F" />
     </div>
-    <p class="tips">账号资产包括不限于EOTC各个项目账户中的所有资产及奖励</p>
+    <p class="tips">{{ $t("logout.conf_tip") }}</p>
     <div class="conf" @click="handleDiscard" :style="`color:${color};`">
-      <span>确定舍弃/已处理</span>
+      <span>{{ $t("logout.give_up") }}</span>
       <van-icon name="arrow" />
     </div>
     <button
@@ -17,19 +17,23 @@
       @click="next"
       :style="isBtn ? '' : 'background:#247FF6;'"
     >
-      下一步
+      {{ $t("logout.next") }}
     </button>
 
     <!-- 弹出层 -->
     <van-popup v-model="showPopup" round>
       <div class="popup">
-        <div class="popup-title">账户资产处理</div>
+        <div class="popup-title">{{ $t("logout.acc_dispose") }}</div>
         <p class="popup-explain">
-          确定舍弃或已妥善处理好当前账户中所有的资产及奖励
+          {{ $t("logout.dis_tip") }}
         </p>
         <div class="popup-btn">
-          <div class="popup-btn-one" @click="isHandle">确定</div>
-          <div class="popup-btn-two" @click="showPopup = false">我再想想</div>
+          <div class="popup-btn-one" @click="isHandle">
+            {{ $t("public.confirm") }}
+          </div>
+          <div class="popup-btn-two" @click="showPopup = false">
+            {{ $t("logout.think_again") }}
+          </div>
         </div>
       </div>
     </van-popup>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar title="所在地社区" left-arrow>
+    <van-nav-bar :title="$t('bindRelation.site_comm')" left-arrow>
       <template #left>
         <van-icon @click="back" name="arrow-left" color="#000" />
       </template>
@@ -10,7 +10,7 @@
     </van-nav-bar>
 
     <div class="tips" v-show="show">
-      <p>为了您的账户安全，请加入所在地的电报群联系管理进行线下建立推荐关系</p>
+      <p>{{$t('bindRelation.comm_tip')}}</p>
       <van-icon @click="show = false" name="cross" color="#333" />
     </div>
 
@@ -20,14 +20,14 @@
         <span>{{ area }}</span>
       </div>
 
-      <van-list :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <van-list :finished="finished" :finished-text="$t('bindRelation.not_more')" @load="onLoad">
         <div v-for="(item, index) in list" :key="index">
           <div class="info">
             <p>{{ item.name }}</p>
             <img :src="item.image || ''" />
-            <p>社区简介</p>
+            <p>{{$t('bindRelation.adbout')}}</p>
             <p>{{ item.describe }}</p>
-            <p>电报群</p>
+            <p>{{$t('setup.telegram')}}</p>
             <a :href="item.telegram">{{ item.telegram }}</a>
           </div>
         </div>

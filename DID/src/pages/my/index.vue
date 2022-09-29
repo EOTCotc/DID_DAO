@@ -28,11 +28,11 @@
               src="../../assets/imgs/dunpai.png"
             />
             <img v-else src="../../assets/imgs/dunpai2.png" />
-            <span v-if="userInfo.authType == 2">身份已认证</span>
-            <span v-else>身份未认证</span>
+            <span v-if="userInfo.authType == 2">{{$t('home.authenticated')}}</span>
+            <span v-else>{{$t('my.unverified')}}</span>
           </div>
           <div @click="$router.push('/my/credit')">
-            <span>信用分</span>
+            <span>{{$t('my.credit_core')}}</span>
             <span>{{ userInfo.creditScore }}</span>
           </div>
         </div>
@@ -52,7 +52,7 @@
           </template>
           <template #title>
             <span>
-              认证审核
+              {{$t('my.certification_audit')}}
               <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
@@ -70,7 +70,7 @@
           </template>
           <template #title>
             <span>
-              社区审批
+              {{$t('my.community_approval')}}
               <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
@@ -82,23 +82,23 @@
             <img src="../../assets/imgs/shenfen.png" />
           </template>
           <template #title>
-            <span> 身份信息 </span>
+            <span> {{$t('my.identity_info')}} </span>
           </template>
           <template #default>
             <span
               class="identity-apply_status not"
               v-if="userInfo.authType == 0"
-              >未认证</span
+              >{{$t('my.identity_unver')}}</span
             >
             <span
               class="identity-apply_status pending"
               v-if="userInfo.authType == 1"
-              >审核中</span
+              >{{$t('my.under_review')}}</span
             >
             <span
               class="identity-apply_status fail"
               v-else-if="userInfo.authType == 3"
-              >审核失败</span
+              >{{$t('my.audit_failure')}}</span
             >
           </template>
         </van-cell>
@@ -110,7 +110,7 @@
           </template>
           <template #title>
             <span>
-              收付款方式
+              {{$t('my.payment')}}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -123,7 +123,7 @@
           </template>
           <template #title>
             <span>
-              我的社区
+              {{$t('my.my_comm')}}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -136,7 +136,7 @@
           </template>
           <template #title>
             <span>
-              我的团队
+              {{$t('my.my_team')}}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -149,7 +149,7 @@
           </template>
           <template #title>
             <span>
-              邀请好友
+              {{$t('my.invite_friends')}}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -162,7 +162,7 @@
           </template>
           <template #title>
             <span>
-              各公链绑定地址
+              {{$t('my.bind_address')}}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -175,7 +175,7 @@
           </template>
           <template #title>
             <span>
-              绑定各项目
+              {{$t('my.each_item')}}
               <span v-show="false" class="badge"></span>
             </span>
           </template>

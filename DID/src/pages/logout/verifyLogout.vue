@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">账号注销</span>
+        <span class="title">{{ $t("logout.logout") }}</span>
       </template>
     </van-nav-bar>
     <!-- 隔离条 -->
@@ -19,25 +19,29 @@
     <div class="content">
       <van-form ref="form">
         <div class="form-item">
-          <p class="top-label">邮箱地址</p>
-          <van-field v-model="form.mail" disabled placeholder="请输入邮箱">
+          <p class="top-label">{{ $t("content.email") }}</p>
+          <van-field
+            v-model="form.mail"
+            disabled
+            :placeholder="$t('rulesMsg.email')"
+          >
             <template #button>
-              <van-button v-show="isSendCode" size="small" @click="sendCode"
-                >发送验证码</van-button
-              >
+              <van-button v-show="isSendCode" size="small" @click="sendCode">{{
+                $t("content.send_code")
+              }}</van-button>
               <span v-show="!isSendCode">{{ second }}S</span>
             </template>
           </van-field>
         </div>
 
         <div class="form-item">
-          <p class="top-label">邮箱验证码</p>
+          <p class="top-label">{{ $t("content.email_code") }}</p>
           <van-field
             v-model="form.code"
             @input="haveCode"
             type="number"
-            placeholder="请输入邮箱验证码"
-            :rules="[{ required: true, message: '请输入邮箱验证码' }]"
+            :placeholder="$t('rulesMsg.code')"
+            :rules="[{ required: true, message: $t('rulesMsg.code') }]"
           />
         </div>
       </van-form>
@@ -47,23 +51,23 @@
         @click="showPopup = true"
         :style="isBtn ? '' : 'background:#237FF8;'"
       >
-        提交
+        {{ $t("logout.submit") }}
       </button>
     </div>
 
     <van-popup v-model="showPopup" round>
       <div class="popup">
-        <div class="caution">警告</div>
+        <div class="caution">{{ $t("logout.warn") }}</div>
         <div class="popup-content">
-          <p>1、注销提交后，EOTC DAO将在48小时内完成注销核查和处理。</p>
-          <p>2、注销后，该账户的所有信息均将清除且无法恢复，请谨慎操作。</p>
+          <p>{{ $t("logout.warn1") }}</p>
+          <p>{{ $t("logout.warn2") }}</p>
           <p>
-            3、注销成功后，该邮箱可以重新注册为一个全新的账号，不包含注销前的任何信息。
+            {{ $t("logout.warn3") }}
           </p>
         </div>
         <div class="popup-btn">
-          <div @click="showPopup = false">取消</div>
-          <div @click="submit">确定</div>
+          <div @click="showPopup = false">{{ $t("public.cancel") }}</div>
+          <div @click="submit">{{ $t("public.confirm") }}</div>
         </div>
       </div>
     </van-popup>
@@ -122,10 +126,10 @@ export default {
           if (res.data.code == 0) {
             this.$toast.success(res.data.message);
             this.$router.push("/setup/logout/logoutCountdown");
-          }else if(res.data.code==1){
-            this.$toast.fail(res.data.message)
-          }else{
-            this.$toast.fail('注销失败')
+          } else if (res.data.code == 1) {
+            this.$toast.fail(res.data.message);
+          } else {
+            this.$toast.fail("注销失败");
           }
         });
       }

@@ -2,26 +2,26 @@
   <div class="container">
     <van-nav-bar
       :border="false"
-      title="选择所在地"
+      :title="$t('bindRelation.tab_locality')"
       left-arrow
       @click-left="onClickLeft"
     />
     <div class="content">
       <van-cell
         class="now"
-        title="使用当前位置"
-        value="当前位置"
+        :title="$t('bindRelation.user_loc')"
+        :value="$t('bindRelation.loc')"
         :border="false"
       />
       <van-cell
         class="now"
-        title="国家"
+        :title="$t('bindRelation.country')"
         :value="country"
         is-link
         to="/nation"
       />
       <van-cell
-        title="省市"
+        :title="$t('bindRelation.p_c_area')"
         :value="region"
         is-link
         @click="showPopup = true"
@@ -35,12 +35,12 @@
         @confirm="tabConfirm"
         @cancel="showPopup = false"
         show-toolbar
-        title="选择当前所在地区"
+        :title="$t('bindRelation.select_site')"
         :columns="columns"
       />
     </van-popup>
 
-    <button class="btn" @click="save">保存</button>
+    <button class="btn" @click="save">{{$t('public.save')}}</button>
   </div>
 </template>
 
