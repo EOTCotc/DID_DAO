@@ -40,9 +40,7 @@ export default {
       show: false,
     };
   },
-  mounted() {
-    this.getuserrisklevel();
-  },
+  mounted() {},
   methods: {
     toggle(show) {
       this.show = show;

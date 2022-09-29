@@ -16,15 +16,15 @@
             <span>{{ item.total }}票</span>
             <span v-if="item.state == 0"
               ><div class="ion"></div>
-              未通过</span
+              进行中</span
             >
             <span v-if="item.state == 1"
               ><div class="ion two"></div>
-              已通过</span
+              未通过</span
             >
             <span v-if="item.state == 2"
               ><div class="ion three"></div>
-              进行中</span
+              已通过</span
             >
             <span v-if="item.state == 3"
               ><div class="ion fhire"></div>
@@ -51,7 +51,6 @@ export default {
   data() {
     return {
       title: "我的提案",
-
       List: [],
     };
   },
@@ -98,13 +97,13 @@ export default {
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: #fc7542;
+      background: #237ff8;
     }
     .two {
-      background: #00b87a;
+      background: #fc7542;
     }
     .three {
-      background: #237ff8;
+      background: #00b87a;
     }
     .fhire {
       background: #999999;

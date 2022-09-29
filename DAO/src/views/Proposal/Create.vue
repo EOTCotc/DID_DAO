@@ -16,10 +16,15 @@
       />
     </main>
     <footer>
-      <!-- <van-button block type="warning"
+      <van-button block type="warning" v-show="items < 10000"
         >您必须持有10000EOTC才能提交提案</van-button
-      > -->
-      <van-button class="but" block type="warning" @click="submit()"
+      >
+      <van-button
+        class="but"
+        block
+        type="warning"
+        @click="submit()"
+        v-show="items >= 10000"
         >提交提案</van-button
       >
     </footer>
@@ -37,6 +42,7 @@ export default {
       title: "创建提案",
       value: "",
       message: "",
+      items: localStorage.getItem("items"),
     };
   },
   methods: {

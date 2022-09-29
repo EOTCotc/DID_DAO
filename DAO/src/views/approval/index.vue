@@ -52,6 +52,9 @@ export default {
       }
       .van-cell {
         line-height: 35px;
+        .van-icon {
+          margin-top: 5px;
+        }
       }
     }
   }

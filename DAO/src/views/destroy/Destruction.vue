@@ -23,7 +23,11 @@
       >
         <van-cell title="游戏消耗" value="2022年7月27日" />
         <van-cell :title="item.memo" :border="false" />
-        <van-cell title="销毁查询地址:" :border="false" />
+        <van-cell
+          title="销毁查询地址:"
+          :border="false"
+          @click="delDest(item.destructionId)"
+        />
         <van-cell
           :title="item.destructionId"
           :border="false"
@@ -86,8 +90,9 @@
 
 <script>
 import White from "../../components/Nav/white.vue";
-import { getdestruction } from "@/api/Destruction";
+import { getdestruction, destruction } from "@/api/Destruction";
 import { Toast } from "vant";
+import { Dialog } from "vant";
 export default {
   components: { White },
   data() {
@@ -137,6 +142,20 @@ export default {
       this.start = "";
       this.active = 0;
       this.inquiry();
+    },
+    delDest(id) {
+      Dialog.confirm({
+        title: "删除提示",
+        confirmButtonColor: "#000",
+        message: "确定删除该记录吗？",
+        getContainer: ".dest",
+      })
+        .then(() => {
+          destruction({ destructionId: id }).then((res) => {
+            console.log(res);
+          });
+        })
+        .catch(() => {});
     },
     //复制
     copy() {
