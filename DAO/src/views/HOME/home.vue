@@ -106,8 +106,8 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import Notification from "@/components/notification";
-import { getuserrisklevel } from "@/api/viewsApi/home";
-import { getproposallist } from "@/api/viewsApi/home";
+import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
+
 export default {
   components: { TopBar, Notification },
   name: "home",
@@ -120,7 +120,6 @@ export default {
         { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
-
       proposalList: [], //提案列表
     };
   },

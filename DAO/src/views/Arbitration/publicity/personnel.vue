@@ -1,8 +1,10 @@
 <template>
-  <van-pull-refresh v-model="list.uploading" @refresh="refresh">
+  <van-pull-refresh v-model="list.uploading"
+                    @refresh="refresh">
     <div class="personnel_wrap fullscreen bg-gray">
       <page-header title="仲裁员公示"></page-header>
       <div class="content">
+<<<<<<< HEAD
         <van-list
           v-model="list.btloading"
           :finished="list.finished"
@@ -32,6 +34,31 @@
                 :border="false"
                 :value="item.count"
               />
+=======
+        <van-list v-model="list.btloading"
+                  :finished="!!list.data.length && list.finished"
+                  finished-text="没有更多了"
+                  @load="onLoad">
+          <ul class="list">
+            <li class="item"
+                v-for="item in list.data"
+                :key="item.id">
+              <van-cell title-class="title name"
+                        value-class="value"
+                        :border="false"
+                        :title="item.name"
+                        :value="item.id" />
+              <van-cell title-class="title"
+                        value-class="value"
+                        title="申请时间"
+                        :border="false"
+                        :value="item.date" />
+              <van-cell title-class="title"
+                        value-class="value"
+                        title="仲裁次数"
+                        :border="false"
+                        :value="item.count" />
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
             </li>
           </ul>
         </van-list>
@@ -41,11 +68,16 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import pageHeader from "@/components/topBar/pageHeader";
 import { personnelList } from "@/api/arbitration/publicity";
+=======
+import pageHeader from '@/components/topBar/pageHeader'
+// import { personnelList } from '@/api/arbitration/publicity'
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
 
 export default {
-  name: "arbitrationPersonnel",
+  name: 'arbitrationPersonnel',
   components: {
     pageHeader,
   },
@@ -57,9 +89,15 @@ export default {
         finished: true,
         data: [
           {
+<<<<<<< HEAD
             id: "459873564223",
             name: "李**",
             date: "2022.05.26",
+=======
+            id: '459873564223',
+            name: '李**',
+            date: '2022.05.26',
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
             count: 2,
           },
         ],
@@ -68,11 +106,16 @@ export default {
           itemsPerPage: 10,
         },
       },
+<<<<<<< HEAD
     };
+=======
+    }
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
   },
   methods: {
     // 获取列表
     getList() {
+<<<<<<< HEAD
       personnelList().then((res) => {
         if (res.data.code) {
           console.log(res);
@@ -80,6 +123,14 @@ export default {
           console.log(res);
         }
       });
+=======
+      // personnelList().then((res) => {
+      //   if (res.data.code) {
+      //   } else {
+      //     console.log(res)
+      //   }
+      // })
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
     },
     // 下拉刷新
     refresh() {},
@@ -87,9 +138,15 @@ export default {
     onLoad() {},
   },
   created() {
+<<<<<<< HEAD
     this.getList();
   },
 };
+=======
+    this.getList()
+  },
+}
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
 </script>
 
 <style scoped lang="scss">

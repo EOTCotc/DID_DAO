@@ -3,57 +3,60 @@
     <div class="case_wrap fullscreen bg-gray">
       <page-header title="仲裁案公示"></page-header>
       <div class="content">
-        <van-list
-            v-model="list.btloading"
-            :finished="!!list.data.length && list.finished"
-            finished-text="没有更多了"
-            @load="onLoad"
-        >
-          <ul class="list">
-            <li class="item"
-                v-for="item in list.data"
-                :key="item.id"
-                @click="$router.push({path: '/user/arbitration/publicity/case/detail', query: {id: item.id}})"
-            >
-              <van-row>
-                <van-col class="lf" :span="12">
-                  <div class="user_wrap">
-                    <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
-                    <span class="name">{{ item.plaintiffName }}</span>
-                    <span class="identity">（卖家）</span>
-                  </div>
-                  <div class="count_wrap">
-                    <span class="text">原告</span>
-                    <span class="num">{{item.plaintiffCount}}票</span>
-                  </div>
-                </van-col>
-                <van-col class="rt" :span="12">
-                  <div class="user_wrap">
-                    <span class="identity">（卖家）</span>
-                    <span class="name">{{ item.defendantName }}</span>
-                    <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
-                  </div>
-                  <div class="count_wrap">
-                    <span class="num">{{item.defendantCount}}票</span>
-                    <span class="text">被告</span>
-                  </div>
-                </van-col>
-              </van-row>
-              <div class="process_wrap">
-                <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffCount / item.total * 100}%`}"></div>
-                <div class="border"></div>
-                <div class="rt chunk"></div>
-              </div>
-              <div class="row">
-                <div class="title">仲裁结果</div>
-                <div class="message">
-                  <p>本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…</p>
-                  <div class="more"><van-icon name="description" /> 详情</div>
+        <ul class="list" v-if="!!list.data.length">
+          <li class="item"
+              v-for="item in list.data"
+              :key="item.id"
+              @click="$router.push({
+                path: '/user/arbitration/publicity/case/detail',
+                query: {
+                  arbitrateInfoId: item.arbitrateInfoId
+                }
+              })"
+          >
+            <van-row>
+              <van-col class="lf" :span="12">
+                <div class="user_wrap">
+                  <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
+                  <span class="name">{{ item.plaintiff }}</span>
+                  <span class="identity">（卖家）</span>
                 </div>
+                <div class="count_wrap">
+                  <span class="text">原告</span>
+                  <span class="num">{{item.plaintiffNum}}票</span>
+                </div>
+              </van-col>
+              <van-col class="rt" :span="12">
+                <div class="user_wrap">
+                  <span class="identity">（卖家）</span>
+                  <span class="name">{{ item.defendant }}</span>
+                  <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
+                </div>
+                <div class="count_wrap">
+                  <span class="num">{{item.defendantNum}}票</span>
+                  <span class="text">被告</span>
+                </div>
+              </van-col>
+            </van-row>
+            <div class="process_wrap">
+              <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffNum / item.total * 100}%`}"></div>
+              <div class="border"></div>
+              <div class="rt chunk"></div>
+            </div>
+            <div class="row">
+              <div class="title">仲裁结果</div>
+              <div class="message">
+                <p>本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.plaintiffNum }}位仲裁员判定原告…</p>
+                <div class="more"><van-icon name="description" /> 详情</div>
               </div>
-            </li>
-          </ul>
-        </van-list>
+            </div>
+          </li>
+        </ul>
+        <van-empty
+          v-else
+          :image="require('../../../../assets/img/empty.png')"
+          description="暂无任何数据"
+        />
       </div>
     </div>
   </van-pull-refresh>
@@ -61,6 +64,7 @@
 
 <script>
 import pageHeader from "@/components/topBar/pageHeader";
+import {caseList} from '@/api/publicity'
 export default {
   name: "arbitrationCase",
   components: {
@@ -70,31 +74,42 @@ export default {
     return {
       list: {
         uploading: false,
-        btloading: false,
-        finished: true,
-        data: [
-          {
-            id: 1,
-            plaintiffName: "吴敏",
-            plaintiffCount: 11,
-            defendantName: "王晓雷",
-            defendantCount: 2,
-            total: 13
-          },
-        ],
-        query: {
-          page: 1,
-          itemsPerPage: 10
-        }
+        data: [],
       }
     }
   },
   methods: {
-    getList() {},
+    getList() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: '加载中…'
+      })
+      caseList().then(res => {
+        const {code, items} = res.data
+        if (code) {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！"
+          })
+        } else {
+          this.list.data = items.map(item => ({...item, total: item.plaintiffNum + item.defendantNum}))
+        }
+      }).catch(() => {
+        this.$toast.fail({
+          forbidClick: true,
+          message: "加载失败！"
+        })
+      }).finally(() => {
+        loading.clear()
+      })
+    },
     // 下拉刷新
-    refresh() {},
-    // 翻页
-    onLoad() {}
+    refresh() {
+      this.getList()
+    }
+  },
+  created() {
+    this.getList()
   }
 }
 </script>

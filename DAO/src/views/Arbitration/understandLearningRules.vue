@@ -3,7 +3,7 @@
     <header>
       <white :title="title"></white>
     </header>
-    <div class="rulesBox">
+    <div class="rulesBox" ref="rulesBox">
       <div class="BasicRules">
         <h3>基本规则</h3>
         <div>
@@ -42,11 +42,12 @@
         <div>
           ⑵ 超时放币
           <div>
-            ① 超时30-60分钟:① 用户扣3分 ② 推荐人扣1分 ③
+            ① 超时30-60分钟: ① 用户扣3分 ② 推荐人扣1分 ③
             节点、推荐人上3代、用户下6代扣0.5分(根据仲裁概率自动调节扣分数)
           </div>
           <div>
-            ① 超时60分钟以上:① 用户每超时60分钟扣6分 ② 推荐人每超时60分钟扣3分 ③
+            ① 超时60分钟以上: ① 用户每超时60分钟扣6分 ② 推荐人每超时60分钟扣3分
+            ③
             节点、推荐人上3代、用户下6代每超时6O分钟扣1分（根据仲裁概率自动调节扣分数）
           </div>
         </div>
@@ -61,11 +62,14 @@
       </div>
     </div>
     <footer>
-      <van-button round
-                  block
-                  color="#1B2945"
-                  :disabled="flag"
-                  @click="completeLearning">我已完成学习</van-button>
+      <van-button
+        round
+        block
+        color="#1B2945"
+        :disabled="flag"
+        @click="completeLearning"
+        >我已完成学习</van-button
+      >
     </footer>
   </div>
 </template>
@@ -75,28 +79,27 @@ export default {
   components: { white },
   data() {
     return {
-      title: '了解学习相关规则',
+      title: "了解学习相关规则",
       qualificationPassed3: true,
       flag: true,
-    }
+    };
   },
   // 滚动监听
   mounted() {
-    this.$refs.rulesBox.addEventListener('scroll', this.rulesScroll) // 监听页面滚动
+    this.$refs.rulesBox.addEventListener("scroll", this.rulesScroll); // 监听页面滚动
   },
   methods: {
     completeLearning() {
       this.$router.replace({
-        path: '/user/meetTheConditions',
-        query: {
+        name: "meetTheConditions",
+        params: {
           qualificationPassed3: this.qualificationPassed3,
         },
-      })
+      });
     },
-    rulesScroll() {
-      let scrollTop =
-        this.$refs.rulesBox.pageYOffset || this.$refs.rulesBox.scrollTop
-      if (scrollTop >= 210) this.flag = false
+    rulesScroll(e) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight)
+        this.flag = false;
     },
   },
 };
@@ -106,12 +109,13 @@ export default {
   color: #333333;
   background-color: #fff;
   padding: 0 25px;
-  height: 84vh;
+  height: 82vh;
   overflow: auto;
   .BasicRules,
   .DeductionRules {
     h3 {
       font-size: 35px;
+      padding: 20px 0;
     }
     div {
       font-size: 27px;

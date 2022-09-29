@@ -29,7 +29,11 @@ import PageHeader from '@/components/topBar/pageHeader'
 export default {
   name: "approval",
   components: { PageHeader },
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
 </script>
 
 <style scoped lang="scss">

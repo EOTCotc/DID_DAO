@@ -12,7 +12,7 @@
           </div>
           <div class="Aim">
             <van-icon name="aim" color="#237FF8" />
-            <van-count-down :time="time" format="HH:mm" />
+            <van-count-down :time="time" format="mm:ss" @finish="finish" />
           </div>
         </div>
         <div
@@ -331,8 +331,7 @@ export default {
     };
   },
   methods: {
-    handleCilck(val, item, index, count) {
-      console.log(val.contant, index, count, item);
+    handleCilck(val, item, index) {
       item.result = val.contant;
       this.idx = index;
       this.jumpTestQuestions = false;
@@ -354,11 +353,9 @@ export default {
       }
     },
     previousQuestion() {
-      console.log("上一题");
       this.count--;
     },
     nextQuestion(index) {
-      console.log("下一题", index);
       this.idx = null;
       this.text = "";
       if (
@@ -385,7 +382,6 @@ export default {
     },
     SubmitExaminationPapers() {
       this.testQuestionData.forEach((el) => {
-        console.log(el.questionAnswer);
         if (el.topicType != "(填空题)") {
           let a = [];
           el.questionAnswer.forEach((item, idx) => {
@@ -401,22 +397,19 @@ export default {
       this.UserAnswer.map((el, index) => {
         for (let i = 0; i < el.length; i++) {
           if (el.length == 4) {
-            el[i] = 0;
+            el = [3];
           }
           if (el.length >= 2 && el.length <= 3) {
             el = [0];
           }
-          console.log(el, "el");
           if (el[i] == this.testQuestionData[index].Answers) {
-            if (index < 3) {
-              this.totalScore += 6;
-              console.log(index);
+            if (index == 3 || index == 4) {
+              this.totalScore += 10;
             } else {
-              this.totalScore += 9;
+              this.totalScore += 8;
             }
           }
         }
-        console.log(this.totalScore);
       });
       //提交表单
       this.$router.replace({
@@ -429,13 +422,11 @@ export default {
     getText(item) {
       item.result = this.text;
     },
-  },
-  mounted() {
-    if (this.time <= 0) {
+    finish() {
       this.$router.push({
         name: "meetTheConditions",
       });
-    }
+    },
   },
 };
 </script>
@@ -493,6 +484,7 @@ export default {
     }
     .questions {
       h3 {
+        padding: 35px 0 18px 0;
         color: #333333;
         font-size: 35px;
         line-height: 60px;
@@ -500,6 +492,7 @@ export default {
       h4 {
         color: #999999;
         font-size: 25px;
+        padding: 0 0 20px 0;
       }
     }
     .van-cell {
@@ -508,6 +501,7 @@ export default {
     .completion {
       color: #333333;
       h4 {
+        padding: 30px 0 0 0;
         color: #999999;
         font-size: 25px;
       }

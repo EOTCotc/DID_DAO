@@ -6,28 +6,28 @@
         <van-col class="lf" :span="12">
           <div class="user_wrap">
             <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
-            <span class="name">{{ info.plaintiffName }}</span>
+            <span class="name">{{ info.plaintiff }}</span>
             <span class="identity">（卖家）</span>
           </div>
           <div class="count_wrap">
             <span class="text">原告</span>
-            <span class="num">{{info.plaintiffCount}}票</span>
+            <span class="num">{{info.plaintiffNum}}票</span>
           </div>
         </van-col>
         <van-col class="rt" :span="12">
           <div class="user_wrap">
-            <span class="name">{{ info.defendantName }}</span>
+            <span class="name">{{ info.defendant }}</span>
             <span class="identity">（卖家）</span>
             <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
           </div>
           <div class="count_wrap">
-            <span class="num">{{info.defendantCount}}票</span>
+            <span class="num">{{info.defendantNum}}票</span>
             <span class="text">被告</span>
           </div>
         </van-col>
       </van-row>
       <div class="process_wrap">
-        <div class="lt chunk" :style="{'flex': `0 0 ${info.plaintiffCount / info.total * 100}%`}"></div>
+        <div class="lt chunk" :style="{'flex': `0 0 ${info.plaintiffNum / info.total * 100}%`}"></div>
         <div class="border"></div>
         <div class="rt chunk"></div>
       </div>
@@ -35,22 +35,24 @@
       <div class="row">
         <div class="title">仲裁结果</div>
         <div class="message">
-          <p>本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…</p>
+          <p>本次参与仲裁判决的仲裁员共计{{ info.total }}人，通过双方提交举证，{{ info.plaintiffNum }}位仲裁员判定原告</p>
         </div>
       </div>
       <div class="row">
         <div class="title">结案时间</div>
         <div class="message">
-          <p>2022.05.27 09:21</p>
+          <p>{{ transformUTCDate(info.voteDate) }}</p>
         </div>
       </div>
       <div class="row">
         <div class="title">公示判决</div>
-        <ul class="list">
-          <li class="item" v-for="item in info.personnel" :key="item.id">
+        <ul class="list" v-if="!!info.votes">
+          <li class="item" v-for="item in info.votes" :key="item.number">
             <span class="name">{{item.name}}</span>
-            <span class="id">{{item.id}}</span>
-            <span class="identity icon-court" :style="{'color': !item.identity ? '#4EA0F5' : '#ED7269'}"> {{item.identity ? '被告' : '原告'}}</span>
+            <span class="id">{{item.number}}</span>
+            <span class="identity icon-court" style="color: #999;" v-if="item.voteStatus === 0"> 未投票</span>
+            <span class="identity icon-court" style="color: #4EA0F5;" v-else-if="item.voteStatus === 1"> 原告</span>
+            <span class="identity icon-court" style="color: #ED7269;" v-else-if="item.voteStatus === 2"> 被告</span>
           </li>
         </ul>
       </div>
@@ -60,6 +62,9 @@
 
 <script>
 import pageHeader from "@/components/topBar/pageHeader";
+import {caseDetail} from "@/api/publicity"
+import {transformUTCDate} from '@/utils/utils'
+
 export default {
   name: "arbitrationCaseDetail",
   components: {
@@ -67,31 +72,41 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      info: {
-        id: 1,
-        plaintiffName: "吴敏",
-        plaintiffCount: 11,
-        defendantName: "王晓雷",
-        defendantCount: 2,
-        total: 13,
-        personnel: [
-          {id: "478634564223", name: "王**", identity: 0},
-          {id: "478634564224", name: "王**", identity: 0},
-          {id: "478634564225", name: "王**", identity: 1},
-          {id: "478634564226", name: "王**", identity: 0},
-          {id: "478634564227", name: "王**", identity: 0},
-          {id: "478634564281", name: "王**", identity: 0},
-        ]
-      }
+      info: {}
     }
   },
   methods: {
-    getList() {},
-    // 下拉刷新
-    refresh() {},
+    transformUTCDate,
+    getDetail() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: '加载中…'
+      })
+      caseDetail(this.$route.query.arbitrateInfoId).then(res => {
+        const {code, items} = res.data
+        if (code) {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！"
+          })
+        } else {
+          items.total = items.plaintiffNum + items.defendantNum
+          this.info = items
+        }
+      }).catch(() => {
+        this.$toast.fail({
+          forbidClick: true,
+          message: "加载失败！"
+        })
+      }).finally(() => {
+        loading.clear()
+      })
+    },
     // 翻页
     onLoad() {}
+  },
+  created() {
+    this.getDetail()
   }
 }
 </script>
@@ -145,6 +160,7 @@ export default {
     .count_wrap {
       margin-top: 15px;
       .text {
+        color: #FFF;
         font-size: 24px;
         padding: 15px 25px;
         background-color: #4EA0F5;

@@ -25,7 +25,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { getuserrisklevel } from "@/api/viewsApi/home";
+=======
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
 export default {
   name: "notification",
   props: {
@@ -41,6 +44,7 @@ export default {
       show: false,
     };
   },
+<<<<<<< HEAD
   mounted() {
     this.getuserrisklevel();
   },
@@ -55,6 +59,10 @@ export default {
         }
       });
     },
+=======
+  mounted() {},
+  methods: {
+>>>>>>> a412c33221d0e60573deb372f349da2f8fe8ef2a
     toggle(show) {
       this.show = show;
       !show && this.$nextTick().then(() => this.$emit("closed"));

@@ -8,6 +8,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 // import VueI18n from "vue-i18n"
 import Cookie from "js-cookie";
 
@@ -19,6 +20,7 @@ import "@/assets/font/style.css";
 import "../src/views/HOME/assets/styles/home.scss";
 import "./assets/styles/index.scss";
 
+dayjs.extend(utc)
 
 Vue.prototype.cookie = Cookie;
 Vue.prototype.$md5 = md5;
