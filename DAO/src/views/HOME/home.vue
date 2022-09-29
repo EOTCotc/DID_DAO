@@ -120,7 +120,6 @@ export default {
         { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
-
       proposalList: [], //提案列表
     };
   },

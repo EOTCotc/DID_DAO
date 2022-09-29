@@ -41,6 +41,7 @@ export default {
       show: false,
     }
   },
+  mounted() {},
   methods: {
     toggle(show) {
       this.show = show

@@ -11,7 +11,8 @@
             <van-icon name="aim"
                       color="#237FF8" />
             <van-count-down :time="time"
-                            format="HH:mm" />
+                            format="mm:ss"
+                            @finish="finish" />
           </div>
         </div>
         <div v-show="(index+1) == count"
@@ -78,8 +79,8 @@ export default {
       idx: null,
       flag: false,
       jumpTestQuestions: true,
-      title: '仲裁考试',
-      time: 30 * 60 * 60 * 1000,
+      title: '审核考试',
+      time: 30 * 60 * 1000,
       count: 1,
       totalScore: null,
       UserAnswer: [],
@@ -317,7 +318,6 @@ export default {
   },
   methods: {
     handleCilck(val, item, index) {
-      // console.log(val.contant, index, count, item)
       item.result = val.contant
       this.idx = index
       this.jumpTestQuestions = false
@@ -339,11 +339,9 @@ export default {
       }
     },
     previousQuestion() {
-      console.log('上一题')
       this.count--
     },
     nextQuestion(index) {
-      console.log('下一题', index)
       this.idx = null
       this.text = ''
       if (
@@ -370,7 +368,6 @@ export default {
     },
     SubmitExaminationPapers() {
       this.testQuestionData.forEach((el) => {
-        console.log(el.questionAnswer)
         if (el.topicType != '(填空题)') {
           let a = []
           el.questionAnswer.forEach((item, idx) => {
@@ -391,7 +388,6 @@ export default {
           if (el.length >= 2 && el.length <= 3) {
             el = [0]
           }
-          console.log(el, 'el')
           if (el[i] == this.testQuestionData[index].Answers) {
             if (index == 3 || index == 4) {
               this.totalScore += 10
@@ -408,18 +404,15 @@ export default {
           totalScore: this.totalScore,
         },
       })
-      console.log(this.totalScore, 'totalScore')
     },
     getText(item) {
       item.result = this.text
     },
-  },
-  mounted() {
-    if (this.time <= 0) {
+    finish() {
       this.$router.push({
         name: 'applicationConditions',
       })
-    }
+    },
   },
 }
 </script>
@@ -477,6 +470,7 @@ export default {
     }
     .questions {
       h3 {
+        padding: 35px 0 18px 0;
         color: #333333;
         font-size: 35px;
         line-height: 60px;
@@ -484,6 +478,7 @@ export default {
       h4 {
         color: #999999;
         font-size: 25px;
+        padding: 0 0 20px 0;
       }
     }
     .van-cell {
@@ -492,6 +487,7 @@ export default {
     .completion {
       color: #333333;
       h4 {
+        padding: 30px 0 0 0;
         color: #999999;
         font-size: 25px;
       }

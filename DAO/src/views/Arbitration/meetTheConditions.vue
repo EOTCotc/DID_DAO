@@ -1,19 +1,24 @@
 <template>
-  <div :class="displayApplicationConditions ? 'box2' : 'box'">
+  <div :class="displayApplicationConditions? 'box2':'box'">
     <header>
       <white :title="title"></white>
     </header>
     <div class="backgroundPicture">
-      <van-image width="100vw" height="140px" :src="require('./IMG/bg.png')" />
-      <div class="text" v-if="displayApplicationConditions">
+      <van-image width="100vw"
+                 height="140px"
+                 :src="require('./IMG/bg.png')" />
+      <div class="text"
+           v-if="displayApplicationConditions">
         <p>成为仲裁员</p>
         <p>维护安全稳定信任的交易环境</p>
       </div>
-      <div class="text2" v-else>
+      <div class="text2"
+           v-else>
         <p>维护安全稳定信任的交易环境</p>
       </div>
     </div>
-    <div class="applicationConditions" v-if="displayApplicationConditions">
+    <div class="applicationConditions"
+         v-if="displayApplicationConditions">
       <h4>申请条件</h4>
       <div class="conditionsList">
         <div class="list list1">
@@ -21,16 +26,16 @@
             <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div
-            class="right"
-            @click="auditing('ArbitrationByFormula')"
-            v-if="qualificationPassed1 == false"
-          >
-            去认证
+          <div class="right"
+               @click="auditing('ArbitrationByFormula') "
+               v-if="qualificationPassed1==false">去认证
             <van-icon name="arrow" />
           </div>
-          <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F " size="18" />
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F "
+                      size="18" />
           </div>
         </div>
         <div class="list">
@@ -38,12 +43,15 @@
             <van-icon name="refund-o" />
             <p>质押5000 EOTC以上</p>
           </div>
-          <div class="right" v-if="qualificationPassed2 == false">
-            去质押
+          <div class="right"
+               v-if="qualificationPassed2==false">去质押
             <van-icon name="arrow" />
           </div>
-          <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F " size="18" />
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F "
+                      size="18" />
           </div>
         </div>
         <div class="list">
@@ -51,70 +59,62 @@
             <van-icon name="orders-o" />
             <p>了解学习仲裁规则</p>
           </div>
-          <div
-            class="right"
-            @click="auditing('understandLearningRules')"
-            v-if="qualificationPassed3 == false"
-          >
-            去学习
+          <div class="right"
+               @click="auditing('understandLearningRules')"
+               v-if="qualificationPassed3==false">去学习
             <van-icon name="arrow" />
           </div>
-          <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F" size="18" />
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F"
+                      size="18" />
           </div>
         </div>
         <div class="list listn">
           <div class="left">
-            <van-icon name="cart-circle-o" />
-            <div class="examinationColumn">
-              <span>通过考试</span
-              ><span style="color: #999999; font-size: 12px; margin-top: 3px"
-                >考试成绩达到90分以上</span
-              >
-            </div>
+            <van-icon name="sign" />
+            <div class="examinationColumn"><span>通过考试</span><span style="color:#999999;font-size:13px; margin-top: 3px;">考试成绩达到90分以上</span></div>
           </div>
-          <div
-            class="right"
-            @click="ExamTips"
-            v-if="qualificationPassed4 == false"
-          >
-            去考试
+          <div class="right"
+               @click="ExamTips"
+               v-if="qualificationPassed4==false">去考试
             <van-icon name="arrow" />
           </div>
-          <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F " size="18" />
+          <div class="right"
+               v-else>
+            <van-icon name="success"
+                      color="#1D9C3F "
+                      size="18" />
           </div>
         </div>
       </div>
     </div>
-    <div v-if="displayApplicationConditions == false" class="identityCard">
-      <div
-        class="top"
-        v-for="(item, index) in ArbitratorsIdentityInformation"
-        :key="index"
-      >
+    <div v-if="displayApplicationConditions==false"
+         class="identityCard">
+      <div class="top"
+           v-for="(item,index) in ArbitratorsIdentityInformation"
+           :key="index">
         <div>
           <div class="first">
-            <van-image
-              width="40"
-              height="30"
-              :src="require('./IMG/组 490@2x.png')"
-            />
+            <van-image width="40"
+                       height="30"
+                       :src="require('./IMG/组 490@2x.png')" />
             <span>仲裁员</span>
           </div>
-          <div>{{ item.name }}</div>
+          <div>{{item.name}}</div>
         </div>
         <div>
           <div>身份编号</div>
-          <div>{{ item.number }}</div>
+          <div>{{item.number}}</div>
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{ item.createDate }}</div>
+          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}</div>
         </div>
         <div>
           <div>仲裁次数</div>
-          <div>{{ item.arbitrateNum }}</div>
+          <div>{{item.arbitrateNum}}</div>
         </div>
       </div>
       <div class="bottom">
@@ -129,13 +129,13 @@
         </div>
       </div>
     </div>
-    <van-overlay :show="show" closeOnClickOverlay="true">
-      <div class="wrapper" @click.stop>
+    <van-overlay :show="show"
+                 closeOnClickOverlay="true">
+      <div class="wrapper"
+           @click.stop>
         <div class="block">
-          <van-button
-            color="linear-gradient(to right, #3EBDFF, #006BF8)"
-            size="large "
-          >
+          <van-button color="linear-gradient(to right, #3EBDFF, #006BF8)"
+                      size="large ">
             考试说明
           </van-button>
           <van-button color="#F3F4F5 ">90分即通过</van-button>
@@ -150,82 +150,73 @@
               <p class="p2"><span>30</span>分钟</p>
             </div>
           </div>
-          <van-button
-            color="#237FF8"
-            class="startBtn"
-            @click="auditing('examination')"
-            >开始答题</van-button
-          >
-          <van-icon name="close" color="#fff" size="29" @click="show = false" />
+          <van-button color="#237FF8"
+                      class="startBtn"
+                      @click="auditing('examination')">开始答题</van-button>
+          <van-icon name="close"
+                    color="#fff"
+                    size="29"
+                    @click="show = false" />
         </div>
       </div>
     </van-overlay>
-    <notification1
-      ref="notification1"
-      :class="this.title1 > 90 ? 'dti1' : ' dti2'"
-      :buttonText="buttonText1"
-      :buttonColor="buttonColor1"
-      :headerIcon="headerIcon1"
-      :title="title1"
-      :message="message1"
-      :closeOnClick="closeOnClick"
-    ></notification1>
-    <notification2
-      ref="notification2"
-      :buttonText="buttonText2"
-      :buttonColor="buttonColor2"
-      :headerIcon="headerIcon2"
-      :title="title2 + '分'"
-      :message="message2"
-      :closeOnClick="closeOnClick"
-      @buttonClick="buttonClick"
-    ></notification2>
+    <notification1 ref="notification1"
+                   :class="this.title1 > 90?'dti1':' dti2'"
+                   :buttonText="buttonText1"
+                   :buttonColor="buttonColor1"
+                   :headerIcon="headerIcon1"
+                   :title="title1 + '分'"
+                   :message="message1"
+                   :closeOnClick="closeOnClick"></notification1>
+    <notification2 ref="notification2"
+                   :buttonText="buttonText2"
+                   :buttonColor="buttonColor2"
+                   :headerIcon="headerIcon2"
+                   :title="title2"
+                   :message="message2"
+                   :closeOnClick="closeOnClick"
+                   @buttonClick="buttonClick"></notification2>
     <footer>
-      <van-button
-        round
-        block
-        type="info"
-        color="#1B2945"
-        :disabled="!qualificationPassed"
-        @click="applyNow"
-        v-if="displayApplicationConditions"
-        >立即申请</van-button
-      >
-      <van-button
-        round
-        block
-        type="info"
-        color="#fff"
-        @click="dismissal"
-        v-if="displayApplicationConditions == false"
-        class="vanbtn"
-        >解除身份</van-button
-      >
+      <van-button round
+                  block
+                  type="info"
+                  color="#1B2945"
+                  :disabled="!qualificationPassed"
+                  @click="applyNow"
+                  v-if="displayApplicationConditions">立即申请</van-button>
+      <van-button round
+                  block
+                  type="info"
+                  color="#fff"
+                  @click="dismissal"
+                  v-if="displayApplicationConditions==false"
+                  class="vanbtn">解除身份</van-button>
     </footer>
   </div>
 </template>
 <script>
-import white from "@/components/Nav/white.vue";
+import white from '@/components/Nav/white.vue'
 import {
   TerminationArbitrator,
   becomeAnArbitrator,
-} from "@/api/TerminationOfArbitrator";
-import notification1 from "@/components/notification.vue";
-import notification2 from "@/components/notification.vue";
-import icon1 from "./IMG/icon.png";
-import icon2 from "./IMG/icon2.png";
-import icon3 from "./IMG/icon3.png";
-import { Dialog } from "vant";
+  getDaoUserInformation,
+} from '@/api/TerminationOfArbitrator'
+import notification1 from '@/components/notification.vue'
+import notification2 from '@/components/notification.vue'
+import icon1 from './IMG/icon.png'
+import icon2 from './IMG/icon2.png'
+import icon3 from './IMG/icon3.png'
+import { Dialog } from 'vant'
 export default {
   components: { white, notification1, notification2 },
   data() {
     return {
-      title: "仲裁员",
+      title: '仲裁员',
       ArbitratorsIdentityInformation: [
         {
-          name: "李木子",
-          number: "012022052601",
-          createDate: "2022-09-28T08:03:49.797Z",
+          name: '李木子',
+          number: '012022052601',
+          createDate: '2022-09-28T08:03:49.797Z',
           arbitrateNum: 0,
         },
       ],
@@ -233,59 +224,78 @@ export default {
       showFraction: false,
       applynow: false,
       displayApplicationConditions: true,
-      qualificationPassed: Boolean(localStorage.getItem("qualificationPassed")),
+      qualificationPassed: Boolean(localStorage.getItem('qualificationPassed')),
       qualificationPassed1: Boolean(
-        localStorage.getItem("qualificationPassed1")
+        localStorage.getItem('qualificationPassed1')
       ),
       qualificationPassed2: Boolean(
-        localStorage.getItem("qualificationPassed2")
+        localStorage.getItem('qualificationPassed2')
       ),
       qualificationPassed3: Boolean(
-        localStorage.getItem("qualificationPassed3")
+        localStorage.getItem('qualificationPassed3')
       ),
       qualificationPassed4: Boolean(
-        localStorage.getItem("qualificationPassed4")
+        localStorage.getItem('qualificationPassed4')
       ),
       title1: null,
-      message1: "",
-      buttonColor1: "#237FF8",
-      buttonText1: "知道了",
-      headerIcon1: "",
+      message1: '',
+      buttonColor1: '#237FF8',
+      buttonText1: '知道了',
+      headerIcon1: '',
       closeOnClick: true,
       title2: null,
-      message2: "",
-      buttonColor2: "#237FF8",
-      buttonText2: "知道了",
-      headerIcon2: "",
+      message2: '',
+      buttonColor2: '#237FF8',
+      buttonText2: '知道了',
+      headerIcon2: '',
       closeOnClick2: true,
-    };
+      items: {},
+    }
+  },
+  filters: {
+    dateFormat(originVal, fmt) {
+      const dt = new Date(originVal)
+      const y = dt.getFullYear()
+      const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+      const d = (dt.getDate() + '').padStart(2, '0')
+      const hh = (dt.getHours() + '').padStart(2, '0')
+      const mm = (dt.getMinutes() + '').padStart(2, '0')
+      const ss = (dt.getSeconds() + '').padStart(2, '0')
+      if (fmt === 'yyyy-MM-dd') {
+        return `${y}-${m}-${d}`
+      }
+      return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+    },
   },
   mounted() {
-    this.title1 = this.$route.params.totalScore + "";
-
-    if (this.title1 != "undefined") {
-      console.log(this.title1 != "undefined");
+    getDaoUserInformation(this.ArbitratorsIdentityInformation).then((res) => {
+      if (res.data.items.isArbitrate == 1) {
+        this.displayApplicationConditions = false
+      }
+    })
+    this.title1 = this.$route.params.totalScore + ''
+    if (this.title1 != 'undefined') {
       this.$nextTick().then(() => {
-        this.$refs.notification1.toggle(true);
-      });
+        this.$refs.notification1.toggle(true)
+      })
     }
     if (this.title1 > 90) {
-      this.title1 = this.title1 + "分";
-      this.headerIcon1 = icon1;
-      this.message1 = "恭喜通过仲裁考试";
-      this.qualificationPassed4 = true;
-      localStorage.setItem("qualificationPassed4", true);
+      this.title1 = this.title1
+      this.headerIcon1 = icon1
+      this.message1 = '恭喜通过仲裁考试'
+      this.qualificationPassed4 = true
+      localStorage.setItem('qualificationPassed4', true)
     } else {
-      this.title1 = this.title1;
-      this.headerIcon1 = icon2;
-      this.message1 = "很遗憾未通过仲裁考试";
+      this.title1 = this.title1
+      this.headerIcon1 = icon2
+      this.message1 = '很遗憾未通过仲裁考试'
     }
-    if (this.$route.query.qualificationPassed3 != undefined) {
+    if (this.$route.params.qualificationPassed3 != undefined) {
       localStorage.setItem(
-        "qualificationPassed3",
-        this.$route.query.qualificationPassed3
-      );
-      this.qualificationPassed3 = localStorage.getItem("qualificationPassed3");
+        'qualificationPassed3',
+        this.$route.params.qualificationPassed3
+      )
+      this.qualificationPassed3 = localStorage.getItem('qualificationPassed3')
     }
     if (
       this.qualificationPassed1 &&
@@ -293,8 +303,8 @@ export default {
       this.qualificationPassed3 &&
       this.qualificationPassed4
     ) {
-      this.qualificationPassed = true;
-      localStorage.setItem("qualificationPassed", true);
+      this.qualificationPassed = true
+      localStorage.setItem('qualificationPassed', true)
     }
   },
 
@@ -302,68 +312,91 @@ export default {
     auditing(name) {
       this.$router.push({
         name: name,
-      });
+      })
     },
     buttonClick() {
-      this.displayApplicationConditions = false;
-      becomeAnArbitrator(this.ArbitratorsIdentityInformation).then((res) => {
-        console.log(res);
-      });
+      this.ArbitratorsIdentityInformation.createDate = this.$options.filters[
+        'dateFormat'
+      ](new Date(), 'yyyy-MM-dd-hh-mm-ss')
+      becomeAnArbitrator().then((res) => {
+        console.log(res)
+        this.displayApplicationConditions = false
+      })
     },
     ExamTips() {
-      this.show = true;
+      this.show = true
     },
     applyNow() {
-      this.$refs.notification2.toggle(true);
-      this.headerIcon2 = icon3;
-      this.title2 = "申请成功";
-      this.message2 = "成为仲裁员后平台会给您委派仲裁案";
-      this.buttonColor2 = "#237FF8";
-      this.buttonText2 = "好的";
-      this.closeOnClick = true;
+      this.$refs.notification2.toggle(true)
+      this.headerIcon2 = icon3
+      this.title2 = '申请成功'
+      this.message2 = '成为仲裁员后平台会给您委派仲裁案'
+      this.buttonColor2 = '#237FF8'
+      this.buttonText2 = '好的'
+      this.closeOnClick = true
     },
 
     dismissal() {
       Dialog.confirm({
-        title: "温馨提示",
+        title: '温馨提示',
         message:
-          "解除身份后平台将不会再委派处理仲裁案，再申请仲裁员身份需要重新学习和考试",
-        confirmButtonText: "知道了",
-        confirmButtonColor: "#1B2945",
-        cancelButtonText: "我再想想",
-        cancelButtonColor: "#666666 ",
-        className: "dismissalDialog",
-        getContainer: ".box",
+          '解除身份后平台将不会再委派处理仲裁案，再申请仲裁员身份需要重新学习和考试',
+        confirmButtonText: '知道了',
+        confirmButtonColor: '#1B2945',
+        cancelButtonText: '我再想想',
+        cancelButtonColor: '#666666 ',
+        className: 'dismissalDialog',
+        getContainer: '.box',
       })
         .then(() => {
           // on confirm
           Dialog.confirm({
-            title: "解除提示",
-            message: "确定解除仲裁员身份？",
-            confirmButtonColor: "#1B2945",
-            cancelButtonColor: "#666666 ",
-            className: "dismissalDialog",
-            getContainer: ".box",
+            title: '解除提示',
+            message: '确定解除仲裁员身份？',
+            confirmButtonColor: '#1B2945',
+            cancelButtonColor: '#666666 ',
+            className: 'dismissalDialog',
+            getContainer: '.box',
           })
             .then(() => {
-              this.displayApplicationConditions = true;
-              TerminationArbitrator(this.IDNo);
+              localStorage.removeItem('qualificationPassed1')
+              localStorage.removeItem('qualificationPassed2')
+              localStorage.removeItem('qualificationPassed3')
+              localStorage.removeItem('qualificationPassed4')
+              localStorage.removeItem('qualificationPassed')
+              this.qualificationPassed1 = Boolean(
+                localStorage.getItem('qualificationPassed1')
+              )
+              this.qualificationPassed2 = Boolean(
+                localStorage.getItem('qualificationPassed2')
+              )
+              this.qualificationPassed3 = Boolean(
+                localStorage.getItem('qualificationPassed3')
+              )
+              this.qualificationPassed4 = Boolean(
+                localStorage.getItem('qualificationPassed4')
+              )
+              this.qualificationPassed = Boolean(
+                localStorage.getItem('qualificationPassed')
+              )
+              this.displayApplicationConditions = true
+              TerminationArbitrator()
               // on confirm
             })
             .catch(() => {
               // on cancel
-            });
+            })
         })
         .catch(() => {
           // on cancel
-        });
+        })
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .box {
-  background-color: #fff;
+  background-color: #f3f4f5;
   height: 100vh;
 }
 .box {
@@ -524,7 +557,7 @@ export default {
   position: relative;
   .text {
     color: #fff;
-    line-height: 75px;
+    line-height: 55px;
     position: absolute;
     top: 0;
     left: 50%;
@@ -532,7 +565,7 @@ export default {
     text-align: center;
     p:nth-of-type(1) {
       font-size: 50px;
-      margin: 55px 0 28px 0;
+      margin: 45px 0 0px 0;
     }
     p:nth-of-type(2) {
       font-size: 27px;
@@ -555,57 +588,64 @@ export default {
   padding: 0 35px;
   h4 {
     font-size: 32px;
-    padding: 0 5px;
+    padding: 25px 0;
   }
   .conditionsList {
     background-color: #f3f4f5;
     height: 448px;
     border-radius: 25px;
-    padding: 16px 0;
+    padding: 25px 0;
     box-sizing: border-box;
-    .list1 {
-      margin-top: 20px;
-    }
     .list {
       padding: 20px 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 6px;
       .left {
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-weight: bold;
+        color: #333333;
         .van-icon {
-          margin-top: 3px;
+          font-size: 24px;
+          margin-top: 1px;
+          font-weight: bold;
         }
         p {
-          font-size: 26px;
+          font-size: 27px;
           color: #333333;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 26px;
+          font-size: 27px;
           display: flex;
           line-height: 35px;
           flex-direction: column;
+          justify-content: space-between;
           margin-left: 20px;
         }
       }
       .right {
         color: #999999;
-        font-size: 23px;
+        font-size: 24px;
         font-weight: bold;
         margin-top: 4px;
+        .van-icon-arrow {
+          font-weight: bold;
+        }
       }
     }
     .listn {
-      margin-top: 5px;
       .left {
         .van-icon {
           margin-top: 0;
         }
       }
+    }
+    .list1 {
+      margin-top: 2px;
     }
   }
 }

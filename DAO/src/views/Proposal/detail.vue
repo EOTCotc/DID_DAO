@@ -2,15 +2,13 @@
   <div class="meun">
     <header>
       <div class="nav_an_box">
-        <van-nav-bar
-          fixed
-          placeholder
-          :title="title"
-          left-arrow
-          right-text="取消"
-          @click-left="onClickLeft"
-          @click-right="onClickRight"
-        >
+        <van-nav-bar fixed
+                     placeholder
+                     :title="title"
+                     left-arrow
+                     right-text="取消"
+                     @click-left="onClickLeft"
+                     @click-right="onClickRight">
         </van-nav-bar>
       </div>
     </header>
@@ -18,37 +16,51 @@
       <div class="one_an">
         <div>{{ List.title }}</div>
         <div class="piao">
-          <span>
+          <span v-if="List.state == 0">
             <div class="ion"></div>
-            进行中 </span
-          ><span>0xsd…8888提议</span>
+            进行中
+          </span>
+          <span v-if="List.state == 1">
+            <div class="ion two"></div>
+            未通过</span
+          >
+          <span v-if="List.state == 2">
+            <div class="ion three"></div>
+            已通过
+          </span>
+          <span v-if="List.state == 3">
+            <div class="ion fhire"></div>
+            已终止
+          </span>
+          <span>0xsd…8888提议</span>
         </div>
       </div>
-      <div class="jindu" ref="jindu">
+      <div class="jindu"
+           ref="jindu">
         <div class="tou">
           投票进度
           <span class="hui">创建于2022年6月26日</span>
         </div>
-        <div>共{{ List.peopleNum }}人参与</div>
-        <van-progress
-          :track-color="trackColor"
-          :percentage="percentageVotes"
-          v-if="!isNaN(parseInt(percentageVotes))"
-          :color="valueColor"
-          :show-pivot="false"
-          stroke-width="12"
-        />
-        <div class="num" v-if="isVote">
-          <span style="color: #00b87a">{{ List.peopleNum }}</span
-          >/99
+        <div>共{{ peopleNum }}人参与</div>
+        <van-progress :track-color="trackColor"
+                      :percentage="percentageVotes"
+                      v-if="!isNaN(parseInt(percentageVotes))"
+                      :color="valueColor"
+                      :show-pivot="false"
+                      stroke-width="12" />
+        <div class="num"
+             v-if="isVote">
+          <span style="color: #00b87a">{{ peopleNum }}</span>/99
         </div>
-        <div class="num vote" v-if="isVote == false" style="font-size: 14px">
-          <span>赞成票{{ TotalFavorVotes }}</span
-          >反对票{{ TotalOpposeVotes }}
+        <div class="num vote"
+             v-if="isVote == false"
+             style="font-size: 14px">
+          <span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}
         </div>
-        <div class="num vote" v-if="isVote == false" style="color: #fc7542">
-          <span style="color: #00b87a">{{ List.favorVotes }}票</span
-          >{{ List.opposeVotes }}票
+        <div class="num vote"
+             v-if="isVote == false"
+             style="color: #fc7542">
+          <span style="color: #00b87a">{{ favorVotes }}票</span>{{opposeVotes}}票
         </div>
         <div>该提案需要99人投票才能取得进展，作者可以随时终止</div>
       </div>
@@ -63,15 +75,18 @@
           我们认为，该提案是朝着UNI治理的正确方向迈出的保守一步，并且创造了一个更容易获得的治理生态系统。我们希望这是Fish.vote可以参与的众多改进中的第一个。
         </div>
       </div>
-      <div class="ti" v-if="isVote">
+      <div class="ti"
+           v-if="isVote">
         <div class="tou">
           对此提案
-          <van-button disabled type="default" size="small" v-if="radio == ''"
-            >投票</van-button
-          >
-          <van-button type="info" size="small" @click="isDloag" v-else
-            >投票</van-button
-          >
+          <van-button disabled
+                      type="default"
+                      size="small"
+                      v-if="radio == ''">投票</van-button>
+          <van-button type="info"
+                      size="small"
+                      @click="isDloag"
+                      v-else>投票</van-button>
         </div>
         <van-radio-group v-model="radio">
           <van-radio name="1">赞成</van-radio>
@@ -84,94 +99,143 @@
 </template>
 
 <script>
-import "vant/es/toast/style";
-import { getproposal, cancelproposal, proposalvote } from "@/api/Proposal";
-import { Toast, Dialog } from "vant";
+import 'vant/es/toast/style'
+import { cancelproposal, proposalvote, getproposal } from '@/api/Proposal'
+import { Toast, Dialog } from 'vant'
 export default {
   data() {
     return {
-      trackColor: "#fff",
-      valueColor: "#00B87A",
-      title: "详情",
-      radio: "",
+      trackColor: '#fff',
+      valueColor: '#00B87A',
+      title: '详情',
+      radio: '',
       proposalId: this.$route.query.proposalId,
-      List: {},
+      List: {
+        peopleNum: 0,
+        favorVotes: 0,
+        opposeVotes: 0,
+      },
       isVote: true,
       Votes: 1,
       percentageVotes: 0,
-    };
+      flag: false,
+      favorVotes: 0,
+      peopleNum: 0,
+      opposeVotes: 0,
+    }
   },
   created() {
     getproposal(this.proposalId).then((res) => {
-      this.List = res.data.items;
-      console.log(this.List);
-    });
+      this.List = res.data.items
+      console.log(this.List)
+    })
+  },
+  mounted() {
+    this.favorVotes = Number(
+      localStorage.getItem(`favorVotes+${this.proposalId}`)
+    )
+    ;(this.peopleNum =
+      Number(localStorage.getItem(`favorVotes+${this.proposalId}`)) +
+      Number(localStorage.getItem(`opposeVotes+${this.proposalId}`))),
+      (this.opposeVotes = Number(
+        localStorage.getItem(`opposeVotes+${this.proposalId}`)
+      ))
+    if (this.flag == false) {
+      this.percentageVotes = this.peopleNum
+      console.log(this.peopleNum, this.percentageVotes, 1111)
+    }
   },
   watch: {
     radio: function (val) {
-      this.radio = val;
+      this.radio = val
     },
   },
   methods: {
     onClickLeft() {
-      history.go(-1);
+      history.go(-1)
     },
     onClickRight() {
       Dialog.confirm({
-        title: "取消提示",
-        message: "确认该提案？",
+        title: '取消提示',
+        message: '确认该提案？',
       })
         .then(() => {
-          cancelproposal(this.proposalId);
-          Toast("取消成功");
+          cancelproposal(this.proposalId)
+          Toast('取消成功')
         })
         .catch(() => {
           // on cancel
-        });
+        })
     },
     isDloag() {
-      proposalvote(this.proposalId, this.radio).then(() => {
-        this.$refs.jindu.style.height = "241.5px";
+      this.flag = true
+      let data = {
+        proposalId: this.proposalId,
+        radio: +this.radio,
+      }
+      this.peopleNum += 1
+      proposalvote(data).then(() => {
+        this.$refs.jindu.style.height = '241.5px'
         if (this.List.peopleNum <= 99) {
           if (this.radio == 1) {
-            Toast(`投出${this.Votes}赞成票`);
-            this.List.peopleNum += 1;
-            this.List.favorVotes += 1;
-            this.percentageVotes =
-              (100 / this.List.peopleNum) * this.List.favorVotes;
+            Toast(`投出${this.Votes}赞成票`)
+            this.List.peopleNum++
+            this.List.favorVotes++
+            this.favorVotes = this.List.peopleNum
+            if (localStorage.getItem(`favorVotes+${this.proposalId}`)) {
+              this.favorVotes += Number(
+                localStorage.getItem(`favorVotes+${this.proposalId}`)
+              )
+              localStorage.removeItem(`favorVotes+${this.proposalId}`)
+            }
+            localStorage.setItem(
+              `favorVotes+${this.proposalId}`,
+              this.favorVotes
+            )
+            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+            console.log(this.percentageVotes, '赞成票')
           } else {
-            Toast(`投出${this.Votes}反对票`);
-            this.List.peopleNum += 1;
-            this.List.opposeVotes += 1;
-            if (this.List.opposeVotes != 0) this.trackColor = "#FC7542";
-            if (this.List.favorVotes == 0) this.valueColor = "#FC7542";
-            this.percentageVotes =
-              (100 / this.List.peopleNum) * this.List.opposeVotes;
+            Toast(`投出${this.Votes}反对票`)
+            this.List.peopleNum++
+            this.List.opposeVotes++
+            this.opposeVotes = this.List.peopleNum
+            if (localStorage.getItem(`opposeVotes+${this.proposalId}`)) {
+              this.opposeVotes += Number(
+                localStorage.getItem(`opposeVotes+${this.proposalId}`)
+              )
+              localStorage.removeItem(`opposeVotes+${this.proposalId}`)
+            }
+            localStorage.setItem(
+              `opposeVotes+${this.proposalId}`,
+              this.opposeVotes
+            )
+            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+            console.log(this.percentageVotes, '反对票')
           }
+          if (this.opposeVotes != 0) this.trackColor = '#FC7542'
+          if (this.favorVotes == 0) this.valueColor = '#FC7542'
+          this.isVote = false
         }
-        this.isVote = false;
-      });
+      })
     },
   },
   computed: {
     TotalOpposeVotes() {
       return (
-        (this.List.opposeVotes /
-          (this.List.favorVotes + this.List.opposeVotes)) *
-          100 +
-        "%"
-      );
+        parseInt(
+          (this.opposeVotes / (this.favorVotes + this.opposeVotes)) * 100
+        ) + '%'
+      )
     },
     TotalFavorVotes() {
       return (
-        (this.List.favorVotes /
-          (this.List.favorVotes + this.List.opposeVotes)) *
-          100 +
-        "%"
-      );
+        parseInt(
+          (this.favorVotes / (this.favorVotes + this.opposeVotes)) * 100
+        ) + '%'
+      )
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -182,7 +246,9 @@ export default {
 
 .box {
   background: #fff;
+  box-sizing: border-box;
   color: #000;
+  padding-bottom: 30px;
 }
 .van-nav-bar .van-icon {
   color: #000;
@@ -212,6 +278,15 @@ export default {
       height: 15px;
       border-radius: 50%;
       background: #237ff8;
+    }
+    .two {
+      background: #fc7542;
+    }
+    .three {
+      background: #00b87a;
+    }
+    .fhire {
+      background: #999999;
     }
   }
 }
@@ -275,7 +350,7 @@ export default {
   border-radius: 8px;
   margin: 16px auto;
   font-size: 30px;
-  padding: 16px;
+  padding: 20px;
   .van-button {
     width: 80px;
     padding: 5px 24px;

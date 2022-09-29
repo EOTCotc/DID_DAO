@@ -1,6 +1,6 @@
+import Cookie from "js-cookie";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Cookie from "js-cookie";
 
 Vue.use(VueRouter);
 
@@ -189,24 +189,47 @@ const routes = [
   },
   // 仲裁相关消息（消息列表）
   {
-    path: '/arbitrationList',
-    name: 'arbitrationList',
-    component: () => import('@/views/Arbitration/arbitrationMsg')
+    path: "/arbitrationList",
+    name: "arbitrationList",
+    component: () => import("@/views/Arbitration/arbitrationMsg"),
   },
-   //仲裁相关消息（延期申请）
-   {
-    path: '/arbitrationMsg',
-    name: 'arbitrationMsg',
-    component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
+  //仲裁相关消息（延期申请）
+  {
+    path: "/arbitrationMsg",
+    name: "arbitrationMsg",
+    component: () =>
+      import("@/views/Arbitration/arbitrationMsg/arbitrationMsg"),
+  },
+  // 审核节点
+  {
+    path: "/user/approval/auditNode/applicationConditions",
+    name: "applicationConditions",
+    component: () => import("@/views/approval/auditNode/applicationConditions"),
+  },
+  // 审核节点
+  {
+    path: '/user/approval/auditNode/applicationConditions',
+    name: 'applicationConditions',
+    component: () => import('@/views/approval/auditNode/applicationConditions')
+  },
+  // 审核节点考试
+  {
+    path: '/user/approval/auditNode/auditNodeExamination',
+    name: 'auditNodeExamination',
+    component: () => import('@/views/approval/auditNode/auditNodeExamination')
+  },
+  // 审核节点学习规则
+  {
+    path: '/user/approval/auditNode/examineUnderstandLearningRules',
+    name: 'examineUnderstandLearningRules',
+    component: () => import('@/views/approval/auditNode/examineUnderstandLearningRules')
   },
 ];
 
-// 解决重复点击同一各路由会报错
-const VueRouterPush = VueRouter.prototype.push
+const VueRouterPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(to) {
-  return VueRouterPush.call(this, to).catch(err => err)
-}
-
+  return VueRouterPush.call(this, to).catch((err) => err);
+};
 
 const router = new VueRouter({
   mode: "hash",
