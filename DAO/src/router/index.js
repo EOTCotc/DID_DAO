@@ -1,6 +1,6 @@
+import Cookie from "js-cookie";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Cookie from "js-cookie";
 
 Vue.use(VueRouter);
 
@@ -200,9 +200,26 @@ const routes = [
     name: "applicationConditions",
     component: () => import("@/views/approval/auditNode/applicationConditions"),
   },
+  // 审核节点
+  {
+    path: '/user/approval/auditNode/applicationConditions',
+    name: 'applicationConditions',
+    component: () => import('@/views/approval/auditNode/applicationConditions')
+  },
+  // 审核节点考试
+  {
+    path: '/user/approval/auditNode/auditNodeExamination',
+    name: 'auditNodeExamination',
+    component: () => import('@/views/approval/auditNode/auditNodeExamination')
+  },
+  // 审核节点学习规则
+  {
+    path: '/user/approval/auditNode/examineUnderstandLearningRules',
+    name: 'examineUnderstandLearningRules',
+    component: () => import('@/views/approval/auditNode/examineUnderstandLearningRules')
+  },
 ];
 
-// 解决重复点击同一各路由会报错
 const VueRouterPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch((err) => err);
