@@ -36,13 +36,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import pageHeader from '@/components/topBar/pageHeader'
 // import { personnelList } from '@/api/arbitration/publicity'
-=======
-import pageHeader from "@/components/topBar/pageHeader";
-import { personnelList } from "@/api/arbitration/publicity";
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 
 export default {
   name: 'arbitrationPersonnel',
@@ -57,15 +52,9 @@ export default {
         finished: true,
         data: [
           {
-<<<<<<< HEAD
             id: '459873564223',
             name: '李**',
             date: '2022.05.26',
-=======
-            id: "459873564223",
-            name: "李**",
-            date: "2022.05.26",
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
             count: 2,
           },
         ],
@@ -74,31 +63,17 @@ export default {
           itemsPerPage: 10,
         },
       },
-<<<<<<< HEAD
     }
-=======
-    };
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
   },
   methods: {
     // 获取列表
     getList() {
-<<<<<<< HEAD
       // personnelList().then((res) => {
       //   if (res.data.code) {
       //   } else {
       //     console.log(res)
       //   }
       // })
-=======
-      personnelList().then((res) => {
-        if (res.data.code) {
-          console.log(res);
-        } else {
-          console.log(res);
-        }
-      });
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
     },
     // 下拉刷新
     refresh() {},
@@ -106,15 +81,9 @@ export default {
     onLoad() {},
   },
   created() {
-<<<<<<< HEAD
     this.getList()
   },
 }
-=======
-    this.getList();
-  },
-};
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 </script>
 
 <style scoped lang="scss">

@@ -3,12 +3,8 @@
     <header>
       <white :title="title"></white>
     </header>
-<<<<<<< HEAD
     <div class="rulesBox "
          ref="rulesBox">
-=======
-    <div class="rulesBox">
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
       <div class="BasicRules">
         <h3>基本规则</h3>
         <div>
@@ -39,7 +35,6 @@
         <h3>扣分规则</h3>
         <div>
           (1) 非恶意交易失败
-<<<<<<< HEAD
           <div> ① 用户扣3分 ② 推荐人扣1分 ③ 节点、推荐人上3代，用户下6代扣0.5分（根据仲裁概率自动调节扣分数）</div>
         </div>
         <div>
@@ -50,31 +45,6 @@
         <div>
           ⑶ 交易作恶、洗黑钱
           <div> ① 用户扣120分并冻结全部质押的EOTc代币，妥善处理后可申请仲裁解封，仲裁可进行部分或全部的代币罚没，罚没代币打入黑洞。② 推荐人扣12分③节点、推荐人上3代、用户下6代:扣6分（根据仲裁概率自动调节扣分数）</div>
-=======
-          <div>
-            ① 用户扣3分 ② 推荐人扣1分 ③
-            节点、推荐人上3代，用户下6代扣0.5分（根据仲裁概率自动调节扣分数）
-          </div>
-        </div>
-        <div>
-          ⑵ 超时放币
-          <div>
-            ① 超时30-60分钟:① 用户扣3分 ② 推荐人扣1分 ③
-            节点、推荐人上3代、用户下6代扣0.5分(根据仲裁概率自动调节扣分数)
-          </div>
-          <div>
-            ① 超时60分钟以上:① 用户每超时60分钟扣6分 ② 推荐人每超时60分钟扣3分 ③
-            节点、推荐人上3代、用户下6代每超时6O分钟扣1分（根据仲裁概率自动调节扣分数）
-          </div>
-        </div>
-        <div>
-          ⑶ 交易作恶、洗黑钱
-          <div>
-            ①
-            用户扣120分并冻结全部质押的EOTc代币，妥善处理后可申请仲裁解封，仲裁可进行部分或全部的代币罚没，罚没代币打入黑洞。②
-            推荐人扣12分③节点、推荐人上3代、用户下6代:扣6分（根据仲裁概率自动调节扣分数）
-          </div>
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
         </div>
       </div>
     </div>
@@ -88,7 +58,7 @@
   </div>
 </template>
 <script>
-import white from "@/components/Nav/white.vue";
+import white from '@/components/Nav/white.vue'
 export default {
   components: { white },
   data() {
@@ -117,7 +87,7 @@ export default {
       if (scrollTop >= 210) this.flag = false
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .rulesBox {
