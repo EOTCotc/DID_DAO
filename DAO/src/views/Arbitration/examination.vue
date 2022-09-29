@@ -474,11 +474,7 @@ export default {
   background-color: #fff;
 }
 .body {
-<<<<<<< HEAD
-  height: 94.8vh;
-=======
   height: 100vh;
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
   background-color: #f3f4f5;
   padding: 30px;
   .main {
