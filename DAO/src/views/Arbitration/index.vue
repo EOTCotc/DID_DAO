@@ -13,7 +13,7 @@
           title="仲裁案公示"
           title-class="row-title"
           is-link
-          to="/user/arbitration/case"
+          to="/user/arbitration/publicity/case"
         />
         <van-cell
           title="成为仲裁员"
@@ -21,13 +21,8 @@
           is-link
           to="/user/meetTheConditions"
         />
-        <van-cell title="仲裁案件" title-class="row-title" is-link to="" />
-        <van-cell
-          title="仲裁消息"
-          title-class="row-title"
-          is-link
-          to="/arbitrationList"
-        />
+        <van-cell title="仲裁案件" title-class="row-title" is-link to="/user/arbitration/case" />
+        <van-cell title="仲裁消息" title-class="row-title" is-link to="/arbitrationList" />
       </div>
     </div>
   </div>
@@ -54,9 +49,6 @@ export default {
       }
       .van-cell {
         line-height: 35px;
-        .van-icon {
-          margin-top: 5px;
-        }
       }
     }
   }

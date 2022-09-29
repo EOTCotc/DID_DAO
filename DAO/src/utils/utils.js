@@ -63,3 +63,8 @@ export function getAuditType(type) {
     const arr = ['未审核', '审核通过', '信息不全', '信息有误', '证件照片有误', '证件照片不清晰']
     return arr.indexOf(type)
 }
+// 获取事件类型
+export function getArbitrateInType(type) {
+    const arr = ['账户被冻结', '卖家未确认收款', '其他']
+    return arr[type]
+}
