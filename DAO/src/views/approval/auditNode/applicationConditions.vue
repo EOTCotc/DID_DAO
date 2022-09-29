@@ -23,7 +23,7 @@
       <div class="conditionsList">
         <div class="list list1">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
           <div class="right"
@@ -40,7 +40,7 @@
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="refund-o" />
             <p>质押5000 EOTC以上</p>
           </div>
           <div class="right"
@@ -56,8 +56,8 @@
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="cart-circle-o" />
-            <p>了解学习仲裁规则</p>
+            <van-icon name="orders-o" />
+            <p>了解学习审核规则</p>
           </div>
           <div class="right"
                @click="auditing('examineUnderstandLearningRules')"
@@ -73,7 +73,7 @@
         </div>
         <div class="list listn">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="sign" />
             <div class="examinationColumn"><span>通过考试</span><span style="color:#999999;font-size:12px; margin-top: 3px;">考试成绩达到90分以上</span></div>
           </div>
           <div class="right"
@@ -101,7 +101,7 @@
             <van-image width="40"
                        height="30"
                        :src="require('./IMG/组 490@2x.png')" />
-            <span>仲裁员</span>
+            <span>审核节点</span>
           </div>
           <div>{{item.name}}</div>
         </div>
@@ -111,16 +111,16 @@
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{item.createDate}}</div>
+          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}</div>
         </div>
         <div>
-          <div>仲裁次数</div>
+          <div>审核次数</div>
           <div>{{item.arbitrateNum}}</div>
         </div>
       </div>
       <div class="bottom">
         <div>
-          <div>仲裁案(个)</div>
+          <div>处理审核(个)</div>
           <div>40<span>/45</span></div>
         </div>
         <div class="line"></div>
@@ -200,6 +200,7 @@
 import white from '@/components/Nav/white.vue'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
+import { becomeAnAuditor } from '@/api/BecomeAnAuditor'
 import icon1 from './IMG/icon.png'
 import icon2 from './IMG/icon2.png'
 import icon3 from './IMG/icon3.png'
@@ -266,12 +267,12 @@ export default {
     } else {
       this.title1 = this.title1 + '分'
       this.headerIcon1 = icon2
-      this.message1 = '很遗憾未通过仲裁考试'
+      this.message1 = '很遗憾未通过审核节点考试'
     }
-    if (this.$route.query.examinequalificationPassed3 != undefined) {
+    if (this.$route.params.examinequalificationPassed3 != undefined) {
       localStorage.setItem(
         'examinequalificationPassed3',
-        this.$route.query.examinequalificationPassed3
+        this.$route.params.examinequalificationPassed3
       )
       this.examinequalificationPassed3 = localStorage.getItem(
         'examinequalificationPassed3'
@@ -287,7 +288,21 @@ export default {
       localStorage.setItem('examinequalificationPassed', true)
     }
   },
-
+  filters: {
+    dateFormat(originVal, fmt) {
+      const dt = new Date(originVal)
+      const y = dt.getFullYear()
+      const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+      const d = (dt.getDate() + '').padStart(2, '0')
+      const hh = (dt.getHours() + '').padStart(2, '0')
+      const mm = (dt.getMinutes() + '').padStart(2, '0')
+      const ss = (dt.getSeconds() + '').padStart(2, '0')
+      if (fmt === 'yyyy-MM-dd') {
+        return `${y}-${m}-${d}`
+      }
+      return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+    },
+  },
   methods: {
     auditing(name) {
       this.$router.push({
@@ -295,7 +310,13 @@ export default {
       })
     },
     buttonClick() {
-      this.displayApplicationConditions = false
+      this.ArbitratorsIdentityInformation.createDate = this.$options.filters[
+        'dateFormat'
+      ](new Date(), 'yyyy-MM-dd-hh-mm-ss')
+      becomeAnAuditor().then((res) => {
+        console.log(res)
+        this.displayApplicationConditions = false
+      })
     },
     ExamTips() {
       this.show = true
@@ -304,7 +325,7 @@ export default {
       this.$refs.notification2.toggle(true)
       this.headerIcon2 = icon3
       this.title2 = '申请成功'
-      this.message2 = '成为仲裁员后平台会给您委派仲裁案'
+      this.message2 = '成为审核节点后平台会给您分配审核'
       this.buttonColor2 = '#237FF8'
       this.buttonText2 = '好的'
       this.closeOnClick = true
@@ -314,7 +335,7 @@ export default {
       Dialog.confirm({
         title: '温馨提示',
         message:
-          '解除身份后平台将不会再委派处理仲裁案，再申请仲裁员身份需要重新学习和考试',
+          '解除身份后平台将不会分配任何审核，再申请审核节点身份需要重新学习和考试',
         confirmButtonText: '知道了',
         confirmButtonColor: '#1B2945',
         cancelButtonText: '我再想想',
@@ -326,14 +347,35 @@ export default {
           // on confirm
           Dialog.confirm({
             title: '解除提示',
-            message: '确定解除仲裁员身份？',
+            message: '确定解除审核节点身份？',
             confirmButtonColor: '#1B2945',
             cancelButtonColor: '#666666 ',
             className: 'dismissalDialog',
-            // getContainer: '.box',
+            getContainer: '.box',
           })
             .then(() => {
               this.displayApplicationConditions = true
+              localStorage.removeItem('examinequalificationPassed1')
+              localStorage.removeItem('examinequalificationPassed2')
+              localStorage.removeItem('examinequalificationPassed3')
+              localStorage.removeItem('examinequalificationPassed4')
+              localStorage.removeItem('examinequalificationPassed')
+              this.examinequalificationPassed1 = Boolean(
+                localStorage.getItem('examinequalificationPassed1')
+              )
+              this.examinequalificationPassed2 = Boolean(
+                localStorage.getItem('examinequalificationPassed2')
+              )
+              this.examinequalificationPassed3 = Boolean(
+                localStorage.getItem('examinequalificationPassed3')
+              )
+              this.examinequalificationPassed4 = Boolean(
+                localStorage.getItem('examinequalificationPassed4')
+              )
+              this.examinequalificationPassed = Boolean(
+                localStorage.getItem('examinequalificationPassed')
+              )
+
               // on confirm
             })
             .catch(() => {
@@ -540,57 +582,64 @@ export default {
   padding: 0 35px;
   h4 {
     font-size: 32px;
-    padding: 0 5px;
+    padding: 35px 5px 25px 5px;
   }
   .conditionsList {
     background-color: #f3f4f5;
-    height: 448px;
+    min-height: 448px;
     border-radius: 25px;
-    padding: 16px 0;
+    padding: 25px 0;
     box-sizing: border-box;
-    .list1 {
-      margin-top: 20px;
-    }
-
     .list {
       padding: 20px 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 6px;
       .left {
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-weight: bold;
+        color: #333333;
         .van-icon {
-          margin-top: 3px;
+          margin-top: 1px;
+          font-size: 24px;
+          font-weight: bold;
         }
         p {
-          font-size: 26px;
+          font-size: 27px;
           color: #333333;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 26px;
+          font-size: 27px;
           display: flex;
+          line-height: 35px;
           flex-direction: column;
+          justify-content: space-between;
           margin-left: 20px;
         }
       }
       .right {
         color: #999999;
-        font-size: 23px;
+        font-size: 24px;
         font-weight: bold;
         margin-top: 4px;
+        .van-icon-arrow {
+          font-weight: bold;
+        }
       }
     }
     .listn {
-      margin-top: 5px;
       .left {
         .van-icon {
           margin-top: 0;
         }
       }
+    }
+    .list1 {
+      margin-top: 2px;
     }
   }
 }

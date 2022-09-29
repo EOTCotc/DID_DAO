@@ -1,6 +1,6 @@
+import Cookie from "js-cookie";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Cookie from "js-cookie";
 
 Vue.use(VueRouter);
 
@@ -154,9 +154,6 @@ const routes = [
   {
     path: "/user/arbitration/case/detail",
     name: "arbitrationCaseDetail",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/publicity/case/detail"),
   },
   {
@@ -184,11 +181,17 @@ const routes = [
     name: "arbitrationCasePlaintiff",
     component: () => import("@/views/Arbitration/case/plaintiff"),
   },
+  // 仲裁相关消息（消息列表）
+  {
+    path: '/arbitrationList',
+    name: 'arbitrationList',
+    component: () => import('@/views/Arbitration/arbitrationMsg')
+  },
   //仲裁相关消息（延期申请）
   {
     path: '/arbitrationMsg',
     name: 'arbitrationMsg',
-    component: () => import('@/views/Arbitration/arbitrationMsg')
+    component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
   },
   // 审核节点
   {
@@ -196,27 +199,29 @@ const routes = [
     name: 'applicationConditions',
     component: () => import('@/views/approval/auditNode/applicationConditions')
   },
+  // 审核节点考试
   {
-    path: '/examineUnderstandLearningRules',
+    path: '/user/approval/auditNode/auditNodeExamination',
+    name: 'auditNodeExamination',
+    component: () => import('@/views/approval/auditNode/auditNodeExamination')
+  },
+  // 审核节点学习规则
+  {
+    path: '/user/approval/auditNode/examineUnderstandLearningRules',
     name: 'examineUnderstandLearningRules',
     component: () => import('@/views/approval/auditNode/examineUnderstandLearningRules')
   },
-  {
-    path: '/auditNodeExamination',
-    name: 'auditNodeExamination',
-    component: () => import('@/views/approval/auditNode/auditNodeExamination')
-  }
-
 ];
 
 // 解决重复点击同一各路由会报错
-const VueRouterPush = VueRouter.prototype.push;
+const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (to) {
-  return VueRouterPush.call(this, to).catch((err) => err);
-};
+  return VueRouterPush.call(this, to).catch(err => err)
+}
+
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   base: process.env.BASE_URL,
   routes,
 });

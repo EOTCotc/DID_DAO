@@ -6,12 +6,12 @@
 
 <script>
 import { loadweb3 } from "@/utils/web3";
+
 export default {
   name: "App",
-  components: {},
   mounted() {
     loadweb3();
-  },
+  }
 };
 </script>
 

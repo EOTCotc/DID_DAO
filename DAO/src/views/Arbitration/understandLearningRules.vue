@@ -75,16 +75,15 @@ export default {
   methods: {
     completeLearning() {
       this.$router.replace({
-        path: '/user/meetTheConditions',
-        query: {
+        name: 'meetTheConditions',
+        params: {
           qualificationPassed3: this.qualificationPassed3,
         },
       })
     },
-    rulesScroll() {
-      let scrollTop =
-        this.$refs.rulesBox.pageYOffset || this.$refs.rulesBox.scrollTop
-      if (scrollTop >= 210) this.flag = false
+    rulesScroll(e) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight)
+        this.flag = false
     },
   },
 }
@@ -94,12 +93,13 @@ export default {
   color: #333333;
   background-color: #fff;
   padding: 0 25px;
-  height: 84vh;
+  height: 82vh;
   overflow: auto;
   .BasicRules,
   .DeductionRules {
     h3 {
       font-size: 35px;
+      padding: 20px 0;
     }
     div {
       font-size: 27px;

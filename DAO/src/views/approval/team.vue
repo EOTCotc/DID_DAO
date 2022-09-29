@@ -19,7 +19,7 @@
           class="list_wrap"
           v-show="!!list.data.length"
           v-model="list.UpRefreshLoading"
-          :finished="list.finished"
+          :finished="!!list.data.length && list.finished"
           finished-text="没有更多了"
           @load="handleUpRefresh"
       >

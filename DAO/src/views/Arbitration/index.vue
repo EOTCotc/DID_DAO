@@ -22,6 +22,7 @@
           to="/user/meetTheConditions"
         />
         <van-cell title="仲裁案件" title-class="row-title" is-link to="" />
+        <van-cell title="仲裁消息" title-class="row-title" is-link to="/arbitrationList" />
       </div>
     </div>
   </div>

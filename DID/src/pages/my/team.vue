@@ -33,32 +33,33 @@
           class="list_wrap"
           v-show="!!list.data.length"
           v-model="list.UpRefreshLoading"
-          :finished="list.finished"
+          :finished="!!list.data.length && list.finished"
           finished-text="没有更多了"
           @load="handleUpRefresh"
       >
         <ul class="list" v-if="!!list.data.length">
           <li
-              class="item"
-              v-for="item in list.data"
+            class="item"
+            v-for="item in list.data"
+            :key="item.uid"
           >
             <div class="user_wrap">
               <div class="avatar">
                 <van-image
-                    round
-                    width="30"
-                    height="30"
-                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                  round
+                  width="30"
+                  height="30"
+                  src="https://img01.yzcdn.cn/vant/cat.jpeg"
                 />
                 <span class="name" v-if="item.name">{{item.name}}（{{item.uid}}）</span>
                 <span class="name" v-else><span class="link">未认证</span>（{{item.uid}}）</span>
               </div>
               <div class="button_wrap">
                 <van-tag
-                    round
-                    plain
-                    color="#247FF6"
-                    text-color="#247FF6"
+                  round
+                  plain
+                  color="#247FF6"
+                  text-color="#247FF6"
                 >
                   {{getLevel(item.grade)}}
                 </van-tag>
@@ -108,7 +109,7 @@ import {list, morePersonnel} from "@/api/pagesApi/team"
 import {transformUTCDate, copy} from "@/utils/utils";
 
 export default {
-  name: "team",
+  name: 'team',
   data() {
     return {
       loading: false,
@@ -137,6 +138,8 @@ export default {
     transformUTCDate,
     onRefresh() {
       this.loading = true
+      this.list.query.page = 1
+      this.list.data = []
       this.getList()
     },
     // Tab切换
@@ -266,9 +269,9 @@ export default {
     min-height: 0;
     margin-top: 25px;
     overflow: auto;
+    padding-bottom: 44PX;
+    box-sizing: border-box;
     .list {
-      padding-bottom: 44PX;
-      box-sizing: border-box;
       .item {
         background: #FFFFFF;
         border-radius: 20px;

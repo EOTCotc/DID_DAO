@@ -1,20 +1,19 @@
 <template>
-  <van-overlay :show="show"
-               @click="toggle(false)">
+  <van-overlay :show="show" @click="toggle(false)">
     <div class="dialog_wrap">
       <slot name="headerIcon">
-        <img class="dialog-header-icon"
-             :src="headerIcon"
-             alt="" />
+        <img class="dialog-header-icon" :src="headerIcon" alt="" />
       </slot>
       <div class="dialog-title">{{ title }}</div>
       <div class="dialog-message">{{ message }}</div>
       <div class="dialog-btn">
-        <van-button round
-                    block
-                    class="btn"
-                    :color="buttonColor"
-                    @click.stop="handleButtonClick">
+        <van-button
+          round
+          block
+          class="btn"
+          :color="buttonColor"
+          @click.stop="handleButtonClick"
+        >
           {{ buttonText }}
         </van-button>
       </div>
@@ -27,7 +26,7 @@
 
 <script>
 export default {
-  name: 'notification',
+  name: "notification",
   props: {
     headerIcon: { type: String },
     title: { type: String },
@@ -39,22 +38,19 @@ export default {
   data() {
     return {
       show: false,
-    }
-  },
-  mounted() {
-    // this.getuserrisklevel()
+    };
   },
   methods: {
     toggle(show) {
-      this.show = show
-      !show && this.$nextTick().then(() => this.$emit('closed'))
+      this.show = show;
+      !show && this.$nextTick().then(() => this.$emit("closed"));
     },
     handleButtonClick() {
-      this.$emit('buttonClick')
-      this.closeOnClick && this.toggle(false)
+      this.$emit("buttonClick");
+      this.closeOnClick && this.toggle(false);
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
