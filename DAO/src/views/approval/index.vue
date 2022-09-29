@@ -3,39 +3,41 @@
     <page-header title="审核" />
     <div class="content">
       <div class="main">
-        <van-cell title="审核节点身份"
-                  title-class="row-title"
-                  is-link
-                  to="/user/approval/auditNode/applicationConditions" />
-        <van-cell title="身份认证审核"
-                  title-class="row-title"
-                  is-link
-                  to="/user/approval/identity" />
-        <van-cell title="申请社区审批"
-                  title-class="row-title"
-                  is-link
-                  to="/user/approval/community" />
-        <van-cell title="团队成员名单申请"
-                  title-class="row-title"
-                  is-link
-                  to="/user/approval/team" />
+        <van-cell
+          title="审核节点身份"
+          title-class="row-title"
+          is-link
+          to="/user/approval/auditNode/applicationConditions"
+        />
+        <van-cell
+          title="身份认证审核"
+          title-class="row-title"
+          is-link
+          to="/user/approval/identity"
+        />
+        <van-cell
+          title="申请社区审批"
+          title-class="row-title"
+          is-link
+          to="/user/approval/community"
+        />
+        <van-cell
+          title="团队成员名单申请"
+          title-class="row-title"
+          is-link
+          to="/user/approval/team"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PageHeader from '@/components/topBar/pageHeader'
+import PageHeader from "@/components/topBar/pageHeader";
 export default {
-<<<<<<< HEAD
-  name: 'approval',
-  components: { PageHeader },
-}
-=======
   name: "approval",
   components: { PageHeader },
 };
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 </script>
 
 <style scoped lang="scss">
