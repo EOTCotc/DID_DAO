@@ -144,17 +144,22 @@ const routes = [
     component: () => import("@/views/Arbitration/publicity/case"),
   },
   {
+    path: "/user/arbitration/publicity/case/detail",
+    name: "arbitrationCaseDetail",
+    component: () => import("@/views/Arbitration/publicity/case/detail"),
+  },
+  {
     path: "/arbitration/arbitrationCase",
     name: "ArbitrationByFormula",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/arbitrationCase"),
-  },
+  },// 审核节点
   {
-    path: "/user/arbitration/case/detail",
-    name: "arbitrationCaseDetail",
-    component: () => import("@/views/Arbitration/publicity/case/detail"),
+    path: '/user/approval/auditNode/applicationConditions',
+    name: 'applicationConditions',
+    component: () => import('@/views/approval/auditNode/applicationConditions')
   },
   {
     path: "/arbitrationCase",
@@ -176,10 +181,11 @@ const routes = [
     name: "arbitrationCaseInitiateNewProof",
     component: () => import("@/views/Arbitration/case/initiateNewProof"),
   },
+  // 原被告信息
   {
-    path: "/user/arbitration/case/plaintiff",
-    name: "arbitrationCasePlaintiff",
-    component: () => import("@/views/Arbitration/case/plaintiff"),
+    path: "/user/arbitration/case/personnelInfo",
+    name: "arbitrationCasePersonnelInfo",
+    component: () => import("@/views/Arbitration/case/personnelInfo"),
   },
   // 仲裁相关消息（消息列表）
   {

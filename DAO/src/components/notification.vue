@@ -26,10 +26,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { getuserrisklevel } from '@/api/viewsApi/home'
-=======
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
 export default {
   name: 'notification',
   props: {
@@ -45,20 +41,7 @@ export default {
       show: false,
     }
   },
-  mounted() {
-    this.getuserrisklevel()
-  },
   methods: {
-    // 获取风险等级
-    getuserrisklevel() {
-      getuserrisklevel().then((res) => {
-        if (res.data.code == 0) {
-          if (res.data.items == 2) {
-            this.show = true
-          }
-        }
-      })
-    },
     toggle(show) {
       this.show = show
       !show && this.$nextTick().then(() => this.$emit('closed'))

@@ -7,39 +7,43 @@
       <div class="main">
         <div class="mainTitle">
           <div class="NumberOfQuestions">
-            <span>{{ count }}</span>/{{ testQuestionData.length }}
+            <span>{{ count }}</span
+            >/{{ testQuestionData.length }}
           </div>
           <div class="Aim">
-            <van-icon name="aim"
-                      color="#237FF8" />
-            <van-count-down :time="time"
-                            format="HH:mm" />
+            <van-icon name="aim" color="#237FF8" />
+            <van-count-down :time="time" format="HH:mm" />
           </div>
         </div>
-        <div v-show="index + 1 == count"
-             v-for="(item, index) in testQuestionData"
-             :key="item.id">
+        <div
+          v-show="index + 1 == count"
+          v-for="(item, index) in testQuestionData"
+          :key="item.id"
+        >
           <div v-if="item.topicType != '(填空题)'">
             <div class="questions">
               <h3>{{ item.questionContant }}</h3>
               <h4>{{ item.topicType }}</h4>
             </div>
-            <div class="answerOptions"
-                 v-for="(el, index) in item.questionAnswer"
-                 :key="index">
-              <div @click="handleCilck(el, item, index, count)"
-                   :class="flag && el.Check ? 'bg' : ''">
-                <span>{{ el.title }}</span>{{ el.contant }}
+            <div
+              class="answerOptions"
+              v-for="(el, index) in item.questionAnswer"
+              :key="index"
+            >
+              <div
+                @click="handleCilck(el, item, index, count)"
+                :class="flag && el.Check ? 'bg' : ''"
+              >
+                <span>{{ el.title }}</span
+                >{{ el.contant }}
               </div>
             </div>
           </div>
-          <div class="completion"
-               v-if="item.topicType == '(填空题)'">
+          <div class="completion" v-if="item.topicType == '(填空题)'">
             <h4>{{ item.topicType }}</h4>
             <div>
               {{ item.questionContant[0] }}
-              <van-field v-model="text"
-                         @blur="getText(item)" />{{
+              <van-field v-model="text" @blur="getText(item)" />{{
                 item.questionContant[1]
               }}
             </div>
@@ -49,26 +53,31 @@
       </div>
     </div>
     <footer>
-      <van-button round
-                  block
-                  :disabled="jumpTestQuestions"
-                  color="#1B2945"
-                  v-if="count == 1"
-                  @click="nextQuestion(count - 1)">下一题</van-button>
-      <div class="btn"
-           v-if="count > 1 && count < testQuestionData.length">
-        <van-button round
-                    type="default"
-                    @click="previousQuestion">上一题</van-button>
-        <van-button round
-                    color="#1B2945"
-                    @click="nextQuestion(count - 1)">下一题</van-button>
+      <van-button
+        round
+        block
+        :disabled="jumpTestQuestions"
+        color="#1B2945"
+        v-if="count == 1"
+        @click="nextQuestion(count - 1)"
+        >下一题</van-button
+      >
+      <div class="btn" v-if="count > 1 && count < testQuestionData.length">
+        <van-button round type="default" @click="previousQuestion"
+          >上一题</van-button
+        >
+        <van-button round color="#1B2945" @click="nextQuestion(count - 1)"
+          >下一题</van-button
+        >
       </div>
-      <van-button round
-                  block
-                  color="#1B2945"
-                  v-if="count == testQuestionData.length"
-                  @click="SubmitExaminationPapers">提交</van-button>
+      <van-button
+        round
+        block
+        color="#1B2945"
+        v-if="count == testQuestionData.length"
+        @click="SubmitExaminationPapers"
+        >提交</van-button
+      >
     </footer>
   </div>
 </template>
@@ -322,23 +331,13 @@ export default {
     };
   },
   methods: {
-<<<<<<< HEAD
     handleCilck(val, item, index) {
       // console.log(val.contant, index, count, item)
-      item.result = val.contant
-      this.idx = index
-      this.jumpTestQuestions = false
-      this.flag = true
-      if (item.topicType == '(多选题)') {
-=======
-    handleCilck(val, item, index, count) {
-      console.log(val.contant, index, count, item);
       item.result = val.contant;
       this.idx = index;
       this.jumpTestQuestions = false;
       this.flag = true;
       if (item.topicType == "(多选题)") {
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
         item.questionAnswer.forEach((element, index) => {
           if (index == this.idx) {
             element.Check = !element.Check;
@@ -402,50 +401,29 @@ export default {
       this.UserAnswer.map((el, index) => {
         for (let i = 0; i < el.length; i++) {
           if (el.length == 4) {
-<<<<<<< HEAD
-            el = [3]
-=======
             el[i] = 0;
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
           }
           if (el.length >= 2 && el.length <= 3) {
-            el = [0]
+            el = [0];
           }
-          console.log(el, 'el')
+          console.log(el, "el");
           if (el[i] == this.testQuestionData[index].Answers) {
-<<<<<<< HEAD
             if (index == 3 || index == 4) {
-              this.totalScore += 10
+              this.totalScore += 10;
             } else {
-              this.totalScore += 8
+              this.totalScore += 8;
             }
           }
         }
-      })
-=======
-            if (index < 3) {
-              this.totalScore += 6;
-              console.log(index);
-            } else {
-              this.totalScore += 9;
-            }
-          }
-        }
-        console.log(this.totalScore);
       });
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
       //提交表单
       this.$router.replace({
         name: "meetTheConditions",
         params: {
           totalScore: this.totalScore,
         },
-<<<<<<< HEAD
-      })
-      console.log(this.totalScore, 'totalScore')
-=======
       });
->>>>>>> 189e0b2d7d11c30406de7c8f274188a42cb450bf
+      console.log(this.totalScore, "totalScore");
     },
     getText(item) {
       item.result = this.text;
