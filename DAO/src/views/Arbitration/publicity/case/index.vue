@@ -7,35 +7,30 @@
           <li class="item"
               v-for="item in list.data"
               :key="item.id"
-              @click="$router.push({
-                path: '/user/arbitration/publicity/case/detail',
-                query: {
-                  arbitrateInfoId: item.arbitrateInfoId
-                }
-              })"
           >
+            <!-- 原被告信息 -->
             <van-row>
-              <van-col class="lf" :span="12">
-                <div class="user_wrap">
-                  <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
+              <van-col class="lf" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.plaintiffId, type: 1 })">
+                <div class="identity_wrap">
+                  <img v-if="item.status === 2" src="../../../../assets/imgs/huangguan.png" alt="" class="img">
+                  原告
+                </div>
+                <div class="user">
                   <span class="name">{{ item.plaintiff }}</span>
-                  <span class="identity">（卖家）</span>
+                  <span class="text">（卖家）</span>
                 </div>
-                <div class="count_wrap">
-                  <span class="text">原告</span>
-                  <span class="num">{{item.plaintiffNum}}票</span>
-                </div>
+                <div class="num">{{item.plaintiffNum}}票</div>
               </van-col>
-              <van-col class="rt" :span="12">
-                <div class="user_wrap">
-                  <span class="identity">（卖家）</span>
-                  <span class="name">{{ item.defendant }}</span>
-                  <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
+              <van-col class="rt" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.defendantId, type: 2 })">
+                <div class="identity_wrap">
+                  <img v-if="item.status === 3" src="../../../../assets/imgs/huangguan.png" alt="" class="img">
+                  被告
                 </div>
-                <div class="count_wrap">
-                  <span class="num">{{item.defendantNum}}票</span>
-                  <span class="text">被告</span>
+                <div class="user">
+                  <span class="text">（卖家）</span>
+                  <span class="name">{{ item.plaintiff }}</span>
                 </div>
+                <div class="num">{{item.plaintiffNum}}票</div>
               </van-col>
             </van-row>
             <div class="process_wrap">
@@ -43,7 +38,7 @@
               <div class="border"></div>
               <div class="rt chunk"></div>
             </div>
-            <div class="row">
+            <div class="row" @click="go('/user/arbitration/publicity/case/detail', {arbitrateInfoId: item.arbitrateInfoId})">
               <div class="title">仲裁结果</div>
               <div class="message">
                 <p>本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.plaintiffNum }}位仲裁员判定原告…</p>
@@ -79,6 +74,10 @@ export default {
     }
   },
   methods: {
+    // 跳转页面
+    go(path, query) {
+      this.$router.push({ path, query })
+    },
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
@@ -128,68 +127,58 @@ export default {
           margin-bottom: 0;
         }
         & .lf {
-          .user_wrap {
-            .avatar {
-              margin-right: 10px;
-            }
-          }
-          .count_wrap {
-            .text {
-              border-radius: 0 40px 40px 50px;
-              margin-right: 10px;
-            }
+          .identity_wrap {
+            border-radius: 0 40px 40px 50px;
+            margin-right: 10px;
+            background-color: #4EA0F5;
           }
         }
         & .rt {
           text-align: right;
-          .user_wrap {
-            justify-content: flex-end;
-            .avatar {
-              margin-left: 10px;
-            }
+          .identity_wrap {
+            border-radius: 40px 0 40px 50px;
+            margin-left: 10px;
+            background-color: #EC6F66;
           }
-          .count_wrap {
-            .text {
-              border-radius: 40px 0 40px 50px;
-              margin-left: 10px;
-              background-color: #EC6F66;
-            }
-            .num {
-              color: #EC6F66;
-            }
+          .user {
+            justify-content: flex-end;
+            margin: 20px 0;
+          }
+          .num {
+            color: #EC6F66;
           }
         }
-        .user_wrap {
+        .identity_wrap {
+          display: inline-block;
+          position: relative;
+          font-size: 24px;
+          flex: 0 0 90px;
+          color: #FFF;
+          padding: 10px 15px;
+          .img {
+            @include posi($t: -20px, $l: 50%);
+            display: block;
+            width: 30px;
+            margin-left: -15px;
+          }
+        }
+        .user {
           display: flex;
           align-items: center;
-          .avatar {
-            display: block;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-right: 10px;
-          }
+          margin: 20px 0;
           .name {
             color: #333;
             font-size: 28px;
           }
-          .identity {
+          .text {
             color: #999;
             font-size: 24px;
           }
         }
-        .count_wrap {
+        .num {
           margin-top: 15px;
-          .text {
-            font-size: 24px;
-            padding: 15px 25px;
-            color: #FFF;
-            background-color: #4EA0F5;
-          }
-          .num {
-            color: #4EA0F5;
-            font-size: 24px;
-          }
+          color: #4EA0F5;
+          font-size: 24px;
         }
         .process_wrap {
           display: flex;
