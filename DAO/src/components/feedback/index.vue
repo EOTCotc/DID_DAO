@@ -155,6 +155,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content {
+  background: #fff;
+  margin-top: 25px;
+  height: 100vh;
+}
 .feedbackTitle {
   font-size: 30px;
   color: #333333;

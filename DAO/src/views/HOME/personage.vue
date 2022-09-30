@@ -22,7 +22,7 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import List from "../../components/Nav/List.vue";
-import { gettotalincome } from "@/api/earnings";
+import { getdaoinfo } from "@/api/earnings";
 export default {
   components: { TopBar, List },
   data() {
@@ -31,9 +31,12 @@ export default {
     };
   },
   created() {
-    gettotalincome().then((res) => {
-      this.total = res.data.items;
-      localStorage.setItem("itms", res.data.items);
+    getdaoinfo().then((res) => {
+      this.total = res.data.items.daoEOTC;
+      localStorage.setItem("itms", res.data.items.daoEOTC);
+      localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
+      localStorage.setItem("isExamine", res.data.items.isExamine);
+      localStorage.setItem("authType", res.data.items.authType);
     });
   },
   methods: {

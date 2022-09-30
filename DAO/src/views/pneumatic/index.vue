@@ -120,13 +120,36 @@ export default {
       this.over_show = false;
     },
     getUser() {
-      getUserrisk().then((res) => {
-        console.log(res);
-        res.data.items.map((item) => {
-          item.createDate = this.$dayjs(item.createDate).format("YYYY-MM-DD");
-        });
-        this.maticList = res.data.items;
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: "加载中…",
       });
+      getUserrisk()
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: "加载失败！",
+            });
+          } else {
+            items.map((item) => {
+              item.createDate = this.$dayjs(item.createDate).format(
+                "YYYY-MM-DD"
+              );
+            });
+            this.maticList = items;
+          }
+        })
+        .catch(() => {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！",
+          });
+        })
+        .finally(() => {
+          loading.clear();
+        });
     },
 
     check(id, status) {

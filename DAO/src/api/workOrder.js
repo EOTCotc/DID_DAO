@@ -9,14 +9,11 @@ export function getworkorderlist(data) {
 }
 //工单详情
 
-export function getworkorder(workOrderId) {
-  let params = {
-    workOrderId: workOrderId,
-  };
+export function getworkorder(data) {
   return request({
     url: "api/workorder/getworkorder",
     method: "post",
-    params,
+    data,
   });
 }
 //修改工单状态

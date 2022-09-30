@@ -23,7 +23,7 @@
           </div>
           <div
             class="right"
-            @click="auditing('ArbitrationByFormula')"
+            @click="didNot"
             v-if="qualificationPassed1 == false"
           >
             去认证
@@ -202,6 +202,16 @@
         >解除身份</van-button
       >
     </footer>
+    <Notification
+      ref="notification"
+      title="身份认证"
+      message="您还未身份认证，请到DID进行身份认证"
+      :headerIcon="require('../../assets/img/jin.png')"
+      buttonColor="#F65F5F"
+      buttonText="知道了"
+      :closeOnClick="true"
+      @buttonClick="btnClick"
+    />
   </div>
 </template>
 <script>
@@ -213,12 +223,13 @@ import {
 } from "@/api/TerminationOfArbitrator";
 import notification1 from "@/components/notification.vue";
 import notification2 from "@/components/notification.vue";
+import Notification from "@/components/notification.vue";
 import icon1 from "./IMG/icon.png";
 import icon2 from "./IMG/icon2.png";
 import icon3 from "./IMG/icon3.png";
 import { Dialog } from "vant";
 export default {
-  components: { white, notification1, notification2 },
+  components: { white, notification1, notification2, Notification },
   data() {
     return {
       title: "仲裁员",
@@ -319,6 +330,16 @@ export default {
   },
 
   methods: {
+    didNot() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(true);
+      });
+    },
+    btnClick() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(false);
+      });
+    },
     auditing(name) {
       this.$router.push({
         name: name,
@@ -567,8 +588,8 @@ export default {
   position: relative;
   .text {
     color: #fff;
-    line-height: 55px;
     position: absolute;
+    line-height: 55px;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
