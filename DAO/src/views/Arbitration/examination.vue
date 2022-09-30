@@ -69,7 +69,8 @@
                   block
                   color="#1B2945"
                   v-if="count == testQuestionData.length"
-                  @click="SubmitExaminationPapers">提交</van-button>
+                  @click="SubmitExaminationPapers"
+                  :disabled="disabled">提交</van-button>
     </footer>
   </div>
 </template>

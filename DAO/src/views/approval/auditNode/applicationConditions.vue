@@ -1,5 +1,5 @@
 <template>
-  <div :class="displayApplicationConditions? 'box2':'box'">
+  <div :class="displayApplicationConditions ? 'box2' : 'box'">
     <header>
       <white :title="title"></white>
     </header>
@@ -27,8 +27,9 @@
             <p>DID身份认证</p>
           </div>
           <div class="right"
-               @click="auditing('ArbitrationByFormula') "
-               v-if="examinequalificationPassed1==false">去认证
+               @click="auditing('ArbitrationByFormula')"
+               v-if="examinequalificationPassed1 == false">
+            去认证
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -44,7 +45,8 @@
             <p>质押5000 EOTC以上</p>
           </div>
           <div class="right"
-               v-if="examinequalificationPassed2==false">去质押
+               v-if="examinequalificationPassed2 == false">
+            去质押
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -61,7 +63,8 @@
           </div>
           <div class="right"
                @click="auditing('examineUnderstandLearningRules')"
-               v-if="examinequalificationPassed3==false">去学习
+               v-if="examinequalificationPassed3 == false">
+            去学习
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -78,9 +81,9 @@
           </div>
           <div class="right"
                @click="ExamTips"
-               v-if="examinequalificationPassed4==false">去考试
+               v-if="examinequalificationPassed4 == false">
+            去考试
             <van-icon name="arrow" />
-
           </div>
           <div class="right"
                v-else>
@@ -91,31 +94,37 @@
         </div>
       </div>
     </div>
-    <div v-if="displayApplicationConditions==false"
+    <div v-if="displayApplicationConditions == false"
          class="identityCard">
       <div class="top"
-           v-for="(item,index) in ArbitratorsIdentityInformation"
+           v-for="(item, index) in ArbitratorsIdentityInformation"
            :key="index">
         <div>
           <div class="first">
             <van-image width="40"
                        height="30"
                        :src="require('./IMG/组 490@2x.png')" />
-            <span>审核节点</span>
+            <span>仲裁员</span>
           </div>
-          <div>{{item.name}}</div>
+          <div>{{ item.name }}</div>
         </div>
         <div>
           <div>身份编号</div>
-          <div>{{item.number}}</div>
+          <div>{{ item.number }}</div>
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}</div>
+          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}
+          </div>
         </div>
         <div>
           <div>审核次数</div>
-          <div>{{item.arbitrateNum}}</div>
+          <div>{{ item.createDate }}</div>
+        </div>
+        <div>
+          <div>仲裁次数</div>
+          <div>{{ item.arbitrateNum }}</div>
+          >>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
         </div>
       </div>
       <div class="bottom">
@@ -140,7 +149,7 @@
             考试说明
           </van-button>
           <van-button color="#F3F4F5 "
-                      style="color:#333333 ">90分即通过</van-button>
+                      style="color: #333333">90分即通过</van-button>
           <div class="middle">
             <div class="middleTitle">
               <p>题目数量</p>
@@ -154,7 +163,7 @@
           </div>
           <van-button color="#237FF8"
                       class="startBtn"
-                      @click="auditing('auditNodeExamination') ">开始答题</van-button>
+                      @click="auditing('auditNodeExamination')">开始答题</van-button>
           <van-icon name="close"
                     color="#fff"
                     size="29"
@@ -163,11 +172,11 @@
       </div>
     </van-overlay>
     <notification1 ref="notification1"
-                   :class="this.title1 > 90?'dti1':' dti2'"
+                   :class="this.title1 > 90 ? 'dti1' : ' dti2'"
                    :buttonText="buttonText1"
                    :buttonColor="buttonColor1"
                    :headerIcon="headerIcon1"
-                   :title="title1+ '分'"
+                   :title="title1 + '分'"
                    :message="message1"
                    :closeOnClick="closeOnClick"></notification1>
     <notification2 ref="notification2"
@@ -191,7 +200,7 @@
                   type="info"
                   color="#fff"
                   @click="dismissal"
-                  v-if="displayApplicationConditions==false"
+                  v-if="displayApplicationConditions == false"
                   class="vanbtn">解除身份</van-button>
     </footer>
   </div>
@@ -265,7 +274,7 @@ export default {
       this.examinequalificationPassed4 = true
       localStorage.setItem('examinequalificationPassed4', true)
     } else {
-      this.title1 = this.title1 + '分'
+      this.title1 = this.title1
       this.headerIcon1 = icon2
       this.message1 = '很遗憾未通过审核节点考试'
     }
@@ -555,6 +564,7 @@ export default {
     position: absolute;
     top: 0;
     left: 50%;
+    line-height: 55px;
     transform: translateX(-50%);
     text-align: center;
     p:nth-of-type(1) {

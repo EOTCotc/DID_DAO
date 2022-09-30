@@ -557,7 +557,7 @@ export default {
   position: relative;
   .text {
     color: #fff;
-    line-height: 75px;
+    line-height: 55px;
     position: absolute;
     top: 0;
     left: 50%;

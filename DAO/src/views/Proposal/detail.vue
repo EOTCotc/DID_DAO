@@ -16,7 +16,7 @@
       <div class="one_an">
         <div>{{ List.title }}</div>
         <div class="piao">
-          <span>
+          <span v-if="List.state == 0">
             <div class="ion"></div>
             进行中
           </span><span>0xsd…8888提议</span>
@@ -265,6 +265,15 @@ export default {
       height: 15px;
       border-radius: 50%;
       background: #237ff8;
+    }
+    .two {
+      background: #fc7542;
+    }
+    .three {
+      background: #00b87a;
+    }
+    .fhire {
+      background: #999999;
     }
   }
 }

@@ -183,15 +183,28 @@ const routes = [
   },
   // 仲裁相关消息（消息列表）
   {
-    path: '/arbitrationList',
-    name: 'arbitrationList',
-    component: () => import('@/views/Arbitration/arbitrationMsg')
+    path: "/arbitrationList",
+    name: "arbitrationList",
+    component: () => import("@/views/Arbitration/arbitrationMsg"),
   },
   //仲裁相关消息（延期申请）
   {
+<<<<<<< HEAD
     path: '/arbitrationMsg',
     name: 'arbitrationMsg',
     component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
+=======
+    path: "/arbitrationMsg",
+    name: "arbitrationMsg",
+    component: () =>
+      import("@/views/Arbitration/arbitrationMsg/arbitrationMsg"),
+  },
+  // 审核节点
+  {
+    path: "/user/approval/auditNode/applicationConditions",
+    name: "applicationConditions",
+    component: () => import("@/views/approval/auditNode/applicationConditions"),
+>>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
   },
   // 审核节点
   {
@@ -214,11 +227,18 @@ const routes = [
 ];
 
 // 解决重复点击同一各路由会报错
+<<<<<<< HEAD
 const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
 
+=======
+const VueRouterPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch((err) => err);
+};
+>>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
 
 const router = new VueRouter({
   mode: "hash",

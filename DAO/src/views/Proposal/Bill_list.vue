@@ -100,13 +100,13 @@ export default {
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: #fc7542;
+      background: #237ff8;
     }
     .two {
-      background: #00b87a;
+      background: #fc7542;
     }
     .three {
-      background: #237ff8;
+      background: #00b87a;
     }
     .fhire {
       background: #999999;

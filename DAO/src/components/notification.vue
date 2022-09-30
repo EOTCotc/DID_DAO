@@ -41,9 +41,13 @@ export default {
       show: false,
     }
   },
+<<<<<<< HEAD
   mounted() {
     // this.getuserrisklevel()
   },
+=======
+  mounted() {},
+>>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
   methods: {
     toggle(show) {
       this.show = show

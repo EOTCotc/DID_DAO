@@ -1,6 +1,10 @@
 import request from "../utils/request";
 //解除仲裁身份
+<<<<<<< HEAD
 export function TerminationArbitrator () {
+=======
+export function TerminationArbitrator(data) {
+>>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
   return request({
     url: "api/arbitrate/relievearbitrator",
     method: "post",
@@ -15,9 +19,12 @@ export function TerminationArbitrator () {
 //   });
 // }
 
-
 // 成为仲裁员
+<<<<<<< HEAD
 export function becomeAnArbitrator () {
+=======
+export function becomeAnArbitrator(data) {
+>>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
   return request({
     url: "api/daouser/toarbitrator",
     method: "post",

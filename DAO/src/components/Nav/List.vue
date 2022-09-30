@@ -95,7 +95,10 @@ export default {
   .van-cell {
     background: #000;
     color: #fff;
-    line-height: 32px;
+    line-height: 30px;
+    .van-icon {
+      margin-top: 5px;
+    }
   }
 }
 </style>

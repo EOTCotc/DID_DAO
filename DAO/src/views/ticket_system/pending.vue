@@ -190,7 +190,7 @@ export default {
         res.data.items.map((item) => {
           item.createDate = this.$dayjs(item.createDate).format("YYYY-MM-DD");
         });
-        console.log(res.data.items);
+
         this.pengList = res.data.items;
       });
     },
