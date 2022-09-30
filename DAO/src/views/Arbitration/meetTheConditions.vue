@@ -1,5 +1,5 @@
 <template>
-  <div :class="displayApplicationConditions? 'box2':'box'">
+  <div :class="displayApplicationConditions ? 'box2' : 'box'">
     <header>
       <white :title="title"></white>
     </header>
@@ -27,8 +27,8 @@
             <p>DID身份认证</p>
           </div>
           <div class="right"
-               @click="auditing('ArbitrationByFormula') "
-               v-if="qualificationPassed1==false">去认证
+               v-if="qualificationPassed1 == false">
+            去认证
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -44,7 +44,8 @@
             <p>质押5000 EOTC以上</p>
           </div>
           <div class="right"
-               v-if="qualificationPassed2==false">去质押
+               v-if="qualificationPassed2 == false">
+            去质押
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -61,7 +62,8 @@
           </div>
           <div class="right"
                @click="auditing('understandLearningRules')"
-               v-if="qualificationPassed3==false">去学习
+               v-if="qualificationPassed3 == false">
+            去学习
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -74,11 +76,14 @@
         <div class="list listn">
           <div class="left">
             <van-icon name="sign" />
-            <div class="examinationColumn"><span>通过考试</span><span style="color:#999999;font-size:13px; margin-top: 3px;">考试成绩达到90分以上</span></div>
+            <div class="examinationColumn">
+              <span>通过考试</span><span style="color: #999999; font-size: 12px; margin-top: 3px">考试成绩达到90分以上</span>
+            </div>
           </div>
           <div class="right"
                @click="ExamTips"
-               v-if="qualificationPassed4==false">去考试
+               v-if="qualificationPassed4 == false">
+            去考试
             <van-icon name="arrow" />
           </div>
           <div class="right"
@@ -90,11 +95,9 @@
         </div>
       </div>
     </div>
-    <div v-if="displayApplicationConditions==false"
+    <div v-if="displayApplicationConditions == false"
          class="identityCard">
-      <div class="top"
-           v-for="(item,index) in ArbitratorsIdentityInformation"
-           :key="index">
+      <div class="top">
         <div>
           <div class="first">
             <van-image width="40"
@@ -102,30 +105,30 @@
                        :src="require('./IMG/组 490@2x.png')" />
             <span>仲裁员</span>
           </div>
-          <div>{{item.name}}</div>
+          <div>{{ ArbitratorsIdentityInformation.name }}</div>
         </div>
         <div>
           <div>身份编号</div>
-          <div>{{item.number}}</div>
+          <div>{{ ArbitratorsIdentityInformation.number }}</div>
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}</div>
+          <div>{{ ArbitratorsIdentityInformation.createDate| dateFormat('yyyy-MM-dd-hh-mm-ss')}}</div>
         </div>
         <div>
           <div>仲裁次数</div>
-          <div>{{item.arbitrateNum}}</div>
+          <div>{{ ArbitratorsIdentityInformation.arbitrateNum }}</div>
         </div>
       </div>
       <div class="bottom">
         <div>
           <div>仲裁案(个)</div>
-          <div>40<span>/45</span></div>
+          <div>{{ProceedsFromArbitration.arbitrationCase}}<span>/{{ProceedsFromArbitration.arbitrationCaseTotal}}</span></div>
         </div>
         <div class="line"></div>
         <div>
           <div>收益(EOTC)</div>
-          <div>3000</div>
+          <div>{{ArbitratorsIdentityInformation.eotc}}</div>
         </div>
       </div>
     </div>
@@ -161,7 +164,7 @@
       </div>
     </van-overlay>
     <notification1 ref="notification1"
-                   :class="this.title1 > 90?'dti1':' dti2'"
+                   :class="this.title1 > 90 ? 'dti1' : ' dti2'"
                    :buttonText="buttonText1"
                    :buttonColor="buttonColor1"
                    :headerIcon="headerIcon1"
@@ -189,7 +192,7 @@
                   type="info"
                   color="#fff"
                   @click="dismissal"
-                  v-if="displayApplicationConditions==false"
+                  v-if="displayApplicationConditions == false"
                   class="vanbtn">解除身份</van-button>
     </footer>
   </div>
@@ -199,7 +202,7 @@ import white from '@/components/Nav/white.vue'
 import {
   TerminationArbitrator,
   becomeAnArbitrator,
-  getDaoUserInformation,
+  getarbitrator,
 } from '@/api/TerminationOfArbitrator'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
@@ -212,14 +215,12 @@ export default {
   data() {
     return {
       title: '仲裁员',
-      ArbitratorsIdentityInformation: [
-        {
-          name: '李木子',
-          number: '012022052601',
-          createDate: '2022-09-28T08:03:49.797Z',
-          arbitrateNum: 0,
-        },
-      ],
+      isArbitrate: +localStorage.getItem('isArbitrate'),
+      ArbitratorsIdentityInformation: {},
+      ProceedsFromArbitration: {
+        arbitrationCase: 40,
+        arbitrationCaseTotal: 45,
+      },
       show: false,
       showFraction: false,
       applynow: false,
@@ -249,7 +250,6 @@ export default {
       buttonText2: '知道了',
       headerIcon2: '',
       closeOnClick2: true,
-      items: {},
     }
   },
   filters: {
@@ -268,11 +268,14 @@ export default {
     },
   },
   mounted() {
-    getDaoUserInformation(this.ArbitratorsIdentityInformation).then((res) => {
-      if (res.data.items.isArbitrate == 1) {
-        this.displayApplicationConditions = false
-      }
-    })
+    this.isArbitrate == 0
+      ? (this.displayApplicationConditions = true)
+      : (this.displayApplicationConditions = false)
+    if (this.isArbitrate == 1) {
+      getarbitrator().then((res) => {
+        this.ArbitratorsIdentityInformation = res.data.items
+      })
+    }
     this.title1 = this.$route.params.totalScore + ''
     if (this.title1 != 'undefined') {
       this.$nextTick().then(() => {
@@ -315,11 +318,10 @@ export default {
       })
     },
     buttonClick() {
-      this.ArbitratorsIdentityInformation.createDate = this.$options.filters[
-        'dateFormat'
-      ](new Date(), 'yyyy-MM-dd-hh-mm-ss')
       becomeAnArbitrator().then((res) => {
-        console.log(res)
+        getarbitrator().then((res) => {
+          this.ArbitratorsIdentityInformation = res.data.items
+        })
         this.displayApplicationConditions = false
       })
     },
@@ -565,7 +567,7 @@ export default {
     text-align: center;
     p:nth-of-type(1) {
       font-size: 50px;
-      margin: 45px 0 0px 0;
+      margin: 60px 0 15px 0;
     }
     p:nth-of-type(2) {
       font-size: 27px;
@@ -576,7 +578,7 @@ export default {
     position: absolute;
     top: 0;
     left: 50%;
-    margin-top: 30px;
+    margin-top: 40px;
     transform: translateX(-50%);
     text-align: center;
     font-size: 30px;
@@ -588,7 +590,7 @@ export default {
   padding: 0 35px;
   h4 {
     font-size: 32px;
-    padding: 35px 5px 25px 5px;
+    padding: 30px 0;
   }
   .conditionsList {
     background-color: #f3f4f5;
@@ -609,17 +611,17 @@ export default {
         font-weight: bold;
         color: #333333;
         .van-icon {
-          font-size: 24px;
+          font-size: 23px;
           margin-top: 1px;
           font-weight: bold;
         }
         p {
-          font-size: 27px;
+          font-size: 26px;
           color: #333333;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 27px;
+          font-size: 26px;
           display: flex;
           line-height: 35px;
           flex-direction: column;

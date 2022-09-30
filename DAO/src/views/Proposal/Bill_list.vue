@@ -6,7 +6,7 @@
     <main>
       <div class="box">
         <div class="one_an"
-             @click="detail(item.proposalId)"
+             @click="detail(item.proposalId,item.state)"
              v-for="(item, index) in List"
              :key="index">
           <div>{{ item.title }}</div>
@@ -67,8 +67,11 @@ export default {
     createAn() {
       this.$router.push('/Create')
     },
-    detail(id) {
-      this.$router.push({ path: '/detail', query: { proposalId: id } })
+    detail(id, state) {
+      this.$router.push({
+        path: '/detail',
+        query: { proposalId: id, state: state },
+      })
     },
   },
 }

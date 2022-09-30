@@ -37,7 +37,7 @@
 
 <script>
 import pageHeader from '@/components/topBar/pageHeader'
-// import { personnelList } from '@/api/arbitration/publicity'
+import { personnelList } from '@/api/arbitration/publicity'
 
 export default {
   name: 'arbitrationPersonnel',
@@ -68,12 +68,13 @@ export default {
   methods: {
     // 获取列表
     getList() {
-      // personnelList().then((res) => {
-      //   if (res.data.code) {
-      //   } else {
-      //     console.log(res)
-      //   }
-      // })
+      personnelList().then((res) => {
+        if (res.data.code) {
+          console.log(res)
+        } else {
+          console.log(res)
+        }
+      })
     },
     // 下拉刷新
     refresh() {},

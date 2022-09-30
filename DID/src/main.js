@@ -10,37 +10,10 @@ import dayjs from "dayjs";
 import "@/assets/font/style.css"
 
 import {
-  Area,
-  Picker,
-  Search,
-  Toast,
-  Button,
-  Form,
-  Field,
-  Icon,
-  Checkbox,
-  NavBar,
-  Popup,
-  Cell,
-  Overlay,
-  Tabs,
-  Tab,
-  Loading,
-  PullRefresh,
-  Image,
-  List,
-  Dialog,
-  Empty,
-  Row,
-  Col,
-  RadioGroup,
-  Radio,
-  Popover,
-  Steps,
-  Step,
-  Uploader,
-  ImagePreview,
-  Tag, SwipeCell, Switch, PasswordInput, CountDown, ActionSheet
+  Area, Picker, Search, Toast, Button, Form, Field, Icon, Checkbox, NavBar,
+  Popup, Cell, Overlay, Tabs, Tab, Loading, PullRefresh, Image, List, Dialog,
+  Empty, Row, Col, RadioGroup, Radio, Popover, Steps, Step, Uploader,
+  ImagePreview, Tag, SwipeCell, Switch, PasswordInput, CountDown, ActionSheet,
 } from 'vant';
 
 Vue.config.productionTip = false//关闭生产提示

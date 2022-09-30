@@ -2,26 +2,26 @@
   <div class="container">
     <van-nav-bar
       :border="false"
-      title="选择所在地"
+      :title="$t('bindRelation.tab_locality')"
       left-arrow
       @click-left="onClickLeft"
     />
     <div class="content">
       <van-cell
         class="now"
-        title="使用当前位置"
-        value="当前位置"
+        :title="$t('bindRelation.user_loc')"
+        :value="$t('bindRelation.loc')"
         :border="false"
       />
       <van-cell
         class="now"
-        title="国家"
+        :title="$t('bindRelation.country')"
         :value="country[1]"
         is-link
         to="/nation"
       />
       <van-cell
-        title="省市"
+        :title="$t('bindRelation.p_c_area')"
         :value="region"
         is-link
         @click="showPopup = true"
@@ -35,13 +35,13 @@
         @confirm="tabConfirm"
         @cancel="showPopup = false"
         show-toolbar
-        title="选择当前所在地区"
+        :title="$t('bindRelation.select_site')"
         :columns="columns"
       />
     </van-popup>
 
     <div class="btn">
-      <div class="tip">为了便于线下建立推荐关系请谨慎选择当前所在地，一旦绑定不可更改</div>
+      <div class="tip">{{$t('bindRelation.tip')}}</div>
       <van-button
         round
         block
@@ -49,7 +49,7 @@
         :disabled="!selected"
         @click="$router.replace({name: $route.query.form, params: {code: selected}})"
       >
-        确认，前往下一步
+        {{$t('bindRelation.next')}}
       </van-button>
     </div>
   </div>

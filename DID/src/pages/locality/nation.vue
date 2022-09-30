@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar
       :border="false"
-      title="国家"
+      :title="$t('bindRelation.country')"
       left-arrow
       @click-left="onClickLeft"
     />
@@ -11,7 +11,7 @@
       v-model="value"
       shape="round"
       left-icon=""
-      placeholder="请输入搜索关键词"
+      :placeholder="$t('bindRelation.search')"
       @input="handleClear"
       @clear="handleClear"
     >

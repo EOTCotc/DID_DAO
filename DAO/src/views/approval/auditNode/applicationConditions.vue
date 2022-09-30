@@ -27,7 +27,6 @@
             <p>DID身份认证</p>
           </div>
           <div class="right"
-               @click="auditing('ArbitrationByFormula')"
                v-if="examinequalificationPassed1 == false">
             去认证
             <van-icon name="arrow" />
@@ -96,46 +95,39 @@
     </div>
     <div v-if="displayApplicationConditions == false"
          class="identityCard">
-      <div class="top"
-           v-for="(item, index) in ArbitratorsIdentityInformation"
-           :key="index">
+      <div class="top">
         <div>
           <div class="first">
             <van-image width="40"
                        height="30"
                        :src="require('./IMG/组 490@2x.png')" />
-            <span>仲裁员</span>
+            <span>审核节点</span>
           </div>
-          <div>{{ item.name }}</div>
+          <div>{{ ArbitratorsIdentityInformation.name }}</div>
         </div>
         <div>
           <div>身份编号</div>
-          <div>{{ item.number }}</div>
+          <div>{{ ArbitratorsIdentityInformation.number }}</div>
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}
+          <div>{{ArbitratorsIdentityInformation.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}
           </div>
         </div>
         <div>
           <div>审核次数</div>
-          <div>{{ item.createDate }}</div>
-        </div>
-        <div>
-          <div>仲裁次数</div>
-          <div>{{ item.arbitrateNum }}</div>
-          >>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
+          <div>{{ ArbitratorsIdentityInformation.arbitrateNum }}</div>
         </div>
       </div>
       <div class="bottom">
         <div>
           <div>处理审核(个)</div>
-          <div>40<span>/45</span></div>
+          <div>{{ProceedsFromArbitration.arbitrationCase}}<span>/{{ProceedsFromArbitration.arbitrationCaseTotal}}</span></div>
         </div>
         <div class="line"></div>
         <div>
           <div>收益(EOTC)</div>
-          <div>3000</div>
+          <div>{{ArbitratorsIdentityInformation.eotc}}</div>
         </div>
       </div>
     </div>
@@ -209,7 +201,11 @@
 import white from '@/components/Nav/white.vue'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
-import { becomeAnAuditor } from '@/api/BecomeAnAuditor'
+import {
+  becomeAnAuditor,
+  getUnapprovedInformation,
+  disapproveIdentity,
+} from '@/api/BecomeAnAuditor'
 import icon1 from './IMG/icon.png'
 import icon2 from './IMG/icon2.png'
 import icon3 from './IMG/icon3.png'
@@ -219,18 +215,16 @@ export default {
   data() {
     return {
       title: '审核节点',
-      ArbitratorsIdentityInformation: [
-        {
-          name: '李木子',
-          number: '012022052601',
-          createDate: '2022-09-28T08:03:49.797Z',
-          arbitrateNum: 0,
-        },
-      ],
+      isExamine: +localStorage.getItem('isExamine'),
+      ArbitratorsIdentityInformation: {},
+      ProceedsFromArbitration: {
+        arbitrationCase: 0,
+        arbitrationCaseTotal: 0,
+      },
       show: false,
       showFraction: false,
       applynow: false,
-      displayApplicationConditions: true,
+      displayApplicationConditions: false,
       examinequalificationPassed: Boolean(
         localStorage.getItem('examinequalificationPassed')
       ),
@@ -261,6 +255,14 @@ export default {
     }
   },
   mounted() {
+    this.isExamine == 0
+      ? (this.displayApplicationConditions = true)
+      : (this.displayApplicationConditions = false)
+    if (this.isExamine == 1) {
+      getUnapprovedInformation().then((res) => {
+        this.ArbitratorsIdentityInformation = res.data.items
+      })
+    }
     this.title1 = this.$route.params.totalScore + ''
     if (this.title1 != 'undefined') {
       this.$nextTick().then(() => {
@@ -319,11 +321,10 @@ export default {
       })
     },
     buttonClick() {
-      this.ArbitratorsIdentityInformation.createDate = this.$options.filters[
-        'dateFormat'
-      ](new Date(), 'yyyy-MM-dd-hh-mm-ss')
       becomeAnAuditor().then((res) => {
-        console.log(res)
+        getUnapprovedInformation().then((res) => {
+          this.ArbitratorsIdentityInformation = res.data.items
+        })
         this.displayApplicationConditions = false
       })
     },
@@ -384,7 +385,7 @@ export default {
               this.examinequalificationPassed = Boolean(
                 localStorage.getItem('examinequalificationPassed')
               )
-
+              disapproveIdentity()
               // on confirm
             })
             .catch(() => {
@@ -569,7 +570,7 @@ export default {
     text-align: center;
     p:nth-of-type(1) {
       font-size: 50px;
-      margin: 55px 0 28px 0;
+      margin: 60px 0 15px 0;
     }
     p:nth-of-type(2) {
       font-size: 27px;
@@ -580,7 +581,7 @@ export default {
     position: absolute;
     top: 0;
     left: 50%;
-    margin-top: 30px;
+    margin-top: 40px;
     transform: translateX(-50%);
     text-align: center;
     font-size: 30px;
@@ -614,16 +615,16 @@ export default {
         color: #333333;
         .van-icon {
           margin-top: 1px;
-          font-size: 24px;
+          font-size: 23px;
           font-weight: bold;
         }
         p {
-          font-size: 27px;
+          font-size: 26px;
           color: #333333;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 27px;
+          font-size: 26px;
           display: flex;
           line-height: 35px;
           flex-direction: column;

@@ -41,14 +41,20 @@ export default {
       show: false,
     }
   },
-<<<<<<< HEAD
   mounted() {
-    // this.getuserrisklevel()
+    // this.getuserrisklevel();
   },
-=======
-  mounted() {},
->>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
   methods: {
+    // 获取风险等级
+    // getuserrisklevel() {
+    //   getuserrisklevel().then((res) => {
+    //     if (res.data.code == 0) {
+    //       if (res.data.items == 2) {
+    //         this.show = true;
+    //       }
+    //     }
+    //   });
+    // },
     toggle(show) {
       this.show = show
       !show && this.$nextTick().then(() => this.$emit('closed'))

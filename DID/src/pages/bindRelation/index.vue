@@ -2,26 +2,26 @@
   <div class="container">
     <van-nav-bar
       :border="false"
-      title="选择所在地"
+      :title="$t('bindRelation.tab_locality')"
       left-arrow
       @click-left="onClickLeft"
     />
     <div class="content">
       <van-cell
         class="now"
-        title="使用当前位置"
-        value="当前位置"
+        :title="$t('bindRelation.user_loc')"
+        :value="$t('bindRelation.loc')"
         :border="false"
       />
       <van-cell
         class="now"
-        title="国家"
+        :title="$t('bindRelation.country')"
         :value="country[1]"
         is-link
         @click="toBindNation"
       />
       <van-cell
-        title="省市"
+        :title="$t('bindRelation.p_c_area')"
         :value="region"
         is-link
         @click="showPopup = true"
@@ -32,7 +32,7 @@
     <!-- 省市区 -->
     <van-popup v-model="showPopup" round position="bottom">
       <van-area
-        title="选择当前所在地区"
+        :title="$t('bindRelation.select_site')"
         @confirm="confirm"
         @cancel="showPopup = false"
         :area-list="areaList"
@@ -40,29 +40,31 @@
     </van-popup>
 
     <div class="have-num">
-      当前地区现有<span> {{ num }} </span>个社区
+      {{ $t("bindRelation.have_site") }}
+      <span> {{ num }} </span>
+      {{ $t("bindRelation.comm_num") }}
     </div>
 
     <div class="btn">
-      <div>为了便于线下建立推荐关系请谨慎选择当前所在地，一旦绑定不可更改</div>
+      <div>{{$t('bindRelation.tip')}}</div>
       <button
         :style="showBtn ? 'background:#1B2945;' : 'background:#8c93a1;'"
         @click="toNext"
       >
-        确认，前往下一步
+        {{$t('bindRelation.next')}}
       </button>
     </div>
 
     <van-overlay :show="showOverlay" @click="showOverlay = false">
       <div class="wrapper" @click.stop>
         <div class="block">
-          <div class="tips">确认提示</div>
+          <div class="tips">{{$t('bindRelation.conf_tip')}}</div>
           <div class="msg">
-            确认后将不可修改关系绑定所地区，确定前往下一步？
+            {{$t('bindRelation.conf_cont')}}
           </div>
           <div class="mask-btn">
-            <div @click="showOverlay = false">取消</div>
-            <div @click="toCommunity">确定</div>
+            <div @click="showOverlay = false">{{$t('public.cancel')}}</div>
+            <div @click="toCommunity">{{$t('public.confirm')}}</div>
           </div>
         </div>
       </div>

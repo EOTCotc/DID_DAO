@@ -36,7 +36,7 @@
                       :show-pivot="false"
                       stroke-width="12" />
         <div class="num"
-             v-if="isVote">
+             v-if="isVote1">
           <span style="color: #00b87a">{{ peopleNum }}</span>/99
         </div>
         <div class="num vote"
@@ -97,6 +97,7 @@ export default {
       title: '详情',
       radio: '',
       proposalId: this.$route.query.proposalId,
+      state: this.$route.query.state,
       List: {
         peopleNum: 0,
         favorVotes: 0,
@@ -104,6 +105,7 @@ export default {
       },
       isVote: true,
       Votes: 1,
+      isVote1: true,
       percentageVotes: 0,
       flag: false,
       favorVotes: 0,
@@ -118,6 +120,9 @@ export default {
     })
   },
   mounted() {
+    if (this.state != 2) {
+      this.isVote = false
+    }
     this.favorVotes = Number(
       localStorage.getItem(`favorVotes+${this.proposalId}`)
     )
@@ -202,6 +207,7 @@ export default {
           if (this.opposeVotes != 0) this.trackColor = '#FC7542'
           if (this.favorVotes == 0) this.valueColor = '#FC7542'
           this.isVote = false
+          this.isVote1 = false
         }
       })
     },

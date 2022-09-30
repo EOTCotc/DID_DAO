@@ -1,7 +1,7 @@
 <template>
   <!-- 确定信息 -->
   <div ref="child" class="container-child" :style="`min-height:${height}px;`">
-    <div class="tille">请选择注销原因</div>
+    <div class="tille">{{ $t("logout.reason") }}</div>
     <div class="radio-box">
       <van-radio-group v-model="radio">
         <van-radio
@@ -22,7 +22,7 @@
         rows="3"
         autosize
         type="textarea"
-        placeholder="请简述其他原因"
+        :placeholder="$t('logout.rests')"
       />
     </div>
     <button
@@ -30,7 +30,7 @@
       @click="submit"
       :style="isBtn ? '' : 'background:#247FF6;'"
     >
-      确定注销
+      {{ $t("logout.conf_off") }}
     </button>
   </div>
 </template>
@@ -70,6 +70,7 @@ export default {
         this.showTextArea = true;
         this.handleInput();
       } else {
+        this.showTextArea = false;
         this.reason = text;
       }
       if (this.reason) {

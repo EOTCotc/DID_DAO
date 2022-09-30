@@ -3,41 +3,44 @@
     <page-header title="审核" />
     <div class="content">
       <div class="main">
-        <van-cell
-          title="审核节点身份"
-          title-class="row-title"
-          is-link
-          to="/user/approval/auditNode/applicationConditions"
-        />
-        <van-cell
-          title="身份认证审核"
-          title-class="row-title"
-          is-link
-          to="/user/approval/identity"
-        />
-        <van-cell
-          title="申请社区审批"
-          title-class="row-title"
-          is-link
-          to="/user/approval/community"
-        />
-        <van-cell
-          title="团队成员名单申请"
-          title-class="row-title"
-          is-link
-          to="/user/approval/team"
-        />
+        <van-cell :title="title"
+                  title-class="row-title"
+                  is-link
+                  to="/user/approval/auditNode/applicationConditions" />
+        <van-cell title="身份认证审核"
+                  title-class="row-title"
+                  is-link
+                  to="/user/approval/identity" />
+        <van-cell title="申请社区审批"
+                  title-class="row-title"
+                  is-link
+                  to="/user/approval/community" />
+        <van-cell title="团队成员名单申请"
+                  title-class="row-title"
+                  is-link
+                  to="/user/approval/team" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PageHeader from "@/components/topBar/pageHeader";
+import PageHeader from '@/components/topBar/pageHeader'
 export default {
-  name: "approval",
+  name: 'approval',
   components: { PageHeader },
-};
+  data() {
+    return {
+      isExamine: +localStorage.getItem('isExamine'),
+      title: '',
+    }
+  },
+  mounted() {
+    this.isExamine == 0
+      ? (this.title = '成为审核节点')
+      : (this.title = '审核节点身份')
+  },
+}
 </script>
 
 <style scoped lang="scss">
@@ -52,9 +55,6 @@ export default {
       }
       .van-cell {
         line-height: 35px;
-        .van-icon {
-          margin-top: 5px;
-        }
       }
     }
   }

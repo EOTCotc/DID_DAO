@@ -237,13 +237,11 @@ export default {
   &::v-deep(.van-tabs__line) {
     background-color: #237df4;
   }
-
   .list_wrap {
     flex: 1;
     box-sizing: border-box;
     min-height: 0;
     overflow: auto;
-
     .list {
       .item {
         padding: 30px;

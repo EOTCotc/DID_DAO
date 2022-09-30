@@ -144,17 +144,22 @@ const routes = [
     component: () => import("@/views/Arbitration/publicity/case"),
   },
   {
+    path: "/user/arbitration/publicity/case/detail",
+    name: "arbitrationCaseDetail",
+    component: () => import("@/views/Arbitration/publicity/case/detail"),
+  },
+  {
     path: "/arbitration/arbitrationCase",
     name: "ArbitrationByFormula",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/arbitrationCase"),
-  },
+  },// 审核节点
   {
-    path: "/user/arbitration/case/detail",
-    name: "arbitrationCaseDetail",
-    component: () => import("@/views/Arbitration/publicity/case/detail"),
+    path: '/user/approval/auditNode/applicationConditions',
+    name: 'applicationConditions',
+    component: () => import('@/views/approval/auditNode/applicationConditions')
   },
   {
     path: "/arbitrationCase",
@@ -176,10 +181,11 @@ const routes = [
     name: "arbitrationCaseInitiateNewProof",
     component: () => import("@/views/Arbitration/case/initiateNewProof"),
   },
+  // 原被告信息
   {
-    path: "/user/arbitration/case/plaintiff",
-    name: "arbitrationCasePlaintiff",
-    component: () => import("@/views/Arbitration/case/plaintiff"),
+    path: "/user/arbitration/case/personnelInfo",
+    name: "arbitrationCasePersonnelInfo",
+    component: () => import("@/views/Arbitration/case/personnelInfo"),
   },
   // 仲裁相关消息（消息列表）
   {
@@ -189,22 +195,9 @@ const routes = [
   },
   //仲裁相关消息（延期申请）
   {
-<<<<<<< HEAD
     path: '/arbitrationMsg',
     name: 'arbitrationMsg',
     component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
-=======
-    path: "/arbitrationMsg",
-    name: "arbitrationMsg",
-    component: () =>
-      import("@/views/Arbitration/arbitrationMsg/arbitrationMsg"),
-  },
-  // 审核节点
-  {
-    path: "/user/approval/auditNode/applicationConditions",
-    name: "applicationConditions",
-    component: () => import("@/views/approval/auditNode/applicationConditions"),
->>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
   },
   // 审核节点
   {
@@ -225,21 +218,11 @@ const routes = [
     component: () => import('@/views/approval/auditNode/examineUnderstandLearningRules')
   },
 ];
-
 // 解决重复点击同一各路由会报错
-<<<<<<< HEAD
 const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
-
-=======
-const VueRouterPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(to) {
-  return VueRouterPush.call(this, to).catch((err) => err);
-};
->>>>>>> 08dfa67d4b9cacbf13c22fee9a7c7e44d6b91cff
-
 const router = new VueRouter({
   mode: "hash",
   base: process.env.BASE_URL,
