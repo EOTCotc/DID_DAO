@@ -91,6 +91,7 @@ export default {
       count: 1,
       totalScore: null,
       UserAnswer: [],
+      disabled: false,
       testQuestionData: [
         {
           id: 1,
@@ -405,6 +406,7 @@ export default {
         }
       })
       //提交表单
+      this.disabled = true
       this.$router.replace({
         name: 'meetTheConditions',
         params: {
