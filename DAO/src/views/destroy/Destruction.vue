@@ -23,11 +23,7 @@
       >
         <van-cell title="游戏消耗" value="2022年7月27日" />
         <van-cell :title="item.memo" :border="false" />
-        <van-cell
-          title="销毁查询地址:"
-          :border="false"
-          @click="delDest(item.destructionId)"
-        />
+        <van-cell title="销毁查询地址:" :border="false" />
         <van-cell
           :title="item.destructionId"
           :border="false"
@@ -90,9 +86,9 @@
 
 <script>
 import White from "../../components/Nav/white.vue";
-import { getdestruction, destruction } from "@/api/Destruction";
+import { getdestruction } from "@/api/Destruction";
 import { Toast } from "vant";
-import { Dialog } from "vant";
+
 export default {
   components: { White },
   data() {
@@ -120,8 +116,6 @@ export default {
       date: "",
       start: "",
       end: "",
-      page: 1,
-      itemsPerPage: 10,
       destroyList: [],
     };
   },
@@ -143,30 +137,14 @@ export default {
       this.active = 0;
       this.inquiry();
     },
-    delDest(id) {
-      Dialog.confirm({
-        title: "删除提示",
-        confirmButtonColor: "#000",
-        message: "确定删除该记录吗？",
-        getContainer: ".dest",
-      })
-        .then(() => {
-          destruction({ destructionId: id }).then((res) => {
-            console.log(res);
-          });
-        })
-        .catch(() => {});
-    },
     //复制
     copy() {
       var value = document.getElementById("destId");
-
       var cInput = document.createElement("input");
       console.log(value.innerText);
       cInput.value = value.innerText;
       document.body.appendChild(cInput);
       cInput.select(); // 选取文本框内容
-
       // 执行浏览器复制命令
       // 复制命令会将当前选中的内容复制到剪切板中（这里就是创建的input标签）
       // Input要在正常的编辑状态下原生复制方法才会生效
@@ -212,18 +190,37 @@ export default {
 
     //查询销毁
     inquiry() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: "加载中…",
+      });
       let beginDate = this.start;
       let endDate = this.end;
       getdestruction({
         keyWord: this.value || undefined,
         beginDate: beginDate || undefined,
         endDate: endDate || undefined,
-        page: this.page,
-        itemsPerPage: this.itemsPerPage,
-      }).then((res) => {
-        console.log(res);
-        this.destroyList = res.data.items;
-      });
+      })
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: "加载失败！",
+            });
+          } else {
+            this.destroyList = items;
+          }
+        })
+        .catch(() => {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！",
+          });
+        })
+        .finally(() => {
+          loading.clear();
+        });
     },
   },
 };

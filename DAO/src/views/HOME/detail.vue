@@ -4,30 +4,39 @@
       <white :title="title"></white>
     </header>
     <main class="box">
-      <div v-if="personageArr.length > 0">
-        <van-row class="title">
-          <van-col span="7">收益数量</van-col>
-          <van-col span="7">收益来源</van-col>
-          <van-col span="10">收益时间</van-col>
-        </van-row>
-        <van-row v-for="(item, index) in personageArr" :key="index">
-          <van-col span="7">{{ item.eotc }}</van-col>
-          <van-col span="7">
-            <span v-if="item.type == 0">处理工单</span>
-            <span v-if="item.type == 1">处理仲裁</span>
-            <span v-if="item.type == 2">处理审核</span>
-          </van-col>
-          <van-col span="10">{{ item.createDate }}</van-col>
-        </van-row>
-        <div class="record">没有更多记录了</div>
-      </div>
-      <div class="zan" v-else>
-        <van-empty
-          class="custom-image"
-          :image="require('./../../assets/img/empty.png')"
-          description="暂无任何数据"
-        />
-      </div>
+      <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
+        <div v-if="personageArr.length > 0">
+          <van-row class="title">
+            <van-col span="7">收益数量</van-col>
+            <van-col span="7">收益来源</van-col>
+            <van-col span="10">收益时间</van-col>
+          </van-row>
+          <van-row v-for="(item, index) in personageArr" :key="index">
+            <van-col span="7">{{ item.eotc }}</van-col>
+            <van-col span="7">
+              <span v-if="item.type == 0">处理工单</span>
+              <span v-if="item.type == 1">处理仲裁</span>
+              <span v-if="item.type == 2">处理审核</span>
+            </van-col>
+            <van-col span="10">{{ item.createDate }}</van-col>
+          </van-row>
+          <van-list
+            class="list_wrap"
+            v-show="!!personageArr.length"
+            v-model="list.UpRefreshLoading"
+            :finished="!!personageArr.length && list.finished"
+            finished-text="没有更多了"
+            @load="handleUpRefresh"
+          />
+        </div>
+        <div class="zan" v-else>
+          <van-empty
+            class="custom-image"
+            :image="require('./../../assets/img/empty.png')"
+            description="暂无任何数据"
+          />
+        </div>
+      </van-pull-refresh>
     </main>
     <footer></footer>
   </div>
@@ -44,14 +53,53 @@ export default {
       page: 1,
       itemsPerPage: 10,
       personageArr: [],
+      list: {
+        uploading: false,
+        UpRefreshLoading: false,
+        finished: false,
+        query: {
+          page: 1,
+          itemsPerPage: 5,
+        },
+      },
     };
   },
   created() {
-    getincome(this.page, this.itemsPerPage).then((res) => {
-      this.personageArr = res.data.items;
-    });
+    this.getCome();
   },
-  methods: {},
+  methods: {
+    // 下拉刷新
+    onRefresh() {
+      this.list.uploading = true;
+      this.getCome();
+    },
+    // 滚动到底翻页
+    handleUpRefresh() {
+      this.list.query.page++;
+      this.list.UpRefreshLoading = true;
+      this.getCome();
+    },
+    getCome() {
+      this.$toast.loading("列表加载中…");
+      getincome({
+        page: this.list.query.page,
+        itemsPerPage: this.list.query.itemsPerPage,
+      })
+        .then((res) => {
+          if (this.list.query.page === 1) {
+            this.personageArr = res.data.items;
+          } else {
+            this.personageArr.push(...res.data.items);
+          }
+          this.list.finished = !res.data.items.length;
+        })
+        .finally(() => {
+          this.$toast.clear();
+          this.list.uploading = false;
+          this.list.UpRefreshLoading = false;
+        });
+    },
+  },
 };
 </script>
 
