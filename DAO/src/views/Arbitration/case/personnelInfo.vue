@@ -4,25 +4,25 @@
   <div class="content">
     <van-row class="row border">
       <van-col class="title" :span="6">姓   名</van-col>
-      <van-col class="value" :span="18">吴敏</van-col>
+      <van-col class="value" :span="18">{{ info.name }}</van-col>
     </van-row>
     <van-row class="row border">
       <van-col class="title" :span="6">手机号</van-col>
-      <van-col class="value" :span="18">1344569****</van-col>
+      <van-col class="value" :span="18">{{ info.phoneNum }}</van-col>
     </van-row>
     <van-row class="row border">
       <van-col class="title" :span="6">证件号</van-col>
-      <van-col class="value" :span="18">43589615524****</van-col>
+      <van-col class="value" :span="18">{{ info.idCard }}</van-col>
     </van-row>
     <van-row class="row">
       <van-col class="title" :span="24">身份证</van-col>
       <van-col class="value" :span="24">
         <van-row :gutter="20">
           <van-col :span="12">
-            <img src="../../../assets/imgs/example-1.png" alt="" class="img">
+            <img :src="spliceSrc(info.portraitImage)" alt="" class="img">
           </van-col>
           <van-col :span="12">
-            <img src="../../../assets/imgs/example-2.png" alt="" class="img">
+            <img :src="spliceSrc(info.nationalImage)" alt="" class="img">
           </van-col>
         </van-row>
       </van-col>
@@ -30,7 +30,7 @@
     <van-row class="row">
       <van-col class="title" :span="24">手持证件照</van-col>
       <van-col class="value" :span="24">
-        <img src="../../../assets/imgs/example-3.png" alt="" class="img">
+        <img :src="spliceSrc(info.handHeldImage)" alt="" class="img">
       </van-col>
     </van-row>
   </div>
@@ -39,16 +39,40 @@
 
 <script>
 import PageHeader from "@/components/topBar/pageHeader";
+import {personnelInfo} from "@/api/case"
+import {spliceSrc} from '@/utils/utils'
+
 export default {
   name: "plaintiff",
   components: {PageHeader},
   data() {
     return {
-      pageHeaderTitle: "原告 吴敏"
+      pageHeaderTitle: "",
+      info: {}
     }
   },
   methods: {
-
+    spliceSrc,
+    getPersonnelInfo() {
+      const loading = this.$toast.loading('加载中…')
+      personnelInfo(this.$route.query.id).then(res => {
+        const {code, items} = res.data
+        if (code) {
+          this.$toast.fail('获取失败')
+        } else {
+          this.info = items
+          this.pageHeaderTitle = `${this.$route.query.type === 1 ? '原告' : '被告'} ${items.name}`
+          console.log(items)
+        }
+      }).catch(() => {
+        this.$toast.fail('获取失败')
+      }).finally(() => {
+        loading.clear()
+      })
+    }
+  },
+  created() {
+    this.getPersonnelInfo()
   }
 }
 </script>

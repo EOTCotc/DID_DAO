@@ -6,3 +6,7 @@ export const list = (type) => request.post('/api/arbitrate/getarbitratelist', { 
 export const detail = (id) => request.post('/api/arbitrate/getarbitratedetails', { arbitrateInfoId: id })
 // 仲裁判决
 export const sentence = (data) => request.post('/api/arbitrate/getarbitratedetails', data)
+// 原被告身份信息
+export const personnelInfo = (id) => request.post('/api/arbitrate/getuserinfo', {id})
+// 发起重新举证
+export const delay = (data) => request.post('/api/arbitrate/arbitratedelay', data)

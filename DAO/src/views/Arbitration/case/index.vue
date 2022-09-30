@@ -3,102 +3,177 @@
     <div class="certificationAudit_wrap bg-gray fullscreen">
       <page-header title="仲裁案件" />
       <van-tabs
+        class="tab_wrap"
         v-model="tab.active"
         swipeable
         title-inactive-color="#8D94A2"
         @change="handleChangeTab"
       >
-        <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
+        <van-tab
+          v-for="item in tab.data"
+          :key="item"
+          :title="item"
+        >
+        </van-tab>
       </van-tabs>
-      <van-list
-        class="list_wrap"
-        v-show="!!list.data.length"
-        v-model="list.UpRefreshLoading"
-        :finished="!!list.data.length && list.finished"
-        finished-text="没有更多了"
-        @load="handleUpRefresh"
-      >
-        <ul class="list">
-          <li
-            class="item"
-            v-for="item in list.data"
-            :key="item.id"
-            @click="
-              $router.push({
-                path: '/user/arbitration/case/detail',
-                query: { id: item.id },
-              })
-            "
+      <div class="content">
+        <ul class="list"
+            v-if="!!list.data.length">
+          <li class="item"
+              v-for="item in list.data"
+              :key="item.id"
           >
-            <van-row class="header" type="flex" align="center">
-              <van-col :span="12">
-                <div class="status">
-                  <van-icon name="underway-o" />
-                  <span class="text">双方举证中</span>
-                </div>
-              </van-col>
-              <van-col :span="12" class="date">2022.05.26 12:54</van-col>
-            </van-row>
+            <template v-if="tab.active === 0">
+              <!-- 举证中 -->
+              <van-row
+                v-if="item.status === 0"
+                class="header"
+                type="flex"
+                align="center"
+              >
+                <van-col :span="12">
+                  <van-row type="flex" align="center">
+                    <van-icon class="icon" size="16px" style="margin-right: 5px;" name="underway-o" />
+                    <div class="text">双方举证中</div>
+                  </van-row>
+                </van-col>
+                <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
+              </van-row>
+              <!-- 投票中 -->
+              <van-row
+                class="header"
+                type="flex"
+                align="center"
+                v-else-if="item.status === 1"
+              >
+                <van-col :span="12">
+                  <van-row>
+                    <van-row type="flex" align="center">
+                      <van-icon class="icon" size="16px" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
+                      <van-count-down :time="item.time" style="color: #237DF4;" format="DD:HH:mm" />
+                    </van-row>
+                  </van-row>
+                </van-col>
+                <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
+              </van-row>
+            </template>
+            <template v-else>
+              <!-- 未投票 -->
+              <van-row
+                v-if="item.voteStatus === 0"
+                class="header"
+                type="flex"
+                align="center"
+              >
+                <van-col :span="12" class="text" style="color: #999;">超时未提交判决</van-col>
+                <van-col
+                  v-if="item.voteStatus === 2"
+                  :span="12"
+                  class="date"
+                  style="color: #00B87A;">
+                  +{{ item.eotc }} EOTC
+                </van-col>
+                <van-col
+                  v-else
+                  :span="12"
+                  class="date"
+                  style="color: #FC7542;"
+                >
+                  -{{ item.eotc }} EOTC
+                </van-col>
+              </van-row>
+              <!-- 是否胜诉 -->
+              <van-row
+                class="header"
+                type="flex"
+                align="center"
+                v-else
+              >
+                <van-col :span="12">
+                  <van-row>
+                    <van-col :span="3">
+                      <img :src="item.isVictory ? icon1 : icon2" alt="" class="img">
+                    </van-col>
+                    <van-col
+                      class="text"
+                      :span="21"
+                    >
+                      {{ item.isVictory ? '胜诉' : '败诉' }}
+                    </van-col>
+                  </van-row>
+                </van-col>
+                <van-col
+                  v-if="item.isVictory"
+                  :span="12"
+                  class="date"
+                  style="color: #00B87A;">
+                  +{{ item.eotc }} EOTC
+                </van-col>
+                <van-col
+                  v-else
+                  :span="12"
+                  class="date"
+                  style="color: #FC7542;"
+                >
+                  -{{ item.eotc }} EOTC
+                </van-col>
+              </van-row>
+            </template>
+            <!-- 原被告信息 -->
             <van-row>
-              <van-col class="lf" :span="12">
-                <div class="user_wrap">
-                  <img
-                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                    alt=""
-                    class="avatar"
-                  />
-                  <span class="name">{{ item.plaintiffName }}</span>
-                  <span class="identity">（卖家）</span>
+              <van-col class="lf" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.plaintiffId, type: 1 })">
+                <div class="identity_wrap">
+                  <img v-if="item.status === 2" src="../../../assets/imgs/huangguan.png" alt="" class="img">
+                  原告
                 </div>
-                <div class="count_wrap">
-                  <span class="text">原告</span>
-                  <span class="num">{{ item.plaintiffCount }}票</span>
+                <div class="user">
+                  <span class="name">{{ item.plaintiff }}</span>
+                  <span class="text">（卖家）</span>
                 </div>
+                <div class="num">{{item.plaintiffNum}}票</div>
               </van-col>
-              <van-col class="rt" :span="12">
-                <div class="user_wrap">
-                  <span class="identity">（卖家）</span>
-                  <span class="name">{{ item.defendantName }}</span>
-                  <img
-                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                    alt=""
-                    class="avatar"
-                  />
+              <van-col class="rt" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.defendantId, type: 2 })">
+                <div class="identity_wrap">
+                  <img v-if="item.status === 3" src="../../../assets/imgs/huangguan.png" alt="" class="img">
+                  被告
                 </div>
-                <div class="count_wrap">
-                  <span class="num">{{ item.defendantCount }}票</span>
-                  <span class="text">被告</span>
+                <div class="user">
+                  <span class="text">（卖家）</span>
+                  <span class="name">{{ item.plaintiff }}</span>
                 </div>
+                <div class="num">{{item.plaintiffNum}}票</div>
               </van-col>
             </van-row>
-            <div class="process_wrap">
-              <div
-                class="lt chunk"
-                :style="{
-                  flex: `0 0 ${(item.plaintiffCount / item.total) * 100}%`,
-                }"
-              ></div>
-              <div class="border"></div>
+            <div class="process_wrap" v-if="item.status > 0">
+              <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffNum / item.total * 100}%`}"></div>
+              <div class="border" v-if="!!item.plaintiffNum || !!item.defendantNum"></div>
               <div class="rt chunk"></div>
             </div>
+            <div class="remark">
+              原告卖家发起仲裁，仲裁事件为{{ getArbitrateInType(item.arbitrateInType) }}
+            </div>
             <div class="row">
-              <div class="message">
-                <div class="more" style="text-align: left; color: #237ff8">
-                  <van-icon name="description" /> 详情
+              <div class="message" @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })">
+                <div class="more" style="text-align: left;color: #237FF8;">
+                  <van-icon name="description" /> 仲裁详情
                 </div>
                 <div class="more"><van-icon name="arrow" /></div>
               </div>
             </div>
-            <div class="row">
+            <!-- 仲裁结果 -->
+            <div class="row" v-if="tab.active === 1 && item.status > 1">
               <div class="title">仲裁结果</div>
-              <div class="message">
-                <p>
-                  本次参与仲裁判决的仲裁员共计11人，通过双方提交举证，10位仲裁员判定原告…
-                </p>
+              <div class="message" @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })">
+                <p v-if="item.status === 1">本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.plaintiffNum }}位仲裁员判定原告…</p>
+                <p v-else-if="item.status === 2">本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.defendantNum }}位仲裁员判定被告…</p>
                 <div class="more"><van-icon name="description" /> 详情</div>
               </div>
             </div>
-            <van-row class="row" gutter="20" v-if="tab.active === 0">
+            <van-row
+              v-if="tab.active === 0 && item.status === 1"
+              class="row"
+              gutter="20"
+            >
               <van-col span="12">
                 <van-button
                   class="more"
@@ -107,11 +182,7 @@
                   plain
                   block
                   type="primary"
-                  @click.stop="
-                    $router.push({
-                      path: '/user/arbitration/case/initiateNewProof',
-                    })
-                  "
+                  @click="go('/user/arbitration/case/initiateNewProof', { id: item.arbitrateInfoId })"
                 >
                   重新举证
                 </van-button>
@@ -123,9 +194,7 @@
                   block
                   color="#237FF8"
                   type="primary"
-                  @click.stop="
-                    $router.push({ path: '/user/arbitration/case/detail' })
-                  "
+                  @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })"
                 >
                   <i class="icon icon-court"></i> 去判决
                 </van-button>
@@ -133,167 +202,163 @@
             </van-row>
           </li>
         </ul>
-      </van-list>
-      <van-empty
-        v-show="!list.data.length"
-        class="custom-image"
-        :image="require('../../../assets/imgs/empty.png')"
-        description="暂无任何数据"
-      />
+        <van-empty
+          v-else
+          class="custom-image"
+          :image="require('../../../assets/imgs/empty.png')"
+          description="暂无任何数据"
+        />
+      </div>
     </div>
   </van-pull-refresh>
 </template>
 
 <script>
-import pageHeader from "@/components/topBar/pageHeader.vue";
-import { transformUTCDate } from "@/utils/utils";
+import pageHeader from "@/components/topBar/pageHeader.vue"
+import {list} from "@/api/case"
+import {getArbitrateInType, transformUTCDate} from "@/utils/utils";
+import icon1 from "@/assets/imgs/victory.png" // 胜诉
+import icon2 from "@/assets/imgs/fail.png" // 败诉
+
 export default {
   name: "approvalCommunity",
   components: {
-    pageHeader,
+    pageHeader
   },
   data() {
     return {
-      // 当前选择项列表的id
+      // 当前选择的列表项的id
       id: null,
+      icon1,
+      icon2,
       tab: {
-        data: ["待仲裁", "已结案"],
-        active: 0,
+        data: ['待仲裁', '已仲裁'],
+        active: 0
       },
       list: {
         uploading: false,
-        UpRefreshLoading: false,
-        finished: false,
-        query: {
-          page: 1,
-          itemsPerPage: 10,
-        },
-        data: [
-          {
-            id: 1,
-            plaintiffName: "吴敏",
-            plaintiffCount: 11,
-            defendantName: "王晓雷",
-            defendantCount: 2,
-            total: 13,
-          },
-        ],
+        data: [],
       },
-    };
+    }
   },
   methods: {
+    getArbitrateInType,
+    // 跳转页面
+    go(path, query) {
+      this.$router.push({ path, query })
+    },
     handleChangeTab() {
-      this.list.query.page = 1;
-      this.list.finished = false;
-      this.list.data = [];
-      this.getList();
+      this.list.data = []
+      this.getList()
     },
     // 下拉刷新
     handleBottomRefresh() {
-      this.list.uploading = true;
-      this.getList();
-    },
-    // 滚动到底翻页
-    handleUpRefresh() {
-      this.list.query.page++;
-      this.list.UpRefreshLoading = true;
-      this.getList();
+      this.list.uploading = true
+      this.getList()
     },
     // 获取列表
     getList() {
-      // this.$toast.loading('列表加载中…')
-      // list(this.tab.active, this.list.query).then(res => {
-      //   if (!res.data.code) {
-      //     const data = res.data.items
-      //     if (this.list.query.page === 1) {
-      //       this.list.data = data
-      //     } else {
-      //       this.list.data.push(...data)
-      //     }
-      //     this.list.finished = !data.length
-      //   } else {
-      //     this.$toast.fail({
-      //       forbidClick: true,
-      //       message: res.data.message
-      //     })
-      //   }
-      // }).finally(() => {
-      //   this.$toast.clear()
-      //   this.list.uploading = false
-      //   this.list.UpRefreshLoading = false
-      // })
+      const loading = this.$toast.loading('列表加载中…')
+      list(this.tab.active).then(res => {
+        if (!res.data.code) {
+          const data = res.data.items.map(item => {
+            if (item.status > 1) {
+              // 判断是否胜诉
+              item.isVictory = (item.status === 2 && item.voteStatus === 1) || (item.status === 3 && item.voteStatus === 2)
+            }
+            item.total = item.defendantNum + item.plaintiffNum
+            item.time = 485925790
+            return item
+          })
+          this.list.data = data
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
+        }
+      }).catch(err => {
+        this.$toast.fail({
+          forbidClick: true,
+          message: err.data.message
+        })
+      }).finally(() => {
+        loading.clear()
+        this.list.uploading = false
+        this.list.UpRefreshLoading = false
+      })
     },
     // 转换时间格式
-    transformUTCDate,
+    transformUTCDate
   },
   created() {
-    this.getList();
-  },
-};
+    this.getList()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .certificationAudit_wrap {
   &::v-deep(.van-tabs__line) {
-    background-color: #237df4;
+    background-color: #237DF4;
   }
-  .list_wrap {
+  .tab_wrap {
+    margin-bottom: 30px;
+  }
+  .content {
+    padding: 0 30px 30px;
     flex: 1;
     box-sizing: border-box;
-    min-height: 0;
     overflow: auto;
     .list {
+      flex: 1;
+      box-sizing: border-box;
+      min-height: 0;
+      overflow: auto;
       .item {
         padding: 30px;
         border-radius: 20px;
-        background-color: #fff;
+        background-color: #FFF;
         margin-bottom: 25px;
         &:last-of-type {
           margin-bottom: 0;
         }
         & .lf {
-          .user_wrap {
-            .avatar {
-              margin-right: 10px;
-            }
-          }
-          .count_wrap {
-            .text {
-              border-radius: 0 40px 40px 50px;
-              margin-right: 10px;
-            }
+          .identity_wrap {
+            border-radius: 0 40px 40px 50px;
+            margin-right: 10px;
+            background-color: #4EA0F5;
           }
         }
         & .rt {
           text-align: right;
-          .user_wrap {
-            justify-content: flex-end;
-            .avatar {
-              margin-left: 10px;
-            }
+          .identity_wrap {
+            border-radius: 40px 0 40px 50px;
+            margin-left: 10px;
+            background-color: #EC6F66;
           }
-          .count_wrap {
-            .text {
-              border-radius: 40px 0 40px 50px;
-              margin-left: 10px;
-              background-color: #ec6f66;
-            }
-            .num {
-              color: #ec6f66;
-            }
+          .user {
+            justify-content: flex-end;
+            margin: 20px 0;
+          }
+          .num {
+            color: #EC6F66;
           }
         }
         .header {
           padding-bottom: 30px;
-          border-bottom: 1px solid #eee;
+          border-bottom: 1px solid #EEE;
           margin-bottom: 30px;
-          .status {
+          .img {
+            display: block;
+            width: 30px;
+          }
+          .icon {
+            font-size: 28px;
+          }
+          .text {
             color: #333;
-            font-size: 32px;
-            .text {
-              font-size: 30px;
-              margin-left: 10px;
-            }
+            font-size: 30px;
           }
           .date {
             color: #999;
@@ -301,48 +366,49 @@ export default {
             text-align: right;
           }
         }
-        .user_wrap {
+        .identity_wrap {
+          display: inline-block;
+          position: relative;
+          font-size: 24px;
+          flex: 0 0 90px;
+          color: #FFF;
+          padding: 10px 15px;
+          .img {
+            @include posi($t: -20px, $l: 50%);
+            display: block;
+            width: 30px;
+            margin-left: -15px;
+          }
+        }
+        .user {
           display: flex;
           align-items: center;
-          .avatar {
-            display: block;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-          }
+          margin: 20px 0;
           .name {
             color: #333;
             font-size: 28px;
           }
-          .identity {
+          .text {
             color: #999;
             font-size: 24px;
           }
         }
-        .count_wrap {
+        .num {
           margin-top: 15px;
-          .text {
-            font-size: 24px;
-            padding: 15px 25px;
-            color: #fff;
-            background-color: #4ea0f5;
-          }
-          .num {
-            color: #4ea0f5;
-            font-size: 24px;
-          }
+          color: #4EA0F5;
+          font-size: 24px;
         }
         .process_wrap {
           display: flex;
           align-items: center;
           margin-top: 30px;
-          background-color: #4ea0f5;
+          background-color: #4EA0F5;
           border-radius: 24px;
           overflow: hidden;
           .border {
             width: 20px;
             height: 24px;
-            background-color: #fff;
+            background-color: #FFF;
             border-radius: 15px 0 0 15px;
           }
           .chunk {
@@ -351,11 +417,19 @@ export default {
               display: flex;
               align-items: center;
               flex: 1;
-              background-color: #ec6f66;
+              background-color: #EC6F66;
               border-radius: 24px 0 0 24px;
               margin-left: -13px;
             }
           }
+        }
+        .remark {
+          color: #333;
+          padding: 20px;
+          font-size: 28px;
+          margin-top: 30px;
+          background-color: #F3F4F5;
+          border-radius: 20px;
         }
         .row {
           margin-top: 30px;
