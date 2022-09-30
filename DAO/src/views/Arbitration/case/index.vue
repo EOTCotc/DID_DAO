@@ -172,9 +172,9 @@
             <van-row
               v-if="tab.active === 0 && item.status === 1"
               class="row"
-              gutter="20"
+              :gutter="item.hasDelay ? 0 :20"
             >
-              <van-col span="12">
+              <van-col span="12" v-if="!item.hasDelay">
                 <van-button
                   class="more"
                   color="#237FF8"
@@ -187,7 +187,7 @@
                   重新举证
                 </van-button>
               </van-col>
-              <van-col span="12">
+              <van-col :span="item.hasDelay ? 24 : 12">
                 <van-button
                   class="more"
                   round
