@@ -434,7 +434,6 @@ export default {
           }
         })
         //提交表单
-        this.disabled = true
         this.loading = true
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {

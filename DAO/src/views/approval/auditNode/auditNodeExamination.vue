@@ -67,6 +67,7 @@
                   block
                   color="#1B2945"
                   v-if="count==testQuestionData.length"
+                  :loading='loading'
                   @click="SubmitExaminationPapers(count-1)">提交</van-button>
     </footer>
   </div>
@@ -87,6 +88,7 @@ export default {
       count: 1,
       totalScore: null,
       UserAnswer: [],
+      loading: false,
       testQuestionData: [
         {
           id: 1,
@@ -422,6 +424,16 @@ export default {
           }
         })
         //提交表单
+        this.loading = true
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.$router.replace({
+            name: 'meetTheConditions',
+            params: {
+              totalScore: this.totalScore,
+            },
+          })
+        }, 1000)
         this.$router.replace({
           name: 'applicationConditions',
           params: {

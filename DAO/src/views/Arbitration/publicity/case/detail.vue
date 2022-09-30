@@ -2,28 +2,29 @@
   <div class="case-detail_wrap fullscreen">
     <page-header title="仲裁案详情"></page-header>
     <div class="content">
+      <!-- 原被告信息 -->
       <van-row>
-        <van-col class="lf" :span="12">
-          <div class="user_wrap">
-            <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
+        <van-col class="lf" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: info.plaintiffId, type: 1 })">
+          <div class="identity_wrap">
+            <img v-if="info.status === 2" src="../../../../assets/imgs/huangguan.png" alt="" class="img">
+            原告
+          </div>
+          <div class="user">
             <span class="name">{{ info.plaintiff }}</span>
-            <span class="identity">（卖家）</span>
+            <span class="text">（卖家）</span>
           </div>
-          <div class="count_wrap">
-            <span class="text">原告</span>
-            <span class="num">{{info.plaintiffNum}}票</span>
-          </div>
+          <div class="num">{{info.plaintiffNum}}票</div>
         </van-col>
-        <van-col class="rt" :span="12">
-          <div class="user_wrap">
-            <span class="name">{{ info.defendant }}</span>
-            <span class="identity">（卖家）</span>
-            <img src="https://img01.yzcdn.cn/vant/cat.jpeg" alt="" class="avatar">
+        <van-col class="rt" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: info.defendantId, type: 2 })">
+          <div class="identity_wrap">
+            <img v-if="info.status === 3" src="../../../../assets/imgs/huangguan.png" alt="" class="img">
+            被告
           </div>
-          <div class="count_wrap">
-            <span class="num">{{info.defendantNum}}票</span>
-            <span class="text">被告</span>
+          <div class="user">
+            <span class="text">（卖家）</span>
+            <span class="name">{{ info.plaintiff }}</span>
           </div>
+          <div class="num">{{info.plaintiffNum}}票</div>
         </van-col>
       </van-row>
       <div class="process_wrap">
@@ -77,6 +78,10 @@ export default {
   },
   methods: {
     transformUTCDate,
+    // 跳转页面
+    go(path, query) {
+      this.$router.push({ path, query })
+    },
     getDetail() {
       const loading = this.$toast.loading({
         forbidClick: true,
@@ -118,57 +123,59 @@ export default {
     border-radius: 20px;
     background-color: #FFF;
     margin-bottom: 25px;
-    & .lf .count_wrap .text {
-      border-radius: 0 40px 40px 50px;
-      margin-right: 10px;
+    & .lf {
+      .identity_wrap {
+        border-radius: 0 40px 40px 50px;
+        margin-right: 10px;
+        background-color: #4EA0F5;
+      }
     }
     & .rt {
       text-align: right;
-      .user_wrap {
-        justify-content: flex-end;
+      .identity_wrap {
+        border-radius: 40px 0 40px 50px;
+        margin-left: 10px;
+        background-color: #EC6F66;
       }
-      .count_wrap {
-        .text {
-          border-radius: 40px 0 40px 50px;
-          margin-left: 10px;
-          background-color: #EC6F66;
-        }
-        .num {
-          color: #EC6F66;
-        }
+      .user {
+        justify-content: flex-end;
+        margin: 20px 0;
+      }
+      .num {
+        color: #EC6F66;
       }
     }
-    .user_wrap {
+    .identity_wrap {
+      display: inline-block;
+      position: relative;
+      font-size: 24px;
+      flex: 0 0 90px;
+      color: #FFF;
+      padding: 10px 15px;
+      .img {
+        @include posi($t: -20px, $l: 50%);
+        display: block;
+        width: 30px;
+        margin-left: -15px;
+      }
+    }
+    .user {
       display: flex;
       align-items: center;
-      .avatar {
-        display: block;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
+      margin: 20px 0;
       .name {
         color: #333;
         font-size: 28px;
       }
-      .identity {
+      .text {
         color: #999;
         font-size: 24px;
       }
     }
-    .count_wrap {
+    .num {
       margin-top: 15px;
-      .text {
-        color: #FFF;
-        font-size: 24px;
-        padding: 15px 25px;
-        background-color: #4EA0F5;
-      }
-      .num {
-        color: #4EA0F5;
-        font-size: 24px;
-      }
+      color: #4EA0F5;
+      font-size: 24px;
     }
     .type {
       color: #333;

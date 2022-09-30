@@ -27,9 +27,32 @@
                         title="仲裁次数"
                         :border="false"
                         :value="item.count" />
-            </li>
-          </ul>
-        </van-list>
+              <van-list v-model="list.btloading"
+                        :finished="!!list.data.length && list.finished"
+                        finished-text="没有更多了"
+                        @load="onLoad">
+                <ul class="list">
+                  <li class="item"
+                      v-for="item in list.data"
+                      :key="item.id">
+                    <van-cell title-class="title name"
+                              value-class="value"
+                              :border="false"
+                              :title="item.name"
+                              :value="item.id" />
+                    <van-cell title-class="title"
+                              value-class="value"
+                              title="申请时间"
+                              :border="false"
+                              :value="item.date" />
+                    <van-cell title-class="title"
+                              value-class="value"
+                              title="仲裁次数"
+                              :border="false"
+                              :value="item.count" />
+                  </li>
+                </ul>
+              </van-list>
       </div>
     </div>
   </van-pull-refresh>

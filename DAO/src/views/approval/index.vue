@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import PageHeader from '@/components/topBar/pageHeader'
+import PageHeader from "@/components/topBar/pageHeader";
 export default {
   name: 'approval',
   components: { PageHeader },

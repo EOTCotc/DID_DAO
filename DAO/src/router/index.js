@@ -155,11 +155,6 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/arbitrationCase"),
-  },// 审核节点
-  {
-    path: '/user/approval/auditNode/applicationConditions',
-    name: 'applicationConditions',
-    component: () => import('@/views/approval/auditNode/applicationConditions')
   },
   {
     path: "/arbitrationCase",
