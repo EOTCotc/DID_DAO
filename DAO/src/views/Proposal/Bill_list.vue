@@ -5,31 +5,29 @@
     </header>
     <main>
       <div class="box">
-        <div
-          class="one_an"
-          @click="detail(item.proposalId)"
-          v-for="(item, index) in List"
-          :key="index"
-        >
+        <div class="one_an"
+             @click="detail(item.proposalId,item.state)"
+             v-for="(item, index) in List"
+             :key="index">
           <div>{{ item.title }}</div>
           <div class="piao">
             <span>{{ item.total }}票</span>
-            <span v-if="item.state == 0"
-              ><div class="ion"></div>
-              进行中</span
-            >
-            <span v-if="item.state == 1"
-              ><div class="ion two"></div>
-              未通过</span
-            >
-            <span v-if="item.state == 2"
-              ><div class="ion three"></div>
-              已通过</span
-            >
-            <span v-if="item.state == 3"
-              ><div class="ion fhire"></div>
-              已终止</span
-            >
+            <span v-if="item.state == 0">
+              <div class="ion"></div>
+              未通过
+            </span>
+            <span v-if="item.state == 1">
+              <div class="ion two"></div>
+              已通过
+            </span>
+            <span v-if="item.state == 2">
+              <div class="ion three"></div>
+              进行中
+            </span>
+            <span v-if="item.state == 3">
+              <div class="ion fhire"></div>
+              已终止
+            </span>
           </div>
         </div>
       </div>
@@ -90,8 +88,11 @@ export default {
     createAn() {
       this.$router.push("/Create");
     },
-    detail(id) {
-      this.$router.push({ path: "/detail", query: { proposalId: id } });
+    detail(id, state) {
+      this.$router.push({
+        path: '/detail',
+        query: { proposalId: id, state: state },
+      })
     },
   },
 };

@@ -155,11 +155,6 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Arbitration/arbitrationCase"),
-  },// 审核节点
-  {
-    path: '/user/approval/auditNode/applicationConditions',
-    name: 'applicationConditions',
-    component: () => import('@/views/approval/auditNode/applicationConditions')
   },
   {
     path: "/arbitrationCase",
@@ -195,16 +190,9 @@ const routes = [
   },
   //仲裁相关消息（延期申请）
   {
-    path: "/arbitrationMsg",
-    name: "arbitrationMsg",
-    component: () =>
-      import("@/views/Arbitration/arbitrationMsg/arbitrationMsg"),
-  },
-  // 审核节点
-  {
-    path: "/user/approval/auditNode/applicationConditions",
-    name: "applicationConditions",
-    component: () => import("@/views/approval/auditNode/applicationConditions"),
+    path: '/arbitrationMsg',
+    name: 'arbitrationMsg',
+    component: () => import('@/views/Arbitration/arbitrationMsg/arbitrationMsg')
   },
   // 审核节点
   {
@@ -225,12 +213,11 @@ const routes = [
     component: () => import('@/views/approval/auditNode/examineUnderstandLearningRules')
   },
 ];
-
-const VueRouterPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(to) {
-  return VueRouterPush.call(this, to).catch((err) => err);
-};
-
+// 解决重复点击同一各路由会报错
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (to) {
+  return VueRouterPush.call(this, to).catch(err => err)
+}
 const router = new VueRouter({
   mode: "hash",
   base: process.env.BASE_URL,

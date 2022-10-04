@@ -1,7 +1,11 @@
 <template>
   <div>
     <header>
-      <white :title="title"></white>
+      <van-nav-bar fixed
+                   placeholder
+                   :title="title"
+                   left-arrow
+                   @click-left="onClickLeft" />
     </header>
     <div class="body">
       <div class="main">
@@ -63,14 +67,14 @@
                   block
                   color="#1B2945"
                   v-if="count==testQuestionData.length"
-                  @click="SubmitExaminationPapers">提交</van-button>
+                  :loading='loading'
+                  @click="SubmitExaminationPapers(count-1)">提交</van-button>
     </footer>
   </div>
 </template>
 <script>
-import white from '@/components/Nav/white.vue'
+import { Dialog } from 'vant'
 export default {
-  components: { white },
   data() {
     return {
       show: false,
@@ -84,6 +88,7 @@ export default {
       count: 1,
       totalScore: null,
       UserAnswer: [],
+      loading: false,
       testQuestionData: [
         {
           id: 1,
@@ -317,6 +322,20 @@ export default {
     }
   },
   methods: {
+    onClickLeft() {
+      Dialog.confirm({
+        title: '退出考试',
+        message: '您确定要终止这次考试吗',
+      })
+        .then(() => {
+          this.$router.push({
+            name: 'applicationConditions',
+          })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
     handleCilck(val, item, index) {
       item.result = val.contant
       this.idx = index
@@ -356,7 +375,7 @@ export default {
           this.testQuestionData[index].questionAnswer.forEach((element) => {
             if (element.Check == true) CheckArr.push(element.Check)
           })
-          if (CheckArr.length == 1) {
+          if (CheckArr.length <= 1) {
             return
           } else {
             this.count++
@@ -366,57 +385,91 @@ export default {
         }
       }
     },
-    SubmitExaminationPapers() {
-      this.testQuestionData.forEach((el) => {
-        if (el.topicType != '(填空题)') {
-          let a = []
-          el.questionAnswer.forEach((item, idx) => {
-            if (item.Check) {
-              a.push(idx)
+    SubmitExaminationPapers(index) {
+      if (
+        !this.testQuestionData[index].result ||
+        this.testQuestionData[index].result === '' ||
+        this.testQuestionData[index].result == null
+      ) {
+        return
+      } else {
+        this.testQuestionData.forEach((el) => {
+          if (el.topicType != '(填空题)') {
+            let a = []
+            el.questionAnswer.forEach((item, idx) => {
+              if (item.Check) {
+                a.push(idx)
+              }
+            })
+            this.UserAnswer.push(a)
+          } else {
+            this.UserAnswer.push([el.result])
+          }
+        })
+        this.UserAnswer.map((el, index) => {
+          for (let i = 0; i < el.length; i++) {
+            if (el.length == 4) {
+              el = [3]
             }
+            if (el.length >= 2 && el.length <= 3) {
+              el = [0]
+            }
+            if (el[i] == this.testQuestionData[index].Answers) {
+              if (index == 3 || index == 4) {
+                this.totalScore += 10
+              } else {
+                this.totalScore += 8
+              }
+            }
+          }
+        })
+        //提交表单
+        this.loading = true
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.$router.replace({
+            name: 'meetTheConditions',
+            params: {
+              totalScore: this.totalScore,
+            },
           })
-          this.UserAnswer.push(a)
-        } else {
-          this.UserAnswer.push([el.result])
-        }
-      })
-      this.UserAnswer.map((el, index) => {
-        for (let i = 0; i < el.length; i++) {
-          if (el.length == 4) {
-            el = [3]
-          }
-          if (el.length >= 2 && el.length <= 3) {
-            el = [0]
-          }
-          if (el[i] == this.testQuestionData[index].Answers) {
-            if (index == 3 || index == 4) {
-              this.totalScore += 10
-            } else {
-              this.totalScore += 8
-            }
-          }
-        }
-      })
-      //提交表单
-      this.$router.replace({
-        name: 'applicationConditions',
-        params: {
-          totalScore: this.totalScore,
-        },
-      })
+        }, 1000)
+        this.$router.replace({
+          name: 'applicationConditions',
+          params: {
+            totalScore: this.totalScore,
+          },
+        })
+      }
     },
     getText(item) {
       item.result = this.text
     },
     finish() {
-      this.$router.push({
-        name: 'applicationConditions',
+      Dialog.alert({
+        title: '考试时间结束',
+        message: '很遗憾，考试时间已经结束了，请重新考试',
+      }).then(() => {
+        this.$router.push({
+          name: 'applicationConditions',
+        })
       })
     },
   },
 }
 </script>
 <style lang="scss" scoped>
+.van-nav-bar .van-icon {
+  color: #000;
+}
+.van-button {
+  display: inline-block !important;
+}
+
+::deep.van-nav-bar__title {
+  font-size: 36px;
+  font-weight: bold;
+}
 .wrapper {
   display: flex;
   align-items: center;
@@ -430,7 +483,7 @@ export default {
   background-color: #fff;
 }
 .body {
-  height: 100vh;
+  height: 94.5vh;
   background-color: #f3f4f5;
   padding: 30px;
   .main {
