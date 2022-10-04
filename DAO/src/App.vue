@@ -5,14 +5,18 @@
 </template>
 
 <style lang="scss">
-*{
+html,
+body {
+  background: #f3f4f5;
+}
+* {
   margin: 0;
   padding: 0;
 }
-div{
+div {
   box-sizing: border-box;
 }
-button{
+button {
   border: none;
 }
 </style>

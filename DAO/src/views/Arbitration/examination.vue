@@ -43,10 +43,11 @@
             <h4>{{ item.topicType }}</h4>
             <div>
               {{ item.questionContant[0] }}
-              <van-field v-model="text"
-                         @blur="getText(item)" />{{
-                item.questionContant[1]
-              }}
+              <van-field
+                v-model="text"
+                @blur="getText(item)"
+                input-align="center"
+              />{{ item.questionContant[1] }}
             </div>
             <div class="tips">在横线输入您的答案</div>
           </div>

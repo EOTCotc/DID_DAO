@@ -26,8 +26,11 @@
             <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div class="right"
-               v-if="examinequalificationPassed1 == false">
+          <div
+            class="right"
+            @click="didNot"
+            v-if="examinequalificationPassed1 == false"
+          >
             去认证
             <van-icon name="arrow" />
           </div>
@@ -98,9 +101,11 @@
       <div class="top">
         <div>
           <div class="first">
-            <van-image width="40"
-                       height="30"
-                       :src="require('./IMG/组 490@2x.png')" />
+            <van-image
+              width="40"
+              height="30"
+              :src="require('./IMG/组 490@2x.png')"
+            />
             <span>审核节点</span>
           </div>
           <div>{{ ArbitratorsIdentityInformation.name }}</div>
@@ -195,6 +200,16 @@
                   v-if="displayApplicationConditions == false"
                   class="vanbtn">解除身份</van-button>
     </footer>
+    <Notification
+      ref="notification"
+      title="身份认证"
+      message="您还未身份认证，请到DID进行身份认证"
+      :headerIcon="require('../../../assets/img/jin.png')"
+      buttonColor="#F65F5F"
+      buttonText="知道了"
+      :closeOnClick="true"
+      @buttonClick="btnClick"
+    />
   </div>
 </template>
 <script>
@@ -211,7 +226,7 @@ import icon2 from './IMG/icon2.png'
 import icon3 from './IMG/icon3.png'
 import { Dialog } from 'vant'
 export default {
-  components: { white, notification1, notification2 },
+  components: { white, notification1, notification2, Notification },
   data() {
     return {
       title: '审核节点',
@@ -276,15 +291,15 @@ export default {
       this.examinequalificationPassed4 = true
       localStorage.setItem('examinequalificationPassed4', true)
     } else {
-      this.title1 = this.title1
-      this.headerIcon1 = icon2
-      this.message1 = '很遗憾未通过审核节点考试'
+      this.title1 = this.title1 + "分";
+      this.headerIcon1 = icon2;
+      this.message1 = "很遗憾未通过审核节点考试";
     }
     if (this.$route.params.examinequalificationPassed3 != undefined) {
       localStorage.setItem(
-        'examinequalificationPassed3',
+        "examinequalificationPassed3",
         this.$route.params.examinequalificationPassed3
-      )
+      );
       this.examinequalificationPassed3 = localStorage.getItem(
         'examinequalificationPassed3'
       )
@@ -301,24 +316,34 @@ export default {
   },
   filters: {
     dateFormat(originVal, fmt) {
-      const dt = new Date(originVal)
-      const y = dt.getFullYear()
-      const m = (dt.getMonth() + 1 + '').padStart(2, '0')
-      const d = (dt.getDate() + '').padStart(2, '0')
-      const hh = (dt.getHours() + '').padStart(2, '0')
-      const mm = (dt.getMinutes() + '').padStart(2, '0')
-      const ss = (dt.getSeconds() + '').padStart(2, '0')
-      if (fmt === 'yyyy-MM-dd') {
-        return `${y}-${m}-${d}`
+      const dt = new Date(originVal);
+      const y = dt.getFullYear();
+      const m = (dt.getMonth() + 1 + "").padStart(2, "0");
+      const d = (dt.getDate() + "").padStart(2, "0");
+      const hh = (dt.getHours() + "").padStart(2, "0");
+      const mm = (dt.getMinutes() + "").padStart(2, "0");
+      const ss = (dt.getSeconds() + "").padStart(2, "0");
+      if (fmt === "yyyy-MM-dd") {
+        return `${y}-${m}-${d}`;
       }
-      return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+      return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
     },
   },
   methods: {
+    didNot() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(true);
+      });
+    },
     auditing(name) {
       this.$router.push({
         name: name,
       })
+    },
+    btnClick() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(false);
+      });
     },
     buttonClick() {
       becomeAnAuditor().then((res) => {
@@ -332,56 +357,56 @@ export default {
       this.show = true
     },
     applyNow() {
-      this.$refs.notification2.toggle(true)
-      this.headerIcon2 = icon3
-      this.title2 = '申请成功'
-      this.message2 = '成为审核节点后平台会给您分配审核'
-      this.buttonColor2 = '#237FF8'
-      this.buttonText2 = '好的'
-      this.closeOnClick = true
+      this.$refs.notification2.toggle(true);
+      this.headerIcon2 = icon3;
+      this.title2 = "申请成功";
+      this.message2 = "成为审核节点后平台会给您分配审核";
+      this.buttonColor2 = "#237FF8";
+      this.buttonText2 = "好的";
+      this.closeOnClick = true;
     },
 
     dismissal() {
       Dialog.confirm({
         title: '温馨提示',
         message:
-          '解除身份后平台将不会分配任何审核，再申请审核节点身份需要重新学习和考试',
-        confirmButtonText: '知道了',
-        confirmButtonColor: '#1B2945',
-        cancelButtonText: '我再想想',
-        cancelButtonColor: '#666666 ',
-        className: 'dismissalDialog',
-        getContainer: '.box',
+          "解除身份后平台将不会分配任何审核，再申请审核节点身份需要重新学习和考试",
+        confirmButtonText: "知道了",
+        confirmButtonColor: "#1B2945",
+        cancelButtonText: "我再想想",
+        cancelButtonColor: "#666666 ",
+        className: "dismissalDialog",
+        getContainer: ".box",
       })
         .then(() => {
           // on confirm
           Dialog.confirm({
-            title: '解除提示',
-            message: '确定解除审核节点身份？',
-            confirmButtonColor: '#1B2945',
-            cancelButtonColor: '#666666 ',
-            className: 'dismissalDialog',
-            getContainer: '.box',
+            title: "解除提示",
+            message: "确定解除审核节点身份？",
+            confirmButtonColor: "#1B2945",
+            cancelButtonColor: "#666666 ",
+            className: "dismissalDialog",
+            getContainer: ".box",
           })
             .then(() => {
-              this.displayApplicationConditions = true
-              localStorage.removeItem('examinequalificationPassed1')
-              localStorage.removeItem('examinequalificationPassed2')
-              localStorage.removeItem('examinequalificationPassed3')
-              localStorage.removeItem('examinequalificationPassed4')
-              localStorage.removeItem('examinequalificationPassed')
+              this.displayApplicationConditions = true;
+              localStorage.removeItem("examinequalificationPassed1");
+              localStorage.removeItem("examinequalificationPassed2");
+              localStorage.removeItem("examinequalificationPassed3");
+              localStorage.removeItem("examinequalificationPassed4");
+              localStorage.removeItem("examinequalificationPassed");
               this.examinequalificationPassed1 = Boolean(
-                localStorage.getItem('examinequalificationPassed1')
-              )
+                localStorage.getItem("examinequalificationPassed1")
+              );
               this.examinequalificationPassed2 = Boolean(
-                localStorage.getItem('examinequalificationPassed2')
-              )
+                localStorage.getItem("examinequalificationPassed2")
+              );
               this.examinequalificationPassed3 = Boolean(
-                localStorage.getItem('examinequalificationPassed3')
-              )
+                localStorage.getItem("examinequalificationPassed3")
+              );
               this.examinequalificationPassed4 = Boolean(
-                localStorage.getItem('examinequalificationPassed4')
-              )
+                localStorage.getItem("examinequalificationPassed4")
+              );
               this.examinequalificationPassed = Boolean(
                 localStorage.getItem('examinequalificationPassed')
               )

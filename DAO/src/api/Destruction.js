@@ -7,14 +7,3 @@ export function getdestruction(data) {
     data,
   });
 }
-//销毁查询记录
-export function destruction(destructionId) {
-  let params = {
-    destructionId: destructionId,
-  };
-  return request({
-    url: "api/destruction/destruction",
-    method: "post",
-    params,
-  });
-}

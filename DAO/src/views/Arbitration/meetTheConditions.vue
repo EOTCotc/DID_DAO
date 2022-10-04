@@ -26,8 +26,11 @@
             <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div class="right"
-               v-if="qualificationPassed1 == false">
+          <div
+            class="right"
+            @click="didNot"
+            v-if="qualificationPassed1 == false"
+          >
             去认证
             <van-icon name="arrow" />
           </div>
@@ -195,6 +198,16 @@
                   v-if="displayApplicationConditions == false"
                   class="vanbtn">解除身份</van-button>
     </footer>
+    <Notification
+      ref="notification"
+      title="身份认证"
+      message="您还未身份认证，请到DID进行身份认证"
+      :headerIcon="require('../../assets/img/jin.png')"
+      buttonColor="#F65F5F"
+      buttonText="知道了"
+      :closeOnClick="true"
+      @buttonClick="btnClick"
+    />
   </div>
 </template>
 <script>
@@ -211,7 +224,7 @@ import icon2 from './IMG/icon2.png'
 import icon3 from './IMG/icon3.png'
 import { Dialog } from 'vant'
 export default {
-  components: { white, notification1, notification2 },
+  components: { white, notification1, notification2, Notification },
   data() {
     return {
       title: '仲裁员',
@@ -312,6 +325,16 @@ export default {
   },
 
   methods: {
+    didNot() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(true);
+      });
+    },
+    btnClick() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(false);
+      });
+    },
     auditing(name) {
       this.$router.push({
         name: name,
@@ -559,8 +582,8 @@ export default {
   position: relative;
   .text {
     color: #fff;
-    line-height: 55px;
     position: absolute;
+    line-height: 55px;
     top: 0;
     left: 50%;
     transform: translateX(-50%);

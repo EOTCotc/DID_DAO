@@ -27,6 +27,12 @@
         <van-cell :title="order.describe" />
       </van-cell-group>
       <van-cell-group inset class="tu">
+        <!-- <van-uploader
+          :after-read="clzpAfterRead"
+          v-model="fileList"
+          :max-count="1"
+          :max-size="5 * 1024 * 1024"
+        /> -->
         <van-image width="60" height="60" :src="order.images" />
         <!-- <van-image width="60" height="60" src="./assets/image/leaf.jpg" /> -->
       </van-cell-group>
@@ -69,7 +75,6 @@
 import white from "../../components/Nav/white.vue";
 import { getworkorder, updateWork } from "@/api/workOrder";
 import { Dialog } from "vant";
-
 export default {
   components: { white },
   data() {
@@ -78,11 +83,12 @@ export default {
       order: {},
       message: "",
       workOrderId: "",
+      fileList: [],
     };
   },
   created() {
     this.workOrderId = this.$route.query.workOrderId;
-    getworkorder(this.workOrderId).then((res) => {
+    getworkorder({ workOrderId: this.workOrderId }).then((res) => {
       res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
         "YYYY-MM-DD"
       );
@@ -91,6 +97,25 @@ export default {
     });
   },
   methods: {
+    // clzpAfterRead(file) {
+    //   console.log(file);
+    //   // 上传状态提示开启
+    //   file.status = "uploading";
+    //   file.message = "上传中...";
+    //   // 创建一个空对象实例
+    //   let formData = new FormData();
+    //   // 调用append()方法添加数据
+    //   formData.append("type", file.file);
+    //   uploadimage(formData).then((res) => {
+    //     console.log(res);
+    //     // if (res.code == "10000") {
+    //     //   // 上传状态提示关闭
+    //     //   file.status = "done";
+    //     //   this.$toast("上传成功！");
+    //     //   this.clzpfilePath = res.data.relativePath; //删除所需参数
+    //     // }
+    //   });
+    // },
     onClickLeft() {
       history.go(-1);
     },
