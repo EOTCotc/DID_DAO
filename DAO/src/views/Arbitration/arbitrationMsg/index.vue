@@ -3,24 +3,24 @@
     <page-header title="仲裁案动态" />
     <div class="content">
       <ul>
-        <li @click="toArbitrationMsg">
-          <img :src="shen_qing" alt="" />
+        <li
+          v-for="(item, index) in list"
+          @click="
+            toArbitrationMsg(
+              item.messageType,
+              item.associatedId,
+              item.isArbitrate
+            )
+          "
+          :key="index"
+        >
+          <img :src="item.messageType == 0 ? shen_qing : tong_zhi" />
           <div class="details">
             <div>
-              <span>申请延期</span>
-              <span>1分钟前</span>
+              <span>{{ item.messageType == 0 ? "申请" : "通知" }}</span>
+              <span>{{ item.msgTime }}</span>
             </div>
-            <p>核实信息还在审核中</p>
-          </div>
-        </li>
-        <li>
-          <img :src="tong_zhi" alt="" />
-          <div class="details">
-            <div>
-              <span>通知</span>
-              <span>06:30</span>
-            </div>
-            <p>卖家追加举证</p>
+            <p>{{ item.reason }}</p>
           </div>
         </li>
       </ul>
@@ -30,21 +30,91 @@
 
 <script>
 import PageHeader from "@/components/topBar/pageHeader";
+import { getarbitratemessage } from "@/api/viewsApi/arbitrationMsg.js";
+import { transformUTCDate } from "@/utils/utils";
 export default {
   name: "arbitrationList",
   data() {
     return {
       shen_qing: require("@/assets/imgs/shenqing.png"),
       tong_zhi: require("@/assets/imgs/tongzhi.png"),
+      list: [], //消息列表
     };
   },
   components: {
     PageHeader,
   },
+  mounted() {
+    this.getMsgList();
+  },
   methods: {
+    // 获取仲裁消息列表
+    getMsgList() {
+      getarbitratemessage().then((res) => {
+        console.log(res.data.items);
+        if (res.data.code == 0) {
+          this.list = res.data.items;
+          this.list.forEach((item) => {
+            // transformUTCDate()把中国时间转成格林威治时间
+            item.msgTime = this.msgListTimes(transformUTCDate(item.createDate));
+          });
+        }
+      });
+    },
+    // 消息列表的时间
+    msgListTimes(val) {
+      let days = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      let now = new Date(),
+        nowY = now.getFullYear(),
+        nowM = now.getMonth() + 1,
+        nowD = now.getDate(),
+        nowW = now.getDay();
+      let lastnow = new Date(val),
+        lastY = lastnow.getFullYear(),
+        lastM = lastnow.getMonth() + 1,
+        lastD = lastnow.getDate(),
+        lastW = lastnow.getDay(),
+        lastH = lastnow.getHours(),
+        lastI =
+          lastnow.getMinutes() < 10
+            ? "0" + lastnow.getMinutes()
+            : lastnow.getMinutes(),
+        lastT = lastnow.getTime();
+      let fomatd = "1970-01-01 00:00:00";
+      if (nowM == lastM) {
+        //是这个月的
+        if (nowD == lastD) {
+          //是今天的
+          fomatd = lastH + ":" + lastI;
+        } else {
+          //不是今天
+          let nextWeek =
+            new Date(`${nowY}-${nowM}-${nowD} 00:00:00`).getTime() +
+            (8 - nowW) * 24 * 60 * 60 * 1000;
+          if (lastT > nextWeek) {
+            //是这周?
+            fomatd = days[lastW];
+          } else {
+            //不是这周
+            fomatd = lastM + "月" + lastD + "日";
+          }
+        }
+      } else {
+        if (nowY == lastY) {
+          //是今年的
+          fomatd = lastM + "月" + lastD + "日";
+        } else {
+          fomatd = lastY + "年" + lastM + "月" + lastD + "日";
+        }
+      }
+      return fomatd;
+    },
     // 去消息详情
-    toArbitrationMsg() {
-      this.$router.push({ name: "arbitrationMsg", params: 1 });
+    toArbitrationMsg(type, id, arbitrateId) {
+      this.$router.push({
+        name: "arbitrationMsg",
+        params: { type, id, arbitrateId },
+      });
     },
   },
 };

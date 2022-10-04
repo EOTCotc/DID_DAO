@@ -6,46 +6,47 @@
     <div class="content">
       <div class="title">
         <span>仲裁案</span>
-        <span>-100EOTC</span>
+        <span v-show="msgType == 3">-100EOTC</span>
       </div>
       <div class="user-box">
         <div class="user-top">
           <!-- 原告 -->
           <div class="user-left">
-            <div class="left-via-name">
+            <div class="left-tag-box">
               <img
                 class="victory-via"
-                src="@/assets/imgs/shenglikuang.png"
-                alt=""
+                src="@/assets/imgs/huangguan.png"
+                v-show="msgType == 3"
               />
-              <img class="via-l" src="" />
-              <span>吴敏<span>(卖家)</span></span>
-            </div>
-            <div class="left-tag-box">
               <div class="left-user-tag">原告</div>
-              <span>7票</span>
             </div>
+            <div class="left-via-name">吴敏<span>(卖家)</span></div>
+            <div class="left-ticket">7票</div>
           </div>
           <!-- 被告 -->
           <div class="user-right">
-            <div class="right-via-name">
+            <div class="right-tag-box">
               <img
                 class="victory-via"
-                src="@/assets/imgs/shenglikuang.png"
-                alt=""
+                src="@/assets/imgs/huangguan.png"
+                v-show="msgType == 3"
               />
-              <span><span>(买家)</span>王晓雷</span>
-              <img class="via-r" src="" />
-            </div>
-            <div class="right-tag-box">
-              <span>4票</span>
               <div class="right-user-tag">原告</div>
             </div>
+            <div class="right-via-name"><span>(买家)</span>王晓雷</div>
+            <div class="right-ticket">4票</div>
           </div>
         </div>
         <!-- 其他消息 -->
-        <div v-if="false">
-          <div class="user-content">原告卖家发起仲裁，仲裁事件为账户冻结</div>
+        <div v-if="true">
+          <div class="user-content">
+            原告卖家发起仲裁，仲裁事件为账户冻结
+            <span v-if="postponeObj.arbitrateInType == 0">账户被冻结</span>
+            <span v-else-if="postponeObj.arbitrateInType == 1">
+              卖家未确认收款
+            </span>
+            <span v-else-if="postponeObj.arbitrateInType == 2">其他</span>
+          </div>
           <div class="user-detail">
             <span>
               <van-icon name="orders-o" />
@@ -55,7 +56,7 @@
           </div>
         </div>
         <!-- 结案通知 -->
-        <div class="final-notice">
+        <div class="final-notice" v-if="false">
           <div class="process_wrap">
             <div
               class="lt chunk"
@@ -63,7 +64,7 @@
                 flex: `0 0 ${(7 / 11) * 100}%`,
               }"
             ></div>
-            <div class="border"></div>
+            <div class="border" v-if="true"></div>
             <div class="rt chunk"></div>
           </div>
           <div class="notice-title">仲裁结果</div>
@@ -79,22 +80,22 @@
         </div>
       </div>
       <!-- 延期内容 -->
-      <div class="postpone" v-if="false">
+      <div class="postpone" v-if="msgType == 0">
         <div class="postpone-every">
           <div>申请人</div>
-          <p>原告: 吴敏</p>
+          <p>原告:{{ postponeObj.plaintiff }}</p>
         </div>
         <div class="postpone-every">
           <div>申请原因</div>
-          <p>核实信息还在审核中</p>
+          <p>{{ postponeObj.reason }}</p>
         </div>
         <div class="postpone-every">
           <div>申请延期说明</div>
-          <p>卖家银行电子回单还再进一步审查中，还在审核中</p>
+          <p>{{ postponeObj.explain }}</p>
         </div>
         <div class="postpone-every">
           <div>申请延期时间</div>
-          <p>1天</p>
+          <p>{{ postponeObj.days }}天</p>
         </div>
         <div class="postpone-btn">
           <button>不同意</button>
@@ -102,12 +103,12 @@
         </div>
       </div>
       <!-- 取消原因 -->
-      <div class="cancel" v-if="false">
+      <div class="cancel" v-if="msgType == 2">
         <div>取消原因</div>
         <p>单方面败诉</p>
       </div>
       <!-- 追加举证 -->
-      <div class="add-to" v-if="false">
+      <div class="add-to" v-if="msgType == 1">
         <div class="add-to-title">原告举证</div>
         <div class="add-to-content">
           <div>追加举证</div>
@@ -115,7 +116,7 @@
         </div>
       </div>
       <!-- 发起重新举证 -->
-      <div class="postpone" v-if="false">
+      <div class="postpone" v-if="isArbitrate != 0">
         <div class="postpone-every">
           <div>发起人</div>
           <p>陈** 编号: 01562022052301</p>
@@ -134,7 +135,7 @@
         </div>
       </div>
       <!-- 结案通知 -->
-      <div class="close">
+      <div class="close" v-if="msgType == 3">
         <div>说明</div>
         <p>
           该仲裁案已结案，败诉扣除您100 EOTC
@@ -148,19 +149,40 @@
 
 <script>
 import PageHeader from "@/components/topBar/pageHeader";
+import { getarbitratedelay } from "@/api/viewsApi/arbitrationMsg";
 export default {
   name: "arbitrationMsg",
   data() {
     return {
-      styleVictory: {
-        border: ":4px solid #FFEF16;",
-      },
+      messageType: 0,
+      msgId: 0,
+      msgType: 0, //消息类型 0 申请延期 1 追加举证 2 仲裁取消 3 结案通知
+      isArbitrate: 0, //是否为仲裁员0是，1是
+      postponeObj: {}, //延期数据
     };
   },
   components: {
     PageHeader,
   },
-  methods: {},
+  mounted() {
+    this.isArbitrate = this.$route.params.arbitrateId;
+    this.getarbitratedelay(); // 获取申请延期消息
+  },
+  methods: {
+    // 获取申请延期消息
+    getarbitratedelay() {
+      let params = this.$route.params;
+      getarbitratedelay({
+        id: params.id,
+        isArbitrate: params.arbitrateId,
+      }).then((res) => {
+        if (res.data.code == 0) {
+          console.log(res.data.items);
+          this.postponeObj = res.data.items;
+        }
+      });
+    },
+  },
 };
 </script>
 
@@ -194,38 +216,19 @@ export default {
     }
     // 原告
     .user-left {
-      .left-via-name {
+      .left-tag-box {
         position: relative;
+        margin-top: 16px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         .victory-via {
           position: absolute;
-          top: -16px;
-          left: -4px;
-          width: 68px;
-          height: 79px;
+          top: -25px;
+          left: 25%;
+          width: 30px;
+          height: 28px;
         }
-        .via-l {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          background: red;
-        }
-        span {
-          margin-left: 12px;
-          font-size: 28px;
-          span {
-            font-size: 24px;
-            color: #999;
-          }
-        }
-      }
-      .left-tag-box {
-        margin-top: 16px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
         .left-user-tag {
           width: 93px;
           height: 48px;
@@ -237,53 +240,40 @@ export default {
           background: #4ea0f5;
           border-radius: 0px 24px 24px 24px;
         }
+      }
+      .left-via-name {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 28px;
         span {
-          margin-left: 12px;
           font-size: 24px;
-          color: #4ea0f5;
+          color: #999;
         }
+      }
+      .left-ticket {
+        margin-top: 12px;
+        font-size: 24px;
+        color: #4ea0f5;
       }
     }
     // 被告
     .user-right {
-      .right-via-name {
+      .right-tag-box {
         position: relative;
+        margin-top: 16px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         .victory-via {
           position: absolute;
-          top: -16px;
-          right: -4px;
-          width: 68px;
-          height: 79px;
-        }
-        .via-r {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-        }
-        span {
-          margin-right: 12px;
-          font-size: 28px;
-          span {
-            font-size: 24px;
-            color: #999;
-          }
-        }
-      }
-      .right-tag-box {
-        margin-top: 16px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        span {
-          margin-right: 12px;
-          font-size: 24px;
-          color: #ec6f66;
+          top: -25px;
+          right: 18%;
+          width: 30px;
+          height: 28px;
         }
         .right-user-tag {
-          // float: right;
           width: 93px;
           height: 48px;
           text-align: center;
@@ -294,6 +284,24 @@ export default {
           background: #ec6f66;
           border-radius: 24px 0 24px 24px;
         }
+      }
+      .right-via-name {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 28px;
+        span {
+          font-size: 24px;
+          color: #999;
+        }
+      }
+      .right-ticket {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 24px;
+        color: #ec6f66;
       }
     }
   }

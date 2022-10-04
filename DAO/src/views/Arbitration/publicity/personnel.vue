@@ -53,6 +53,9 @@
                   </li>
                 </ul>
               </van-list>
+            </li>
+          </ul>
+        </van-list>
       </div>
     </div>
   </van-pull-refresh>

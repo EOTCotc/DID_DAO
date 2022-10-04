@@ -47,7 +47,7 @@ export function copy(text) {
 // 日期格式转换
 export function transformUTCDate(str) {
     const date = new Date(str)
-    return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 }
 // 浏览远程图片
 export function spliceSrc(src) {
