@@ -9,14 +9,14 @@ export function becomeAnAuditor () {
 //获取审核员信息
 export function getUnapprovedInformation () {
   return request({
-    url: "api/arbitrate/getarbitrator",
+    url: "api/daouser/getauditor",
     method: "post",
   });
 }
 //解除审核身份
 export function disapproveIdentity () {
   return request({
-    url: "api/arbitrate/relievearbitrator",
+    url: "api/daouser/relieveauditor",
     method: "post",
   });
 }

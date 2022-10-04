@@ -3,7 +3,8 @@
     <header>
       <white :title="title"></white>
     </header>
-    <div class="rulesBox" ref="rulesBox">
+    <div class="rulesBox"
+         ref="rulesBox">
       <div class="BasicRules">
         <h3>基本规则</h3>
         <div>
@@ -62,47 +63,44 @@
       </div>
     </div>
     <footer>
-      <van-button
-        round
-        block
-        color="#1B2945"
-        :disabled="flag"
-        @click="completeLearning"
-        >我已完成学习</van-button
-      >
+      <van-button round
+                  block
+                  color="#1B2945"
+                  :disabled="flag"
+                  @click="completeLearning">我已完成学习</van-button>
     </footer>
   </div>
 </template>
 <script>
-import white from "@/components/Nav/white.vue";
+import white from '@/components/Nav/white.vue'
 export default {
   components: { white },
   data() {
     return {
-      title: "了解学习相关规则",
+      title: '了解学习相关规则',
       qualificationPassed3: true,
       flag: true,
-    };
+    }
   },
   // 滚动监听
   mounted() {
-    this.$refs.rulesBox.addEventListener("scroll", this.rulesScroll); // 监听页面滚动
+    this.$refs.rulesBox.addEventListener('scroll', this.rulesScroll) // 监听页面滚动
   },
   methods: {
     completeLearning() {
       this.$router.replace({
-        name: "meetTheConditions",
+        name: 'meetTheConditions',
         params: {
           qualificationPassed3: this.qualificationPassed3,
         },
-      });
+      })
     },
     rulesScroll(e) {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight)
-        this.flag = false;
+        this.flag = false
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .rulesBox {

@@ -4,14 +4,15 @@
       <TopBar />
     </header>
     <main>
-      <van-cell-group inset :border="false">
-        <van-cell
-          title="总收益(EOTC)"
-          :border="false"
-          value="收益明细"
-          @click="detail"
-        />
-        <van-cell :title="total" style="font-size: 25px" :border="false" />
+      <van-cell-group inset
+                      :border="false">
+        <van-cell title="总收益(EOTC)"
+                  :border="false"
+                  value="收益明细"
+                  @click="detail" />
+        <van-cell :title="total"
+                  style="font-size: 25px"
+                  :border="false" />
       </van-cell-group>
       <List></List>
     </main>
@@ -20,31 +21,31 @@
 </template>
 
 <script>
-import TopBar from "@/components/topBar/topBar";
-import List from "../../components/Nav/List.vue";
-import { getdaoinfo } from "@/api/earnings";
+import TopBar from '@/components/topBar/topBar'
+import List from '../../components/Nav/List.vue'
+import { getdaoinfo } from '@/api/earnings'
 export default {
   components: { TopBar, List },
   data() {
     return {
       total: 0,
-    };
+    }
   },
   created() {
     getdaoinfo().then((res) => {
-      this.total = res.data.items.daoEOTC;
-      localStorage.setItem("itms", res.data.items.daoEOTC);
-      localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
-      localStorage.setItem("isExamine", res.data.items.isExamine);
-      localStorage.setItem("authType", res.data.items.authType);
-    });
+      this.total = res.data.items.daoEOTC
+      localStorage.setItem('itms', res.data.items.daoEOTC)
+      localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
+      localStorage.setItem('isExamine', res.data.items.isExamine)
+      localStorage.setItem('authType', res.data.items.authType)
+    })
   },
   methods: {
     detail() {
-      this.$router.push("/Home_detail");
+      this.$router.push('/Home_detail')
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
