@@ -24,7 +24,6 @@
           </span>
         </div>
         <div class="list-box">
-<<<<<<< HEAD
           <div
             class="list-every"
             v-for="(item, index) in proposalList"
@@ -36,12 +35,6 @@
               })
             "
           >
-=======
-          <div class="list-every"
-               v-for="(item, index) in proposalList"
-               :key="index"
-               @click="$router.push({ path: '/detail', query: {proposalId:item.proposalId,state:item.state} })">
->>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
               <span>{{ item.total }}票</span>
@@ -116,16 +109,10 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import TopBar from "@/components/topBar/topBar";
 import Notification from "@/components/notification";
 import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
 import { loadweb3 } from "@/utils/web3.js";
-=======
-import TopBar from '@/components/topBar/topBar'
-import Notification from '@/components/notification'
-import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
->>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
 
 export default {
   components: { TopBar, Notification },
@@ -142,26 +129,8 @@ export default {
       proposalList: [], //提案列表
     }
   },
-<<<<<<< HEAD
   mounted() {
     loadweb3(this.handle);
-=======
-  created() {
-    // 获取风险等级
-    getuserrisklevel().then((res) => {
-      if (res.data.code == 0) {
-        this.cookie.set('riskLevel', res.data.items)
-        if (res.data.items == 2) {
-          this.$nextTick().then(() => {
-            this.$refs.notification.toggle(true)
-          })
-        }
-      }
-    })
-  },
-  mounted() {
-    this.getProposal()
->>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
   },
   methods: {
     handle() {
