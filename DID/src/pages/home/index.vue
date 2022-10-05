@@ -87,11 +87,11 @@
         <div class="block">
           <img src="../../assets/imgs/lingdang.png" />
           <div class="tips">
-            {{$t('home.not_bound')}}
+            {{ $t("home.not_bound") }}
           </div>
           <div class="block-bot">
-            <div @click="showOverlay = false">{{$t('public.cancel')}}</div>
-            <div @click="toSite">{{$t('public.confirm')}}</div>
+            <div @click="showOverlay = false">{{ $t("public.cancel") }}</div>
+            <div @click="toSite">{{ $t("public.confirm") }}</div>
           </div>
         </div>
       </div>
@@ -141,19 +141,6 @@ export default {
     TopBar,
     Notification,
   },
-  created() {
-    risklevel().then((res) => {
-      const { code, items: level } = res.data;
-      if (code === 0) {
-        if (level === 2) {
-          this.cookie.set("riskLevel", level);
-          this.$nextTick().then(() => {
-            this.$refs.notification.toggle(true);
-          });
-        }
-      }
-    });
-  },
   mounted() {
     if (this.cookie.get("token")) {
       //有token没用户信息
@@ -189,14 +176,31 @@ export default {
         .then((res) => {
           if (res.data.code == 0) {
             this.cookie.set("token", res.data.items, { expires: 30 });
+            this.getrisklevel(); //风控等级
             this.getInfo(); //获取用户信息
+          } else if (res.data.code == 2) {
+            this.$router.push("/login"); //邮箱未注册
           } else {
-            this.$router.push("/login");
+            this.$toast.fail(res.data.code);
           }
         })
         .catch(() => {
           this.$router.push("/login");
         });
+    },
+    // 风控等级
+    getrisklevel() {
+      risklevel().then((res) => {
+        const { code, items: level } = res.data;
+        if (code === 0) {
+          if (level === 2) {
+            this.cookie.set("riskLevel", level);
+            this.$nextTick().then(() => {
+              this.$refs.notification.toggle(true);
+            });
+          }
+        }
+      });
     },
     // 获取用户信息
     getInfo() {

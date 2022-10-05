@@ -1,11 +1,9 @@
 import axios from 'axios';
 import cookie from 'js-cookie'
-export const domain = '192.168.2.110:5555/';
-
-//export const baseUrl = `https://${domain}/Upload/`;
+export const domain = '192.168.2.110:5556';
 
 const request = axios.create({
-  baseURL: `http://${domain}/`,
+  baseURL: `http://${domain}`,
 });
 
 //请求拦截器
