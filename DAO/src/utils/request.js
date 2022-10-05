@@ -2,7 +2,7 @@ import axios from "axios";
 import Vue from "vue";
 import $router from "../router";
 
-export const domain = "192.168.2.110:5555/";
+export const domain = "192.168.2.110:5556";
 
 //export const baseUrl = `https://${domain}/Upload/`;
 
@@ -10,20 +10,14 @@ const request = axios.create({
   baseURL: `http://${domain}/`,
 });
 
-const wallet = {
-  walletAddress: localStorage.getItem("myaddress"),
-  otype: localStorage.getItem("netType"),
-  sign: localStorage.getItem("mysign"),
-};
-// const wallet = {
-//   walletAddress: 'string',
-//   otype: 'string',
-//   sign: 'string',
-// }
-
 //请求拦截器
 request.interceptors.request.use(
   (config) => {
+    const wallet = {
+      walletAddress: localStorage.getItem("myaddress"),
+      otype: localStorage.getItem("netType"),
+      sign: localStorage.getItem("mysign"),
+    };
     config.data = Object.assign(config.data || {}, wallet);
     return config;
   },

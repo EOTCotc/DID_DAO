@@ -1,6 +1,6 @@
 
 <template>
-  <div class="">
+  <div class="fullscreen bg-gray">
     <white :title="title"></white>
     <div class="contatiner">
       <div class="top">
@@ -163,10 +163,9 @@ export default {
         userRiskId: id,
       }).then((res) => {
         console.log(res);
-        if (res.status == 200) {
-          Toast("解除风控");
-          this.getUser();
-        }
+
+        Toast("解除风控");
+        this.getUser();
       });
     },
   },
@@ -174,11 +173,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  background: #f3f4f5;
-  height: 100vh;
-  border: 1px solid #f3f4f5;
+.contatiner {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
 }
+
 .van-cell-group {
   margin: 16px 16px;
 

@@ -264,10 +264,10 @@ export default {
     PageHeader,
   },
   mounted() {
-    this.isArbitrate = this.$route.params.arbitrateId;
-    this.messageType = this.$route.params.messageType;
-    this.paramsRoute = this.$route.params;
-    this.setmessageisopen(this.$route.params.associatedId)
+    this.isArbitrate = this.$route.query.arbitrateId;
+    this.messageType = this.$route.query.messageType;
+    this.paramsRoute = this.$route.query;
+    this.setmessageisopen(this.$route.query.associatedId)
     if (this.messageType == 0 && this.isArbitrate == 0) {
       this.getarbitratedelay(); // 获取申请延期消息
     } else if (this.messageType == 1) {
