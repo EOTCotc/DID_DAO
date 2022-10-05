@@ -24,28 +24,15 @@
           </span>
         </div>
         <div class="list-box">
-          <<<<<<< HEAD
-                  <div
-                  class="list-every"
-                  v-for="(item, index) in proposalList"
-                  :key="index"
-                  @click="
-              $router.push({
-                path: '/detail',
-                query: { proposalId: item.proposalId },
-              })
-            ">
-            =======
-            <div class="list-every"
-                 v-for="(item, index) in proposalList"
-                 :key="index"
-                 @click="$router.push({ path: '/detail', query: {proposalId:item.proposalId,state:item.state} })">
-              >>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
-              <div class="every-title">{{ item.title }}</div>
-              <div class="every-type">
-                <span>{{ item.total }}票</span>
-                <div class="every-status">
-                  <span :style="
+          <div class="list-every"
+               v-for="(item, index) in proposalList"
+               :key="index"
+               @click="$router.push({ path: '/detail', query: {proposalId:item.proposalId,state:item.state} })">
+            <div class="every-title">{{ item.title }}</div>
+            <div class="every-type">
+              <span>{{ item.total }}票</span>
+              <div class="every-status">
+                <span :style="
                     item.state == 0
                       ? 'background:#237FF8;'
                       : item.state == 1
@@ -54,7 +41,7 @@
                       ? 'background:#00B87A;'
                       : ''
                   "></span>
-                  <span>{{
+                <span>{{
                   item.state == 0
                     ? "进行中"
                     : item.state == 1
@@ -63,9 +50,9 @@
                     ? "已通过"
                     : "已终止"
                 }}</span>
-                </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
       <!-- 条件 -->
@@ -115,16 +102,10 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import TopBar from "@/components/topBar/topBar";
-import Notification from "@/components/notification";
-import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
-import { loadweb3 } from "@/utils/web3.js";
-=======
 import TopBar from '@/components/topBar/topBar'
 import Notification from '@/components/notification'
 import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
->>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
+import { loadweb3 } from '@/utils/web3.js'
 
 export default {
   components: { TopBar, Notification },
@@ -142,25 +123,25 @@ export default {
     }
   },
   mounted() {
-    loadweb3(this.handle);
+    loadweb3(this.handle)
   },
   methods: {
     handle() {
-      this.getuserrisklevel();
-      this.getProposal();
+      this.getuserrisklevel()
+      this.getProposal()
     },
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
-          this.cookie.set("riskLevel", res.data.items);
+          this.cookie.set('riskLevel', res.data.items)
           if (res.data.items == 2) {
             this.$nextTick().then(() => {
-              this.$refs.notification.toggle(true);
-            });
+              this.$refs.notification.toggle(true)
+            })
           }
         }
-      });
+      })
     },
     buttonClick() {
       this.tanShow = true
