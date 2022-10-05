@@ -155,6 +155,7 @@ export default {
     };
   },
   mounted() {
+    this.form.refUserId = this.$route.query.code || "";
     this.height = document.body.scrollHeight - 152;
     this.form.walletAddress = localStorage.getItem("myaddress");
     this.form.otype = localStorage.getItem("netType");
