@@ -24,6 +24,20 @@
               <img class="img" src="../../assets/img/zheng.png" alt="" />
             </div>
           </div>
+          <div class="upload_wrap step-2">
+            <div class="title">
+              核对记录<span>(对方真实手持证件照及核对部分过程)</span>
+            </div>
+            <div class="example_zheng">
+              <van-uploader
+                multiple
+                :max-count="3"
+                v-model="fileList"
+                :after-read="afterRead"
+                :max-size="500 * 1024"
+              />
+            </div>
+          </div>
         </div>
         <div class="btns" v-show="authStatus == 0">
           <van-button
@@ -68,6 +82,7 @@ export default {
   },
   data() {
     return {
+      fileList: [],
       title: "核对身份信息",
       name: "吴敏",
       phoneNum: "1344569****",
@@ -90,6 +105,7 @@ export default {
   },
   mounted() {},
   methods: {
+    afterRead() {},
     // 预览图片
     preview(src) {
       this.imgPreview.show = true;

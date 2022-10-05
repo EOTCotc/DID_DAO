@@ -66,7 +66,7 @@
         title="反馈&建议"
         :border="false"
         is-link
-        @click="auditing('feedback')"
+        @click="auditing('blue-nav')"
       >
         <template #icon>
           <i class="iconfont icon-fankuijianyi icon_left"></i>

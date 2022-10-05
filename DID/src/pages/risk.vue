@@ -26,7 +26,7 @@
       <van-empty
         v-else
         class="custom-image"
-        :image="require('../assets/imgs/empty.png')"
+        :image="require('@/assets/imgs/empty.png')"
         description="暂无任何数据"
       />
     </div>

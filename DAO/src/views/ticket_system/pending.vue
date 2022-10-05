@@ -166,7 +166,7 @@ export default {
         finished: false,
         query: {
           page: 1,
-          itemsPerPage: 5,
+          itemsPerPage: 10,
         },
       },
       type: [
@@ -206,6 +206,9 @@ export default {
     changeType(index) {
       console.log(index);
       this.active = index;
+      this.list.query.page = 1;
+      this.list.finished = false;
+      this.pengList = [];
       this.getList();
     },
     tabs() {
@@ -228,11 +231,14 @@ export default {
           });
           if (this.list.query.page === 1) {
             this.pengList = res.data.items;
+            console.log(this.list.finished);
           } else {
             this.pengList.push(...res.data.items);
+            console.log(this.list.finished);
           }
           this.list.finished = !res.data.items.length;
-          console.log(this.list.finished);
+
+          console.log(!res.data.items.length);
         })
         .finally(() => {
           this.$toast.clear();
@@ -264,12 +270,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-html,
-body {
-  background: #f3f4f5;
-}
 .home {
-  height: 100vh;
+  background: #f3f4f5;
+  height: 150vh;
 }
 
 .van-tabs {

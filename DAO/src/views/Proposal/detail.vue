@@ -62,7 +62,8 @@
         <div class="num vote"
              v-if="isVote == false"
              style="color: #fc7542">
-          <div> <span style="color: #00b87a">{{ favorVotes }}票</span>{{opposeVotes}}票</div>
+          <span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票
+          >>>>>>> 4a3534415c7b29cb2e9802686c80a4c1d60c3022
         </div>
         <div v-if="peopleNum<99">该提案需要99人投票才能取得进展，作者可以随时终止</div>
         <div v-if="peopleNum==99">该提案已99人投票参与,投票已完成</div>
@@ -221,12 +222,12 @@ export default {
   },
   watch: {
     radio: function (val) {
-      this.radio = val
+      this.radio = val;
     },
   },
   methods: {
     onClickLeft() {
-      history.go(-1)
+      history.go(-1);
     },
     onClickRight() {
       Dialog.confirm({
@@ -251,52 +252,52 @@ export default {
         })
         .catch(() => {
           // on cancel
-        })
+        });
     },
     isDloag() {
-      this.flag = true
+      this.flag = true;
       let data = {
         proposalId: this.proposalId,
         radio: +this.radio,
-      }
-      this.peopleNum += 1
+      };
+      this.peopleNum += 1;
       proposalvote(data).then(() => {
         this.$refs.jindu.style.height = '241.5px'
         if (this.peopleNum <= 99) {
           if (this.radio == 1) {
-            Toast(`投出${this.Votes}赞成票`)
-            this.List.peopleNum++
-            this.List.favorVotes++
-            this.favorVotes = this.List.peopleNum
+            Toast(`投出${this.Votes}赞成票`);
+            this.List.peopleNum++;
+            this.List.favorVotes++;
+            this.favorVotes = this.List.peopleNum;
             if (localStorage.getItem(`favorVotes+${this.proposalId}`)) {
               this.favorVotes += Number(
                 localStorage.getItem(`favorVotes+${this.proposalId}`)
-              )
-              localStorage.removeItem(`favorVotes+${this.proposalId}`)
+              );
+              localStorage.removeItem(`favorVotes+${this.proposalId}`);
             }
             localStorage.setItem(
               `favorVotes+${this.proposalId}`,
               this.favorVotes
-            )
-            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-            console.log(this.percentageVotes, '赞成票')
+            );
+            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+            console.log(this.percentageVotes, "赞成票");
           } else {
-            Toast(`投出${this.Votes}反对票`)
-            this.List.peopleNum++
-            this.List.opposeVotes++
-            this.opposeVotes = this.List.peopleNum
+            Toast(`投出${this.Votes}反对票`);
+            this.List.peopleNum++;
+            this.List.opposeVotes++;
+            this.opposeVotes = this.List.peopleNum;
             if (localStorage.getItem(`opposeVotes+${this.proposalId}`)) {
               this.opposeVotes += Number(
                 localStorage.getItem(`opposeVotes+${this.proposalId}`)
-              )
-              localStorage.removeItem(`opposeVotes+${this.proposalId}`)
+              );
+              localStorage.removeItem(`opposeVotes+${this.proposalId}`);
             }
             localStorage.setItem(
               `opposeVotes+${this.proposalId}`,
               this.opposeVotes
-            )
-            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-            console.log(this.percentageVotes, '反对票')
+            );
+            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+            console.log(this.percentageVotes, "反对票");
           }
           if (this.opposeVotes != 0) this.trackColor = '#FC7542'
           if (this.favorVotes == 0) this.valueColor = '#FC7542'
@@ -304,7 +305,7 @@ export default {
           this.isVote1 = false
           this.List.isVote = 1
         }
-      })
+      });
     },
   },
   computed: {
@@ -312,18 +313,18 @@ export default {
       return (
         parseInt(
           (this.opposeVotes / (this.favorVotes + this.opposeVotes)) * 100
-        ) + '%'
-      )
+        ) + "%"
+      );
     },
     TotalFavorVotes() {
       return (
         parseInt(
           (this.favorVotes / (this.favorVotes + this.opposeVotes)) * 100
-        ) + '%'
-      )
+        ) + "%"
+      );
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
