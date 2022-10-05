@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <page-header title="仲裁案动态" />
     <div class="content">
       <ul>
@@ -110,10 +110,10 @@ export default {
       return fomatd;
     },
     // 去消息详情
-    toArbitrationMsg(type, id, arbitrateId) {
+    toArbitrationMsg(messageType, associatedId, arbitrateId) {
       this.$router.push({
         name: "arbitrationMsg",
-        params: { type, id, arbitrateId },
+        params: { messageType, associatedId, arbitrateId },
       });
     },
   },
@@ -121,6 +121,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  background: #fff;
+  min-height: 100vh;
+}
 .content {
   padding: 0 30px;
   li {
