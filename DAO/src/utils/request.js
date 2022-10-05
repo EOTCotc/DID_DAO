@@ -28,7 +28,7 @@ request.interceptors.request.use(
       ...config.data,
       ...wallet,
     };
-    // Object.assign(config.data || {}, wallet);
+    config.data = Object.assign(config.data || {}, wallet);
     return config;
   },
   (error) => Promise.reject(error)
