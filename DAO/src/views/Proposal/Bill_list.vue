@@ -33,60 +33,61 @@
       </div>
     </main>
     <footer>
-      <van-button icon="plus" block type="info" @click="createAn"
-        >创建提案</van-button
-      >
+      <van-button icon="plus"
+                  block
+                  type="info"
+                  @click="createAn">创建提案</van-button>
     </footer>
   </div>
 </template>
 
 <script>
-import white from "@/components/Nav/white.vue";
-import { getmyprops } from "@/api/Proposal";
+import white from '@/components/Nav/white.vue'
+import { getmyprops } from '@/api/Proposal'
 export default {
   components: { white },
-  name: "home",
+  name: 'home',
   data() {
     return {
-      title: "我的提案",
+      title: '我的提案',
       List: [],
-    };
+    }
   },
   created() {
     const loading = this.$toast.loading({
       forbidClick: true,
-      message: "加载中…",
-    });
+      message: '加载中…',
+    })
     getmyprops()
       .then((res) => {
-        const { code, items } = res.data;
+        const { code, items } = res.data
         if (code) {
           this.$toast.fail({
             forbidClick: true,
-            message: "加载失败！",
-          });
+            message: '加载失败！',
+          })
         } else {
           this.List = items.map((item) => {
             item.total =
               Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-              Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
-            return item;
-          });
+              Number(localStorage.getItem(`opposeVotes+${item.proposalId}`))
+            return item
+          })
         }
       })
       .catch(() => {
         this.$toast.fail({
           forbidClick: true,
-          message: "加载失败！",
-        });
+          message: '加载失败！',
+        })
       })
       .finally(() => {
-        loading.clear();
-      });
+        loading.clear()
+      })
   },
   methods: {
     createAn() {
-      this.$router.push("/Create");
+      this.$router.push('/Create')
     },
     detail(id, state) {
       this.$router.push({
@@ -95,7 +96,7 @@ export default {
       })
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .meun {
@@ -105,7 +106,7 @@ export default {
 }
 .box {
   background: #fff;
-  height: 100vh;
+  height: 92.7vh;
   border-radius: 8px;
 }
 .one_an {

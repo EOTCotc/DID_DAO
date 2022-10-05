@@ -27,14 +27,7 @@
         <van-cell :title="order.describe" />
       </van-cell-group>
       <van-cell-group inset class="tu">
-        <!-- <van-uploader
-          :after-read="clzpAfterRead"
-          v-model="fileList"
-          :max-count="1"
-          :max-size="5 * 1024 * 1024"
-        /> -->
-        <van-image width="60" height="60" :src="order.images" />
-        <!-- <van-image width="60" height="60" src="./assets/image/leaf.jpg" /> -->
+        <van-image width="60" height="60" :src="spliceSrc(order.images)" />
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 1">
         <van-cell title="处理记录" style="color: #999" :border="false" />
@@ -72,6 +65,7 @@
 </template>
 
 <script>
+import { spliceSrc } from "@/utils/utils";
 import white from "../../components/Nav/white.vue";
 import { getworkorder, updateWork } from "@/api/workOrder";
 import { Dialog } from "vant";
@@ -84,6 +78,7 @@ export default {
       message: "",
       workOrderId: "",
       fileList: [],
+      type: "wordOrder",
     };
   },
   created() {
@@ -92,38 +87,20 @@ export default {
       res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
         "YYYY-MM-DD"
       );
-
       this.order = res.data.items;
     });
   },
   methods: {
-    // clzpAfterRead(file) {
-    //   console.log(file);
-    //   // 上传状态提示开启
-    //   file.status = "uploading";
-    //   file.message = "上传中...";
-    //   // 创建一个空对象实例
-    //   let formData = new FormData();
-    //   // 调用append()方法添加数据
-    //   formData.append("type", file.file);
-    //   uploadimage(formData).then((res) => {
-    //     console.log(res);
-    //     // if (res.code == "10000") {
-    //     //   // 上传状态提示关闭
-    //     //   file.status = "done";
-    //     //   this.$toast("上传成功！");
-    //     //   this.clzpfilePath = res.data.relativePath; //删除所需参数
-    //     // }
-    //   });
-    // },
+    spliceSrc,
     onClickLeft() {
       history.go(-1);
     },
+
     cancel() {
       Dialog.confirm({
         title: "取消提示",
         confirmButtonColor: "#000",
-        message: "确定取消处理该工单？",
+        message: "确定取消处理该订单吗？",
         getContainer: ".order",
       })
         .then(() => {
@@ -201,11 +178,14 @@ export default {
 .group {
   .van-cell {
     font-size: 16px;
-    line-height: 12.8px;
+    line-height: 15px;
   }
 }
 .tu {
   .van-image {
+    margin: 0 10px;
+  }
+  .van-uploader {
     margin: 0 10px;
   }
 }

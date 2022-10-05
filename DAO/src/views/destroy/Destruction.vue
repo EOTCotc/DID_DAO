@@ -300,7 +300,8 @@ export default {
   margin-top: 30px;
   .van-button {
     height: 35px;
-    padding: 0 33px;
+    width: 110px;
+    padding: 0 10px;
     border: 1px solid #f3f4f5;
     background: #f3f4f5;
     color: #999;
