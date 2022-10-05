@@ -112,8 +112,8 @@ export default {
     // 去消息详情
     toArbitrationMsg(messageType, associatedId, arbitrateId) {
       this.$router.push({
-        name: "arbitrationMsg",
-        params: { messageType, associatedId, arbitrateId },
+        path: "/arbitrationMsg",
+        query: { messageType, associatedId, arbitrateId },
       });
     },
   },
