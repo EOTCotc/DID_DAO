@@ -245,7 +245,7 @@ export default {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: #fc7542;
+          background: #999;
         }
       }
     }

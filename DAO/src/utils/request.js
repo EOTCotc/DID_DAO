@@ -24,10 +24,6 @@ const wallet = {
 //请求拦截器
 request.interceptors.request.use(
   (config) => {
-    config.data = {
-      ...config.data,
-      ...wallet,
-    };
     config.data = Object.assign(config.data || {}, wallet);
     return config;
   },
