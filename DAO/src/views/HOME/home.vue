@@ -24,29 +24,28 @@
           </span>
         </div>
         <div class="list-box">
-<<<<<<< HEAD
-          <div
-            class="list-every"
-            v-for="(item, index) in proposalList"
-            :key="index"
-            @click="
+          <<<<<<< HEAD
+                  <div
+                  class="list-every"
+                  v-for="(item, index) in proposalList"
+                  :key="index"
+                  @click="
               $router.push({
                 path: '/detail',
                 query: { proposalId: item.proposalId },
               })
-            "
-          >
-=======
-          <div class="list-every"
-               v-for="(item, index) in proposalList"
-               :key="index"
-               @click="$router.push({ path: '/detail', query: {proposalId:item.proposalId,state:item.state} })">
->>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
-            <div class="every-title">{{ item.title }}</div>
-            <div class="every-type">
-              <span>{{ item.total }}票</span>
-              <div class="every-status">
-                <span :style="
+            ">
+            =======
+            <div class="list-every"
+                 v-for="(item, index) in proposalList"
+                 :key="index"
+                 @click="$router.push({ path: '/detail', query: {proposalId:item.proposalId,state:item.state} })">
+              >>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
+              <div class="every-title">{{ item.title }}</div>
+              <div class="every-type">
+                <span>{{ item.total }}票</span>
+                <div class="every-status">
+                  <span :style="
                     item.state == 0
                       ? 'background:#237FF8;'
                       : item.state == 1
@@ -55,7 +54,7 @@
                       ? 'background:#00B87A;'
                       : ''
                   "></span>
-                <span>{{
+                  <span>{{
                   item.state == 0
                     ? "进行中"
                     : item.state == 1
@@ -64,9 +63,9 @@
                     ? "已通过"
                     : "已终止"
                 }}</span>
+                </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
       <!-- 条件 -->
@@ -142,26 +141,8 @@ export default {
       proposalList: [], //提案列表
     }
   },
-<<<<<<< HEAD
   mounted() {
     loadweb3(this.handle);
-=======
-  created() {
-    // 获取风险等级
-    getuserrisklevel().then((res) => {
-      if (res.data.code == 0) {
-        this.cookie.set('riskLevel', res.data.items)
-        if (res.data.items == 2) {
-          this.$nextTick().then(() => {
-            this.$refs.notification.toggle(true)
-          })
-        }
-      }
-    })
-  },
-  mounted() {
-    this.getProposal()
->>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
   },
   methods: {
     handle() {

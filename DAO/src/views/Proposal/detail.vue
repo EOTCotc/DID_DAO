@@ -62,7 +62,7 @@
         <div class="num vote"
              v-if="isVote == false"
              style="color: #fc7542">
-          <div><span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票</div>
+          <div> <span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票</div>
         </div>
         <div v-if="peopleNum<99">该提案需要99人投票才能取得进展，作者可以随时终止</div>
         <div v-if="peopleNum==99">该提案已99人投票参与,投票已完成</div>
