@@ -18,26 +18,27 @@
       <div class="one_an">
         <div>{{ List.title }}</div>
         <div class="piao">
-          <span v-if="List.state == 0">
+          <span v-if="state == 0">
             <div class="ion"></div>
             进行中
           </span>
-          <span v-if="List.state == 1">
+          <span v-if="state == 1">
             <div class="ion two"></div>
             未通过
           </span>
-          <span v-if="List.state == 2">
+          <span v-if="state == 2">
             <div class="ion three"></div>
             已通过
           </span>
-          <span v-if="List.state == 3">
+          <span v-if="state == 3">
             <div class="ion fhire"></div>
             已终止
           </span>
           <span>{{ List.walletAddress }}提议</span>
         </div>
       </div>
-      <div class="jindu" ref="jindu">
+      <div class="jindu"
+           ref="jindu">
         <div class="tou">
           投票进度
           <span class="hui"
@@ -46,25 +47,28 @@
           >
         </div>
         <div>共{{ peopleNum }}人参与</div>
-        <van-progress
-          :track-color="trackColor"
-          :percentage="percentageVotes"
-          v-if="!isNaN(parseInt(percentageVotes))"
-          :color="valueColor"
-          :show-pivot="false"
-          stroke-width="12"
-        />
-        <div class="num" v-if="isVote1">
-          <span style="color: #00b87a">{{ peopleNum }}</span
-          >/99
+        <van-progress :track-color="trackColor"
+                      :percentage="percentageVotes"
+                      v-if="!isNaN(parseInt(percentageVotes))"
+                      :color="valueColor"
+                      :show-pivot="false"
+                      stroke-width="12" />
+        <div class="num"
+             v-if="isVote1">
+          <span style="color: #00b87a">{{ peopleNum }}</span>/99
         </div>
-        <div class="num vote" v-if="isVote == false" style="font-size: 14px">
-          <span>赞成票{{ TotalFavorVotes }}</span
-          >反对票{{ TotalOpposeVotes }}
+        <div class="num vote"
+             v-if="isVote == false"
+             style="font-size: 14px">
+          <div v-if="favorVotes==0 && opposeVotes==0"> <span>赞成票{{ favorVotes+'%' }}</span>反对票{{ opposeVotes +'%'}}</div>
+          <div v-else><span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}</div>
+
         </div>
-        <div class="num vote" v-if="isVote == false" style="color: #fc7542">
-          <span style="color: #00b87a">{{ favorVotes }}票</span
-          >{{ opposeVotes }}票
+        <div class="num vote"
+             v-if="isVote == false"
+             style="color: #fc7542">
+          <span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票
+          >>>>>>> 4a3534415c7b29cb2e9802686c80a4c1d60c3022
         </div>
         <div v-if="peopleNum < 99">
           该提案需要99人投票才能取得进展，作者可以随时终止
@@ -86,12 +90,14 @@
       <div class="ti" v-if="isVote && List.isVote != 1">
         <div class="tou">
           对此提案
-          <van-button disabled type="default" size="small" v-if="radio == ''"
-            >投票</van-button
-          >
-          <van-button type="info" size="small" @click="isDloag" v-else
-            >投票</van-button
-          >
+          <van-button disabled
+                      type="default"
+                      size="small"
+                      v-if="radio == ''">投票</van-button>
+          <van-button type="info"
+                      size="small"
+                      @click="isDloag"
+                      v-else>投票</van-button>
         </div>
         <van-radio-group v-model="radio">
           <van-radio name="1">赞成</van-radio>
@@ -104,9 +110,9 @@
 </template>
 
 <script>
-import "vant/es/toast/style";
-import { cancelproposal, proposalvote, getproposal } from "@/api/Proposal";
-import { Toast, Dialog } from "vant";
+import 'vant/es/toast/style'
+import { cancelproposal, proposalvote, getproposal } from '@/api/Proposal'
+import { Toast, Dialog, List } from 'vant'
 export default {
   data() {
     return {
@@ -121,6 +127,7 @@ export default {
       List: {},
       isVote: true,
       Votes: 1,
+      isVOTE: null,
       isVote1: true,
       percentageVotes: 0,
       flag: false,
@@ -166,42 +173,58 @@ export default {
       return `${y}年${m}月${d}日 ${hh}时${mm}分${ss}秒`;
     },
   },
-  mounted() {
-    if (this.state == 3) this.rightText = "";
-    this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
-    this.favorVotes = Number(
-      localStorage.getItem(`favorVotes+${this.proposalId}`)
-    );
-    (this.peopleNum =
-      Number(localStorage.getItem(`favorVotes+${this.proposalId}`)) +
-      Number(localStorage.getItem(`opposeVotes+${this.proposalId}`))),
-      (this.opposeVotes = Number(
-        localStorage.getItem(`opposeVotes+${this.proposalId}`)
-      ));
-    if (this.state != 2) {
-      this.isVote = false;
-      this.isVote1 = false;
-      this.text = "投票结束";
-      this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
-      this.trackColor = "#FC7542";
-    }
 
-    if (this.flag == false && this.state == 2) {
-      this.percentageVotes = this.peopleNum;
-    }
-    if (this.peopleNum == 99) {
-      console.log("提案成功");
-      this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
-      this.trackColor = "#FC7542";
-      this.isVote = false;
-      this.isVote1 = false;
-      if (localStorage.getItem(`createDate+${this.proposalId}`)) {
-        localStorage.removeItem(`createDate+${this.proposalId}`);
-        localStorage.setItem(`createDate+${this.proposalId}`, new Date());
+  mounted() {
+    setTimeout(() => {
+      console.log(this.List)
+      if (this.state == 3) this.rightText = ''
+      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
+      this.favorVotes = Number(
+        localStorage.getItem(`favorVotes+${this.proposalId}`)
+      )
+      ;(this.peopleNum =
+        Number(localStorage.getItem(`favorVotes+${this.proposalId}`)) +
+        Number(localStorage.getItem(`opposeVotes+${this.proposalId}`))),
+        (this.opposeVotes = Number(
+          localStorage.getItem(`opposeVotes+${this.proposalId}`)
+        ))
+      if (this.state == 0) {
+        if (this.List.isVote != 0) {
+          this.isVote = false
+          this.isVote1 = false
+          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+          this.trackColor = '#FC7542'
+        }
       }
-      this.List.state = 1;
-      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
-    }
+      if (this.state != 2 && this.state != 0) {
+        this.isVote = false
+        this.isVote1 = false
+        this.text = '投票结束'
+        if (this.peopleNum == 0) {
+          this.percentageVotes = 0
+        } else {
+          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+          this.trackColor = '#FC7542'
+        }
+      }
+
+      if (this.flag == false && this.state == 2) {
+        this.percentageVotes = this.peopleNum
+      }
+      if (this.peopleNum == 99) {
+        console.log('提案成功')
+        this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+        this.trackColor = '#FC7542'
+        this.isVote = false
+        this.isVote1 = false
+        if (localStorage.getItem(`createDate+${this.proposalId}`)) {
+          localStorage.removeItem(`createDate+${this.proposalId}`)
+          localStorage.setItem(`createDate+${this.proposalId}`, new Date())
+        }
+        this.List.state = 1
+        this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
+      }
+    }, 1000)
   },
   watch: {
     radio: function (val) {
@@ -220,10 +243,11 @@ export default {
         .then(() => {
           let data = {
             id: this.proposalId,
-          };
-          cancelproposal(data);
-          Toast("取消成功");
-          this.rightText = "";
+          }
+          this.rightText = ''
+          cancelproposal(data)
+          Toast('取消成功')
+          this.text = '投票结束'
           if (localStorage.getItem(`createDate+${this.proposalId}`)) {
             localStorage.removeItem(`createDate+${this.proposalId}`);
             localStorage.setItem(`createDate+${this.proposalId}`, new Date());
@@ -385,7 +409,7 @@ export default {
     margin-top: 16px;
     margin-bottom: 16px;
   }
-  .vote {
+  .vote div {
     font-size: 18px;
     display: flex;
     justify-content: space-between;
