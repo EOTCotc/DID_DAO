@@ -21,11 +21,9 @@
             <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div
-            class="right"
-            @click="didNot"
-            v-if="qualificationPassed1 == false"
-          >
+          <div class="right"
+               @click="didNot"
+               v-if="qualificationPassed1 == false">
             去认证
             <van-icon name="arrow" />
           </div>
@@ -120,11 +118,8 @@
       </div>
       <div class="bottom">
         <div>
-          <div>仲裁案(个)</div>
-          <div>
-            {{ ProceedsFromArbitration.arbitrationCase
-            }}<span>/{{ ProceedsFromArbitration.arbitrationCaseTotal }}</span>
-          </div>
+          <div>仲裁胜诉(个)</div>
+          <div>{{ArbitratorsIdentityInformation.victoryNum}}</div>
         </div>
         <div class="line"></div>
         <div>
@@ -206,16 +201,14 @@
         >解除身份</van-button
       >
     </footer>
-    <Notification
-      ref="notification"
-      title="身份认证"
-      message="您还未身份认证，请到DID进行身份认证"
-      :headerIcon="require('../../assets/img/jin.png')"
-      buttonColor="#F65F5F"
-      buttonText="知道了"
-      :closeOnClick="true"
-      @buttonClick="btnClick"
-    />
+    <Notification ref="notification"
+                  title="身份认证"
+                  message="您还未身份认证，请到DID进行身份认证"
+                  :headerIcon="require('../../assets/img/jin.png')"
+                  buttonColor="#F65F5F"
+                  buttonText="知道了"
+                  :closeOnClick="true"
+                  @buttonClick="btnClick" />
   </div>
 </template>
 <script>
@@ -224,14 +217,14 @@ import {
   TerminationArbitrator,
   becomeAnArbitrator,
   getarbitrator,
-} from "@/api/TerminationOfArbitrator";
-import notification1 from "@/components/notification.vue";
-import notification2 from "@/components/notification.vue";
-import Notification from "@/components/notification.vue";
-import icon1 from "./IMG/icon.png";
-import icon2 from "./IMG/icon2.png";
-import icon3 from "./IMG/icon3.png";
-import { Dialog } from "vant";
+} from '@/api/TerminationOfArbitrator'
+import Notification from '@/components/notification.vue'
+import notification1 from '@/components/notification.vue'
+import notification2 from '@/components/notification.vue'
+import icon1 from './IMG/icon.png'
+import icon2 from './IMG/icon2.png'
+import icon3 from './IMG/icon3.png'
+import { Dialog } from 'vant'
 export default {
   components: { white, notification1, notification2, Notification },
   data() {
@@ -239,13 +232,10 @@ export default {
       title: "仲裁员",
       isArbitrate: +localStorage.getItem("isArbitrate"),
       ArbitratorsIdentityInformation: {},
-      ProceedsFromArbitration: {
-        arbitrationCase: 40,
-        arbitrationCaseTotal: 45,
-      },
       show: false,
       showFraction: false,
       applynow: false,
+      authType: 0,
       displayApplicationConditions: true,
       qualificationPassed: Boolean(localStorage.getItem("qualificationPassed")),
       qualificationPassed1: Boolean(
@@ -290,6 +280,10 @@ export default {
     },
   },
   mounted() {
+    if (this.authType == 2) {
+      this.qualificationPassed1 = true
+      localStorage.setItem('qualificationPassed1', this.qualificationPassed1)
+    }
     this.isArbitrate == 0
       ? (this.displayApplicationConditions = true)
       : (this.displayApplicationConditions = false);
@@ -336,13 +330,13 @@ export default {
   methods: {
     didNot() {
       this.$nextTick().then(() => {
-        this.$refs.notification.toggle(true);
-      });
+        this.$refs.notification.toggle(true)
+      })
     },
     btnClick() {
       this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false);
-      });
+        this.$refs.notification.toggle(false)
+      })
     },
     auditing(name) {
       this.$router.push({
@@ -383,7 +377,6 @@ export default {
         getContainer: ".box",
       })
         .then(() => {
-          // on confirm
           Dialog.confirm({
             title: "解除提示",
             message: "确定解除仲裁员身份？",
@@ -491,6 +484,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    text-align: center;
     div {
       &:nth-child(1) {
         font-size: 30px;
