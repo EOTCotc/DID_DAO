@@ -161,5 +161,6 @@ export default {
     title:'账号注销期',
     count_down:'后完成注销',
     waive:'放弃注销'
-  }
+  },
+  
 }
