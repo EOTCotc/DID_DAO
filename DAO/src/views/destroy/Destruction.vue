@@ -1,9 +1,9 @@
 <template>
-  <div class="dest">
+  <div class="fullscreen bg-gray">
     <header>
       <white :title="title"></white>
     </header>
-    <main>
+    <main class="dest">
       <van-search
         v-model="value"
         show-action
@@ -228,8 +228,9 @@ export default {
 
 <style lang="scss" scoped>
 .dest {
-  background: #f3f4f5;
-  height: 100vh;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
 }
 
 .van-cell-group {

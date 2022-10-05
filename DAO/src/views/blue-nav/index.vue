@@ -123,7 +123,7 @@ export default {
       titleList: ["分类标签", "反馈及建议描述", "添加图片", "联系方式"],
       feedbackText: "",
       phone: "",
-      image: "",
+      image: [],
       show: false,
       fileList: [],
       //按钮禁用开关
@@ -148,18 +148,12 @@ export default {
       // 声明form表单数据
       const formData = new FormData();
       // 添加文件信息
-      // if (fileObj.length > 1) {
-      //   fileObj.forEach((item) => {
-      //     console.log(item);
-      //     this.fileList.push(item.file);
-      //   });
-      // }
-      console.log(this.fileList);
       formData.append("file", fileObj.file);
       uploadimage(formData).then((res) => {
         console.log(res);
-        this.image = res.data.message;
+        this.image.push(res.data.message);
       });
+      console.log(this.image);
     },
 
     phoneValidator(val) {
@@ -183,7 +177,7 @@ export default {
         addworkorder({
           workOrderType: this.active,
           describe: this.feedbackText,
-          images: this.image,
+          images: this.image.join(","),
           phone: this.phone,
         }).then((res) => {
           if (res.data.code == 0) {
