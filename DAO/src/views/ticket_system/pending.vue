@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fullscreen bg-gray">
     <header>
       <white :title="title"></white>
     </header>
@@ -158,7 +158,7 @@ export default {
     return {
       title: "工单系统",
       activeName: 0,
-      active: 0,
+      active: undefined,
       pengList: [],
       list: {
         uploading: false,
@@ -271,8 +271,9 @@ export default {
 
 <style lang="scss" scoped>
 .home {
-  background: #f3f4f5;
-  height: 150vh;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
 }
 
 .van-tabs {

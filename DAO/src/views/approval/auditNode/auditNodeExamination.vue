@@ -38,8 +38,8 @@
                v-if="item.topicType=='(填空题)'">
             <h4>{{item.topicType}}</h4>
             <div class="filed">{{item.questionContant[0]}}
-              <van-field v-model="text"
-                         @blur="getText(item)" />{{item.questionContant[1]}}
+              <van-field v-model="item.result"
+                         @input="getText(item)" />{{item.questionContant[1]}}
             </div>
             <div class="tips">在横线输入您的答案</div>
           </div>
@@ -61,6 +61,7 @@
                     @click="previousQuestion">上一题</van-button>
         <van-button round
                     color="#1B2945"
+                    :disabled="nextDisabled"
                     @click="nextQuestion(count-1)">下一题</van-button>
       </div>
       <van-button round
@@ -68,6 +69,7 @@
                   color="#1B2945"
                   v-if="count==testQuestionData.length"
                   :loading='loading'
+                  :disabled="submitDisabled"
                   @click="SubmitExaminationPapers(count-1)">提交</van-button>
     </footer>
   </div>
@@ -89,6 +91,9 @@ export default {
       totalScore: null,
       UserAnswer: [],
       loading: false,
+      nextDisabled: true,
+      submitDisabled: true,
+      pre: [],
       testQuestionData: [
         {
           id: 1,
@@ -171,7 +176,7 @@ export default {
           question: '题目四',
           questionContant: '买家打款备注违规会进行什么处理？',
           topicType: '(多选题)',
-          result: '',
+          result: [],
           questionAnswer: [
             {
               title: 'A、',
@@ -201,7 +206,7 @@ export default {
           question: '题目五',
           questionContant: '仲裁中以下哪些属于有效举证？',
           topicType: '(多选题)',
-          result: '',
+          result: [],
           questionAnswer: [
             {
               title: 'A、',
@@ -337,17 +342,21 @@ export default {
         })
     },
     handleCilck(val, item, index) {
-      item.result = val.contant
       this.idx = index
       this.jumpTestQuestions = false
       this.flag = true
       if (item.topicType == '(多选题)') {
+        item.result.push(val.contant)
         item.questionAnswer.forEach((element, index) => {
           if (index == this.idx) {
             element.Check = !element.Check
           }
         })
+        let a = item.questionAnswer.filter((el) => el.Check)
+        a.length >= 2 ? (this.nextDisabled = false) : (this.nextDisabled = true)
       } else {
+        item.result = val.contant
+        if (this.count >= 2 && this.count < 9) this.nextDisabled = false
         item.questionAnswer.forEach((element, index) => {
           if (index == this.idx) {
             element.Check = true
@@ -359,6 +368,9 @@ export default {
     },
     previousQuestion() {
       this.count--
+      this.nextDisabled = false
+      console.log(this.testQuestionData[this.count].result, 5555)
+      this.pre.push(this.testQuestionData[this.count].result)
     },
     nextQuestion(index) {
       this.idx = null
@@ -379,9 +391,19 @@ export default {
             return
           } else {
             this.count++
+            this.nextDisabled = true
+            if (this.pre[0] != undefined && this.pre[0].length >= 2) {
+              this.nextDisabled = false
+              this.pre = []
+            }
           }
         } else {
           this.count++
+          this.nextDisabled = true
+          if (this.pre.length > 0) {
+            this.nextDisabled = false
+            this.pre = []
+          }
         }
       }
     },
@@ -428,22 +450,28 @@ export default {
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.$router.replace({
-            name: 'meetTheConditions',
+            name: 'applicationConditions',
             params: {
               totalScore: this.totalScore,
             },
           })
         }, 1000)
-        this.$router.replace({
-          name: 'applicationConditions',
-          params: {
-            totalScore: this.totalScore,
-          },
-        })
       }
     },
     getText(item) {
-      item.result = this.text
+      this.$nextTick(() => {
+        if (item.result != '') {
+          if (item.id == 12) {
+            this.submitDisabled = false
+          }
+          this.nextDisabled = false
+        } else {
+          this.nextDisabled = true
+          if (item.id == 12) {
+            this.submitDisabled = true
+          }
+        }
+      })
     },
     finish() {
       Dialog.alert({

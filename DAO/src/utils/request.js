@@ -13,11 +13,14 @@ const request = axios.create({
 //请求拦截器
 request.interceptors.request.use(
   (config) => {
+<<<<<<< HEAD
     const wallet = {
       walletAddress: localStorage.getItem("myaddress"),
       otype: localStorage.getItem("netType"),
       sign: localStorage.getItem("mysign"),
     };
+=======
+>>>>>>> 528a50cfa7962824f74a118808176be3c5c263e7
     config.data = Object.assign(config.data || {}, wallet);
     return config;
   },

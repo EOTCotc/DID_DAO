@@ -47,3 +47,10 @@ export function removerisk(data) {
     data,
   });
 }
+//上传图片
+//上传图片
+export function uploadimage(data) {
+  return request.post("api/destruction/uploadimage?type=Risk", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
