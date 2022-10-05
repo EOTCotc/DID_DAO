@@ -221,7 +221,8 @@ export default {
   data() {
     return {
       title: '审核节点',
-      isExamine: +localStorage.getItem('isExamine'),
+      // +localStorage.getItem('isExamine')
+      isExamine: 0,
       ArbitratorsIdentityInformation: {},
       show: false,
       showFraction: false,

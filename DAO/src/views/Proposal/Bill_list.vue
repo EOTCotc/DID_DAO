@@ -14,15 +14,15 @@
             <span>{{ item.total }}票</span>
             <span v-if="item.state == 0">
               <div class="ion"></div>
-              未通过
+              进行中
             </span>
             <span v-if="item.state == 1">
               <div class="ion two"></div>
-              已通过
+              未通过
             </span>
             <span v-if="item.state == 2">
               <div class="ion three"></div>
-              进行中
+              已通过
             </span>
             <span v-if="item.state == 3">
               <div class="ion fhire"></div>
