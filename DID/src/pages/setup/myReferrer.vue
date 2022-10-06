@@ -2,7 +2,7 @@
   <div class="container">
     <van-nav-bar>
       <template #left>
-        <van-icon @click="toBack" name="arrow-left" color="#000" size="18" />
+        <van-icon @click="$router.back()" name="arrow-left" color="#000" size="18" />
       </template>
       <template #title>
         <span class="title">{{ $t("setup.my_referrer") }}</span>
@@ -75,10 +75,6 @@ export default {
           });
         }
       });
-    },
-    // 返回上一页
-    toBack() {
-      this.$router.back();
     },
   },
 };

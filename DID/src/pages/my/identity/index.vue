@@ -5,28 +5,28 @@
       <div class="main steps_wrap">
         <div class="info_wrap step-1" v-show="step.active === 0">
           <van-field
-              v-model="form.data.name"
-              name="name"
-              label="姓名"
-              size='large'
-              placeholder="请输入真实姓名"
-              :rules="[{required: true, message: '请输入真实姓名'}]"
+            v-model="form.data.name"
+            name="name"
+            label="姓名"
+            size="large"
+            placeholder="请输入真实姓名"
+            :rules="[{ required: true, message: '请输入真实姓名' }]"
           />
           <van-field
-              v-model="form.data.phoneNum"
-              name="phoneNum"
-              label="手机号"
-              size='large'
-              placeholder="请输入手机号码"
-              :rules="[{required: true, message: '请输入手机号码'}]"
+            v-model="form.data.phoneNum"
+            name="phoneNum"
+            label="手机号"
+            size="large"
+            placeholder="请输入手机号码"
+            :rules="[{ required: true, message: '请输入手机号码' }]"
           />
           <van-field
-              v-model="form.data.idCard"
-              name="code"
-              label="证件号"
-              size='large'
-              placeholder="请输入证件号码"
-              :rules="[{required: true, message: '请输入证件号码'}]"
+            v-model="form.data.idCard"
+            name="code"
+            label="证件号"
+            size="large"
+            placeholder="请输入证件号码"
+            :rules="[{ required: true, message: '请输入证件号码' }]"
           />
         </div>
         <div class="upload_wrap step-2" v-show="step.active === 1">
@@ -271,99 +271,98 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .container {
-    .form_wrap {
-      flex: 1;
-      padding-bottom: 30px;
-      .main {
-        min-height: 100%;
-        padding-bottom: 120px;
-        .upload_wrap {
-          padding: 30px;
-          .example_wrap {
-            padding: 35px 25px;
-            border-radius: 20px;
-            border: 2px dashed #eee;
-            &::v-deep(.van-uploader) {
+.container {
+  .form_wrap {
+    flex: 1;
+    padding-bottom: 30px;
+    .main {
+      min-height: 100%;
+      padding-bottom: 120px;
+      .upload_wrap {
+        padding: 30px;
+        .example_wrap {
+          padding: 35px 25px;
+          border-radius: 20px;
+          border: 2px dashed #eee;
+          &::v-deep(.van-uploader) {
+            width: 100%;
+            .van-uploader__preview-image,
+            .van-uploader__wrapper,
+            .van-uploader__upload {
               width: 100%;
-              .van-uploader__preview-image,
-              .van-uploader__wrapper,
-              .van-uploader__upload {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-              }
-              .van-uploader__upload {
-                padding: 60px 0;
-              }
+              height: 100%;
+              margin: 0;
+            }
+            .van-uploader__upload {
+              padding: 60px 0;
             }
           }
-          .tip {
-            color: #fc7542;
-            font-size: 24px;
-            margin-top: 50px;
-          }
         }
-        .tip_wrap {
-          margin-top: 40px;
-          .title {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 20px;
-          }
-          .tip {
-            color: #fc7542;
-            padding: 25px;
-            margin: 30px 0 20px;
-            font-size: 26px;
-            background-color: #fffbe8;
-          }
-          .img_wrap {
-            display: flex;
-            justify-content: space-between;
-            .item {
-              flex: 0 0 48%;
-              &:nth-of-type(1) .img:after {
-                @include posi($t: 0, $l: 0);
+        .tip {
+          color: #fc7542;
+          font-size: 24px;
+          margin-top: 50px;
+        }
+      }
+      .tip_wrap {
+        margin-top: 40px;
+        .title {
+          color: #333;
+          font-size: 28px;
+          margin-bottom: 20px;
+        }
+        .tip {
+          color: #fc7542;
+          padding: 25px;
+          margin: 30px 0 20px;
+          font-size: 26px;
+          background-color: #fffbe8;
+        }
+        .img_wrap {
+          display: flex;
+          justify-content: space-between;
+          .item {
+            flex: 0 0 48%;
+            &:nth-of-type(1) .img:after {
+              @include posi($t: 0, $l: 0);
+            }
+            &:nth-of-type(2) .img:after {
+              @include posi($t: 0, $r: 0);
+            }
+            .img {
+              position: relative;
+              padding: 25px 45px;
+              border-radius: 20px;
+              border: 2px dashed #eee;
+              &:after {
+                display: block;
+                content: "";
+                width: 60%;
+                height: 100%;
+                backdrop-filter: blur(10px);
               }
-              &:nth-of-type(2) .img:after {
-                @include posi($t: 0, $r: 0);
+              img {
+                display: block;
+                width: 100%;
               }
-              .img {
-                position: relative;
-                padding: 25px 45px;
-                border-radius: 20px;
-                border: 2px dashed #eee;
-                &:after {
-                  display: block;
-                  content: "";
-                  width: 60%;
-                  height: 100%;
-                  backdrop-filter: blur(10px);
-                }
-                img {
-                  display: block;
-                  width: 100%;
-                }
-              }
-              .text {
-                color: #999;
-                font-size: 24px;
-                margin-top: 20px;
-                text-align: center;
-              }
+            }
+            .text {
+              color: #999;
+              font-size: 24px;
+              margin-top: 20px;
+              text-align: center;
             }
           }
         }
       }
-      .btns {
-        margin: -120px 30px 0;
-        display: flex;
-        .btn {
-          flex: 1;
-          &:nth-of-type(2) {
-            margin-left: 30px;
-          }
+    }
+    .btns {
+      margin: -120px 30px 0;
+      display: flex;
+      .btn {
+        flex: 1;
+        &:nth-of-type(2) {
+          margin-left: 30px;
         }
       }
     }

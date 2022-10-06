@@ -172,7 +172,7 @@ export default {
           if (res.data.code == 0) {
             this.$toast.success("修改成功");
             setTimeout(() => {
-              this.$router.push("/login");
+              this.$router.replace("/login");
             }, 500);
           } else {
             this.$toast.fail("修改邮箱失败");

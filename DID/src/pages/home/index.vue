@@ -41,16 +41,15 @@
       </div>
       <!-- 简介 -->
       <p class="text-p">
-        DID属于统一资源标识符URI的一种，是一个永久不可变的字符串，它存在的意义有两点，第一，标记任何目标对象(DID
-        Subject)，可以是一个人、一件商品、一台机器或者一只动物等等；第二，DID是通过DID
-        URL关联到描述目标对象的文件（DID Document,简称DID
-        Doc）唯一标识符，即通过DID能够在数据库中搜索到具体的DID Doc。
+        EOTC
+        DID是去中心化身份体系，是独立运行、分布式存储的去中心化身份存储、授权调用的身份系统。EOTC
+        DID采用强关系链方式注册、由EOTC DAO配合审核和治理。 EOTC
+        DID可以链接所有公链，可以为所有公链上的任意地址提供去中心化身份的强关系链注册、去中心化审核、应用绑定、敏感信息加密存储、脱敏标签商业转化、信息授权调用等服务。
       </p>
       <p class="text-p">
-        创建一个DID Document的过程是Production,而将创建的这条Document引用至该DID
-        Subject其他DID创建过程则是Consumption。在验证过程中，每个DID对应的DID
-        Document是独立的，相当于对每个DID做了信息隔离。在验证过程中，DID持有人可以根据需要对不同DID授权，验证人只能阅读到被授权的DID
-        Doc，而无法获得更多信息，从而达到DID Subject的信息保护目的。
+        EOTC
+        DID的出现将在高度保护用户隐私同时弥补区块链无法识别公链地址持有人身份、无法给地址持有人打商业标签的空白，EOTC
+        DID将为区块链世界注入强大的基础应用支持，开启更加高效更加安全更加科学的区块链商业应用。
       </p>
     </div>
     <!-- 底部 -->
@@ -142,50 +141,17 @@ export default {
     Notification,
   },
   mounted() {
-    if (this.cookie.get("token")) {
-      //有token没用户信息
-      this.getInfo();
-    } else if (!localStorage.getItem("myaddress")) {
-      //钱包地址为空
-      loadweb3(this.login);
-    } else if (!this.cookie.get("token")) {
-      //没有token
-      this.$router.replace("/login");
-    }
+    // 当前的语言
     if (localStorage.getItem("textLang")) {
       this.textLang = localStorage.getItem("textLang");
     }
+    this.getrisklevel(); //风控等级
+    this.getInfo(); //获取用户信息
   },
   methods: {
     // 关闭风险弹窗
     handleClosed() {
       this.show = true;
-    },
-    // 根据钱包、签名、网络登录，如果不行就跳登录页
-    login() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
-      let reqObj = {
-        walletAddress,
-        otype,
-        sign,
-      };
-      login(reqObj)
-        .then((res) => {
-          if (res.data.code == 0) {
-            this.cookie.set("token", res.data.items, { expires: 30 });
-            this.getrisklevel(); //风控等级
-            this.getInfo(); //获取用户信息
-          } else if (res.data.code == 2) {
-            this.$router.replace("/login"); //邮箱未注册
-          } else {
-            this.$toast.fail(res.data.code);
-          }
-        })
-        .catch(() => {
-          this.$router.replace("/login");
-        });
     },
     // 风控等级
     getrisklevel() {
@@ -208,11 +174,14 @@ export default {
           if (res.data.code == 0) {
             this.userInfo = res.data.items;
             // 用户信息存到cookie
-            this.cookie.set("userInfo", JSON.stringify(res.data.items));
+            this.cookie.set("userInfo", JSON.stringify(this.userInfo));
+            this.cookie.set('country',this.userInfo.country)
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;
             }
+          } else {
+            this.$toast.fail(res.data.message);
           }
         })
         .catch((err) => {

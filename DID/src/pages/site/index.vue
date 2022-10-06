@@ -7,12 +7,12 @@
       @click-left="onClickLeft"
     />
     <div class="content">
-      <van-cell
+      <!-- <van-cell
         class="now"
         :title="$t('bindRelation.user_loc')"
         :value="$t('bindRelation.loc')"
         :border="false"
-      />
+      /> -->
       <van-cell
         class="now"
         :title="$t('bindRelation.country')"
@@ -71,25 +71,25 @@ export default {
   },
   mounted() {
     let country = this.cookie.get("country");
-    this.getNowLocation(); //获取当前位置
+    // this.getNowLocation(); //获取当前位置
     country && this.getCountry(country); //获取选择的国家
   },
   methods: {
     // 获取当前位置
-    getNowLocation() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (res) => {
-            // console.log(res, "suc");
-          },
-          (err) => {
-            // console.log(err, "err");
-          }
-        );
-      } else {
-        this.$toast.fail("地理位置服务不可用");
-      }
-    },
+    // getNowLocation() {
+    //   if ("geolocation" in navigator) {
+    //     navigator.geolocation.getCurrentPosition(
+    //       (res) => {
+    //         // console.log(res, "suc");
+    //       },
+    //       (err) => {
+    //         // console.log(err, "err");
+    //       }
+    //     );
+    //   } else {
+    //     this.$toast.fail("地理位置服务不可用");
+    //   }
+    // },
     // 获取选择的国家以及处理省市区的数据
     getCountry(country) {
        //获取的是字符串

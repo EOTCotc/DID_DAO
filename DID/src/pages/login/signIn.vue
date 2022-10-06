@@ -289,6 +289,9 @@ p,
 :deep(.van-checkbox__label) {
   font-size: 28px;
 }
+:deep(.van-button--info){
+  border: none;
+}
 .signin-box {
   position: absolute;
   bottom: 60px;

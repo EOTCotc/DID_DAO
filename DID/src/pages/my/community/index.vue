@@ -82,7 +82,7 @@ export default {
       })
     },
     applyCreateCommunity() {
-      if (this.communityStatus.giftEotc > 5000) {
+      if (this.communityStatus.giftEotc < 5000) {
         this.$router.push('/my/community/create')
       } else {
         this.$toast({

@@ -1,59 +1,59 @@
 <template>
-  <div class='container'>
+  <div class="container">
     <TopBar />
-    <div class='content'>
+    <div class="content">
       <!-- 身份卡 -->
-      <div class='identity-card'>
-        <div class='card-top'>
-          <div class='card-top-left'>
-            <img src='@/assets/imgs/logo_two.png' alt='' />
+      <div class="identity-card">
+        <div class="card-top">
+          <div class="card-top-left">
+            <img src="@/assets/imgs/logo_two.png" alt="" />
             <div>
               <div>{{ userInfo.mail }}</div>
               <div>UID:{{ userInfo.uid }}</div>
             </div>
           </div>
-          <div class='card-icon'>
+          <div class="card-icon">
             <van-icon
-              @click='toSetup'
-              name='setting-o'
-              color='#fff'
-              size='24'
+              @click="toSetup"
+              name="setting-o"
+              color="#fff"
+              size="24"
             />
           </div>
         </div>
-        <div class='card-bottom'>
+        <div class="card-bottom">
           <div>
             <img
-              v-if='userInfo.authType == 2'
-              src='../../assets/imgs/dunpai.png'
+              v-if="userInfo.authType == 2"
+              src="@/assets/imgs/dunpai.png"
             />
-            <img v-else src="../../assets/imgs/dunpai2.png" />
-            <span v-if="userInfo.authType == 2">{{
-              $t("home.authenticated")
-            }}</span>
-            <span v-else>{{ $t("my.unverified") }}</span>
+            <img v-else src="@/assets/imgs/dunpai2.png" />
+            <span v-if="userInfo.authType == 2">身份已认证</span>
+            <span v-else>身份未认证</span>
           </div>
           <div @click="$router.push('/my/credit')">
-            <span>{{ $t("my.credit_core") }}</span>
+            <span>信用分</span>
             <span>{{ userInfo.creditScore }}</span>
           </div>
         </div>
       </div>
       <!-- 菜单栏 -->
-      <div class='cell'>
+      <div class="cell">
         <!-- 认证审核 -->
         <van-cell
           is-link
-          :border='false'
-          @click='auth({path: userInfo.refUid ? "/my/identity/approval" : ""})'
+          :border="false"
+          @click="
+            auth({ path: userInfo.refUid ? '/my/identity/approval' : '' })
+          "
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/shenhe.png' />
+            <img src="@/assets/imgs/shenhe.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.certification_audit") }}
+              认证审核
               <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
@@ -61,64 +61,60 @@
         <!-- 社区审批 -->
         <van-cell
           is-link
-          :border='false'
-          @click='auth({path: "/my/approval/community"})'
+          :border="false"
+          @click="auth({ path: '/my/approval/community' })"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/shenpi.png' />
+            <img src="@/assets/imgs/shenpi.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.community_approval") }}
-              <span v-show="userInfo.hasAuth" class="badge"></span>
+              社区审批
+              <span v-show="show.communityApproval" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 身份信息 -->
-<<<<<<< HEAD
         <van-cell is-link :border="false" :to="identifyRouter">
-=======
-        <van-cell is-link :border='false' :to='identifyRouter'>
->>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/shenfen.png' />
+            <img src="@/assets/imgs/shenfen.png" />
           </template>
           <template #title>
-            <span> {{ $t("my.identity_info") }} </span>
+            <span> 身份信息 </span>
           </template>
           <template #default>
             <span
               class="identity-apply_status not"
               v-if="userInfo.authType == 0"
-              >{{ $t("my.identity_unver") }}</span
+              >未认证</span
             >
             <span
               class="identity-apply_status pending"
               v-if="userInfo.authType == 1"
-              >{{ $t("my.under_review") }}</span
+              >审核中</span
             >
             <span
               class="identity-apply_status fail"
               v-else-if="userInfo.authType == 3"
-              >{{ $t("my.audit_failure") }}</span
+              >审核失败</span
             >
           </template>
         </van-cell>
         <!-- 收付款方式 -->
         <van-cell
           is-link
-          :border='false'
-          @click='auth({path: "/my/payment"})'
+          :border="false"
+          @click="auth({ path: '/my/payment' })"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/fukuan.png' />
+            <img src="@/assets/imgs/fukuan.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.payment") }}
+              收付款方式
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -126,68 +122,68 @@
         <!-- 我的社区 -->
         <van-cell
           is-link
-          :border='false'
-          @click='auth({path: "/my/community"})'
+          :border="false"
+          @click="auth({ path: '/my/community' })"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/shequ.png' />
+            <img src="@/assets/imgs/shequ.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.my_comm") }}
+              我的社区
               <span v-show="false" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 我的团队 -->
-        <van-cell is-link :border='false' to='/my/team'>
+        <van-cell is-link :border="false" to="/my/team">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/tuandui.png' />
+            <img src="@/assets/imgs/tuandui.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.my_team") }}
+              我的团队
               <span v-show="false" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 邀请好友 -->
-        <van-cell is-link :border='false' to='/my/invite'>
+        <van-cell is-link :border="false" to="/my/invite">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/haoyou.png' />
+            <img src="@/assets/imgs/haoyou.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.invite_friends") }}
+              邀请好友
               <span v-show="false" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 各公链绑定地址 -->
-        <van-cell is-link :border='false' to='/my/wallets'>
+        <van-cell is-link :border="false" to="/my/wallets">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/gonglian.png' />
+            <img src="@/assets/imgs/gonglian.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.bind_address") }}
+              各公链绑定地址
               <span v-show="false" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border='false' to='/my/projects'>
+        <van-cell is-link :border="false" to="/my/projects">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src='../../assets/imgs/xiangmu.png' />
+            <img src="@/assets/imgs/xiangmu.png" />
           </template>
           <template #title>
             <span>
-              {{ $t("my.each_item") }}
+              绑定各项目
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -206,53 +202,68 @@
   </div>
 </template>
 <script>
-import TopBar from '@/components/topBar/topBar';
-import Notification from '@/components/notification'
-import {getuserinfo} from '@/api/pagesApi/home';
+import TopBar from "@/components/topBar/topBar";
+import Notification from "@/components/notification";
+import { getuserinfo } from "@/api/pagesApi/home";
+import { list as communityList } from "@/api/pagesApi/approvalCommunity";
+import { list as identityList } from "@/api/pagesApi/identity";
 
 export default {
-  name: 'my',
+  name: "my",
   components: {
     TopBar,
-    Notification
+    Notification,
   },
   data() {
     return {
       userInfo: {},
       form: {},
-      headerIcon: require("@/assets/imgs/jin.png")
+      show: {
+        communityApproval: false,
+        identity: false,
+      },
+      headerIcon: require("@/assets/imgs/jin.png"),
     };
   },
   created() {
     this.handleRefresh();
+    this.getBadge();
   },
   computed: {
     // 身份信息跳转
     identifyRouter() {
       if (this.userInfo.authType === 0) {
-        return '/my/identity';
+        return "/my/identity";
       } else if (this.userInfo.authType === 2) {
-        return '/my/identity/success';
+        return "/my/identity/success";
       } else if (this.userInfo.authType === 3) {
-        return '/my/identity/fail';
+        return "/my/identity/fail";
       }
-    }
+    },
   },
   methods: {
+    // 获取是否有未处理的审批
+    getBadge() {
+      communityList(0, { page: 1, itemsPerPage: 10 }).then((res) => {
+        this.show.communityApproval = !res.data.code && !!res.data.items.length;
+      });
+      identityList(0, { page: 1, itemsPerPage: 10 }).then((res) => {
+        this.show.identity = !res.data.code && !!res.data.items.length;
+      });
+    },
     // 去设置
     toSetup() {
-      this.$router.push('/setup');
+      this.$router.push("/setup");
     },
     handleButtonClick() {
-      this.$router.push({path: "/bindRelation"})
+      this.$router.push({ path: "/bindRelation" });
     },
     handleRefresh() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: '加载中…'
+        message: "加载中…",
       });
       getuserinfo()
-<<<<<<< HEAD
         .then((res) => {
           this.userInfo = res.data.items;
           this.cookie.set("userInfo", JSON.stringify(this.userInfo));
@@ -270,43 +281,19 @@ export default {
               .then(() => {
                 this.$router.push("/my/community/setting");
               })
-              .catch((err) => {});
+              .catch(() => {});
           }
         })
         .finally(() => loading.clear());
-=======
-      .then((res) => {
-        this.userInfo = res.data.items;
-        this.cookie.set('userInfo', JSON.stringify(this.userInfo))
-        if (
-          this.userInfo &&
-          this.userInfo.comAuditType === 2 &&
-          !this.userInfo.isImprove
-        ) {
-          this.$dialog
-          .confirm({
-            message: '社区申请已批准，请及时完善社区信息，是否现在前往？',
-            confirmButtonText: '确定前往',
-            cancelButtonText: '稍后前往'
-          })
-          .then(() => {
-            this.$router.push('/my/community/setting');
-          })
-          .catch(() => {
-          });
-        }
-      })
-      .finally(() => loading.clear());
->>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
     },
     auth(route) {
       if (!!this.userInfo.refUid) {
-        this.$router.push(route)
+        this.$router.push(route);
       } else {
-        this.$refs.notification.toggle(true)
+        this.$refs.notification.toggle(true);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang='scss' scoped>
@@ -324,7 +311,7 @@ export default {
   // 身份卡
   .identity-card {
     margin-top: 40px;
-    padding: 40px;
+    padding: 40px 30px 30px 30px;
     border-radius: 20px;
     background: linear-gradient(134deg, #2a86ff 0%, #54dcff 100%);
 
@@ -351,19 +338,19 @@ export default {
           }
 
           div:first-of-type {
-            font-size: 36px;
+            font-size: 46px;
           }
 
           div:last-of-type {
             margin-top: 8px;
-            font-size: 28px;
+            font-size: 38px;
           }
         }
       }
     }
 
     .card-bottom {
-      margin-top: 50px;
+      margin-top: 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -416,23 +403,17 @@ export default {
     align-items: center;
     background: none;
   }
-
   .cell {
+    padding-bottom: 200px;
     img {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
     }
-
     span {
       position: relative;
       margin-left: 20px;
       color: #fff;
-<<<<<<< HEAD
-      font-size: 36px;
-=======
-      font-size: 32px;
-
->>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
+      font-size: 42px;
       .badge {
         position: absolute;
         top: -8px;
