@@ -13,14 +13,14 @@
 
     <div class="content">
       <div class="ad-img">
-        <img src="../../assets/imgs/yaoqingma.png" alt="" />
+        <img src="@/assets/imgs/yaoqingma.png" />
       </div>
       <div class="code-title">{{ $t("setup.code") }}</div>
       <div class="ipt">
         <input
           type="text"
           v-model="refUserId"
-          :placeholder="$t('setup.input_code')"
+          :placeholder="$t('setup.input_mail_code')"
         />
       </div>
       <div class="confirm" @click="confirm">{{ $t("public.confirm") }}</div>

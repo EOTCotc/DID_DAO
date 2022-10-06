@@ -74,7 +74,7 @@ VueRouter.prototype.push = function push(to) {
 
 router.beforeEach((to, from, next) => {
   if (!Cookies.get('token')) {//未登录
-    if (to.path === '') {
+    if (to.path === '/') {
       next('/login')
     } else {
       next()

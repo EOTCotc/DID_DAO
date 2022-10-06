@@ -150,7 +150,7 @@ export default {
       loadweb3(this.login);
     } else if (!this.cookie.get("token")) {
       //没有token
-      this.$router.push("/login");
+      this.$router.replace("/login");
     }
     if (localStorage.getItem("textLang")) {
       this.textLang = localStorage.getItem("textLang");
@@ -159,7 +159,6 @@ export default {
   methods: {
     // 关闭风险弹窗
     handleClosed() {
-      console.log(2);
       this.show = true;
     },
     // 根据钱包、签名、网络登录，如果不行就跳登录页
@@ -179,13 +178,13 @@ export default {
             this.getrisklevel(); //风控等级
             this.getInfo(); //获取用户信息
           } else if (res.data.code == 2) {
-            this.$router.push("/login"); //邮箱未注册
+            this.$router.replace("/login"); //邮箱未注册
           } else {
             this.$toast.fail(res.data.code);
           }
         })
         .catch(() => {
-          this.$router.push("/login");
+          this.$router.replace("/login");
         });
     },
     // 风控等级
@@ -219,7 +218,7 @@ export default {
         .catch((err) => {
           if (err.response.status == 401) {
             //未登录
-            this.$router.push("/login");
+            this.$router.replace("/login");
           }
         });
     },

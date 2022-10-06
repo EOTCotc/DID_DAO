@@ -28,11 +28,13 @@
               src="../../assets/imgs/dunpai.png"
             />
             <img v-else src="../../assets/imgs/dunpai2.png" />
-            <span v-if="userInfo.authType == 2">{{$t('home.authenticated')}}</span>
-            <span v-else>{{$t('my.unverified')}}</span>
+            <span v-if="userInfo.authType == 2">{{
+              $t("home.authenticated")
+            }}</span>
+            <span v-else>{{ $t("my.unverified") }}</span>
           </div>
           <div @click="$router.push('/my/credit')">
-            <span>{{$t('my.credit_core')}}</span>
+            <span>{{ $t("my.credit_core") }}</span>
             <span>{{ userInfo.creditScore }}</span>
           </div>
         </div>
@@ -52,7 +54,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.certification_audit')}}
+              {{ $t("my.certification_audit") }}
               <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
@@ -70,35 +72,35 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.community_approval')}}
+              {{ $t("my.community_approval") }}
               <span v-show="userInfo.hasAuth" class="badge"></span>
             </span>
           </template>
         </van-cell>
         <!-- 身份信息 -->
-        <van-cell is-link :border="false" v-if="!!userInfo.authType" :to="identifyRouter">
+        <van-cell is-link :border="false" :to="identifyRouter">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="../../assets/imgs/shenfen.png" />
           </template>
           <template #title>
-            <span> {{$t('my.identity_info')}} </span>
+            <span> {{ $t("my.identity_info") }} </span>
           </template>
           <template #default>
             <span
               class="identity-apply_status not"
               v-if="userInfo.authType == 0"
-              >{{$t('my.identity_unver')}}</span
+              >{{ $t("my.identity_unver") }}</span
             >
             <span
               class="identity-apply_status pending"
               v-if="userInfo.authType == 1"
-              >{{$t('my.under_review')}}</span
+              >{{ $t("my.under_review") }}</span
             >
             <span
               class="identity-apply_status fail"
               v-else-if="userInfo.authType == 3"
-              >{{$t('my.audit_failure')}}</span
+              >{{ $t("my.audit_failure") }}</span
             >
           </template>
         </van-cell>
@@ -110,7 +112,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.payment')}}
+              {{ $t("my.payment") }}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -123,7 +125,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.my_comm')}}
+              {{ $t("my.my_comm") }}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -136,7 +138,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.my_team')}}
+              {{ $t("my.my_team") }}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -149,7 +151,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.invite_friends')}}
+              {{ $t("my.invite_friends") }}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -162,7 +164,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.bind_address')}}
+              {{ $t("my.bind_address") }}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -175,7 +177,7 @@
           </template>
           <template #title>
             <span>
-              {{$t('my.each_item')}}
+              {{ $t("my.each_item") }}
               <span v-show="false" class="badge"></span>
             </span>
           </template>
@@ -226,7 +228,7 @@ export default {
       getuserinfo()
         .then((res) => {
           this.userInfo = res.data.items;
-          this.cookie.set('userInfo', JSON.stringify(this.userInfo))
+          this.cookie.set("userInfo", JSON.stringify(this.userInfo));
           if (
             this.userInfo &&
             this.userInfo.comAuditType === 2 &&
@@ -264,7 +266,7 @@ export default {
   // 身份卡
   .identity-card {
     margin-top: 40px;
-    padding: 30px;
+    padding: 40px;
     border-radius: 20px;
     background: linear-gradient(134deg, #2a86ff 0%, #54dcff 100%);
     .card-top {
@@ -295,7 +297,7 @@ export default {
       }
     }
     .card-bottom {
-      margin-top: 30px;
+      margin-top: 50px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -335,6 +337,7 @@ export default {
   }
   // 菜单栏
   :deep(.van-cell) {
+    padding: 30px 0 0 0;
     display: flex;
     align-items: center;
     background: none;
@@ -348,7 +351,7 @@ export default {
       position: relative;
       margin-left: 20px;
       color: #fff;
-      font-size: 32px;
+      font-size: 36px;
       .badge {
         position: absolute;
         top: -8px;

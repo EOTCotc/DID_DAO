@@ -46,7 +46,6 @@
           />
         </svg>
       </div>
-
       <img src="@/assets/imgs/bg-footer.png" alt="" />
     </div>
     <van-tabs
@@ -154,7 +153,9 @@ export default {
           this.req.page += 1;
           let data = res.data.items;
           this.endVal = data.creditScore;
-          this.list = [...this.list, data.items[0]];
+          if (data.items.length != 0) {
+            this.list = [...this.list, data.items[0]];
+          }
           // 加载状态结束
           this.loading = false;
           // 数据全部加载完成

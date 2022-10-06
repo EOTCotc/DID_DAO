@@ -1,6 +1,6 @@
 <template>
   <div :style="`min-height:${height}px;`" class="signin">
-    <van-form ref="form">
+    <van-form ref="form" validate-trigger="onSubmit">
       <div class="from-item" v-if="show">
         <p>{{ $t("content.select_network") }}</p>
         <van-field
@@ -60,7 +60,6 @@
 import { login } from "@/api/pagesApi/login";
 export default {
   name: "logIn",
-  props: {},
   data() {
     return {
       show: true,
@@ -88,6 +87,16 @@ export default {
     }
   },
   methods: {
+    // 获取钱包，网络类型，sign
+    getWallet(data) {
+      const { oType, myaddress, sign } = data;
+      if (oType && myaddress && sign) {
+        this.form.otype = oType;
+        this.form.walletAddress = myaddress;
+        this.form.sign = sign;
+        this.show = true;
+      }
+    },
     // 去注册
     handleBtn() {
       this.$emit("btnNum", 2);

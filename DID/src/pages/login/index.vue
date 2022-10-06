@@ -19,7 +19,7 @@
           {{ $t("menu.signin") }}
         </button>
       </div>
-      <LogIn v-if="btn == 1" @btnNum="getBtnNum" />
+      <LogIn v-if="btn == 1" @btnNum="getBtnNum" ref="login" />
       <SignIn v-else @btnNum="getBtnNum" />
     </div>
   </div>
@@ -28,6 +28,7 @@
 <script>
 import LogIn from "./logIn";
 import SignIn from "./signIn";
+import { loadweb3 } from "@/utils/web3";
 
 export default {
   name: "login",
@@ -44,6 +45,14 @@ export default {
   mounted() {
     // 获取动态高度
     this.height = document.body.scrollHeight - 152;
+    loadweb3(() => {
+      const dom = this.$refs.login ;
+      dom.getWallet({
+        myaddress: localStorage.getItem("myaddress"),
+        oType: localStorage.getItem("netType"),
+        sign: localStorage.getItem("mysign"),
+      });
+    });
   },
   methods: {
     getBtnNum(e) {
