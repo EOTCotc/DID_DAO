@@ -7,25 +7,25 @@
       <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
         <div v-if="personageArr.length > 0">
           <van-row class="title">
-            <van-col span="7">收益数量</van-col>
+            <van-col span="8">收益数量</van-col>
             <van-col span="7">收益来源</van-col>
-            <van-col span="10">收益时间</van-col>
+            <van-col span="8">收益时间</van-col>
           </van-row>
           <van-row v-for="(item, index) in personageArr" :key="index">
-            <van-col span="7">{{ item.eotc }}</van-col>
+            <van-col span="8">{{ item.eotc }} EOTC</van-col>
             <van-col span="7">
               <span v-if="item.type == 0">处理工单</span>
               <span v-if="item.type == 1">处理仲裁</span>
               <span v-if="item.type == 2">处理审核</span>
             </van-col>
-            <van-col span="10">{{ item.createDate }}</van-col>
+            <van-col span="8">{{ item.createDate }}</van-col>
           </van-row>
           <van-list
             class="list_wrap"
             v-show="!!personageArr.length"
             v-model="list.UpRefreshLoading"
             :finished="!!personageArr.length && list.finished"
-            finished-text="没有更多了"
+            finished-text="没有更多记录了"
             @load="handleUpRefresh"
           />
         </div>
@@ -86,6 +86,11 @@ export default {
         itemsPerPage: this.list.query.itemsPerPage,
       })
         .then((res) => {
+          res.data.items.map((item) => {
+            item.createDate = this.$dayjs(item.createDate).format(
+              "YYYY.MM.DD hh:mm"
+            );
+          });
           if (this.list.query.page === 1) {
             this.personageArr = res.data.items;
           } else {
@@ -110,7 +115,6 @@ export default {
 }
 .title {
   background: #f3f4f5;
-  text-align: center;
   line-height: 48px;
 }
 .box {

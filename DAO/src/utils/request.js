@@ -2,12 +2,8 @@ import axios from "axios";
 import Vue from "vue";
 import $router from "../router";
 
-export const domain = "192.168.2.110:5556";
-
-//export const baseUrl = `https://${domain}/Upload/`;
-
 const request = axios.create({
-  baseURL: `http://${domain}/`,
+  baseURL: process.env.VUE_APP_LOCATION,
 });
 
 //请求拦截器

@@ -1,5 +1,7 @@
+import dayjs from 'dayjs'
+
 // 0 0 0 trx
-function initFormData(data) {
+function initFormData (data) {
   const formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
     formData.append(key, value);
@@ -24,7 +26,7 @@ export const paytype = (value) => {
   }
 };
 
-export function copy(text) {
+export function copy (text) {
   const input = document.createElement("input");
   input.style.position = "absolute";
   input.style.zIndex = -1;
@@ -41,18 +43,15 @@ export function copy(text) {
   document.body.removeChild(input);
 }
 // 日期格式转换
-export function transformUTCDate(str) {
-  const date = new Date(str);
-  return `${date.getUTCFullYear()}-${
-    date.getUTCMonth() + 1
-  }-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`;
+export function transformUTCDate (str) {
+  return dayjs(str).format('YYYY-MM-DD HH-mm:ss')
 }
 // 浏览远程图片
-export function spliceSrc(src) {
+export function spliceSrc (src) {
   return `${process.env.VUE_APP_LOCATION}${src}`;
 }
 // 获取审核步骤
-export function getAuditStep(step) {
-  const arr = ["初审", "二审", "抽审", "Dao"];
-  return arr[step];
+export function getAuditStep (step) {
+  const arr = ['初审', '二审', '抽审']
+  return arr[step]
 }

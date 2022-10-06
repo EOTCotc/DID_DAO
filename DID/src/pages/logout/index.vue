@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">{{$t('logout.logout')}}</span>
+        <span class="title">{{ $t("logout.logout") }}</span>
       </template>
     </van-nav-bar>
 
@@ -21,16 +21,16 @@
       <div class="user">
         <img src="@/assets/imgs/zhuxiao.png" />
         <div>
-          {{$t('logout.write_off')}}<span>{{ mail }}</span>
+          {{ $t("logout.write_off") }}<span>{{ mail }}</span>
         </div>
-        <p>{{$t('logout.bind_account')}}</p>
+        <p>{{ $t("logout.bind_account") }}</p>
       </div>
       <!-- 步骤 -->
       <div class="step-box">
-        <van-steps :active="getStepNum">
+        <van-steps :active="getStepNum" active-color="#FC7542">
           <!-- 确定信息 -->
           <van-step>
-            <span class="step-tit">{{$t('logout.conf_info')}}</span>
+            <span class="step-tit">{{ $t("logout.conf_info") }}</span>
             <!-- 未激活 -->
             <template #inactive-icon>
               <div class="step-icon inactive">1</div>
@@ -46,7 +46,7 @@
           </van-step>
           <!-- 重要提醒 -->
           <van-step>
-            <span class="step-tit">{{$t('logout.imp_reminder')}}</span>
+            <span class="step-tit">{{ $t("logout.imp_reminder") }}</span>
             <!-- 未激活 -->
             <template #inactive-icon>
               <div class="step-icon inactive">2</div>
@@ -62,7 +62,7 @@
           </van-step>
           <!-- 注销原因 -->
           <van-step>
-            <span class="step-tit">{{$t('logout.cause')}}</span>
+            <span class="step-tit">{{ $t("logout.cause") }}</span>
             <!-- 未激活 -->
             <template #inactive-icon>
               <div class="step-icon inactive">3</div>
@@ -140,6 +140,9 @@ export default {
   // 步骤
   :deep(.van-steps) {
     border-radius: 10px;
+  }
+  :deep(.van-step__title--active) {
+    color: #333;
   }
   .step-box {
     height: 147px;

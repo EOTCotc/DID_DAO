@@ -39,10 +39,12 @@
                  :image="require('./../../assets/img/empty.png')"
                  description="暂无任何数据" />
 
-      <van-popup v-model="show"
-                 position="right"
-                 :style="{ height: '730px', width: '70%' }">
-        <div>筛选时间</div>
+      <van-popup
+        v-model="show"
+        position="right"
+        :style="{ height: '730px', width: '80%' }"
+      >
+        <div style="padding: 20px 0 0 20px">筛选时间</div>
         <div class="tag">
           <div v-for="(ite, index) in tags"
                :key="index"
@@ -60,36 +62,36 @@
         </div>
 
         <div class="btn">
-          <van-button round
-                      type="default"
-                      @click="chongzhi()">重置</van-button>
-          <van-button round
-                      type="info"
-                      @click="que">确定</van-button>
+          <van-button round type="default" @click="chongzhi()">重置</van-button>
+          <van-button round type="info" @click="que" :disabled="disabled"
+            >确定</van-button
+          >
         </div>
       </van-popup>
-      <van-calendar title="日期选择"
-                    v-model="showDate"
-                    :show-subtitle="true"
-                    type="range"
-                    @confirm="onConfirm" />
+      <van-calendar
+        title="日期选择"
+        v-model="showDate"
+        :show-subtitle="true"
+        type="range"
+        color="#227AEE"
+        @confirm="onConfirm"
+      />
     </main>
     <footer></footer>
   </div>
 </template>
 
 <script>
-import White from '../../components/Nav/white.vue'
-import { getdestruction } from '@/api/Destruction'
-// import { Toast } from "vant";
-import Clipboard from 'clipboard'
+import White from "../../components/Nav/white.vue";
+import { getdestruction } from "@/api/Destruction";
+import Clipboard from "clipboard";
 export default {
   components: { White },
   data() {
     return {
-      title: '销毁查询',
-
-      value: '',
+      title: "销毁查询",
+      disabled: true,
+      value: "",
       show: false,
       showDate: false,
       timer: null, //防抖的定时器
@@ -127,22 +129,23 @@ export default {
       }
     },
     chongzhi() {
-      this.end = ''
-      this.start = ''
-      this.active = 0
-      this.inquiry()
+      this.end = "";
+      this.start = "";
+      this.active = 0;
+      this.disabled = true;
+      this.inquiry();
     },
     //复制
     copy() {
-      let clipboard = new Clipboard('#destId')
-      clipboard.on('success', (e) => {
-        this.$toast.success('复制成功')
-        clipboard.destroy()
-      })
-      clipboard.on('error', (e) => {
-        this.$toast.fail('复制失败')
-        clipboard.destroy()
-      })
+      let clipboard = new Clipboard("#destId");
+      clipboard.on("success", (e) => {
+        this.$toast.success("复制成功");
+        clipboard.destroy();
+      });
+      clipboard.on("error", (e) => {
+        this.$toast.fail("复制失败");
+        clipboard.destroy();
+      });
     },
 
     //搜索框
@@ -164,10 +167,11 @@ export default {
       )}-${('0' + (date.getDate() + 1)).slice(-2)}`
     },
     onConfirm(date) {
-      const [start, end] = date
-      this.showDate = false
-      this.start = this.formatDate(start)
-      this.end = this.formatDate(end)
+      const [start, end] = date;
+      this.showDate = false;
+      this.start = this.formatDate(start);
+      this.end = this.formatDate(end);
+      this.disabled = false;
     },
     //分类标签
     changeZi(index) {
@@ -239,8 +243,8 @@ export default {
 .van-popup {
   width: 100%;
   height: 320px;
-  padding: 16px;
   color: #000;
+  box-sizing: border-box;
   font-size: 20px;
 }
 .tag {
@@ -250,12 +254,12 @@ export default {
   margin: 20px 0;
 }
 .tag div {
-  width: 110px;
+  width: 140px;
   display: inline-block;
   text-align: center;
-  padding: 8px 15px;
+  padding: 15px 25px;
   margin: 16px 20px 0;
-  border-radius: 16px;
+  border-radius: 25px;
 }
 .noActive {
   border: 1px solid #f3f4f5;
@@ -274,10 +278,13 @@ export default {
 .btn {
   position: fixed;
   bottom: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
   .van-button:first-child {
     width: 96px;
-    margin-left: 16px;
-    margin-right: 19.2px;
+    /* margin-left: 16px;
+    margin-right: 19.2px; */
   }
   .van-button:last-child {
     width: 136px;

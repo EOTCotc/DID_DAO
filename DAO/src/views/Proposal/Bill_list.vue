@@ -1,10 +1,10 @@
 <template>
-  <div class="meun">
+  <div class="fullscreen bg-gray">
     <header class="me">
       <white :title="title"></white>
     </header>
-    <main>
-      <div class="box">
+    <main class="box">
+      <div>
         <div class="one_an"
              @click="detail(item.proposalId, item.state)"
              v-for="(item, index) in List"
@@ -137,15 +137,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.meun {
-  height: 100vh;
-  background: #f3f4f5;
-  position: relative;
-}
 .box {
   background: #fff;
-  height: 94.5vh;
+  height: 100vh;
   border-radius: 8px;
+  margin-top: 20px;
 }
 .one_an {
   color: #000;

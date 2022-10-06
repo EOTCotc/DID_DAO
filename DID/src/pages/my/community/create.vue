@@ -89,7 +89,7 @@
             addressName: "",
             name: "",
             comName: "",
-            address: " ",
+            address: "",
             phone: "",
             hasOffice: "",
             hasGroup: "",
@@ -103,7 +103,9 @@
     },
     computed: {
       submitDisable() {
-        return !!Object.values(this.form.data).includes("")
+        const data = {...this.form.data}
+        delete data.address
+        return !!Object.values(data).includes("")
       }
     },
     methods: {
@@ -147,15 +149,27 @@
             if (action === "confirm") {
               this.form.data.addressName += this.form.data.address
               create(this.form.data).then(res => {
-                done()
-                if (!!res.data.code) {
+                if (res.data.code) {
                   this.$toast.fail({
                     forbidClick: true,
-                    message: "创建失败"
+                    message: res.data.message
                   })
                 } else {
-                  this.$router.replace('/my/community/create/success')
+                  this.$toast.success({
+                    forbidClick: true,
+                    message: "创建成功",
+                    onClose: () => {
+                      this.$router.replace('/my/community/create/success')
+                    }
+                  })
                 }
+              }).catch(() => {
+                this.$toast.fail({
+                  forbidClick: true,
+                  message: "创建失败"
+                })
+              }).finally(() => {
+                done()
               })
             } else {
               done()
@@ -169,7 +183,6 @@
       if(!!formStr) {
         Object.assign(this.form.data, JSON.parse(formStr))
       }
-      console.log(this.$route.params)
       if (!!this.$route.params.code) {
         let country = null
         if (!!this.cookie.get('country')) {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <TopBar />
+
     <div class="content">
       <img class="home-logo"
            src="@/assets/imgs/home_logo.png"
@@ -79,12 +80,21 @@
         </div>
       </van-popup>
     </div>
+    <div class="filed"
+         v-show="tanShow == true"
+         @click="Remove_risk">
+      <van-image width="30"
+                 height="30"
+                 style="margin-right: 5px"
+                 :src="require('../../assets/img/jin.png')" />
+      <span>解除风控</span>
+    </div>
     <Notification ref="notification"
-                  buttonColor="#F65F5F"
-                  :title="$t('notification.risk.title')"
-                  :message="$t('notification.risk.message')"
+                  title="系统检测您的账号存在异常"
+                  message="暂无法使用该系统，请根据提示解除风控"
                   :headerIcon="require('../../assets/img/jin.png')"
-                  :buttonText="$t('notification.risk.btn')"
+                  buttonColor="#F65F5F"
+                  buttonText="解除风控"
                   :closeOnClick="true"
                   @buttonClick="buttonClick" />
   </div>
@@ -134,7 +144,6 @@ export default {
     },
     buttonClick() {
       this.tanShow = true
-      this.$router.push('/relieve')
     },
     // 获取最新的十个提案
     getProposal() {
@@ -143,6 +152,10 @@ export default {
           this.proposalList = res.data.items
         }
       })
+    },
+    //跳转到解除风控
+    Remove_risk() {
+      this.$router.push('/relieve')
     },
     // 选择语言
     handleTabLang() {
