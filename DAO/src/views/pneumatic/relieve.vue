@@ -112,7 +112,7 @@ export default {
 }
 .section {
   .van-cell-group {
-    margin-top: 16px;
+    margin-top: 20px;
     .van-field {
       .phone ::v-deep .van-field__control {
         color: #237ff8 !important;

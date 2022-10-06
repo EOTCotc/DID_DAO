@@ -49,7 +49,7 @@
             <van-empty
               v-show="!pengList.length"
               class="custom-image"
-              :image="require('./../../assets/img/empty.png')"
+              :image="require('./../../assets/img/空态-02.png')"
               description="暂无任何数据"
             />
           </van-tab>
@@ -95,7 +95,7 @@
             <van-empty
               v-show="!pengList.length"
               class="custom-image"
-              :image="require('./../../assets/img/empty.png')"
+              :image="require('./../../assets/img/空态-02.png')"
               description="暂无任何数据"
             />
           </van-tab>
@@ -129,7 +129,7 @@
             <van-empty
               v-show="!pengList.length"
               class="custom-image"
-              :image="require('./../../assets/img/empty.png')"
+              :image="require('./../../assets/img/空态-02.png')"
               description="暂无任何数据"
             />
           </van-tab>
@@ -227,7 +227,9 @@ export default {
       })
         .then((res) => {
           res.data.items.map((item) => {
-            item.createDate = this.$dayjs(item.createDate).format("YYYY-MM-DD");
+            item.createDate = this.$dayjs(item.createDate).format(
+              "YYYY-MM-DD hh:mm:ss"
+            );
           });
           if (this.list.query.page === 1) {
             this.pengList = res.data.items;
@@ -350,5 +352,8 @@ export default {
 }
 .home ::v-deep .van-dialog__message--has-title {
   color: #f37a4c !important;
+}
+.custom-image {
+  margin-top: 25%;
 }
 </style>

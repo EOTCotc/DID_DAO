@@ -45,6 +45,9 @@ export default {
       items: localStorage.getItem("items"),
     };
   },
+  created() {
+    console.log(this.items);
+  },
   methods: {
     onClickLeft() {
       history.go(-1);
@@ -74,7 +77,7 @@ export default {
 
 .section {
   height: 100vh;
-  margin-top: 30px;
+  margin-top: 20px;
   padding: 16px;
   background: #fff;
   .title {

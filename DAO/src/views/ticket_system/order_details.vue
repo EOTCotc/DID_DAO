@@ -27,7 +27,13 @@
         <van-cell :title="order.describe" />
       </van-cell-group>
       <van-cell-group inset class="tu">
-        <van-image width="60" height="60" v-for="item,index in order.images" :key="index" :src="spliceSrc(item)" />
+        <van-image
+          width="60"
+          height="60"
+          v-for="(item, index) in order.images"
+          :key="index"
+          :src="spliceSrc(item)"
+        />
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 1">
         <van-cell title="处理记录" style="color: #999" :border="false" />
@@ -85,7 +91,7 @@ export default {
     this.workOrderId = this.$route.query.workOrderId;
     getworkorder({ workOrderId: this.workOrderId }).then((res) => {
       res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
-        "YYYY-MM-DD"
+        "YYYY-MM-DD hh:mm:ss"
       );
       res.data.items.images = res.data.items.images.split(",");
       this.order = res.data.items;
