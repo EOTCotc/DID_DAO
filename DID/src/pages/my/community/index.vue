@@ -35,7 +35,11 @@
 <script>
 import pageHeader from "@/components/topBar/pageHeader.vue"
 import defaultImg from "@/assets/imgs/community_default.png"
-import {search, allowCreateCommunity} from "@/api/pagesApi/community";
+import {
+  search,
+  allowCreateCommunity,
+  getUserEotc
+} from '@/api/pagesApi/community';
 import {copy} from "@/utils/utils";
 
 export default {
@@ -45,6 +49,7 @@ export default {
     return {
       loading: false,
       status: 0,
+      eotc: 0,
       community: {},
       communityStatus: {},
       defaultImg, // 默认简介图片
@@ -80,9 +85,16 @@ export default {
       }).finally(() => {
         this.$toast.clear()
       })
+      getUserEotc().then(res => {
+        this.eotc = res.data.items
+      })
     },
     applyCreateCommunity() {
+<<<<<<< HEAD
       if (this.communityStatus.giftEotc < 5000) {
+=======
+      if (this.eotc < 5000) {
+>>>>>>> 8604f580313be47121337487c4f15232c299199b
         this.$router.push('/my/community/create')
       } else {
         this.$toast({

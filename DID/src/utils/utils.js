@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 // 0 0 0 trx
 function initFormData(data) {
   const formData = new FormData()
@@ -43,8 +45,7 @@ export function copy(text) {
 }
 // 日期格式转换
 export function transformUTCDate(str) {
-  const date = new Date(str)
-  return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`
+  return dayjs(str).format('YYYY-MM-DD HH-mm:ss')
 }
 // 浏览远程图片
 export function spliceSrc(src) {
@@ -52,6 +53,6 @@ export function spliceSrc(src) {
 }
 // 获取审核步骤
 export function getAuditStep(step) {
-  const arr = ['初审', '二审', '抽审', 'Dao']
+  const arr = ['初审', '二审', '抽审']
   return arr[step]
 }

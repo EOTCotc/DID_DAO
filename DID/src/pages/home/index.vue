@@ -19,25 +19,31 @@
       <!-- 认证按钮 -->
       <div
         class="btn"
-        @click="toInformation"
-        :style="
-          userInfo.authType == 2
-            ? 'background:#102E59;border:2px solid #237FF8;'
-            : ''
-        "
+        :style="userInfo.authType == 2 ? 'background:#102E59;border:2px solid #237FF8;' : '' "
       >
-        <div class="btn-box" v-if="userInfo.authType == 2">
-          <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-          <span>{{ $t("home.authenticated") }}</span>
-        </div>
-        <div class="btn-box" v-else>
-          <span>{{ $t("home.start_attestation") }}</span>
-          <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+        <div class="btn-box" @click='identifyRouter'>
+          <template v-if='userInfo.authType === 0'>
+            <span>开始认证</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
+          <template v-else-if='userInfo.authType === 1'>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>认证中</span>
+          </template>
+          <template v-else-if='userInfo.authType === 2'>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份已认证</span>
+          </template>
+          <template v-else>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份认证失败</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
         </div>
       </div>
       <!-- 系统简介 -->
       <div class="title-summarize">
-        <span>{{ $t("home.system_introduction") }}</span>
+        <span>系统简介</span>
       </div>
       <!-- 简介 -->
       <p class="text-p">
@@ -59,7 +65,7 @@
         <span> 2022年EOTC版权所有。</span>
       </div>
       <div @click="handleTabLang">
-        <span class="tab-lang">{{ textLang }}</span>
+        <span class="tab-lang">简体中文</span>
         <van-icon :name="iconLang" />
       </div>
     </div>
@@ -70,12 +76,7 @@
       position="right"
     >
       <div class="menu">
-        <div
-          class="menu-every"
-          v-for="item in lang"
-          @click="tabLang(item)"
-          :key="item.id"
-        >
+        <div class="menu-every" v-for="item in lang" :key="item.id">
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -85,12 +86,11 @@
       <div class="wrapper" @click.stop>
         <div class="block">
           <img src="../../assets/imgs/lingdang.png" />
-          <div class="tips">
-            {{ $t("home.not_bound") }}
-          </div>
+          <div class="tips">检测到您暂无推荐关系，为了账户</div>
+          <div class="tips">安全性请前往绑定推荐关系</div>
           <div class="block-bot">
-            <div @click="showOverlay = false">{{ $t("public.cancel") }}</div>
-            <div @click="toSite">{{ $t("public.confirm") }}</div>
+            <div @click="showOverlay = false">取消</div>
+            <div @click="toSite">确定</div>
           </div>
         </div>
       </div>
@@ -106,20 +106,20 @@
       @buttonClick="() => $router.push('/risk')"
     />
     <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
-      <img src="../../assets/imgs/jin.png" alt="" class="img" />
+      <img src="../../assets/imgs/jin.png" alt="" class="img">
       <div class="text">解除风控</div>
     </div>
   </div>
 </template>
 
 <script>
-import Notification from "@/components/notification";
-import headerIcon from "@/assets/imgs/jin.png";
+import Notification from '@/components/notification'
+import headerIcon from "@/assets/imgs/jin.png"
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
 import { login } from "@/api/pagesApi/login";
 import { loadweb3 } from "@/utils/web3";
-import { risklevel } from "@/api/risk";
+import {risklevel} from '@/api/risk'
 export default {
   data() {
     return {
@@ -129,7 +129,6 @@ export default {
       showPopup2: false, //选择语言
       showOverlay: false, //遮罩层
       userInfo: "", //用户信息
-      textLang: "简体中文",
       lang: [
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
@@ -138,21 +137,60 @@ export default {
   },
   components: {
     TopBar,
-    Notification,
+    Notification
+  },
+  created() {
+    risklevel().then((res) => {
+      const {code, items: level} = res.data
+      if (code === 0) {
+        if (level === 2) {
+          this.cookie.set('riskLevel', level)
+          this.$nextTick().then(() => {
+            this.$refs.notification.toggle(true)
+          })
+        }
+      }
+    });
   },
   mounted() {
+<<<<<<< HEAD
     // 当前的语言
     if (localStorage.getItem("textLang")) {
       this.textLang = localStorage.getItem("textLang");
     }
     this.getrisklevel(); //风控等级
     this.getInfo(); //获取用户信息
+=======
+    if (this.cookie.get("token")) {
+      //有token没用户信息
+      this.getInfo();
+    } else if (!localStorage.getItem("myaddress")) {
+      //钱包地址为空
+      loadweb3(this.login);
+    } else if (!this.cookie.get("token")) {
+      //没有token
+      this.$router.replace("/login");
+    }
+>>>>>>> 8604f580313be47121337487c4f15232c299199b
   },
   methods: {
     // 关闭风险弹窗
     handleClosed() {
-      this.show = true;
+      this.show = true
     },
+    // 身份信息跳转
+    identifyRouter() {
+      if (this.userInfo.authType === 0) {
+        this.$router.push('/my/identity')
+      } else if (this.userInfo.authType === 2) {
+        this.$router.push('/my/identity/success')
+      } else if (this.userInfo.authType === 3) {
+        this.$router.push('/my/identity/fail')
+      } else {
+        console.log(this.userInfo.authType)
+      }
+    },
+<<<<<<< HEAD
     // 风控等级
     getrisklevel() {
       risklevel().then((res) => {
@@ -166,6 +204,32 @@ export default {
           }
         }
       });
+=======
+    // 根据钱包、签名、网络登录，如果不行就跳登录页
+    login() {
+      let walletAddress = localStorage.getItem("myaddress");
+      let otype = localStorage.getItem("netType");
+      let sign = localStorage.getItem("mysign");
+      let reqObj = {
+        walletAddress,
+        otype,
+        sign,
+      };
+      login(reqObj)
+        .then((res) => {
+          if (res.data.code == 0) {
+            this.cookie.set("token", res.data.items, { expires: 30 });
+            this.getInfo(); //获取用户信息
+          } else if (res.data.code == 2) {
+            this.$router.replace("/login"); //邮箱未注册
+          } else {
+            this.$router.push("/login");
+          }
+        })
+        .catch(() => {
+          this.$router.replace("/login");
+        });
+>>>>>>> 8604f580313be47121337487c4f15232c299199b
     },
     // 获取用户信息
     getInfo() {
@@ -200,19 +264,6 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
-    // 选择语言
-    tabLang(item) {
-      // localStorage.setItem("lang", item.lang);
-      // localStorage.setItem("textLang", item.text);
-      // this.$router.go(0);
-      this.showPopup2 = false;
-    },
-    // 去身份认证
-    toInformation() {
-      if (this.userInfo.refUid) {
-        this.$router.push("/my/identity");
-      }
-    },
     // 前往选择所在地
     toSite() {
       // 判断有没有选位置，有就直接调到社区
@@ -222,7 +273,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({ name: "bindCommunity" });
+          this.$router.push({name: "bindCommunity",});
         }
       });
     },
@@ -389,7 +440,7 @@ export default {
   @include posi($p: fixed, $r: 0, $b: 20%);
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: #FFF;
   padding: 20px;
   border-radius: 100px 0 0 100px;
   .img {
@@ -398,7 +449,7 @@ export default {
   }
   .text {
     flex: 1;
-    color: #f34747;
+    color: #F34747;
     margin-left: 20px;
     font-size: 28px;
   }
