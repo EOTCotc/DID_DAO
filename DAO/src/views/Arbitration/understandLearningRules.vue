@@ -96,7 +96,10 @@ export default {
       })
     },
     rulesScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight)
+      if (
+        e.target.scrollTop + e.target.clientHeight >=
+        e.target.scrollHeight - 5
+      )
         this.flag = false
     },
   },
