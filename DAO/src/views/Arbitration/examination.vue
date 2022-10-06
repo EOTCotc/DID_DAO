@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bigbox">
     <header>
       <van-nav-bar fixed
                    placeholder
@@ -403,9 +403,12 @@ export default {
           } else {
             this.count++
             this.nextDisabled = true
+            if (this.testQuestionData[this.count - 1].result.length >= 2) {
+              this.nextDisabled = false
+            }
             if (
-              this.testQuestionData[this.count - 1].result.length >= 2 ||
-              this.count == 6
+              this.count == 6 &&
+              this.testQuestionData[this.count - 1].result != ''
             ) {
               this.nextDisabled = false
             }
@@ -516,9 +519,11 @@ export default {
   height: 120px;
   background-color: #fff;
 }
-.body {
-  height: 94.5vh;
+.bigbox {
   background-color: #f3f4f5;
+  height: 100vh;
+}
+.body {
   padding: 30px;
   .main {
     background-color: #fff;
@@ -625,7 +630,7 @@ footer {
   box-sizing: border-box;
   padding: 0 30px;
   position: fixed;
-  bottom: 32px;
+  bottom: 50px;
   .van-button {
     height: 48px;
   }

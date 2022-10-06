@@ -146,15 +146,15 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   mounted() {},
   methods: {
     auditing(name) {
-      this.$router.push({ name: name });
+      this.$router.push({ name: name })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

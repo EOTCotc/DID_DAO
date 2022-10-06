@@ -7,7 +7,8 @@
       <div class="identity-card">
         <div class="card-top">
           <div class="card-top-left">
-            <img src="../../assets/img/logo_two.png" alt="" />
+            <img src="../../assets/img/logo_two.png"
+                 alt="" />
             <div>
               <div>1111111</div>
               <div>UID:1111</div>
@@ -17,8 +18,7 @@
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ total }}</span
-            ><span @click="detail">收益明细</span>
+            <span style="font-size: 28px">{{ total }}</span><span @click="detail">收益明细</span>
           </div>
         </div>
       </div>
@@ -38,36 +38,36 @@
 </template>
 
 <script>
-import TopBar from "@/components/topBar/topBar";
-import List from "../../components/Nav/List.vue";
-import { getdaoinfo, getuserinfo } from "@/api/earnings";
+import TopBar from '@/components/topBar/topBar'
+import List from '../../components/Nav/List.vue'
+import { getdaoinfo, getuserinfo } from '@/api/earnings'
 export default {
   components: { TopBar, List },
   data() {
     return {
       total: 0,
-    };
+    }
   },
   created() {
     getdaoinfo().then((res) => {
-      this.total = res.data.items.daoEOTC;
-      localStorage.setItem("items", res.data.items.daoEOTC);
-      localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
-      localStorage.setItem("isExamine", res.data.items.isExamine);
-      localStorage.setItem("authType", res.data.items.authType);
-    });
+      this.total = res.data.items.daoEOTC
+      localStorage.setItem('items', res.data.items.daoEOTC)
+      localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
+      localStorage.setItem('isExamine', res.data.items.isExamine)
+      localStorage.setItem('authType', res.data.items.authType)
+    })
   },
   methods: {
     detail() {
-      this.$router.push("/Home_detail");
+      this.$router.push('/Home_detail')
     },
     userInfo() {
       getuserinfo().then((res) => {
-        console.log(res);
-      });
+        console.log(res)
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

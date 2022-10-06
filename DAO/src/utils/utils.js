@@ -1,10 +1,10 @@
 // 0 0 0 trx
-function initFormData(data) {
-  const formData = new FormData();
+function initFormData (data) {
+  const formData = new FormData()
   for (const [key, value] of Object.entries(data)) {
-    formData.append(key, value);
+    formData.append(key, value)
   }
-  return formData;
+  return formData
 }
 
 export default {
@@ -24,7 +24,7 @@ export const paytype = (value) => {
   }
 };
 
-export function copy(text) {
+export function copy (text) {
   const input = document.createElement("input");
   input.style.position = "absolute";
   input.style.zIndex = -1;
@@ -41,23 +41,22 @@ export function copy(text) {
   document.body.removeChild(input);
 }
 // 日期格式转换
-export function transformUTCDate(str) {
+export function transformUTCDate (str) {
   const date = new Date(str);
-  return `${date.getFullYear()}-${
-    date.getMonth() + 1
-  }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  return `${date.getFullYear()}-${date.getMonth() + 1
+    }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 }
 // 浏览远程图片
-export function spliceSrc(src) {
+export function spliceSrc (src) {
   return `${process.env.VUE_APP_LOCATION}${src}`;
 }
 // 获取审核步骤
-export function getAuditStep(step) {
+export function getAuditStep (step) {
   const arr = ["初审", "二审", "抽审", "Dao"];
   return arr[step];
 }
 // 获取审核状态
-export function getAuditType(type) {
+export function getAuditType (type) {
   const arr = [
     "未审核",
     "审核通过",
@@ -69,7 +68,7 @@ export function getAuditType(type) {
   return arr.indexOf(type);
 }
 // 获取事件类型
-export function getArbitrateInType(type) {
+export function getArbitrateInType (type) {
   const arr = ["账户被冻结", "卖家未确认收款", "其他"];
   return arr[type];
 }
