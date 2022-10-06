@@ -21,11 +21,9 @@
             <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div
-            class="right"
-            @click="auditing('ArbitrationByFormula')"
-            v-if="examinequalificationPassed1 == false"
-          >
+          <div class="right"
+               @click="didNot"
+               v-if="examinequalificationPassed1 == false">
             去认证
             <van-icon name="arrow" />
           </div>
@@ -65,7 +63,7 @@
         </div>
         <div class="list listn">
           <div class="left">
-            <van-icon name="cart-circle-o" />
+            <van-icon name="sign" />
             <div class="examinationColumn">
               <span>通过考试</span
               ><span style="color: #999999; font-size: 12px; margin-top: 3px"
@@ -88,11 +86,7 @@
       </div>
     </div>
     <div v-if="displayApplicationConditions == false" class="identityCard">
-      <div
-        class="top"
-        v-for="(item, index) in ArbitratorsIdentityInformation"
-        :key="index"
-      >
+      <div class="top">
         <div>
           <div class="first">
             <van-image width="40"
@@ -100,30 +94,31 @@
                        :src="require('./IMG/组 490@2x.png')" />
             <span>审核节点</span>
           </div>
-          <div>{{ item.name }}</div>
+          <div>{{ ArbitratorsIdentityInformation.name }}</div>
         </div>
         <div>
           <div>身份编号</div>
-          <div>{{ item.number }}</div>
+          <div>{{ ArbitratorsIdentityInformation.number }}</div>
         </div>
         <div>
           <div>申请时间</div>
-          <div>{{item.createDate | dateFormat('yyyy-MM-dd-hh-mm-ss')}}</div>
-        </div>
-        <div>
-          <div>审核次数</div>
-          <div>{{item.arbitrateNum}}</div>
+          <div>
+            {{
+              ArbitratorsIdentityInformation.createDate
+                | dateFormat("yyyy-MM-dd-hh-mm-ss")
+            }}
+          </div>
         </div>
       </div>
       <div class="bottom">
         <div>
           <div>处理审核(个)</div>
-          <div>40<span>/45</span></div>
+          <div>{{ArbitratorsIdentityInformation.examineNum}}</div>
         </div>
         <div class="line"></div>
         <div>
           <div>收益(EOTC)</div>
-          <div>3000</div>
+          <div>{{ ArbitratorsIdentityInformation.eotc }}</div>
         </div>
       </div>
     </div>
@@ -202,34 +197,42 @@
         >解除身份</van-button
       >
     </footer>
+    <Notification ref="notification"
+                  title="身份认证"
+                  message="您还未身份认证，请到DID进行身份认证"
+                  :headerIcon="require('../../../assets/img/jin.png')"
+                  buttonColor="#F65F5F"
+                  buttonText="知道了"
+                  :closeOnClick="true"
+                  @buttonClick="btnClick" />
   </div>
 </template>
 <script>
 import white from '@/components/Nav/white.vue'
+import Notification from '@/components/notification.vue'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
-import { becomeAnAuditor } from '@/api/BecomeAnAuditor'
-import icon1 from './IMG/icon.png'
-import icon2 from './IMG/icon2.png'
-import icon3 from './IMG/icon3.png'
-import { Dialog } from 'vant'
+import {
+  becomeAnAuditor,
+  getUnapprovedInformation,
+  disapproveIdentity,
+} from "@/api/BecomeAnAuditor";
+import icon1 from "./IMG/icon.png";
+import icon2 from "./IMG/icon2.png";
+import icon3 from "./IMG/icon3.png";
+import { Dialog } from "vant";
 export default {
-  components: { white, notification1, notification2 },
+  components: { white, notification1, notification2, Notification },
   data() {
     return {
       title: "审核节点",
-      ArbitratorsIdentityInformation: [
-        {
-          name: "李木子",
-          number: "012022052601",
-          createDate: "2022-09-28T08:03:49.797Z",
-          arbitrateNum: 0,
-        },
-      ],
+      isExamine: +localStorage.getItem("isExamine"),
+      ArbitratorsIdentityInformation: {},
       show: false,
       showFraction: false,
       applynow: false,
-      displayApplicationConditions: true,
+      authType: 0,
+      displayApplicationConditions: false,
       examinequalificationPassed: Boolean(
         localStorage.getItem("examinequalificationPassed")
       ),
@@ -260,6 +263,21 @@ export default {
     };
   },
   mounted() {
+    if (this.authType == 2) {
+      this.examinequalificationPassed1 = true
+      localStorage.setItem(
+        'examinequalificationPassed1',
+        this.examinequalificationPassed1
+      )
+    }
+    this.isExamine == 0
+      ? (this.displayApplicationConditions = true)
+      : (this.displayApplicationConditions = false);
+    if (this.isExamine == 1) {
+      getUnapprovedInformation().then((res) => {
+        this.ArbitratorsIdentityInformation = res.data.items;
+      });
+    }
     this.title1 = this.$route.params.totalScore + "";
     if (this.title1 != "undefined") {
       this.$nextTick().then(() => {
@@ -273,7 +291,7 @@ export default {
       this.examinequalificationPassed4 = true;
       localStorage.setItem("examinequalificationPassed4", true);
     } else {
-      this.title1 = this.title1 + '分'
+      this.title1 = this.title1
       this.headerIcon1 = icon2
       this.message1 = '很遗憾未通过审核节点考试'
     }
@@ -312,19 +330,28 @@ export default {
     },
   },
   methods: {
+    didNot() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(true)
+      })
+    },
     auditing(name) {
       this.$router.push({
         name: name,
       });
     },
-    buttonClick() {
-      this.ArbitratorsIdentityInformation.createDate = this.$options.filters[
-        'dateFormat'
-      ](new Date(), 'yyyy-MM-dd-hh-mm-ss')
-      becomeAnAuditor().then((res) => {
-        console.log(res)
-        this.displayApplicationConditions = false
+    btnClick() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(false)
       })
+    },
+    buttonClick() {
+      becomeAnAuditor().then((res) => {
+        getUnapprovedInformation().then((res) => {
+          this.ArbitratorsIdentityInformation = res.data.items;
+        });
+        this.displayApplicationConditions = false;
+      });
     },
     ExamTips() {
       this.show = true;
@@ -381,9 +408,9 @@ export default {
                 localStorage.getItem('examinequalificationPassed4')
               )
               this.examinequalificationPassed = Boolean(
-                localStorage.getItem('examinequalificationPassed')
-              )
-
+                localStorage.getItem("examinequalificationPassed")
+              );
+              disapproveIdentity();
               // on confirm
             })
             .catch(() => {
@@ -436,7 +463,7 @@ export default {
   .top {
     background: linear-gradient(#e9ecff, #b4b0f3);
     border-radius: 20px;
-    height: 312px;
+    height: 263px;
     div {
       display: flex;
       justify-content: space-between;
@@ -460,6 +487,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    text-align: center;
     div {
       &:nth-child(1) {
         font-size: 30px;
@@ -568,7 +596,7 @@ export default {
     text-align: center;
     p:nth-of-type(1) {
       font-size: 50px;
-      margin: 55px 0 28px 0;
+      margin: 60px 0 15px 0;
     }
     p:nth-of-type(2) {
       font-size: 27px;
@@ -579,7 +607,7 @@ export default {
     position: absolute;
     top: 0;
     left: 50%;
-    margin-top: 30px;
+    margin-top: 40px;
     transform: translateX(-50%);
     text-align: center;
     font-size: 30px;
@@ -613,16 +641,16 @@ export default {
         color: #333333;
         .van-icon {
           margin-top: 1px;
-          font-size: 24px;
+          font-size: 23px;
           font-weight: bold;
         }
         p {
-          font-size: 27px;
+          font-size: 26px;
           color: #333333;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 27px;
+          font-size: 26px;
           display: flex;
           line-height: 35px;
           flex-direction: column;

@@ -6,15 +6,6 @@ export function TerminationArbitrator () {
     method: "post",
   });
 }
-// // 获取仲裁员列表
-// export function getArbitratorList (data) {
-//   return request({
-//     url: "api/arbitrate/getarbitrators",
-//     method: "post",
-//     data,
-//   });
-// }
-
 // 成为仲裁员
 export function becomeAnArbitrator () {
   return request({
@@ -22,11 +13,10 @@ export function becomeAnArbitrator () {
     method: "post",
   });
 }
-// 获取Dao用户信息
-export function getDaoUserInformation (data) {
+// 获取仲裁员信息
+export function getarbitrator () {
   return request({
-    url: "api/daouser/getdaoinfo",
+    url: "api/arbitrate/getarbitrator",
     method: "post",
-    data,
   });
 }

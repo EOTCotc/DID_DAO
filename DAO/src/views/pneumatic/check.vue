@@ -6,23 +6,52 @@
       <van-form class="form_wrap">
         <div class="main steps_wrap">
           <div class="info_wrap step-1">
-            <van-field label="姓名" v-model="name" />
-            <van-field label="手机号" v-model="phoneNum" />
-            <van-field label="证件号" v-model="idCard" border />
+            <van-field label="姓名" v-model="user.name" />
+            <van-field label="手机号" v-model="user.phoneNum" />
+            <van-field label="证件号" v-model="user.idCard" border />
           </div>
           <div class="upload_wrap step-2">
             <div class="title">身份证</div>
 
             <div class="example_wrap">
-              <img class="img" src="../../assets/img/shen.png" alt="" />
-              <img class="img" src="../../assets/img/ju.png" alt="" />
+              <img class="img" :src="spliceSrc(user.portraitImage)" alt="" />
+              <img class="img" :src="spliceSrc(user.nationalImage)" alt="" />
             </div>
           </div>
           <div class="upload_wrap step-2">
             <div class="title">手持证件照</div>
             <div class="example_zheng">
-              <img class="img" src="../../assets/img/zheng.png" alt="" />
+              <img class="img" :src="spliceSrc(user.handHeldImage)" alt="" />
             </div>
+          </div>
+          <div
+            class="upload_wrap step-2"
+            v-show="authStatus == 0 || authStatus == 1"
+          >
+            <div class="title">
+              核对记录<span>(对方真实手持证件照及核对部分过程)</span>
+            </div>
+            <div class="example_zheng">
+              <van-uploader
+                multiple
+                :max-count="3"
+                v-model="fileList"
+                :after-read="afterRead"
+                :max-size="500 * 1024"
+              />
+            </div>
+          </div>
+          <div v-show="authStatus == 2" class="upload_wrap step-2">
+            <div class="title">
+              核对记录<span>(对方真实手持证件照及核对部分过程)</span>
+            </div>
+            <van-image
+              width="60"
+              height="60"
+              v-for="(item, index) in user.image"
+              :key="index"
+              :src="spliceSrc(item)"
+            />
           </div>
         </div>
         <div class="btns" v-show="authStatus == 0">
@@ -38,7 +67,7 @@
             >身份核对成功</van-button
           >
         </div>
-        <div class="btns" v-show="authStatus == 2">
+        <div class="btns" v-show="authStatus == 2 && remedyMax == true">
           <van-button
             round
             size="small"
@@ -50,6 +79,12 @@
             >解除异常</van-button
           >
         </div>
+        <div class="btns" v-show="remedyShow == true">
+          <van-button round color="#E8F2FF" class="frist">取消解除</van-button>
+          <van-button round size="small" color="#237FF8" @click="subRemedy()"
+            >确定解除</van-button
+          >
+        </div>
       </van-form>
     </div>
     <!--  图片预览  -->
@@ -59,7 +94,8 @@
 
 <script>
 import White from "@/components/Nav/white.vue";
-import { getuserinfo, userriskstatus } from "@/api/pneumatic";
+import { spliceSrc } from "@/utils/utils";
+import { getuserinfo, userriskstatus, uploadimage } from "@/api/pneumatic";
 import { Dialog } from "vant";
 import { Toast } from "vant";
 export default {
@@ -68,6 +104,7 @@ export default {
   },
   data() {
     return {
+      fileList: [],
       title: "核对身份信息",
       name: "吴敏",
       phoneNum: "1344569****",
@@ -80,6 +117,9 @@ export default {
         show: false,
         images: [],
       },
+      imagesArr: [],
+      remedyShow: false,
+      remedyMax: true,
     };
   },
   created() {
@@ -90,6 +130,30 @@ export default {
   },
   mounted() {},
   methods: {
+    spliceSrc,
+    afterRead(fileObj) {
+      // 声明form表单数据
+      const formData = new FormData();
+      // 添加文件信息
+      formData.append("file", fileObj.file);
+      uploadimage(formData).then((res) => {
+        console.log(res);
+        this.imagesArr.push(res.data.message);
+      });
+      console.log(this.imagesArr);
+    },
+    //确定解除
+    subRemedy() {
+      userriskstatus({
+        userRiskId: this.id,
+        authStatus: 1,
+      }).then((res) => {
+        console.log(res);
+        if (res.status == 200) {
+          history.go(-1);
+        }
+      });
+    },
     // 预览图片
     preview(src) {
       this.imgPreview.show = true;
@@ -99,6 +163,8 @@ export default {
       getuserinfo({
         userRiskId: this.id,
       }).then((res) => {
+        res.data.items.image = res.data.items.image.split(",");
+
         console.log(res);
         this.user = res.data.items;
       });
@@ -115,6 +181,7 @@ export default {
           userriskstatus({
             userRiskId: this.id,
             authStatus: 2,
+            images: this.imagesArr.join(","),
           }).then((res) => {
             console.log(res);
             if (res.status == 200) {
@@ -137,6 +204,7 @@ export default {
           userriskstatus({
             userRiskId: this.id,
             authStatus: 1,
+            images: this.imagesArr.join(","),
           }).then((res) => {
             console.log(res);
             if (res.status == 200) {
@@ -159,15 +227,8 @@ export default {
         getContainer: ".meun",
       })
         .then(() => {
-          userriskstatus({
-            userRiskId: this.id,
-            authStatus: 1,
-          }).then((res) => {
-            console.log(res);
-            if (res.status == 200) {
-              history.go(-1);
-            }
-          });
+          this.remedyMax = false;
+          this.remedyShow = true;
         })
         .catch(() => {});
     },
@@ -178,6 +239,10 @@ export default {
 .meun {
   background: #f3f4f5;
 }
+.contatiner {
+  padding-top: 15px;
+}
+
 .form_wrap {
   margin-top: 16px;
   background: #fff;

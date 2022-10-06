@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">账号注销</span>
+        <span class="title">{{$t('logout.logout')}}</span>
       </template>
     </van-nav-bar>
     <!-- 内容 -->
@@ -19,12 +19,12 @@
       <img src="../../assets/imgs/zhuxiao2.png" />
       <div class="info">
         <p>{{ email }}</p>
-        <p>账号注销期</p>
+        <p>{{$t('logout.title')}}</p>
       </div>
       <div class="countdown">
-        {{ `${hours}:${minute}:${second}` }}<span>后完成注销</span>
+        {{ `${hours}:${minute}:${second}` }}<span>{{$t('logout.count_down')}}</span>
       </div>
-      <button @click="waiveLogout">放弃注销</button>
+      <button @click="waiveLogout">{{$t('logout.waive')}}</button>
     </div>
   </div>
 </template>

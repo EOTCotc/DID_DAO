@@ -5,73 +5,105 @@
     </header>
     <main>
       <div class="box">
-        <div class="one_an"
-             @click="detail(item.proposalId)"
-             v-for="(item, index) in List"
-             :key="index">
+        <div
+          class="one_an"
+          @click="detail(item.proposalId, item.state)"
+          v-for="(item, index) in List"
+          :key="index"
+        >
           <div>{{ item.title }}</div>
           <div class="piao">
             <span>{{ item.total }}票</span>
-            <span v-if="item.state == 0"
-              ><div class="ion"></div>
-              进行中</span
-            >
-            <span v-if="item.state == 1"
-              ><div class="ion two"></div>
-              未通过</span
-            >
-            <span v-if="item.state == 2"
-              ><div class="ion three"></div>
-              已通过</span
-            >
-            <span v-if="item.state == 3"
-              ><div class="ion fhire"></div>
-              已终止</span
-            >
+            <span v-if="item.state == 0">
+              <div class="ion"></div>
+              进行中
+            </span>
+            <span v-if="item.state == 1">
+              <div class="ion two"></div>
+              未通过
+            </span>
+            <span v-if="item.state == 2">
+              <div class="ion three"></div>
+              已通过
+            </span>
+            <span v-if="item.state == 3">
+              <div class="ion fhire"></div>
+              已终止
+            </span>
           </div>
         </div>
+        <van-empty
+          v-show="!List.length"
+          class="custom-image"
+          :image="require('../../assets/img/empty.png')"
+          description="暂无任何数据"
+        />
       </div>
     </main>
     <footer>
-      <van-button icon="plus"
-                  block
-                  type="info"
-                  @click="createAn">创建提案</van-button>
+      <van-button icon="plus" block type="info" @click="createAn"
+        >创建提案</van-button
+      >
     </footer>
   </div>
 </template>
 
 <script>
-import white from '@/components/Nav/white.vue'
-import { getmyprops } from '@/api/Proposal'
+import white from "@/components/Nav/white.vue";
+import { getmyprops } from "@/api/Proposal";
 export default {
   components: { white },
-  name: 'home',
+  name: "home",
   data() {
     return {
-      title: '我的提案',
+      title: "我的提案",
       List: [],
-    }
+    };
   },
   created() {
-    getmyprops().then((res) => {
-      this.List = res.data.items.map((item) => {
-        item.total =
-          Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-          Number(localStorage.getItem(`opposeVotes+${item.proposalId}`))
-        return item
+    const loading = this.$toast.loading({
+      forbidClick: true,
+      message: "加载中…",
+    });
+    getmyprops()
+      .then((res) => {
+        const { code, items } = res.data;
+        if (code) {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！",
+          });
+        } else {
+          this.List = items.map((item) => {
+            item.total =
+              Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
+              Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
+            return item;
+          });
+        }
       })
-    })
+      .catch(() => {
+        this.$toast.fail({
+          forbidClick: true,
+          message: "加载失败！",
+        });
+      })
+      .finally(() => {
+        loading.clear();
+      });
   },
   methods: {
     createAn() {
-      this.$router.push('/Create')
+      this.$router.push("/Create");
     },
-    detail(id) {
-      this.$router.push({ path: '/detail', query: { proposalId: id } })
+    detail(id, state) {
+      this.$router.push({
+        path: "/detail",
+        query: { proposalId: id, state: state },
+      });
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .meun {
@@ -81,7 +113,7 @@ export default {
 }
 .box {
   background: #fff;
-  height: 100vh;
+  height: 92.7vh;
   border-radius: 8px;
 }
 .one_an {

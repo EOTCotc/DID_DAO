@@ -3,7 +3,7 @@
     <page-header title="审核" />
     <div class="content">
       <div class="main">
-        <van-cell title="审核节点身份"
+        <van-cell :title="title"
                   title-class="row-title"
                   is-link
                   to="/user/approval/auditNode/applicationConditions" />
@@ -25,10 +25,21 @@
 </template>
 
 <script>
-import PageHeader from '@/components/topBar/pageHeader'
+import PageHeader from "@/components/topBar/pageHeader";
 export default {
-  name: "approval",
+  name: 'approval',
   components: { PageHeader },
+  data() {
+    return {
+      isExamine: +localStorage.getItem('isExamine'),
+      title: '',
+    }
+  },
+  mounted() {
+    this.isExamine == 0
+      ? (this.title = '成为审核节点')
+      : (this.title = '审核节点身份')
+  },
 }
 </script>
 

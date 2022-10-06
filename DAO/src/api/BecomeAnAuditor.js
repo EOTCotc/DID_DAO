@@ -6,3 +6,17 @@ export function becomeAnAuditor () {
     method: "post",
   });
 }
+//获取审核员信息
+export function getUnapprovedInformation () {
+  return request({
+    url: "api/daouser/getauditor",
+    method: "post",
+  });
+}
+//解除审核身份
+export function disapproveIdentity () {
+  return request({
+    url: "api/daouser/relieveauditor",
+    method: "post",
+  });
+}

@@ -5,7 +5,7 @@
         <van-icon @click="toBack" name="arrow-left" color="#000" size="18" />
       </template>
       <template #title>
-        <span class="title">我的推荐人</span>
+        <span class="title">{{ $t("setup.my_referrer") }}</span>
       </template>
     </van-nav-bar>
 
@@ -15,12 +15,18 @@
       <div class="ad-img">
         <img src="../../assets/imgs/yaoqingma.png" alt="" />
       </div>
-      <div class="code-title">填写邀请码</div>
+      <div class="code-title">{{ $t("setup.code") }}</div>
       <div class="ipt">
-        <input type="text" v-model="refUserId" placeholder="请输入邀请码" />
+        <input
+          type="text"
+          v-model="refUserId"
+          :placeholder="$t('setup.input_code')"
+        />
       </div>
-      <div class="confirm" @click="confirm">确定</div>
-      <div class="link" @click="getRefUserId">获取邀请码，绑定推荐关系</div>
+      <div class="confirm" @click="confirm">{{ $t("public.confirm") }}</div>
+      <div class="link" @click="getRefUserId">
+        {{ $t("setup.get_code") }}
+      </div>
     </div>
   </div>
 </template>

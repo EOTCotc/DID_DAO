@@ -16,22 +16,59 @@
           to="/user/arbitration/publicity/case"
         />
         <van-cell
-          title="成为仲裁员"
+          :title="title"
           title-class="row-title"
           is-link
           to="/user/meetTheConditions"
         />
-        <van-cell title="仲裁案件" title-class="row-title" is-link to="/user/arbitration/case" />
-        <van-cell title="仲裁消息" title-class="row-title" is-link to="/arbitrationList" />
+        <van-cell
+          title="仲裁案件"
+          title-class="row-title"
+          is-link
+          to="/user/arbitration/case"
+        />
+        <div class="msg">
+          <van-cell
+            title="仲裁消息"
+            title-class="row-title"
+            is-link
+            to="/arbitrationList"
+          />
+          <div class="dot" v-show="isDot"></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import PageHeader from "@/components/topBar/pageHeader";
+import { getmessageisopen } from "@/api/viewsApi/Arbitration.js";
 export default {
   name: "arbitration",
   components: { PageHeader },
+  data() {
+    return {
+      isArbitrate: +localStorage.getItem("isArbitrate"),
+      title: "",
+      isDot:false,
+    };
+  },
+  mounted() {
+    this.isArbitrate == 0
+      ? (this.title = "成为仲裁员")
+      : (this.title = "仲裁员身份");
+    this.getmessageisopen();
+  },
+  methods: {
+    // 获取仲裁员是否有未读消息
+    getmessageisopen() {
+      getmessageisopen().then((res) => {
+        if (res.data.code == 0) {
+          this.isDot=res.data.items
+        }
+      });
+    },
+  },
 };
 </script>
 
@@ -51,6 +88,18 @@ export default {
         line-height: 35px;
       }
     }
+  }
+}
+.msg {
+  position: relative;
+  .dot {
+    position: absolute;
+    top: 28px;
+    left: 150px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #e52a2a;
   }
 }
 </style>
