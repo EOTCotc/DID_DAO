@@ -31,6 +31,7 @@
                 size="small"
                 :color="emailBtnColor"
                 type="primary"
+                native-type='button'
                 @click="handleCode"
               >
                 <span v-show="showCode" style="font-size: 12px"
@@ -149,18 +150,25 @@ export default {
           req.newPassWord = this.$md5(req.newPassWord);
           changepwd(req).then((res) => {
             if (res.data.code == 0) {
-              this.$toast.success("修改成功");
+              this.$toast.success({
+                message: "修改成功",
+                forbidClick: true,
+                onClose: () => this.$router.replace("/login")
+              });
               this.cookie.remove("token");
-              setTimeout(() => {
-                this.$router.push("/login");
-              }, 500);
             } else {
-              this.$toast.fail("修改失败");
+              this.$toast.fail({
+                message: "修改失败",
+                forbidClick: true
+              });
             }
           });
         })
         .catch(() => {
-          this.$toast.fail("修改失败");
+          this.$toast.fail({
+            message: "修改失败",
+            forbidClick: true
+          });
         });
     },
   },

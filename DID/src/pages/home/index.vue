@@ -19,20 +19,26 @@
       <!-- 认证按钮 -->
       <div
         class="btn"
-        @click="toInformation"
-        :style="
-          userInfo.authType == 2
-            ? 'background:#102E59;border:2px solid #237FF8;'
-            : ''
-        "
+        :style="userInfo.authType == 2 ? 'background:#102E59;border:2px solid #237FF8;' : '' "
       >
-        <div class="btn-box" v-if="userInfo.authType == 2">
-          <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-          <span>身份已认证</span>
-        </div>
-        <div class="btn-box" v-else>
-          <span>开始认证</span>
-          <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+        <div class="btn-box" @click='identifyRouter'>
+          <template v-if='userInfo.authType === 0'>
+            <span>开始认证</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
+          <template v-else-if='userInfo.authType === 1'>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>认证中</span>
+          </template>
+          <template v-else-if='userInfo.authType === 2'>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份已认证</span>
+          </template>
+          <template v-else>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份认证失败</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
         </div>
       </div>
       <!-- 系统简介 -->
@@ -162,8 +168,19 @@ export default {
   methods: {
     // 关闭风险弹窗
     handleClosed() {
-      console.log(2)
       this.show = true
+    },
+    // 身份信息跳转
+    identifyRouter() {
+      if (this.userInfo.authType === 0) {
+        this.$router.push('/my/identity')
+      } else if (this.userInfo.authType === 2) {
+        this.$router.push('/my/identity/success')
+      } else if (this.userInfo.authType === 3) {
+        this.$router.push('/my/identity/fail')
+      } else {
+        console.log(this.userInfo.authType)
+      }
     },
     // 根据钱包、签名、网络登录，如果不行就跳登录页
     login() {
@@ -216,12 +233,6 @@ export default {
         this.iconLang = "arrow-up";
       } else {
         this.iconLang = "arrow-down";
-      }
-    },
-    // 去身份认证
-    toInformation() {
-      if (this.userInfo.refUid) {
-        this.$router.push("/my/identity");
       }
     },
     // 前往选择所在地

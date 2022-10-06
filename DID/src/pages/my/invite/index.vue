@@ -37,7 +37,7 @@
         <vue-qr
             class="img"
             :logoSrc="logo"
-            :text="`${form.data.url}?code=${form.data.code}`"
+            :text="form.data.url"
         />
         <p class="tip">建议使用<br />手机相册/浏览器扫码</p>
       </div>
@@ -47,7 +47,7 @@
           <vue-qr
               class="qr"
               :logoSrc="logo"
-              :text="`${form.data.url}?code=${form.data.code}`"
+              :text="form.data.url"
           />
         </div>
         <div class="icon icon-download" @click.stop="save"></div>

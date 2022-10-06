@@ -46,7 +46,6 @@
           />
         </svg>
       </div>
-
       <img src="@/assets/imgs/bg-footer.png" alt="" />
     </div>
     <van-tabs
@@ -64,10 +63,10 @@
           <van-list
             v-model="loading"
             :finished="finished"
-            finished-text="没有更多了"
+            :finished-text="!!list.length ? '没有更多了' : ''"
             @load="onLoad"
           >
-            <div>
+            <div v-if='!!list.length'>
               <div class="every" v-for="(item, index) in list" :key="index">
                 <div>
                   <p>{{ item.remarks }}</p>
@@ -76,6 +75,12 @@
                 <div>+{{ item.fraction }}</div>
               </div>
             </div>
+            <van-empty
+              v-else
+              class="custom-image"
+              :image="require('@/assets/imgs/empty.png')"
+              description="暂无任何数据"
+            />
           </van-list>
         </div>
       </van-tab>
@@ -84,10 +89,10 @@
           <van-list
             v-model="loading"
             :finished="finished"
-            finished-text="没有更多了"
+            :finished-text="!!list.length ? '没有更多了' : ''"
             @load="onLoad"
           >
-            <div>
+            <div v-if='!!list.length'>
               <div class="every" v-for="(item2, index2) in list" :key="index2">
                 <div>
                   <p>{{ item2.remarks }}</p>
@@ -96,6 +101,12 @@
                 <div style="color: #fc7542">-{{ item2.fraction }}</div>
               </div>
             </div>
+            <van-empty
+              v-else
+              class="custom-image"
+              :image="require('@/assets/imgs/empty.png')"
+              description="暂无任何数据"
+            />
           </van-list>
         </div>
       </van-tab>
@@ -154,7 +165,9 @@ export default {
           this.req.page += 1;
           let data = res.data.items;
           this.endVal = data.creditScore;
-          this.list = [...this.list, data.items[0]];
+          if (data.items.length != 0) {
+            this.list = [...this.list, data.items[0]];
+          }
           // 加载状态结束
           this.loading = false;
           // 数据全部加载完成
