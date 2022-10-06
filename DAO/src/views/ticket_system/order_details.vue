@@ -27,8 +27,7 @@
         <van-cell :title="order.describe" />
       </van-cell-group>
       <van-cell-group inset class="tu">
-        <van-image width="60" height="60" :src="order.images" />
-        <!-- <van-image width="60" height="60" src="./assets/image/leaf.jpg" /> -->
+        <van-image width="60" height="60" v-for="item,index in order.images" :key="index" :src="spliceSrc(item)" />
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 1">
         <van-cell title="处理记录" style="color: #999" :border="false" />
@@ -66,10 +65,10 @@
 </template>
 
 <script>
+import { spliceSrc } from "@/utils/utils";
 import white from "../../components/Nav/white.vue";
 import { getworkorder, updateWork } from "@/api/workOrder";
 import { Dialog } from "vant";
-
 export default {
   components: { white },
   data() {
@@ -78,27 +77,32 @@ export default {
       order: {},
       message: "",
       workOrderId: "",
+      fileList: [],
+      type: "wordOrder",
     };
   },
   created() {
     this.workOrderId = this.$route.query.workOrderId;
-    getworkorder(this.workOrderId).then((res) => {
+    getworkorder({ workOrderId: this.workOrderId }).then((res) => {
       res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
         "YYYY-MM-DD"
       );
-
+      res.data.items.images = res.data.items.images.split(",");
       this.order = res.data.items;
+      console.log(this.order);
     });
   },
   methods: {
+    spliceSrc,
     onClickLeft() {
       history.go(-1);
     },
+
     cancel() {
       Dialog.confirm({
         title: "取消提示",
         confirmButtonColor: "#000",
-        message: "确定取消处理该工单？",
+        message: "确定取消处理该订单吗？",
         getContainer: ".order",
       })
         .then(() => {
@@ -176,11 +180,14 @@ export default {
 .group {
   .van-cell {
     font-size: 16px;
-    line-height: 12.8px;
+    line-height: 15px;
   }
 }
 .tu {
   .van-image {
+    margin: 0 10px;
+  }
+  .van-uploader {
     margin: 0 10px;
   }
 }

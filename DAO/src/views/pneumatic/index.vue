@@ -1,6 +1,6 @@
 
 <template>
-  <div class="">
+  <div class="fullscreen bg-gray">
     <white :title="title"></white>
     <div class="contatiner">
       <div class="top">
@@ -120,13 +120,36 @@ export default {
       this.over_show = false;
     },
     getUser() {
-      getUserrisk().then((res) => {
-        console.log(res);
-        res.data.items.map((item) => {
-          item.createDate = this.$dayjs(item.createDate).format("YYYY-MM-DD");
-        });
-        this.maticList = res.data.items;
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: "加载中…",
       });
+      getUserrisk()
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: "加载失败！",
+            });
+          } else {
+            items.map((item) => {
+              item.createDate = this.$dayjs(item.createDate).format(
+                "YYYY-MM-DD"
+              );
+            });
+            this.maticList = items;
+          }
+        })
+        .catch(() => {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！",
+          });
+        })
+        .finally(() => {
+          loading.clear();
+        });
     },
 
     check(id, status) {
@@ -140,10 +163,9 @@ export default {
         userRiskId: id,
       }).then((res) => {
         console.log(res);
-        if (res.status == 200) {
-          Toast("解除风控");
-          this.getUser();
-        }
+
+        Toast("解除风控");
+        this.getUser();
       });
     },
   },
@@ -151,11 +173,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  background: #f3f4f5;
-  height: 100vh;
-  border: 1px solid #f3f4f5;
+.contatiner {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
 }
+
 .van-cell-group {
   margin: 16px 16px;
 

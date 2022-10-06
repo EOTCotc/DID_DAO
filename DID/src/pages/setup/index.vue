@@ -10,7 +10,7 @@
         />
       </template>
       <template #title>
-        <span class="bar">账号设置</span>
+        <span class="bar">{{ $t("setup.settings") }}</span>
       </template>
     </van-nav-bar>
 
@@ -28,54 +28,68 @@
           >
         </template>
       </van-cell>
-      <van-cell title="邮箱" :value="userInfo.mail" />
+      <van-cell :title="$t('setup.email')" :value="userInfo.mail" />
       <van-cell
-        title="推荐人"
-        :value="userInfo.userId || '添加'"
+        :title="$t('setup.referrer')"
+        :value="userInfo.userId || $t('setup.add')"
         to="/myReferrer"
         is-link
       />
       <van-cell
-        title="电报群"
+        :title="$t('setup.telegram')"
         @click="showPopup = true"
-        :value="userInfo.telegram || '设置'"
+        :value="userInfo.telegram || $t('setup.set')"
         is-link
       />
       <van-cell
-        title="所在地"
-        :value="userInfo.country ? site : '选择'"
+        :title="$t('setup.locality')"
+        :value="userInfo.country ? site : $t('setup.tab')"
         to="/locality"
         is-link
       />
-      <van-cell title="修改密码" to="/setup/setPassword" is-link />
-      <van-cell title="修改邮箱" to="/setup/setEmail" is-link />
-      <van-cell title="账号注销" to="/setup/logout" is-link />
+      <van-cell
+        :title="$t('setup.change_pass')"
+        to="/setup/setPassword"
+        is-link
+      />
+      <van-cell
+        :title="$t('setup.change_email')"
+        to="/setup/setEmail"
+        is-link
+      />
+      <van-cell :title="$t('logout.logout')" to="/setup/logout" is-link />
     </div>
 
     <!-- 设置电报群 -->
     <van-popup v-model="showPopup">
       <div class="popup">
-        <p>设置电报群</p>
-        <input type="text" v-model="telegram" placeholder="请输入电报地址" />
+        <p>{{ $t("setup.setTelegram") }}</p>
+        <input
+          type="text"
+          v-model="telegram"
+          :placeholder="$t('setup.input_telegram')"
+        />
         <div class="btn-popup">
-          <div @click="showPopup = false">取消</div>
-          <div @click="setTelegram">确定</div>
+          <div @click="showPopup = false">{{ $t("public.cancel") }}</div>
+          <div @click="setTelegram">{{ $t("public.confirm") }}</div>
         </div>
       </div>
     </van-popup>
 
     <van-popup v-model="showLogout" round>
       <div class="logout-box">
-        <div class="logout-tip">退出提示</div>
-        <p>确定要退出当前账号吗？</p>
+        <div class="logout-tip">{{ $t("setup.logout_tip") }}</div>
+        <p>{{ $t("setup.logout_cont") }}</p>
         <div class="btn-box">
-          <button @click="showLogout = false">取消</button>
-          <button @click="logout">确定</button>
+          <button @click="showLogout = false">{{ $t("public.cancel") }}</button>
+          <button @click="logout">{{ $t("public.confirm") }}</button>
         </div>
       </div>
     </van-popup>
 
-    <button class="logout-btn" @click="showLogout = true">退出登录</button>
+    <button class="logout-btn" @click="showLogout = true">
+      {{ $t("setup.logout") }}
+    </button>
   </div>
 </template>
 
@@ -125,7 +139,7 @@ export default {
             } else if (info.province) {
               //有省就显示  国家-省
               this.site = `${arrCountry[1] ? arrCountry[1] + "-" : ""}
-              ${arrProvince[1] ? arrProvince[1]: ""}`;
+              ${arrProvince[1] ? arrProvince[1] : ""}`;
             }
           }
         }

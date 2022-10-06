@@ -2,33 +2,33 @@
   <div class="log-in" :style="`min-height:${height}px;`">
     <van-form ref="form">
       <!-- 选择网络 -->
-      <div class="title">EOTC采用严格的邀请注册制</div>
+      <div class="title">{{ $t("content.signin_title") }}</div>
       <div class="from-item" v-if="form.walletAddress">
-        <p class="from-item">选择网络</p>
+        <p class="from-item">{{ $t("content.select_network") }}</p>
         <van-field
           v-model="form.otype"
           :disabled="true"
-          placeholder="选择网络"
+          :placeholder="$t('content.select_network')"
         />
       </div>
       <!-- 钱包地址 -->
       <div class="from-item" v-if="form.walletAddress">
-        <p>钱包地址</p>
+        <p>{{ $t("content.wallet_address") }}</p>
         <van-field
           v-model="form.walletAddress"
           :disabled="true"
-          placeholder="钱包地址"
+          :placeholder="$t('content.wallet_address')"
         />
       </div>
       <!-- 邮箱地址 -->
       <div class="from-item code">
-        <p>邮箱地址</p>
+        <p>{{ $t("content.email") }}</p>
         <van-field
           v-model="form.mail"
-          placeholder="邮箱地址"
+          :placeholder="$t('content.email')"
           :rules="[
-            { required: true, message: '请输入邮箱' },
-            { validator: mailRule, message: '请输入正确的邮箱' },
+            { required: true, message: $t('rulesMsg.email') },
+            { validator: mailRule, message: $t('rulesMsg.correct_mail') },
           ]"
           ><template #button>
             <van-button
@@ -38,7 +38,9 @@
               native-type='button'
               @click="handleCode"
             >
-              <span v-show="showCode" style="font-size: 12px">发送验证码</span>
+              <span v-show="showCode" style="font-size: 12px">{{
+                $t("content.send_code")
+              }}</span>
               <span v-show="!showCode" style="color: #999">{{ seconds }}S</span>
             </van-button>
           </template>
@@ -46,47 +48,53 @@
       </div>
       <!-- 邮箱验证码 -->
       <div class="from-item">
-        <p>邮箱验证码</p>
+        <p>{{ $t("content.email_code") }}</p>
         <van-field
           v-model="form.code"
           type="number"
-          placeholder="邮箱验证码"
-          :rules="[{ required: true, message: '请输入验证码' }]"
+          :placeholder="$t('content.email_code')"
+          :rules="[{ required: true, message: $t('rulesMsg.code') }]"
         />
       </div>
       <!-- 密码 -->
       <div class="from-item">
-        <p>密码 <span class="hint">(包含字母、数字 最少8位)</span></p>
+        <p>
+          {{ $t("content.signin_pwd") }}
+          <span class="hint">({{ $t("content.include") }})</span>
+        </p>
         <van-field
           v-model="form.password"
           type="password"
-          placeholder="密码"
+          :placeholder="$t('content.signin_pwd')"
           :rules="[
-            { required: true, message: '请填写密码' },
-            { validator: minNumPWD, message: '包含字母、数字 最少8位' },
+            { required: true, message: $t('rulesMsg.signin_pwd') },
+            { validator: minNumPWD, message: $t('content.include') },
           ]"
         />
       </div>
       <!-- 确认密码 -->
       <div class="from-item">
-        <p>确认密码</p>
+        <p>{{ $t("content.confirm_pass") }}</p>
         <van-field
           v-model="confirmpwd"
           type="password"
-          placeholder="确认密码"
+          :placeholder="$t('content.confirm_pass')"
           :rules="[
-            { required: true, message: '请确认密码' },
-            { validator: isWhether, message: '密码不相同' },
+            { required: true, message: $t('rulesMsg.confirm_pass') },
+            { validator: isWhether, message: $t('rulesMsg.different_pass') },
           ]"
         />
       </div>
       <!-- 邀请地址 -->
       <div class="from-item">
-        <p>邀请码<span class="hint">(非必填)</span></p>
+        <p>
+          {{ $t("content.invitation_code") }}
+          <span class="hint">({{ $t("content.not_required") }})</span>
+        </p>
         <van-field
           v-model="form.refUserId"
           type="text"
-          placeholder="请输入邀请地址"
+          :placeholder="$t('rulesMsg.invited_address')"
         />
       </div>
       <!-- 协议 -->
@@ -96,10 +104,12 @@
           shape="square"
           checked-color="#1B2945"
           v-model="checked"
-          :rules="[{ required: checked, message: '请勾选协议' }]"
         >
           <span class="">
-            我已阅读并同意<span style="color: #2483ff">《用户协议》</span>
+            {{ $t("content.read_agree") }}
+            <span style="color: #2483ff"
+              >《{{ $t("content.user_agreement") }}》</span
+            >
           </span>
         </van-checkbox>
       </div>
@@ -110,9 +120,13 @@
         type="info"
         native-type="submit"
         @click="onSubmit"
-        >确定注册</van-button>
+        >{{ $t("content.registration") }}</van-button
+      >
       <div class="tips">
-        已账户<span class="sign-in" @click="handleBtn">去登录</span>
+        {{ $t("content.have_account") }}
+        <span class="sign-in" @click="handleBtn">
+          {{ $t("content.to_login") }}
+        </span>
       </div>
     </div>
   </div>
@@ -142,6 +156,7 @@ export default {
     };
   },
   mounted() {
+    this.form.refUserId = this.$route.query.code || "";
     this.height = document.body.scrollHeight - 152;
     this.form.walletAddress = localStorage.getItem("myaddress");
     this.form.otype = localStorage.getItem("netType");

@@ -10,7 +10,7 @@
         />
       </template>
       <template #title>
-        <span class="title">修改密码</span>
+        <span class="title">{{$t('setup.set_pwd')}}</span>
       </template>
     </van-nav-bar>
 
@@ -18,13 +18,13 @@
       <van-form ref="form">
         <!-- 邮箱地址 -->
         <div class="from-item code">
-          <p>邮箱地址</p>
+          <p>{{ $t("content.email") }}</p>
           <van-field
             v-model="form.mail"
-            placeholder="邮箱地址"
+            :placeholder="$t('content.email')"
             :rules="[
-              { required: true, message: '请输入邮箱' },
-              { validator: mailRule, message: '请输入正确的邮箱' },
+              { required: true, message: $t('rulesMsg.email') },
+              { validator: mailRule, message: $t('rulesMsg.correct_mail') },
             ]"
             ><template #button>
               <van-button
@@ -34,8 +34,8 @@
                 native-type='button'
                 @click="handleCode"
               >
-                <span v-show="showCode" style="font-size: 12px"
-                  >发送验证码</span
+                <span v-show="showCode" style="font-size: 12px">
+                  {{ $t("content.send_code") }}</span
                 >
                 <span v-show="!showCode" style="color: #999"
                   >{{ seconds }}S</span
@@ -46,42 +46,44 @@
         </div>
         <!-- 邮箱验证码 -->
         <div class="from-item">
-          <p>邮箱验证码</p>
+          <p>{{ $t("content.email_code") }}</p>
           <van-field
             v-model="form.code"
             type="number"
-            placeholder="邮箱验证码"
-            :rules="[{ required: true, message: '请输入验证码' }]"
+            :placeholder="$t('content.email_code')"
+            :rules="[{ required: true, message: $t('rulesMsg.code') }]"
           />
         </div>
         <!-- 密码 -->
         <div class="from-item">
-          <p>新密码 <span class="hint">(包含字母、数字 最少8位)</span></p>
+          <p>
+            {{$t('setup.new_pwd')}} <span class="hint">({{ $t("content.include") }})</span>
+          </p>
           <van-field
             v-model="form.newPassWord"
             type="password"
-            placeholder="密码"
+            :placeholder="$t('setup.new_pwd')"
             :rules="[
-              { required: true, message: '请填写密码' },
-              { validator: minNumPWD, message: '包含字母、数字 最少8位' },
+              { required: true, message: $t('rulesMsg.signin_pwd') },
+              { validator: minNumPWD, message: $t('content.include') },
             ]"
           />
         </div>
         <!-- 确认密码 -->
         <div class="from-item">
-          <p>确认新密码</p>
+          <p>{{$t('setup.conf_pwd')}}</p>
           <van-field
             v-model="confirmpwd"
             type="password"
-            placeholder="确认密码"
+            :placeholder="$t('setup.conf_pwd')"
             :rules="[
-              { required: true, message: '请确认密码' },
-              { validator: isWhether, message: '密码不相同' },
+              { required: true, message: $t('rulesMsg.confirm_pass') },
+              { validator: isWhether, message: $t('rulesMsg.different_pass') },
             ]"
           />
         </div>
       </van-form>
-      <button class="commit" @click="onSubmit">提交修改</button>
+      <button class="commit" @click="onSubmit">{{$t('setup.cimmit_change')}}</button>
     </div>
   </div>
 </template>

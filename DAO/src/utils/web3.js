@@ -19,13 +19,9 @@ import loadingToast from "../components/loading-toast";
 
 // api  url
 import { SetCoinAds, GetHx, EotcLoginmes } from "../api/trxRequest";
-
 import { clearmymes } from "../api/payverification";
-
 import $router from "../router";
-
 import md5 from "md5";
-
 import Dayjs from "dayjs";
 var scdtime =
   new Date(Dayjs(new Date("2022-09-17 13:14"))).getTime() - Date.now();
@@ -270,7 +266,6 @@ export const loadweb3 = function (func) {
             return false;
           }
           func();
-          // console.log('func');
         } catch (error) {
           // console.warn(error);
           // console.log(localStorage.getItem('myaddress'));
