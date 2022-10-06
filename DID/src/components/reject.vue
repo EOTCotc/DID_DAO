@@ -75,13 +75,13 @@
 <script>
 export default {
   props: {
-    title: {required: true, type: String}
+    title: {required: true, type: String},
+    types: {type: Array, default: () => ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰']}
   },
   data() {
     return {
       show: false,
       showPopover: false,
-      types: ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰'],
       reason: ['信息不全', '信息错误', '证件照有误', '证件照不清晰'],
       isInput: true,
       type: "",

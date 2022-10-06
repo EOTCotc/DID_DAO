@@ -19,38 +19,43 @@
       <!-- 认证按钮 -->
       <div
         class="btn"
-        @click="toInformation"
-        :style="
-          userInfo.authType == 2
-            ? 'background:#102E59;border:2px solid #237FF8;'
-            : ''
-        "
+        :style="userInfo.authType == 2 ? 'background:#102E59;border:2px solid #237FF8;' : '' "
       >
-        <div class="btn-box" v-if="userInfo.authType == 2">
-          <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-          <span>{{ $t("home.authenticated") }}</span>
-        </div>
-        <div class="btn-box" v-else>
-          <span>{{ $t("home.start_attestation") }}</span>
-          <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+        <div class="btn-box" @click='identifyRouter'>
+          <template v-if='userInfo.authType === 0'>
+            <span>开始认证</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
+          <template v-else-if='userInfo.authType === 1'>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>认证中</span>
+          </template>
+          <template v-else-if='userInfo.authType === 2'>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份已认证</span>
+          </template>
+          <template v-else>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份认证失败</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
         </div>
       </div>
       <!-- 系统简介 -->
       <div class="title-summarize">
-        <span>{{ $t("home.system_introduction") }}</span>
+        <span>系统简介</span>
       </div>
       <!-- 简介 -->
       <p class="text-p">
-        DID属于统一资源标识符URI的一种，是一个永久不可变的字符串，它存在的意义有两点，第一，标记任何目标对象(DID
-        Subject)，可以是一个人、一件商品、一台机器或者一只动物等等；第二，DID是通过DID
-        URL关联到描述目标对象的文件（DID Document,简称DID
-        Doc）唯一标识符，即通过DID能够在数据库中搜索到具体的DID Doc。
+        EOTC
+        DID是去中心化身份体系，是独立运行、分布式存储的去中心化身份存储、授权调用的身份系统。EOTC
+        DID采用强关系链方式注册、由EOTC DAO配合审核和治理。 EOTC
+        DID可以链接所有公链，可以为所有公链上的任意地址提供去中心化身份的强关系链注册、去中心化审核、应用绑定、敏感信息加密存储、脱敏标签商业转化、信息授权调用等服务。
       </p>
       <p class="text-p">
-        创建一个DID Document的过程是Production,而将创建的这条Document引用至该DID
-        Subject其他DID创建过程则是Consumption。在验证过程中，每个DID对应的DID
-        Document是独立的，相当于对每个DID做了信息隔离。在验证过程中，DID持有人可以根据需要对不同DID授权，验证人只能阅读到被授权的DID
-        Doc，而无法获得更多信息，从而达到DID Subject的信息保护目的。
+        EOTC
+        DID的出现将在高度保护用户隐私同时弥补区块链无法识别公链地址持有人身份、无法给地址持有人打商业标签的空白，EOTC
+        DID将为区块链世界注入强大的基础应用支持，开启更加高效更加安全更加科学的区块链商业应用。
       </p>
     </div>
     <!-- 底部 -->
@@ -60,7 +65,7 @@
         <span> 2022年EOTC版权所有。</span>
       </div>
       <div @click="handleTabLang">
-        <span class="tab-lang">{{ textLang }}</span>
+        <span class="tab-lang">简体中文</span>
         <van-icon :name="iconLang" />
       </div>
     </div>
@@ -71,12 +76,7 @@
       position="right"
     >
       <div class="menu">
-        <div
-          class="menu-every"
-          v-for="item in lang"
-          @click="tabLang(item)"
-          :key="item.id"
-        >
+        <div class="menu-every" v-for="item in lang" :key="item.id">
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -86,12 +86,11 @@
       <div class="wrapper" @click.stop>
         <div class="block">
           <img src="../../assets/imgs/lingdang.png" />
-          <div class="tips">
-            {{ $t("home.not_bound") }}
-          </div>
+          <div class="tips">检测到您暂无推荐关系，为了账户</div>
+          <div class="tips">安全性请前往绑定推荐关系</div>
           <div class="block-bot">
-            <div @click="showOverlay = false">{{ $t("public.cancel") }}</div>
-            <div @click="toSite">{{ $t("public.confirm") }}</div>
+            <div @click="showOverlay = false">取消</div>
+            <div @click="toSite">确定</div>
           </div>
         </div>
       </div>
@@ -107,20 +106,20 @@
       @buttonClick="() => $router.push('/risk')"
     />
     <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
-      <img src="../../assets/imgs/jin.png" alt="" class="img" />
+      <img src="../../assets/imgs/jin.png" alt="" class="img">
       <div class="text">解除风控</div>
     </div>
   </div>
 </template>
 
 <script>
-import Notification from "@/components/notification";
-import headerIcon from "@/assets/imgs/jin.png";
+import Notification from '@/components/notification'
+import headerIcon from "@/assets/imgs/jin.png"
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
 import { login } from "@/api/pagesApi/login";
 import { loadweb3 } from "@/utils/web3";
-import { risklevel } from "@/api/risk";
+import {risklevel} from '@/api/risk'
 export default {
   data() {
     return {
@@ -130,7 +129,6 @@ export default {
       showPopup2: false, //选择语言
       showOverlay: false, //遮罩层
       userInfo: "", //用户信息
-      textLang: "简体中文",
       lang: [
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
@@ -139,54 +137,45 @@ export default {
   },
   components: {
     TopBar,
-    Notification,
+    Notification
+  },
+  created() {
+    risklevel().then((res) => {
+      const {code, items: level} = res.data
+      if (code === 0) {
+        if (level === 2) {
+          this.cookie.set('riskLevel', level)
+          this.$nextTick().then(() => {
+            this.$refs.notification.toggle(true)
+          })
+        }
+      }
+    });
   },
   mounted() {
-    if (this.cookie.get("token")) {
-      //有token没用户信息
-      this.getInfo();
-    } else if (!localStorage.getItem("myaddress")) {
-      //钱包地址为空
-      loadweb3(this.login);
-    } else if (!this.cookie.get("token")) {
-      //没有token
-      this.$router.push("/login");
-    }
+    // 当前的语言
     if (localStorage.getItem("textLang")) {
       this.textLang = localStorage.getItem("textLang");
     }
+    this.getrisklevel(); //风控等级
+    this.getInfo(); //获取用户信息
   },
   methods: {
     // 关闭风险弹窗
     handleClosed() {
-      console.log(2);
-      this.show = true;
+      this.show = true
     },
-    // 根据钱包、签名、网络登录，如果不行就跳登录页
-    login() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
-      let reqObj = {
-        walletAddress,
-        otype,
-        sign,
-      };
-      login(reqObj)
-        .then((res) => {
-          if (res.data.code == 0) {
-            this.cookie.set("token", res.data.items, { expires: 30 });
-            this.getrisklevel(); //风控等级
-            this.getInfo(); //获取用户信息
-          } else if (res.data.code == 2) {
-            this.$router.push("/login"); //邮箱未注册
-          } else {
-            this.$toast.fail(res.data.code);
-          }
-        })
-        .catch(() => {
-          this.$router.push("/login");
-        });
+    // 身份信息跳转
+    identifyRouter() {
+      if (this.userInfo.authType === 0) {
+        this.$router.push('/my/identity')
+      } else if (this.userInfo.authType === 2) {
+        this.$router.push('/my/identity/success')
+      } else if (this.userInfo.authType === 3) {
+        this.$router.push('/my/identity/fail')
+      } else {
+        console.log(this.userInfo.authType)
+      }
     },
     // 风控等级
     getrisklevel() {
@@ -209,17 +198,20 @@ export default {
           if (res.data.code == 0) {
             this.userInfo = res.data.items;
             // 用户信息存到cookie
-            this.cookie.set("userInfo", JSON.stringify(res.data.items));
+            this.cookie.set("userInfo", JSON.stringify(this.userInfo));
+            this.cookie.set('country',this.userInfo.country)
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;
             }
+          } else {
+            this.$toast.fail(res.data.message);
           }
         })
         .catch((err) => {
           if (err.response.status == 401) {
             //未登录
-            this.$router.push("/login");
+            this.$router.replace("/login");
           }
         });
     },
@@ -232,19 +224,6 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
-    // 选择语言
-    tabLang(item) {
-      // localStorage.setItem("lang", item.lang);
-      // localStorage.setItem("textLang", item.text);
-      // this.$router.go(0);
-      this.showPopup2 = false;
-    },
-    // 去身份认证
-    toInformation() {
-      if (this.userInfo.refUid) {
-        this.$router.push("/my/identity");
-      }
-    },
     // 前往选择所在地
     toSite() {
       // 判断有没有选位置，有就直接调到社区
@@ -254,7 +233,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({ name: "bindCommunity" });
+          this.$router.push({name: "bindCommunity",});
         }
       });
     },
@@ -421,7 +400,7 @@ export default {
   @include posi($p: fixed, $r: 0, $b: 20%);
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: #FFF;
   padding: 20px;
   border-radius: 100px 0 0 100px;
   .img {
@@ -430,7 +409,7 @@ export default {
   }
   .text {
     flex: 1;
-    color: #f34747;
+    color: #F34747;
     margin-left: 20px;
     font-size: 28px;
   }

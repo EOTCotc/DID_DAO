@@ -1,6 +1,6 @@
 <template>
   <van-overlay :show="show" @click="toggle(false)">
-    <div class="dialog_wrap">
+    <div class="dialog_wrap" @click.stop>
       <slot name="headerIcon">
         <img class="dialog-header-icon" :src="headerIcon" alt="" />
       </slot>
@@ -17,7 +17,7 @@
           {{ buttonText }}
         </van-button>
       </div>
-      <div class="close">
+      <div class="close" @click.stop='toggle(false)'>
         <van-icon name="close" />
       </div>
     </div>

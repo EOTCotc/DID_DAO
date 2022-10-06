@@ -7,12 +7,12 @@
       @click-left="onClickLeft"
     />
     <div class="content">
-      <van-cell
+      <!-- <van-cell
         class="now"
         :title="$t('bindRelation.user_loc')"
         :value="$t('bindRelation.loc')"
         :border="false"
-      />
+      /> -->
       <van-cell
         class="now"
         :title="$t('bindRelation.country')"
@@ -40,7 +40,7 @@
       />
     </van-popup>
 
-    <button class="btn" @click="save">{{$t('public.save')}}</button>
+    <button class="btn" @click="save">{{ $t("public.save") }}</button>
   </div>
 </template>
 
@@ -61,25 +61,29 @@ export default {
     };
   },
   mounted() {
-    this.getNowLocation(); //获取当前位置
-    this.getCountry(); //获取用户选择的国家
+    // 获取省市，国家由getCountry获取
+    let userInfo = JSON.parse(this.cookie.get("userInfo"));
+    var province, city, area;
+    if (userInfo.province != "-" && userInfo.city == "-") {
+      // 有省级
+      province = userInfo.province.split("-")[1];
+      this.region = province;
+    } else if (userInfo.city != "-" && userInfo.area == "-") {
+      // 有市级
+      province = userInfo.province.split("-")[1];
+      city = userInfo.city.split("-")[1];
+      this.region = `${province}-${city}`;
+    } else if (userInfo.area != "-") {
+      // 有区级
+      province = userInfo.province.split("-")[1];
+      city = userInfo.city.split("-")[1];
+      area = userInfo.area.split("-")[1];
+      this.region = `${province}-${city}-${area}`;
+    }
+    //获取用户选择的国家
+    this.getCountry();
   },
   methods: {
-    // 获取当前位置
-    getNowLocation() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (res) => {
-            // console.log(res, "suc");
-          },
-          (err) => {
-            // console.log(err, "err");
-          }
-        );
-      } else {
-        this.$toast.fail("地理位置服务不可用");
-      }
-    },
     // 获取选择的国家以及处理省市区的数据
     getCountry() {
       if (this.cookie.get("country")) {
@@ -185,6 +189,7 @@ export default {
               }, 600);
             } else {
               this.$toast.fail(res.data.message);
+              console.log(1231231);
             }
           });
         } else {

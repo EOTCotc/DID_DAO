@@ -25,7 +25,7 @@
           <div>
             <img
               v-if="userInfo.authType == 2"
-              src="../../assets/imgs/dunpai.png"
+              src="@/assets/imgs/dunpai.png"
             />
             <img v-else src="../../assets/imgs/dunpai2.png" />
             <span v-if="userInfo.authType == 2">{{
@@ -43,14 +43,13 @@
       <div class="cell">
         <!-- 认证审核 -->
         <van-cell
-          v-if="userInfo.authType == 2"
           is-link
-          :border="false"
-          :to="userInfo.refUid ? '/my/identity/approval' : ''"
+          :border='false'
+          @click='auth("/my/identity/approval", true)'
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/shenhe.png" />
+            <img src="@/assets/imgs/shenhe.png" />
           </template>
           <template #title>
             <span>
@@ -61,14 +60,13 @@
         </van-cell>
         <!-- 社区审批 -->
         <van-cell
-          v-if="userInfo.authType == 2"
           is-link
-          :border="false"
-          to="/my/approval/community"
+          :border='false'
+          @click='auth("/my/approval/community", true)'
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/shenpi.png" />
+            <img src="@/assets/imgs/shenpi.png" />
           </template>
           <template #title>
             <span>
@@ -86,7 +84,7 @@
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/shenfen.png" />
+            <img src="@/assets/imgs/shenfen.png" />
           </template>
           <template #title>
             <span> {{ $t("my.identity_info") }} </span>
@@ -110,10 +108,14 @@
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell is-link :border="false" to="/my/payment">
+        <van-cell
+          is-link
+          :border='false'
+          @click='auth("/my/payment", false)'
+        >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/fukuan.png" />
+            <img src="@/assets/imgs/fukuan.png" />
           </template>
           <template #title>
             <span>
@@ -123,10 +125,14 @@
           </template>
         </van-cell>
         <!-- 我的社区 -->
-        <van-cell is-link :border="false" to="/my/community">
+        <van-cell
+          is-link
+          :border="false"
+          @click="auth({ path: '/my/community' })"
+        >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/shequ.png" />
+            <img src="@/assets/imgs/shequ.png" />
           </template>
           <template #title>
             <span>
@@ -136,10 +142,10 @@
           </template>
         </van-cell>
         <!-- 我的团队 -->
-        <van-cell is-link :border="false" to="/my/team">
+        <van-cell is-link :border='false' @click='auth("/my/team")'>
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/tuandui.png" />
+            <img src="@/assets/imgs/tuandui.png" />
           </template>
           <template #title>
             <span>
@@ -149,10 +155,10 @@
           </template>
         </van-cell>
         <!-- 邀请好友 -->
-        <van-cell is-link :border="false" to="/my/invite">
+        <van-cell is-link :border='false' @click='auth("/my/invite")'>
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/haoyou.png" />
+            <img src="@/assets/imgs/haoyou.png" />
           </template>
           <template #title>
             <span>
@@ -165,7 +171,7 @@
         <van-cell is-link :border="false" to="/my/wallets">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/gonglian.png" />
+            <img src="@/assets/imgs/gonglian.png" />
           </template>
           <template #title>
             <span>
@@ -178,7 +184,7 @@
         <van-cell is-link :border="false" to="/my/projects">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
-            <img src="../../assets/imgs/xiangmu.png" />
+            <img src="@/assets/imgs/xiangmu.png" />
           </template>
           <template #title>
             <span>
@@ -191,22 +197,31 @@
     </div>
   </div>
 </template>
-
 <script>
-import TopBar from "@/components/topBar/topBar";
-import { getuserinfo } from "@/api/pagesApi/home";
+import TopBar from '@/components/topBar/topBar';
+import {getuserinfo} from '@/api/pagesApi/home';
+import {list as communityList} from '@/api/pagesApi/approvalCommunity'
+import {list as identityList} from '@/api/pagesApi/identity'
+
 export default {
   name: "my",
   components: {
-    TopBar,
+    TopBar
   },
   data() {
     return {
       userInfo: {},
+      form: {},
+      headerIcon: require('@/assets/imgs/jin.png'),
+      show: {
+        communityApproval: false,
+        identity: false,
+      },
     };
   },
   created() {
     this.handleRefresh();
+    this.getBadge()
   },
   computed: {
     // 身份信息跳转
@@ -221,6 +236,15 @@ export default {
     },
   },
   methods: {
+    // 获取是否有未处理的审批
+    getBadge() {
+      communityList(0, {page: 1, itemsPerPage: 10}).then(res => {
+        this.show.communityApproval = !res.data.code && !!res.data.items.length
+      })
+      identityList(0, {page: 1, itemsPerPage: 10}).then(res => {
+        this.show.identity = !res.data.code && !!res.data.items.length
+      })
+    },
     // 去设置
     toSetup() {
       this.$router.push("/setup");
@@ -248,21 +272,94 @@ export default {
               .then(() => {
                 this.$router.push("/my/community/setting");
               })
-              .catch((err) => {});
+              .catch(() => {});
           }
         })
         .finally(() => loading.clear());
     },
-  },
-};
+    /**
+     * 验证是否有跳转权限
+     * path：跳转路径
+     * validateAuthType：是否需要验证身份认证通过
+     * **/
+    auth(path, validateAuthType = false) {
+      const {name, phoneNum, idCard} = this.userInfo
+      const options = {
+        title: '',
+        type: '',
+        message: '',
+        cb: null
+      }
+      if (this.userInfo.refUid) {
+        if (validateAuthType) {
+          if (this.userInfo.authType === 2) {
+            this.$router.push(path)
+          } else {
+            switch (this.userInfo.authType) {
+              case 0:
+                options.type = 'confirm'
+                options.title = '身份认证'
+                options.message = '身份未认证，请立即认证'
+                options.cb = () => this.$router.push({path: '/my/identity'})
+                break;
+              case 1:
+                options.type = 'alert'
+                options.title = '身份认证'
+                options.message = '身份认证审核中，请耐心等待'
+                options.cb = null
+                break;
+              case 3:
+                options.type = 'confirm'
+                options.title = '身份认证'
+                options.message = '身份认证审核未通过，请重新认证'
+                options.cb = this.$router.push({name: 'identity', params: {name, phoneNum, idCard}})
+                break;
+            }
+            this.$dialog[options.type]({
+              title: options.title,
+              message: options.message,
+              confirmButtonText: options.type === 'confirm' ? '前往认证' : '确定',
+              confirmButtonColor: '#F65F5F',
+              beforeClose: (action, done) => {
+                if (action === 'confirm') {
+                  done()
+                  options.cb && options.cb()
+                } else {
+                  done()
+                }
+              }
+            }).catch(() => {})
+          }
+        } else {
+          this.$router.push(path)
+        }
+      } else {
+        this.$dialog.confirm({
+          title: '推荐关系',
+          message: '暂未绑定推荐关系，请立即绑定',
+          confirmButtonText: '立即绑定',
+          confirmButtonColor: '#F65F5F',
+          beforeClose: (action, done) => {
+            if (action === 'confirm') {
+              done()
+              this.$router.push({path: "/bindRelation"})
+            } else {
+              done()
+            }
+          }
+        }).catch(() => {})
+      }
+    },
+  }
+}
 </script>
-
 <style lang='scss' scoped>
 .container {
   min-height: 100vh;
   background: #0d162b;
   box-sizing: border-box;
 }
+
 .content {
   margin: 0 auto;
   padding-top: 88px;
@@ -271,67 +368,82 @@ export default {
   // 身份卡
   .identity-card {
     margin-top: 40px;
-    padding: 30px;
+    padding: 40px 30px 30px 30px;
     border-radius: 20px;
     background: linear-gradient(134deg, #2a86ff 0%, #54dcff 100%);
+
     .card-top {
       display: flex;
       justify-content: space-between;
+
       .card-top-left {
         display: flex;
         justify-content: flex-start;
         align-items: center;
+
         img {
           width: 96px;
           height: 96px;
         }
+
         div {
           margin-left: 30px;
           color: #fff;
+
           div {
             margin-left: 0;
           }
+
           div:first-of-type {
-            font-size: 36px;
+            font-size: 46px;
           }
+
           div:last-of-type {
             margin-top: 8px;
-            font-size: 28px;
+            font-size: 38px;
           }
         }
       }
     }
+
     .card-bottom {
       margin-top: 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       div:first-of-type {
         display: flex;
         align-items: center;
+
         img {
           width: 32px;
           height: 38px;
         }
+
         span {
           margin-left: 12px;
           font-size: 32px;
           color: #9bcfff;
         }
       }
+
       div:last-of-type {
         width: 260px;
         height: 80px;
         text-align: center;
         border-radius: 40px;
         background: #fff;
+
         span {
           line-height: 80px;
           color: #3aa7ff;
         }
+
         span:first-of-type {
           font-size: 28px;
         }
+
         span:last-of-type {
           margin-left: 16px;
           font-size: 36px;
@@ -340,22 +452,25 @@ export default {
       }
     }
   }
+
   // 菜单栏
   :deep(.van-cell) {
+    padding: 30px 0 0 0;
     display: flex;
     align-items: center;
     background: none;
   }
   .cell {
+    padding-bottom: 200px;
     img {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
     }
     span {
       position: relative;
       margin-left: 20px;
       color: #fff;
-      font-size: 32px;
+      font-size: 42px;
       .badge {
         position: absolute;
         top: -8px;
@@ -368,14 +483,18 @@ export default {
       }
     }
   }
+
   .identity-apply_status {
     font-size: 28px;
+
     &.not {
       color: #999;
     }
+
     &.pending {
       color: #237ff8;
     }
+
     &.fail {
       color: #ff6343;
     }

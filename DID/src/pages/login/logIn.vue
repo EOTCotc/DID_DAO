@@ -2,55 +2,52 @@
   <div :style="`min-height:${height}px;`" class="signin">
     <van-form ref="form">
       <div class="from-item" v-if="show">
-        <p>{{ $t("content.select_network") }}</p>
+        <p>选择网络</p>
         <van-field
           class="input-border"
           v-model="form.otype"
-          :placeholder="$t('content.select_network')"
+          placeholder="选择网络"
           :disabled="true"
         />
       </div>
       <div class="from-item" v-if="show">
-        <p>{{ $t("content.wallet_address") }}</p>
+        <p>钱包地址</p>
         <van-field
           class="input-border"
           v-model="form.walletAddress"
-          :placeholder="$t('content.wallet_address')"
+          placeholder="钱包地址"
           :disabled="true"
         />
       </div>
       <div class="from-item">
-        <p>{{ $t("content.email") }}</p>
+        <p>邮箱地址</p>
         <van-field
           class="input-border"
           v-model="form.mail"
-          :placeholder="$t('content.email')"
+          placeholder="邮箱地址"
           :rules="[
-            { required: true, message: $t('rulesMsg.email') },
-            { validator: mailRule, message: $t('rulesMsg.correct_mail') },
+            { required: true, message: '请填写邮箱地址' },
+            { validator: mailRule, message: '请输入正确的邮箱' },
           ]"
         />
       </div>
       <div class="from-item">
-        <p>{{ $t("content.pwd") }}</p>
+        <p>登录密码</p>
         <van-field
           class="input-border"
           v-model="pwd"
           type="password"
-          :placeholder="$t('content.pwd')"
-          :rules="[{ required: true, message: $t('rulesMsg.pwd') }]"
+          placeholder="登录密码"
+          :rules="[{ required: true, message: '请填写登录密码' }]"
         />
       </div>
     </van-form>
     <div class="btn">
-      <van-button class="btn-login" type="default" @click="login">
-        {{ $t("menu.login") }}
-      </van-button>
+      <van-button class="btn-login" type="default" @click="login"
+        >登录</van-button
+      >
       <div class="tips">
-        {{ $t("content.not_account") }}
-        <span class="sign-in" @click="handleBtn">
-          {{ $t("content.register") }}
-        </span>
+        还没有账户<span class="sign-in" @click="handleBtn">立即注册</span>
       </div>
     </div>
   </div>
@@ -60,10 +57,12 @@
 import { login } from "@/api/pagesApi/login";
 export default {
   name: "logIn",
-  props: {},
+  props: {
+    wallet: { type: Object, default: () => ({}) },
+  },
   data() {
     return {
-      show: true,
+      show: false,
       pwd: "",
       height: 0,
       form: {
@@ -79,13 +78,8 @@ export default {
   },
   mounted() {
     this.height = document.body.scrollHeight - 152;
-    this.form.walletAddress = localStorage.getItem("myaddress");
-    this.form.otype = localStorage.getItem("netType");
-    this.form.sign = localStorage.getItem("mysign");
     // 如果没有钱包地址输入邮箱和密码
-    if (!this.form.walletAddress) {
-      this.show = false;
-    }
+    this.show = !!this.form.walletAddress;
   },
   methods: {
     // 去注册
@@ -96,6 +90,15 @@ export default {
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
+    },
+    getWallet(data) {
+      const { oType, myaddress, sign } = data;
+      if (oType && myaddress && sign) {
+        this.form.otype = oType;
+        this.form.walletAddress = myaddress;
+        this.form.sign = sign;
+        this.show = true;
+      }
     },
     // 登录
     login() {
@@ -108,11 +111,11 @@ export default {
           login(this.form).then((res) => {
             if (res.data.code == 0) {
               this.cookie.set("token", res.data.items, { expires: 30 });
-              this.$toast.success("登录成功");
-              setTimeout(() => {
-                //跳到首页
-                this.$router.push("/");
-              }, 800);
+              this.$toast.success({
+                forbidClick: true,
+                message: "登录成功",
+                onClose: () => this.$router.push("/"),
+              });
             } else {
               this.$toast.fail(res.data.message);
             }

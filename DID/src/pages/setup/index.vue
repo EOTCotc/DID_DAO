@@ -31,8 +31,15 @@
       <van-cell :title="$t('setup.email')" :value="userInfo.mail" />
       <van-cell
         :title="$t('setup.referrer')"
-        :value="userInfo.userId || $t('setup.add')"
-        to="/myReferrer"
+        :value="userInfo.refUid ? 'UID：' + userInfo.refUid : $t('setup.add')"
+        :to="
+          userInfo.refUid
+            ? {
+                path: '/setup/haveMyReferrer',
+                query: { refUid: userInfo.refUid },
+              }
+            : '/myReferrer'
+        "
         is-link
       />
       <van-cell
@@ -175,7 +182,7 @@ export default {
       localStorage.clear();
       this.$toast.success("退出登录成功");
       setTimeout(() => {
-        this.$router.push("/login");
+        this.$router.replace("/login");
       }, 600);
     },
   },

@@ -8,12 +8,12 @@
       </van-row>
       <template v-if="!!list.data.length">
         <ul class="list">
-          <li class="item" v-for="(item, index) in list.data" :key="item.paymentId">
+          <li class="item" v-for="item in list.data" :key="item.paymentId">
             <van-swipe-cell>
               <van-row type="flex" align="center">
                 <van-col :span="20">
                   <van-row class="label" type="flex" align="center" :gutter="10">
-                    <van-col :span="4"><img class="img" :src="require(`../../../assets/imgs/pay-${index + 1}.png`)" alt=""></van-col>
+                    <van-col :span="4"><img class="img" :src="require(`../../../assets/imgs/pay-${item.type + 1}.png`)" alt=""></van-col>
                     <van-col :span="20">
                       <div class="title">{{getPaymentType(item.type)}}</div>
                       <div class="text">{{item.cardNum}}</div>

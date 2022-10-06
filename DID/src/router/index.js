@@ -13,6 +13,7 @@ const router = new VueRouter({
     { path: '/setup', name: 'setup', component: () => import('@/pages/setup') },//账号设置
     { path: '/bindRelation/bindCommunity', name: 'bindCommunity', component: () => import('@/pages/bindRelation/bindCommunity') },// 推荐人绑定
     { path: '/myReferrer', name: 'myReferrer', component: () => import('@/pages/setup/myReferrer') },//邀请码
+    { path: '/setup/haveMyReferrer', name: 'haveMyReferrer', component: () => import('@/pages/setup/haveMyReferrer.vue') },//有推荐人
     { path: '/locality', name: 'locality', component: () => import('@/pages/locality') },//所在地
     { path: '/site', name: 'site', component: () => import('@/pages/site') },//定位
     { path: '/nation', name: 'nation', component: () => import('@/pages/locality/nation') },//国家
@@ -74,10 +75,10 @@ VueRouter.prototype.push = function push(to) {
 
 router.beforeEach((to, from, next) => {
   if (!Cookies.get('token')) {//未登录
-    if (to.path === '') {
-      next('/login')
-    } else {
+    if (to.path === '/login') {
       next()
+    } else {
+      next('/login')
     }
   } else {
     if (Cookies.get('riskLevel') * 1 !== 2) {

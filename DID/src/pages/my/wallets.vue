@@ -5,14 +5,13 @@
       <ul class="list" v-if="!!list.data.length">
         <li class="item" v-for="item in list.data" :key="item.walletId">
           <van-row type="flex" align="center">
-            <van-col :span="20">
-              <div class="title">{{item.otype}}</div>
+            <van-col :span="24" class='title'>{{item.otype}}</van-col>
+            <van-col :span='24'>
               <van-row class="value" type="flex" align="center" @click="copy(item.walletAddress)">
-                <van-col :span="21">{{item.walletAddress}}</van-col>
-                <van-col :span="3"><i class="icon icon-copy"></i></van-col>
+                <van-col :span="20">{{item.walletAddress}} <i class="icon icon-copy" style='margin-left: 5px;'></i></van-col>
+                <van-col :span="4" class="link" @click="cancelAuth(item)">取消授权</van-col>
               </van-row>
             </van-col>
-            <van-col :span="4" class="link" @click="cancelAuth(item)">取消授权</van-col>
           </van-row>
         </li>
       </ul>

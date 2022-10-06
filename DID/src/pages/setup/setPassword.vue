@@ -10,7 +10,7 @@
         />
       </template>
       <template #title>
-        <span class="title">{{$t('setup.set_pwd')}}</span>
+        <span class="title">{{ $t("setup.set_pwd") }}</span>
       </template>
     </van-nav-bar>
 
@@ -31,6 +31,7 @@
                 size="small"
                 :color="emailBtnColor"
                 type="primary"
+                native-type='button'
                 @click="handleCode"
               >
                 <span v-show="showCode" style="font-size: 12px">
@@ -56,7 +57,8 @@
         <!-- 密码 -->
         <div class="from-item">
           <p>
-            {{$t('setup.new_pwd')}} <span class="hint">({{ $t("content.include") }})</span>
+            {{ $t("setup.new_pwd") }}
+            <span class="hint">({{ $t("content.include") }})</span>
           </p>
           <van-field
             v-model="form.newPassWord"
@@ -70,7 +72,7 @@
         </div>
         <!-- 确认密码 -->
         <div class="from-item">
-          <p>{{$t('setup.conf_pwd')}}</p>
+          <p>{{ $t("setup.conf_pwd") }}</p>
           <van-field
             v-model="confirmpwd"
             type="password"
@@ -82,7 +84,9 @@
           />
         </div>
       </van-form>
-      <button class="commit" @click="onSubmit">{{$t('setup.cimmit_change')}}</button>
+      <button class="commit" @click="onSubmit">
+        {{ $t("setup.cimmit_change") }}
+      </button>
     </div>
   </div>
 </template>
@@ -134,7 +138,7 @@ export default {
               //清除定时器并初始化
               this.emailBtnColor = "#1B2945";
               this.showCode = true;
-              this.seconds = 10;
+              this.seconds = 60;
               clearInterval(timer);
             }
           }, 1000);
@@ -151,18 +155,25 @@ export default {
           req.newPassWord = this.$md5(req.newPassWord);
           changepwd(req).then((res) => {
             if (res.data.code == 0) {
-              this.$toast.success("修改成功");
+              this.$toast.success({
+                message: "修改成功",
+                forbidClick: true,
+                onClose: () => this.$router.replace("/login")
+              });
               this.cookie.remove("token");
-              setTimeout(() => {
-                this.$router.push("/login");
-              }, 500);
             } else {
-              this.$toast.fail("修改失败");
+              this.$toast.fail({
+                message: "修改失败",
+                forbidClick: true
+              });
             }
           });
         })
         .catch(() => {
-          this.$toast.fail("修改失败");
+          this.$toast.fail({
+            message: "修改失败",
+            forbidClick: true
+          });
         });
     },
   },
