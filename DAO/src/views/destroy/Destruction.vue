@@ -24,12 +24,18 @@
         <van-cell title="游戏消耗" value="2022年7月27日" />
         <van-cell :title="item.memo" :border="false" />
         <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell
-          :title="item.destructionId"
-          :border="false"
-          id="destId"
-          @click="copy()"
-        />
+        <van-cell>
+          <!-- 使用 title 插槽来自定义标题 -->
+          <template #title>
+            <span
+              class="custom-title"
+              id="destId"
+              @click="copy()"
+              :data-clipboard-text="item.destructionId"
+              >{{ item.destructionId }}</span
+            >
+          </template>
+        </van-cell>
       </van-cell-group>
 
       <van-empty
@@ -87,13 +93,14 @@
 <script>
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
-import { Toast } from "vant";
-
+// import { Toast } from "vant";
+import Clipboard from "clipboard";
 export default {
   components: { White },
   data() {
     return {
       title: "销毁查询",
+
       value: "",
       show: false,
       showDate: false,
@@ -139,21 +146,15 @@ export default {
     },
     //复制
     copy() {
-      var value = document.getElementById("destId");
-      var cInput = document.createElement("input");
-      console.log(value.innerText);
-      cInput.value = value.innerText;
-      document.body.appendChild(cInput);
-      cInput.select(); // 选取文本框内容
-      // 执行浏览器复制命令
-      // 复制命令会将当前选中的内容复制到剪切板中（这里就是创建的input标签）
-      // Input要在正常的编辑状态下原生复制方法才会生效
-
-      document.execCommand("copy");
-
-      Toast("复制成功");
-      // // 复制成功后再将构造的标签 移除
-      document.body.removeChild(cInput);
+      let clipboard = new Clipboard("#destId");
+      clipboard.on("success", (e) => {
+        this.$toast.success("复制成功");
+        clipboard.destroy();
+      });
+      clipboard.on("error", (e) => {
+        this.$toast.fail("复制失败");
+        clipboard.destroy();
+      });
     },
 
     //搜索框
