@@ -1,75 +1,69 @@
 <template>
   <div class="publicity_wrap fullscreen">
-    <page-header title="仲裁" />
+    <white :title="title1"
+           :name="name"></white>
     <div class="content">
       <div class="main">
-        <van-cell
-          title="仲裁员公示"
-          title-class="row-title"
-          is-link
-          to="/user/arbitration/publicity/personnel"
-        />
-        <van-cell
-          title="仲裁案公示"
-          title-class="row-title"
-          is-link
-          to="/user/arbitration/publicity/case"
-        />
-        <van-cell
-          :title="title"
-          title-class="row-title"
-          is-link
-          to="/user/meetTheConditions"
-        />
-        <van-cell
-          title="仲裁案件"
-          title-class="row-title"
-          is-link
-          to="/user/arbitration/case"
-        />
+        <van-cell title="仲裁员公示"
+                  title-class="row-title"
+                  is-link
+                  to="/user/arbitration/publicity/personnel" />
+        <van-cell title="仲裁案公示"
+                  title-class="row-title"
+                  is-link
+                  to="/user/arbitration/publicity/case" />
+        <van-cell :title="title"
+                  title-class="row-title"
+                  is-link
+                  to="/user/meetTheConditions" />
+        <van-cell title="仲裁案件"
+                  title-class="row-title"
+                  is-link
+                  to="/user/arbitration/case" />
         <div class="msg">
-          <van-cell
-            title="仲裁消息"
-            title-class="row-title"
-            is-link
-            to="/arbitrationList"
-          />
-          <div class="dot" v-show="isDot"></div>
+          <van-cell title="仲裁消息"
+                    title-class="row-title"
+                    is-link
+                    to="/arbitrationList" />
+          <div class="dot"
+               v-show="isDot"></div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import PageHeader from "@/components/topBar/pageHeader";
-import { getmessageisopen } from "@/api/viewsApi/Arbitration.js";
+import white from '@/components/Nav/white.vue'
+import { getmessageisopen } from '@/api/viewsApi/Arbitration.js'
 export default {
-  name: "arbitration",
-  components: { PageHeader },
+  name: 'arbitration',
+  components: { white },
   data() {
     return {
-      isArbitrate: +localStorage.getItem("isArbitrate"),
-      title: "",
-      isDot:false,
-    };
+      isArbitrate: +localStorage.getItem('isArbitrate'),
+      title: '',
+      title1: '仲裁',
+      name: 'personage',
+      isDot: false,
+    }
   },
   mounted() {
     this.isArbitrate == 0
-      ? (this.title = "成为仲裁员")
-      : (this.title = "仲裁员身份");
-    this.getmessageisopen();
+      ? (this.title = '成为仲裁员')
+      : (this.title = '仲裁员身份')
+    this.getmessageisopen()
   },
   methods: {
     // 获取仲裁员是否有未读消息
     getmessageisopen() {
       getmessageisopen().then((res) => {
         if (res.data.code == 0) {
-          this.isDot=res.data.items
+          this.isDot = res.data.items
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

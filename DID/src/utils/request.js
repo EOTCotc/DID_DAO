@@ -1,9 +1,8 @@
 import axios from 'axios';
-import cookie from 'js-cookie'
-export const domain = '192.168.2.110:5556';
+import cookie from 'js-cookie';
 
 const request = axios.create({
-  baseURL: `http://${domain}`,
+  baseURL: process.env.VUE_APP_LOCATION,
 });
 
 //请求拦截器
