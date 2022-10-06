@@ -43,18 +43,19 @@
     <van-button
       round
       block
-      class='btn'
+      class="btn"
       color="#1b2945"
-      @click="$router.replace({name: $route.query.form,params: {code: selected}})"
+      @click="
+        $router.replace({ name: $route.query.form, params: { code: selected } })
+      "
     >
-      确认，前往下一步
+      确认
     </van-button>
   </div>
 </template>
 
 <script>
 import district_zh from "@/utils/district_zh.json";
-import { setuserinfo } from "@/api/pagesApi/locality";
 export default {
   name: "site",
   data() {
@@ -66,30 +67,14 @@ export default {
       showPopup: false,
       // 更新所在地
       req: {},
-      selected: {}
+      selected: {},
     };
   },
   mounted() {
     let country = this.cookie.get("country");
-    // this.getNowLocation(); //获取当前位置
     country && this.getCountry(country); //获取选择的国家
   },
   methods: {
-    // 获取当前位置
-    // getNowLocation() {
-    //   if ("geolocation" in navigator) {
-    //     navigator.geolocation.getCurrentPosition(
-    //       (res) => {
-    //         // console.log(res, "suc");
-    //       },
-    //       (err) => {
-    //         // console.log(err, "err");
-    //       }
-    //     );
-    //   } else {
-    //     this.$toast.fail("地理位置服务不可用");
-    //   }
-    // },
     // 获取选择的国家以及处理省市区的数据
     getCountry() {
       if (this.cookie.get("country")) {
@@ -184,9 +169,15 @@ export default {
       this.showPopup = false;
       this.selected = {
         province: [this.columns[i[0]].eng, this.columns[i[0]].text],
-        city: [this.columns[i[0]].children[i[1]].eng, this.columns[i[0]].children[i[1]].text],
-        area: [this.columns[i[0]].children[i[1]].children[i[2]].eng, this.columns[i[0]].children[i[1]].children[i[2]].text],
-      }
+        city: [
+          this.columns[i[0]].children[i[1]].eng,
+          this.columns[i[0]].children[i[1]].text,
+        ],
+        area: [
+          this.columns[i[0]].children[i[1]].children[i[2]].eng,
+          this.columns[i[0]].children[i[1]].children[i[2]].text,
+        ],
+      };
     },
     // 导航栏返回
     onClickLeft() {
