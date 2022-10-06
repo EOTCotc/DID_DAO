@@ -62,4 +62,8 @@ export default {
     }
   }
 }
+.van-cell__left-icon,
+.van-cell__right-icon {
+  line-height: 36px;
+}
 </style>

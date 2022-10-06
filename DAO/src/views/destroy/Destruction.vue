@@ -4,187 +4,176 @@
       <white :title="title"></white>
     </header>
     <main class="dest">
-      <van-search
-        v-model="value"
-        show-action
-        shape="round"
-        @input="showInput"
-        placeholder="输入关键词查询"
-      >
+      <van-search v-model="value"
+                  show-action
+                  shape="round"
+                  @input="showInput"
+                  placeholder="输入关键词查询">
         <template #action>
           <div @click="showPopup">筛选</div>
         </template>
       </van-search>
-      <van-cell-group
-        v-show="destroyList.length > 0"
-        inset
-        v-for="(item, index) in destroyList"
-        :key="index"
-      >
-        <van-cell title="游戏消耗" value="2022年7月27日" />
-        <van-cell :title="item.memo" :border="false" />
-        <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell
-          :title="item.destructionId"
-          :border="false"
-          id="destId"
-          @click="copy()"
-        />
+      <van-cell-group v-show="destroyList.length > 0"
+                      inset
+                      v-for="(item, index) in destroyList"
+                      :key="index">
+        <van-cell title="游戏消耗"
+                  value="2022年7月27日" />
+        <van-cell :title="item.memo"
+                  :border="false" />
+        <van-cell title="销毁查询地址:"
+                  :border="false" />
+        <van-cell>
+          <!-- 使用 title 插槽来自定义标题 -->
+          <template #title>
+            <span class="custom-title"
+                  id="destId"
+                  @click="copy()"
+                  :data-clipboard-text="item.destructionId">{{ item.destructionId }}</span>
+          </template>
+        </van-cell>
       </van-cell-group>
 
-      <van-empty
-        v-show="!destroyList.length"
-        class="custom-image"
-        :image="require('./../../assets/img/empty.png')"
-        description="暂无任何数据"
-      />
+      <van-empty v-show="!destroyList.length"
+                 class="custom-image"
+                 :image="require('./../../assets/img/empty.png')"
+                 description="暂无任何数据" />
 
-      <van-popup
-        v-model="show"
-        position="right"
-        :style="{ height: '730px', width: '70%' }"
-      >
+      <van-popup v-model="show"
+                 position="right"
+                 :style="{ height: '730px', width: '70%' }">
         <div>筛选时间</div>
         <div class="tag">
-          <div
-            v-for="(ite, index) in tags"
-            :key="index"
-            :class="active == index ? 'active' : 'noActive'"
-            @click="changeZi(index)"
-          >
+          <div v-for="(ite, index) in tags"
+               :key="index"
+               :class="active == index ? 'active' : 'noActive'"
+               @click="changeZi(index)">
             {{ ite.title }}
           </div>
         </div>
         <div class="date">
-          <van-button round type="default"
-            ><span v-if="start == ''">起始时间</span
-            ><span>{{ start }}</span></van-button
-          >
+          <van-button round
+                      type="default"><span v-if="start == ''">起始时间</span><span>{{ start }}</span></van-button>
           <p style="width: 10px; height: 1px; background: #ccc"></p>
-          <van-button round type="default"
-            ><span v-if="end == ''">截至时间</span
-            ><span>{{ end }}</span></van-button
-          >
+          <van-button round
+                      type="default"><span v-if="end == ''">截至时间</span><span>{{ end }}</span></van-button>
         </div>
 
         <div class="btn">
-          <van-button round type="default" @click="chongzhi()">重置</van-button>
-          <van-button round type="info" @click="que">确定</van-button>
+          <van-button round
+                      type="default"
+                      @click="chongzhi()">重置</van-button>
+          <van-button round
+                      type="info"
+                      @click="que">确定</van-button>
         </div>
       </van-popup>
-      <van-calendar
-        title="日期选择"
-        v-model="showDate"
-        :show-subtitle="true"
-        type="multiple"
-        @confirm="onConfirm"
-      />
+      <van-calendar title="日期选择"
+                    v-model="showDate"
+                    :show-subtitle="true"
+                    type="range"
+                    @confirm="onConfirm" />
     </main>
     <footer></footer>
   </div>
 </template>
 
 <script>
-import White from "../../components/Nav/white.vue";
-import { getdestruction } from "@/api/Destruction";
-import { Toast } from "vant";
-
+import White from '../../components/Nav/white.vue'
+import { getdestruction } from '@/api/Destruction'
+// import { Toast } from "vant";
+import Clipboard from 'clipboard'
 export default {
   components: { White },
   data() {
     return {
-      title: "销毁查询",
-      value: "",
+      title: '销毁查询',
+
+      value: '',
       show: false,
       showDate: false,
       timer: null, //防抖的定时器
       active: 0, //分类标签选中的下标
       tags: [
         {
-          title: "本周",
+          title: '本周',
           index: 0,
         },
         {
-          title: "本月",
+          title: '本月',
           index: 1,
         },
         {
-          title: "自定义",
+          title: '自定义',
           index: 2,
         },
       ],
-      date: "",
-      start: "",
-      end: "",
+      date: '',
+      start: '',
+      end: '',
       destroyList: [],
-    };
+    }
   },
   created() {
-    this.inquiry();
+    this.inquiry()
   },
   methods: {
     //筛选、取消按钮
     showPopup() {
-      if (this.value == "") {
-        this.show = true;
+      if (this.value == '') {
+        this.show = true
       } else {
-        this.value = "";
+        this.value = ''
       }
     },
     chongzhi() {
-      this.end = "";
-      this.start = "";
-      this.active = 0;
-      this.inquiry();
+      this.end = ''
+      this.start = ''
+      this.active = 0
+      this.inquiry()
     },
     //复制
     copy() {
-      var value = document.getElementById("destId");
-      var cInput = document.createElement("input");
-      console.log(value.innerText);
-      cInput.value = value.innerText;
-      document.body.appendChild(cInput);
-      cInput.select(); // 选取文本框内容
-      // 执行浏览器复制命令
-      // 复制命令会将当前选中的内容复制到剪切板中（这里就是创建的input标签）
-      // Input要在正常的编辑状态下原生复制方法才会生效
-
-      document.execCommand("copy");
-
-      Toast("复制成功");
-      // // 复制成功后再将构造的标签 移除
-      document.body.removeChild(cInput);
+      let clipboard = new Clipboard('#destId')
+      clipboard.on('success', (e) => {
+        this.$toast.success('复制成功')
+        clipboard.destroy()
+      })
+      clipboard.on('error', (e) => {
+        this.$toast.fail('复制失败')
+        clipboard.destroy()
+      })
     },
 
     //搜索框
     showInput() {
-      clearTimeout(this.timer); //清除上一次的
+      clearTimeout(this.timer) //清除上一次的
       this.timer = setTimeout(() => {
         // 执行搜索请求
-        this.inquiry();
-      }, 1000); // 设置时间
+        this.inquiry()
+      }, 1000) // 设置时间
     },
     //弹出层确定
     que() {
-      this.show = false;
-      this.inquiry();
+      this.show = false
+      this.inquiry()
     },
     formatDate(date) {
-      return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(
         -2
-      )}-${("0" + (date.getDate() + 1)).slice(-2)}`;
+      )}-${('0' + (date.getDate() + 1)).slice(-2)}`
     },
     onConfirm(date) {
-      const [start, end] = date;
-      this.showDate = false;
-      this.start = this.formatDate(start);
-      this.end = this.formatDate(end);
+      const [start, end] = date
+      this.showDate = false
+      this.start = this.formatDate(start)
+      this.end = this.formatDate(end)
     },
     //分类标签
     changeZi(index) {
-      this.active = index;
+      this.active = index
       if (this.active == 2) {
-        this.showDate = true;
+        this.showDate = true
       }
     },
 
@@ -192,38 +181,38 @@ export default {
     inquiry() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…",
-      });
-      let beginDate = this.start;
-      let endDate = this.end;
+        message: '加载中…',
+      })
+      let beginDate = this.start
+      let endDate = this.end
       getdestruction({
         keyWord: this.value || undefined,
         beginDate: beginDate || undefined,
         endDate: endDate || undefined,
       })
         .then((res) => {
-          const { code, items } = res.data;
+          const { code, items } = res.data
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: "加载失败！",
-            });
+              message: '加载失败！',
+            })
           } else {
-            this.destroyList = items;
+            this.destroyList = items
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: "加载失败！",
-          });
+            message: '加载失败！',
+          })
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

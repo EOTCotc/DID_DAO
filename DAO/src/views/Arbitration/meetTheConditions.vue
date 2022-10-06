@@ -24,7 +24,10 @@
       <div class="conditionsList">
         <div class="list list1">
           <div class="left">
-            <van-icon name="coupon-o" />
+            <van-image width="21px"
+                       height="19px"
+                       fit="contain"
+                       :src="require('../../assets/img/zshen.png')" />
             <p>DID身份认证</p>
           </div>
           <div class="right"
@@ -42,7 +45,10 @@
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="refund-o" />
+            <van-image width="21px"
+                       height="19px"
+                       fit="contain"
+                       :src="require('../../assets/img/zya.png')" />
             <p>质押5000 EOTC以上</p>
           </div>
           <div class="right"
@@ -59,7 +65,10 @@
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="orders-o" />
+            <van-image width="21px"
+                       height="19px"
+                       fit="contain"
+                       :src="require('../../assets/img/stay.png')" />
             <p>了解学习仲裁规则</p>
           </div>
           <div class="right"
@@ -77,7 +86,10 @@
         </div>
         <div class="list listn">
           <div class="left">
-            <van-icon name="sign" />
+            <van-image width="21px"
+                       height="19px"
+                       fit="contain"
+                       :src="require('../../assets/img/kao.png')" />
             <div class="examinationColumn">
               <span>通过考试</span><span style="color: #999999; font-size: 12px; margin-top: 3px">考试成绩达到90分以上</span>
             </div>
@@ -617,17 +629,17 @@ export default {
   color: #333333;
   padding: 0 35px;
   h4 {
-    font-size: 32px;
-    padding: 30px 0;
+    font-size: 34px;
+    padding: 30px 5px 35px 5px;
   }
   .conditionsList {
     background-color: #f3f4f5;
-    height: 448px;
+    height: 450px;
     border-radius: 25px;
     padding: 25px 0;
     box-sizing: border-box;
     .list {
-      padding: 20px 25px;
+      padding: 27px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -638,18 +650,13 @@ export default {
         align-items: center;
         font-weight: bold;
         color: #333333;
-        .van-icon {
-          font-size: 23px;
-          margin-top: 1px;
-          font-weight: bold;
-        }
+
         p {
-          font-size: 26px;
-          color: #333333;
+          font-size: 29px;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 26px;
+          font-size: 29px;
           display: flex;
           line-height: 35px;
           flex-direction: column;
@@ -659,7 +666,7 @@ export default {
       }
       .right {
         color: #999999;
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
         margin-top: 4px;
         .van-icon-arrow {
@@ -668,14 +675,20 @@ export default {
       }
     }
     .listn {
+      padding: 10px 30px;
       .left {
-        .van-icon {
-          margin-top: 0;
+        ::v-deep .van-image__img {
+          margin-top: -1px;
         }
       }
     }
     .list1 {
       margin-top: 2px;
+      .left {
+        p {
+          margin-top: 3px;
+        }
+      }
     }
   }
 }
@@ -684,7 +697,7 @@ footer {
   box-sizing: border-box;
   padding: 0 30px;
   position: fixed;
-  bottom: 32px;
+  bottom: 50px;
   .vanbtn {
     color: #999999 !important;
     font-weight: bold;

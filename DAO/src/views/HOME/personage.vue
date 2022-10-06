@@ -6,9 +6,9 @@
     <main>
       <van-cell-group inset
                       :border="false">
-        <van-cell title="总收益(EOTC)"
+        <van-cell :title="$t('user.total')"
                   :border="false"
-                  value="收益明细"
+                  :value="$t('user.detailed')"
                   @click="detail" />
         <van-cell :title="total"
                   style="font-size: 25px"
@@ -34,7 +34,7 @@ export default {
   created() {
     getdaoinfo().then((res) => {
       this.total = res.data.items.daoEOTC
-      localStorage.setItem('itms', res.data.items.daoEOTC)
+      localStorage.setItem('items', res.data.items.daoEOTC)
       localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
       localStorage.setItem('isExamine', res.data.items.isExamine)
       localStorage.setItem('authType', res.data.items.authType)

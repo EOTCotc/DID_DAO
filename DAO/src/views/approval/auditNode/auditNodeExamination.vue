@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bigbox">
     <header>
       <van-nav-bar fixed
                    placeholder
@@ -345,7 +345,10 @@ export default {
       this.jumpTestQuestions = false
       this.flag = true
       if (item.topicType == '(多选题)') {
-        item.result.push(val.contant)
+        let reindex = item.result.indexOf(val.contant)
+        reindex == -1
+          ? item.result.push(val.contant)
+          : item.result.splice(reindex, 1)
         item.questionAnswer.forEach((element, index) => {
           if (index == this.idx) {
             element.Check = !element.Check
@@ -389,9 +392,12 @@ export default {
           } else {
             this.count++
             this.nextDisabled = true
+            if (this.testQuestionData[this.count - 1].result.length >= 2) {
+              this.nextDisabled = false
+            }
             if (
-              this.testQuestionData[this.count - 1].result.length >= 2 ||
-              this.count == 6
+              this.count == 6 &&
+              this.testQuestionData[this.count - 1].result != ''
             ) {
               this.nextDisabled = false
             }
@@ -513,8 +519,11 @@ export default {
   height: 120px;
   background-color: #fff;
 }
+.bigbox {
+  background-color: #f3f4f5;
+  height: 100vh;
+}
 .body {
-  height: 94.5vh;
   background-color: #f3f4f5;
   padding: 30px;
   .main {
@@ -625,7 +634,7 @@ footer {
   box-sizing: border-box;
   padding: 0 30px;
   position: fixed;
-  bottom: 32px;
+  bottom: 50px;
   .van-button {
     height: 48px;
   }

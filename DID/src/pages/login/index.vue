@@ -19,8 +19,13 @@
           {{ $t("menu.signin") }}
         </button>
       </div>
-      <LogIn v-if="btn == 1" @btnNum="getBtnNum" />
+<<<<<<< HEAD
+      <LogIn v-if="btn == 1" @btnNum="getBtnNum" ref="login" />
       <SignIn v-else @btnNum="getBtnNum" />
+=======
+      <LogIn v-if="btn == 1" ref='login' @btnNum="getBtnNum" />
+      <SignIn v-else ref='signIn' @btnNum="getBtnNum" />
+>>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
     </div>
   </div>
 </template>
@@ -28,13 +33,18 @@
 <script>
 import LogIn from "./logIn";
 import SignIn from "./signIn";
+<<<<<<< HEAD
+import { loadweb3 } from "@/utils/web3";
+=======
+import {loadweb3} from '@/utils/web3'
+>>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
 
 export default {
   name: "login",
   data() {
     return {
       btn: 1,
-      height: 0,
+      height: 0
     };
   },
   components: {
@@ -44,6 +54,24 @@ export default {
   mounted() {
     // 获取动态高度
     this.height = document.body.scrollHeight - 152;
+    loadweb3(() => {
+<<<<<<< HEAD
+      const dom = this.$refs.login ;
+      dom.getWallet({
+        myaddress: localStorage.getItem("myaddress"),
+        oType: localStorage.getItem("netType"),
+        sign: localStorage.getItem("mysign"),
+      });
+    });
+=======
+      const dom = this.$refs[this.btn === 1 ? 'login' : 'signIn']
+      dom.getWallet({
+        myaddress: localStorage.getItem('myaddress'),
+        oType: localStorage.getItem('netType'),
+        sign: localStorage.getItem('mysign'),
+      })
+    })
+>>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
   },
   methods: {
     getBtnNum(e) {

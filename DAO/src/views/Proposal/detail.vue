@@ -112,11 +112,12 @@ export default {
       text: '创建于',
       trackColor: '#fff',
       valueColor: '#00B87A',
-      rightText: '取消',
+      rightText: '',
       title: '详情',
       radio: '',
       proposalId: this.$route.query.proposalId,
       state: this.$route.query.state,
+      isProponent: this.$route.query.isProponent,
       List: {},
       isVote: true,
       Votes: 1,
@@ -170,7 +171,7 @@ export default {
   mounted() {
     setTimeout(() => {
       console.log(this.List)
-      if (this.state == 3) this.rightText = ''
+      if (this.isProponent != 0) this.rightText = '取消'
       this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
       this.favorVotes = Number(
         localStorage.getItem(`favorVotes+${this.proposalId}`)
@@ -232,6 +233,9 @@ export default {
       Dialog.confirm({
         title: '取消提示',
         message: '确认取消该提案？',
+        confirmButtonColor: '#1B2945 ',
+        cancelButtonColor: '#666666 ',
+        getContainer: '.meun',
       })
         .then(() => {
           let data = {
@@ -331,7 +335,14 @@ export default {
   background: #f3f4f5;
   height: 100vh;
 }
-
+.meun {
+  ::v-deep .van-dialog__message--has-title {
+    color: #f37a4c !important;
+  }
+  ::v-deep .van-button {
+    font-weight: bold;
+  }
+}
 .box {
   background: #fff;
   box-sizing: border-box;

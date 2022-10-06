@@ -85,7 +85,7 @@ export default {
     // 我的推荐人页面
     my_referrer:'我的推荐人',
     code:'填写邀请码',
-    input_code:'请输入邀请码',
+    input_mail_code:'请输入邀请码',
     get_code:'获取邀请码，绑定推荐关系',
     // 修改邮箱
     set_email:'修改邮箱地址',

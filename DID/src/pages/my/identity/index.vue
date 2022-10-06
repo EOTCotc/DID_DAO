@@ -5,25 +5,28 @@
       <div class="main steps_wrap">
         <div class="info_wrap step-1" v-show="step.active === 0">
           <van-field
-            v-model="form.data.name"
-            name="name"
-            label="姓名"
-            placeholder="请输入真实姓名"
-            :rules="[{ required: true, message: '请输入真实姓名' }]"
+              v-model="form.data.name"
+              name="name"
+              label="姓名"
+              size='large'
+              placeholder="请输入真实姓名"
+              :rules="[{required: true, message: '请输入真实姓名'}]"
           />
           <van-field
-            v-model="form.data.phoneNum"
-            name="phoneNum"
-            label="手机号"
-            placeholder="请输入手机号码"
-            :rules="[{ required: true, message: '请输入手机号码' }]"
+              v-model="form.data.phoneNum"
+              name="phoneNum"
+              label="手机号"
+              size='large'
+              placeholder="请输入手机号码"
+              :rules="[{required: true, message: '请输入手机号码'}]"
           />
           <van-field
-            v-model="form.data.idCard"
-            name="code"
-            label="证件号"
-            placeholder="请输入证件号码"
-            :rules="[{ required: true, message: '请输入证件号码' }]"
+              v-model="form.data.idCard"
+              name="code"
+              label="证件号"
+              size='large'
+              placeholder="请输入证件号码"
+              :rules="[{required: true, message: '请输入证件号码'}]"
           />
         </div>
         <div class="upload_wrap step-2" v-show="step.active === 1">
@@ -268,37 +271,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  .form_wrap {
-    flex: 1;
-    padding-bottom: 30px;
-    .main {
-      min-height: 100%;
-      padding-bottom: 64px;
-      .upload_wrap {
-        padding: 30px;
-        .example_wrap {
-          padding: 35px 25px;
-          border-radius: 20px;
-          border: 2px dashed #eee;
-          .title {
-            color: #666;
-            font-size: 23px;
-          }
-          .img {
-            display: block;
-            width: 60%;
-            margin: 0 auto;
-          }
-        }
-        .upload_main {
-          margin-top: 40px;
-          .title {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 20px;
-          }
-          .upload {
+  .container {
+    .form_wrap {
+      flex: 1;
+      padding-bottom: 30px;
+      .main {
+        min-height: 100%;
+        padding-bottom: 120px;
+        .upload_wrap {
+          padding: 30px;
+          .example_wrap {
+            padding: 35px 25px;
             border-radius: 20px;
             border: 2px dashed #eee;
             &::v-deep(.van-uploader) {
@@ -373,14 +356,14 @@ export default {
           }
         }
       }
-    }
-    .btns {
-      margin: -44px 30px 0;
-      display: flex;
-      .btn {
-        flex: 1;
-        &:nth-of-type(2) {
-          margin-left: 30px;
+      .btns {
+        margin: -120px 30px 0;
+        display: flex;
+        .btn {
+          flex: 1;
+          &:nth-of-type(2) {
+            margin-left: 30px;
+          }
         }
       }
     }
