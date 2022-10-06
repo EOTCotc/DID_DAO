@@ -4,7 +4,25 @@
       <TopBar />
     </header>
     <main>
-      <van-cell-group inset :border="false">
+      <div class="identity-card">
+        <div class="card-top">
+          <div class="card-top-left">
+            <img src="../../assets/img/logo_two.png" alt="" />
+            <div>
+              <div>1111111</div>
+              <div>UID:1111</div>
+            </div>
+          </div>
+        </div>
+        <div class="eotc">
+          <div class="sum">总收益(EOTC)</div>
+          <div class="ming">
+            <span style="font-size: 28px">{{ total }}</span
+            ><span @click="detail">收益明细</span>
+          </div>
+        </div>
+      </div>
+      <!-- <van-cell-group inset :border="false">
         <van-cell
           title="总收益(EOTC)"
           :border="false"
@@ -12,7 +30,7 @@
           @click="detail"
         />
         <van-cell :title="total" style="font-size: 25px" :border="false" />
-      </van-cell-group>
+      </van-cell-group> -->
       <List></List>
     </main>
     <footer></footer>
@@ -22,12 +40,12 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import List from "../../components/Nav/List.vue";
-import { getdaoinfo } from "@/api/earnings";
+import { getdaoinfo, getuserinfo } from "@/api/earnings";
 export default {
   components: { TopBar, List },
   data() {
     return {
-      total: "",
+      total: 0,
     };
   },
   created() {
@@ -43,6 +61,11 @@ export default {
     detail() {
       this.$router.push("/Home_detail");
     },
+    userInfo() {
+      getuserinfo().then((res) => {
+        console.log(res);
+      });
+    },
   },
 };
 </script>
@@ -55,15 +78,54 @@ export default {
   min-height: 100vh;
   color: #000;
 }
-.van-cell-group {
-  margin: 16px;
-  .van-cell {
-    background: linear-gradient(to left, #54dcff, #2a86ff);
-    line-height: 40px;
-    color: #fff;
+
+.identity-card {
+  padding: 30px;
+  border-radius: 20px;
+  margin: 40px 25px 30px;
+  background: linear-gradient(134deg, #2a86ff 0%, #54dcff 100%);
+  .card-top {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    .card-top-left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      img {
+        width: 96px;
+        height: 96px;
+      }
+      div {
+        margin-left: 30px;
+        color: #fff;
+        div {
+          margin-left: 0;
+        }
+        div:first-of-type {
+          font-size: 36px;
+        }
+        div:last-of-type {
+          margin-top: 8px;
+          font-size: 28px;
+        }
+      }
+    }
   }
-  .van-cell__value {
+  .eotc {
     color: #fff;
+    margin-top: 10px;
+    font-size: 30px;
+    line-height: 48px;
+    .sum {
+      color: #9acdff;
+      font-size: 26px;
+    }
+    .ming {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 </style>

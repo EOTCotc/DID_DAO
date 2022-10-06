@@ -1,6 +1,7 @@
 <template>
   <div>
     <TopBar />
+
     <div class="content">
       <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
       <div class="home-title">
