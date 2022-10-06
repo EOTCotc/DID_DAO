@@ -93,7 +93,6 @@ export default {
       loading: false,
       nextDisabled: true,
       submitDisabled: true,
-      pre: [],
       testQuestionData: [
         {
           id: 1,
@@ -346,7 +345,10 @@ export default {
       this.jumpTestQuestions = false
       this.flag = true
       if (item.topicType == '(多选题)') {
-        item.result.push(val.contant)
+        let reindex = item.result.indexOf(val.contant)
+        reindex == -1
+          ? item.result.push(val.contant)
+          : item.result.splice(reindex, 1)
         item.questionAnswer.forEach((element, index) => {
           if (index == this.idx) {
             element.Check = !element.Check
@@ -369,8 +371,6 @@ export default {
     previousQuestion() {
       this.count--
       this.nextDisabled = false
-      console.log(this.testQuestionData[this.count].result, 5555)
-      this.pre.push(this.testQuestionData[this.count].result)
     },
     nextQuestion(index) {
       this.idx = null
@@ -392,17 +392,23 @@ export default {
           } else {
             this.count++
             this.nextDisabled = true
-            if (this.pre[0] != undefined && this.pre[0].length >= 2) {
+            if (
+              this.testQuestionData[this.count - 1].result.length >= 2 ||
+              this.count == 6
+            ) {
               this.nextDisabled = false
-              this.pre = []
             }
           }
         } else {
           this.count++
           this.nextDisabled = true
-          if (this.pre.length > 0) {
-            this.nextDisabled = false
-            this.pre = []
+          if (this.testQuestionData[this.count - 1].result != '') {
+            if (this.count == 4) {
+              if (this.testQuestionData[this.count - 1].result.length >= 2)
+                this.nextDisabled = false
+            } else {
+              this.nextDisabled = false
+            }
           }
         }
       }

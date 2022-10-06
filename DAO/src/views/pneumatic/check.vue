@@ -87,8 +87,6 @@
         </div>
       </van-form>
     </div>
-    <!--  图片预览  -->
-    <van-image-preview v-model="imgPreview.show" :images="imgPreview.images" />
   </div>
 </template>
 
@@ -113,10 +111,7 @@ export default {
       authStatus: 0,
       over_show: false,
       user: {},
-      imgPreview: {
-        show: false,
-        images: [],
-      },
+
       imagesArr: [],
       remedyShow: false,
       remedyMax: true,
@@ -154,11 +149,7 @@ export default {
         }
       });
     },
-    // 预览图片
-    preview(src) {
-      this.imgPreview.show = true;
-      this.$set(this.imgPreview.images, 0, src);
-    },
+
     userInfo() {
       getuserinfo({
         userRiskId: this.id,
@@ -240,7 +231,7 @@ export default {
   background: #f3f4f5;
 }
 .contatiner {
-  padding-top: 15px;
+  padding-top: 20px;
 }
 
 .form_wrap {
