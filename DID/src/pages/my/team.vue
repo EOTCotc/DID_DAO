@@ -20,6 +20,7 @@
       <van-tabs 
         v-model="tab.active" 
         swipeable
+        color='#237DF4'
         @click="handleTabClick"
       >
         <van-tab
@@ -31,13 +32,13 @@
       </van-tabs>
       <van-list
           class="list_wrap"
-          v-show="!!list.data.length"
+          v-if="!!list.data.length"
           v-model="list.UpRefreshLoading"
           :finished="!!list.data.length && list.finished"
           finished-text="没有更多了"
           @load="handleUpRefresh"
       >
-        <ul class="list" v-if="!!list.data.length">
+        <ul class="list">
           <li
             class="item"
             v-for="item in list.data"
@@ -90,15 +91,15 @@
             更多团队成员
           </van-button>
         </ul>
-        <van-empty
-            v-else
-            class="custom-image"
-            :image="require('../../assets/imgs/empty.png')"
-            description="暂无任何数据"
-        >
-          <div class="link">去邀请<van-icon name="arrow" /></div>
-        </van-empty>
       </van-list>
+      <van-empty
+        v-else
+        class="custom-image"
+        :image="require('../../assets/imgs/empty.png')"
+        description="暂无任何数据"
+      >
+        <div class="link">去邀请<van-icon name="arrow" /></div>
+      </van-empty>
     </div>
   </van-pull-refresh>
 </template>

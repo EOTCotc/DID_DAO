@@ -8,7 +8,7 @@
             <van-col :span="6" class="label">邀请链接</van-col>
             <van-col :span="18" class="value" @click="copy(form.data.url)">
               <van-row type="flex" align="center">
-                <van-col :span="21" class="label">{{form.data.url}}</van-col>
+                <van-col :span="21" class="label ellipsis">{{form.data.url}}</van-col>
                 <van-col :span="3" class="label"><i class="icon icon-copy"></i></van-col>
               </van-row>
             </van-col>
@@ -17,7 +17,7 @@
             <van-col :span="6" class="label">邀请码</van-col>
             <van-col :span="18" class="value" @click="copy(form.data.code)">
               <van-row type="flex" align="center">
-                <van-col :span="21" class="label">{{form.data.code}}</van-col>
+                <van-col :span="21" class="label ellipsis">{{form.data.code}}</van-col>
                 <van-col :span="3" class="label"><i class="icon icon-copy"></i></van-col>
               </van-row>
             </van-col>
@@ -119,7 +119,7 @@
       const userInfo = JSON.parse(this.cookie.get("userInfo"))
       if (userInfo) {
         this.form.data.code = userInfo.userId
-        this.form.data.url = `${location.origin}/#/login`
+        this.form.data.url = `${location.origin}/#/login?code=${this.form.data.code}`
       }
     }
   }
@@ -152,6 +152,11 @@
           .label {
             color: #999;
             font-size: 32px;
+            &.ellipsis {
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
           }
           .value {
             color: #333;

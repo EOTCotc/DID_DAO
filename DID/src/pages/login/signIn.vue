@@ -35,6 +35,7 @@
               size="small"
               :color="emailBtnColor"
               type="primary"
+              native-type='button'
               @click="handleCode"
             >
               <span v-show="showCode" style="font-size: 12px">发送验证码</span>
@@ -109,8 +110,7 @@
         type="info"
         native-type="submit"
         @click="onSubmit"
-        >确定注册</van-button
-      >
+        >确定注册</van-button>
       <div class="tips">
         已账户<span class="sign-in" @click="handleBtn">去登录</span>
       </div>

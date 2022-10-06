@@ -18,7 +18,7 @@
         <van-col :span="8" class="title">审核节点</van-col>
         <van-col :span="24" class="value" v-if="!!(info.auths && info.auths.length)">
           <van-steps direction="vertical" :active="2" active-color="#227AEE" inactive-color="#227AEE">
-            <van-step v-for="item in info.auths" :key="item.auditStep">
+            <van-step v-for="item in info.auths" :key="item.uId">
               <van-row>
                 <van-col class="title" :span="12">{{item.isDao ? 'Dao' : getAuditStep(item.auditStep)}}:{{item.name}}</van-col>
                 <van-col class="date" :span="12">{{transformUTCDate(item.authDate)}}</van-col>

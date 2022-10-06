@@ -8,6 +8,7 @@
               v-model="form.data.name"
               name="name"
               label="姓名"
+              size='large'
               placeholder="请输入真实姓名"
               :rules="[{required: true, message: '请输入真实姓名'}]"
           />
@@ -15,6 +16,7 @@
               v-model="form.data.phoneNum"
               name="phoneNum"
               label="手机号"
+              size='large'
               placeholder="请输入手机号码"
               :rules="[{required: true, message: '请输入手机号码'}]"
           />
@@ -22,6 +24,7 @@
               v-model="form.data.idCard"
               name="code"
               label="证件号"
+              size='large'
               placeholder="请输入证件号码"
               :rules="[{required: true, message: '请输入证件号码'}]"
           />
@@ -263,7 +266,7 @@
       padding-bottom: 30px;
       .main {
         min-height: 100%;
-        padding-bottom: 64PX;
+        padding-bottom: 120px;
         .upload_wrap {
           padding: 30px;
           .example_wrap {
@@ -364,7 +367,7 @@
         }
       }
       .btns {
-        margin: -44PX 30px 0;
+        margin: -120px 30px 0;
         display: flex;
         .btn {
           flex: 1;
