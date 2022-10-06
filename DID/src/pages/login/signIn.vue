@@ -35,6 +35,7 @@
               size="small"
               :color="emailBtnColor"
               type="primary"
+              native-type='button'
               @click="handleCode"
             >
               <span v-show="showCode" style="font-size: 12px">{{

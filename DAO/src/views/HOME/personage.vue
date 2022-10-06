@@ -4,15 +4,14 @@
       <TopBar />
     </header>
     <main>
-      <van-cell-group inset
-                      :border="false">
-        <van-cell title="总收益(EOTC)"
-                  :border="false"
-                  value="收益明细"
-                  @click="detail" />
-        <van-cell :title="total"
-                  style="font-size: 25px"
-                  :border="false" />
+      <van-cell-group inset :border="false">
+        <van-cell
+          :title="$t('user.total')"
+          :border="false"
+          :value="$t('user.detailed')"
+          @click="detail"
+        />
+        <van-cell :title="total" style="font-size: 25px" :border="false" />
       </van-cell-group>
       <List></List>
     </main>

@@ -48,7 +48,7 @@ export function transformUTCDate(str) {
 }
 // 浏览远程图片
 export function spliceSrc(src) {
-  return `http://192.168.2.110:5555/${src}`
+  return `${process.env.VUE_APP_LOCATION}${src}`
 }
 // 获取审核步骤
 export function getAuditStep(step) {
