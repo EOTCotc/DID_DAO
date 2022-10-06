@@ -70,14 +70,9 @@ export default {
     };
   },
   mounted() {
-<<<<<<< HEAD
     let country = this.cookie.get("country");
     // this.getNowLocation(); //获取当前位置
     country && this.getCountry(country); //获取选择的国家
-=======
-    this.getNowLocation(); //获取当前位置
-    this.getCountry(); //获取用户选择的国家
->>>>>>> 8604f580313be47121337487c4f15232c299199b
   },
   methods: {
     // 获取当前位置

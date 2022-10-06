@@ -42,15 +42,8 @@
         <!-- 认证审核 -->
         <van-cell
           is-link
-<<<<<<< HEAD
-          :border="false"
-          @click="
-            auth({ path: userInfo.refUid ? '/my/identity/approval' : '' })
-          "
-=======
           :border='false'
           @click='auth("/my/identity/approval", true)'
->>>>>>> 8604f580313be47121337487c4f15232c299199b
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -66,13 +59,8 @@
         <!-- 社区审批 -->
         <van-cell
           is-link
-<<<<<<< HEAD
-          :border="false"
-          @click="auth({ path: '/my/approval/community' })"
-=======
           :border='false'
           @click='auth("/my/approval/community", true)'
->>>>>>> 8604f580313be47121337487c4f15232c299199b
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -86,11 +74,7 @@
           </template>
         </van-cell>
         <!-- 身份信息 -->
-<<<<<<< HEAD
-        <van-cell is-link :border="false" :to="identifyRouter">
-=======
         <van-cell is-link :border='false' :to='identifyRouter'>
->>>>>>> 8604f580313be47121337487c4f15232c299199b
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/shenfen.png" />
@@ -119,13 +103,8 @@
         <!-- 收付款方式 -->
         <van-cell
           is-link
-<<<<<<< HEAD
-          :border="false"
-          @click="auth({ path: '/my/payment' })"
-=======
           :border='false'
           @click='auth("/my/payment", false)'
->>>>>>> 8604f580313be47121337487c4f15232c299199b
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -156,11 +135,7 @@
           </template>
         </van-cell>
         <!-- 我的团队 -->
-<<<<<<< HEAD
-        <van-cell is-link :border="false" to="/my/team">
-=======
         <van-cell is-link :border='false' @click='auth("/my/team")'>
->>>>>>> 8604f580313be47121337487c4f15232c299199b
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/tuandui.png" />
@@ -173,11 +148,7 @@
           </template>
         </van-cell>
         <!-- 邀请好友 -->
-<<<<<<< HEAD
-        <van-cell is-link :border="false" to="/my/invite">
-=======
         <van-cell is-link :border='false' @click='auth("/my/invite")'>
->>>>>>> 8604f580313be47121337487c4f15232c299199b
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/haoyou.png" />
@@ -220,54 +191,30 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
-import TopBar from "@/components/topBar/topBar";
-import Notification from "@/components/notification";
-import { getuserinfo } from "@/api/pagesApi/home";
-import { list as communityList } from "@/api/pagesApi/approvalCommunity";
-import { list as identityList } from "@/api/pagesApi/identity";
-=======
 import TopBar from '@/components/topBar/topBar';
 import {getuserinfo} from '@/api/pagesApi/home';
 import {list as communityList} from '@/api/pagesApi/approvalCommunity'
 import {list as identityList} from '@/api/pagesApi/identity'
->>>>>>> 8604f580313be47121337487c4f15232c299199b
 
 export default {
   name: "my",
   components: {
-<<<<<<< HEAD
-    TopBar,
-    Notification,
-=======
     TopBar
->>>>>>> 8604f580313be47121337487c4f15232c299199b
   },
   data() {
     return {
       userInfo: {},
       form: {},
-<<<<<<< HEAD
-=======
       headerIcon: require('@/assets/imgs/jin.png'),
->>>>>>> 8604f580313be47121337487c4f15232c299199b
       show: {
         communityApproval: false,
         identity: false,
       },
-<<<<<<< HEAD
-      headerIcon: require("@/assets/imgs/jin.png"),
-=======
->>>>>>> 8604f580313be47121337487c4f15232c299199b
     };
   },
   created() {
     this.handleRefresh();
-<<<<<<< HEAD
-    this.getBadge();
-=======
     this.getBadge()
->>>>>>> 8604f580313be47121337487c4f15232c299199b
   },
   computed: {
     // 身份信息跳转
@@ -284,32 +231,17 @@ export default {
   methods: {
     // 获取是否有未处理的审批
     getBadge() {
-<<<<<<< HEAD
-      communityList(0, { page: 1, itemsPerPage: 10 }).then((res) => {
-        this.show.communityApproval = !res.data.code && !!res.data.items.length;
-      });
-      identityList(0, { page: 1, itemsPerPage: 10 }).then((res) => {
-        this.show.identity = !res.data.code && !!res.data.items.length;
-      });
-=======
       communityList(0, {page: 1, itemsPerPage: 10}).then(res => {
         this.show.communityApproval = !res.data.code && !!res.data.items.length
       })
       identityList(0, {page: 1, itemsPerPage: 10}).then(res => {
         this.show.identity = !res.data.code && !!res.data.items.length
       })
->>>>>>> 8604f580313be47121337487c4f15232c299199b
     },
     // 去设置
     toSetup() {
       this.$router.push("/setup");
     },
-<<<<<<< HEAD
-    handleButtonClick() {
-      this.$router.push({ path: "/bindRelation" });
-    },
-=======
->>>>>>> 8604f580313be47121337487c4f15232c299199b
     handleRefresh() {
       const loading = this.$toast.loading({
         forbidClick: true,
@@ -338,17 +270,6 @@ export default {
         })
         .finally(() => loading.clear());
     },
-<<<<<<< HEAD
-    auth(route) {
-      if (!!this.userInfo.refUid) {
-        this.$router.push(route);
-      } else {
-        this.$refs.notification.toggle(true);
-      }
-    },
-  },
-};
-=======
     /**
      * 验证是否有跳转权限
      * path：跳转路径
@@ -424,7 +345,6 @@ export default {
     },
   }
 }
->>>>>>> 8604f580313be47121337487c4f15232c299199b
 </script>
 <style lang='scss' scoped>
 .container {
@@ -543,11 +463,7 @@ export default {
       position: relative;
       margin-left: 20px;
       color: #fff;
-<<<<<<< HEAD
       font-size: 42px;
-=======
-      font-size: 36px;
->>>>>>> 8604f580313be47121337487c4f15232c299199b
       .badge {
         position: absolute;
         top: -8px;

@@ -113,13 +113,8 @@ export default {
               this.cookie.set("token", res.data.items, { expires: 30 });
               this.$toast.success({
                 forbidClick: true,
-<<<<<<< HEAD
                 message: "登录成功",
                 onClose: () => this.$router.push("/"),
-=======
-                message: '登录成功',
-                onClose: () => this.$router.push("/")
->>>>>>> 8604f580313be47121337487c4f15232c299199b
               });
             } else {
               this.$toast.fail(res.data.message);

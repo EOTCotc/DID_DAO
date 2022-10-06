@@ -153,25 +153,12 @@ export default {
     });
   },
   mounted() {
-<<<<<<< HEAD
     // 当前的语言
     if (localStorage.getItem("textLang")) {
       this.textLang = localStorage.getItem("textLang");
     }
     this.getrisklevel(); //风控等级
     this.getInfo(); //获取用户信息
-=======
-    if (this.cookie.get("token")) {
-      //有token没用户信息
-      this.getInfo();
-    } else if (!localStorage.getItem("myaddress")) {
-      //钱包地址为空
-      loadweb3(this.login);
-    } else if (!this.cookie.get("token")) {
-      //没有token
-      this.$router.replace("/login");
-    }
->>>>>>> 8604f580313be47121337487c4f15232c299199b
   },
   methods: {
     // 关闭风险弹窗
@@ -190,7 +177,6 @@ export default {
         console.log(this.userInfo.authType)
       }
     },
-<<<<<<< HEAD
     // 风控等级
     getrisklevel() {
       risklevel().then((res) => {
@@ -204,32 +190,6 @@ export default {
           }
         }
       });
-=======
-    // 根据钱包、签名、网络登录，如果不行就跳登录页
-    login() {
-      let walletAddress = localStorage.getItem("myaddress");
-      let otype = localStorage.getItem("netType");
-      let sign = localStorage.getItem("mysign");
-      let reqObj = {
-        walletAddress,
-        otype,
-        sign,
-      };
-      login(reqObj)
-        .then((res) => {
-          if (res.data.code == 0) {
-            this.cookie.set("token", res.data.items, { expires: 30 });
-            this.getInfo(); //获取用户信息
-          } else if (res.data.code == 2) {
-            this.$router.replace("/login"); //邮箱未注册
-          } else {
-            this.$router.push("/login");
-          }
-        })
-        .catch(() => {
-          this.$router.replace("/login");
-        });
->>>>>>> 8604f580313be47121337487c4f15232c299199b
     },
     // 获取用户信息
     getInfo() {

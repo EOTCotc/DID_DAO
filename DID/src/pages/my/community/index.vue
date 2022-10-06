@@ -90,11 +90,7 @@ export default {
       })
     },
     applyCreateCommunity() {
-<<<<<<< HEAD
-      if (this.communityStatus.giftEotc < 5000) {
-=======
       if (this.eotc < 5000) {
->>>>>>> 8604f580313be47121337487c4f15232c299199b
         this.$router.push('/my/community/create')
       } else {
         this.$toast({
