@@ -74,7 +74,7 @@ export default {
         if (res.data.code == 0) {
           this.$toast.success("取消注销成功");
           setTimeout(() => {
-            this.$router.push("/setup");
+            this.$router.replace("/setup");
           }, 600);
         } else {
           this.$toast.fail("取消注销失败");

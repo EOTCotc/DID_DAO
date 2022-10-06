@@ -31,8 +31,8 @@
       <van-cell :title="$t('setup.email')" :value="userInfo.mail" />
       <van-cell
         :title="$t('setup.referrer')"
-        :value="userInfo.userId || $t('setup.add')"
-        to="/myReferrer"
+        :value="userInfo.refUid ? 'UID：' + userInfo.refUid : $t('setup.add')"
+        :to="userInfo.refUid ? '' : '/myReferrer'"
         is-link
       />
       <van-cell

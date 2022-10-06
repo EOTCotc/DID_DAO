@@ -162,7 +162,7 @@ export default {
       loadweb3(this.login);
     } else if (!this.cookie.get("token")) {
       //没有token
-      this.$router.push("/login");
+      this.$router.replace("/login");
     }
   },
   methods: {
@@ -197,12 +197,14 @@ export default {
           if (res.data.code == 0) {
             this.cookie.set("token", res.data.items, { expires: 30 });
             this.getInfo(); //获取用户信息
+          } else if (res.data.code == 2) {
+            this.$router.replace("/login"); //邮箱未注册
           } else {
             this.$router.push("/login");
           }
         })
         .catch(() => {
-          this.$router.push("/login");
+          this.$router.replace("/login");
         });
     },
     // 获取用户信息
@@ -222,7 +224,7 @@ export default {
         .catch((err) => {
           if (err.response.status == 401) {
             //未登录
-            this.$router.push("/login");
+            this.$router.replace("/login");
           }
         });
     },

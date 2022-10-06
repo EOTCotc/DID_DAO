@@ -1,6 +1,6 @@
 <template>
   <div class="log-in" :style="`min-height:${height}px;`">
-    <van-form ref="form">
+    <van-form ref="form" validate-trigger="onSubmit">
       <!-- 选择网络 -->
       <div class="title">{{ $t("content.signin_title") }}</div>
       <div class="from-item" v-if="form.walletAddress">
@@ -35,7 +35,7 @@
               size="small"
               :color="emailBtnColor"
               type="primary"
-              native-type='button'
+              native-type="button"
               @click="handleCode"
             >
               <span v-show="showCode" style="font-size: 12px">{{
@@ -173,7 +173,7 @@ export default {
       // 更改按钮颜色
       this.emailBtnColor = "#fff";
       getCode({ mail: this.form.mail }).then((res) => {
-        console.log(res, "code");
+        console.log(res.data, "code");
       });
       if (0 < this.seconds) {
         //重新发送验证码倒计时
@@ -183,7 +183,7 @@ export default {
             //清除定时器并初始化
             this.emailBtnColor = "#1B2945";
             this.showCode = true;
-            this.seconds = 10;
+            this.seconds = 60;
             clearInterval(timer);
           }
         }, 1000);
@@ -214,7 +214,6 @@ export default {
           .validate()
           .then(() => {
             let newForm = Object.assign({}, this.form);
-            console.log(newForm);
             newForm.password = this.$md5(newForm.password);
             // 注册请求
             register(newForm).then((res) => {
