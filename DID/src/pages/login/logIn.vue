@@ -128,11 +128,11 @@ export default {
           login(this.form).then((res) => {
             if (res.data.code == 0) {
               this.cookie.set("token", res.data.items, { expires: 30 });
-              this.$toast.success("登录成功");
-              setTimeout(() => {
-                //跳到首页
-                this.$router.push("/");
-              }, 800);
+              this.$toast.success({
+                forbidClick: true,
+                message: '登录成功',
+                onClose: () => this.$router.push("/")
+              });
             } else {
               this.$toast.fail(res.data.message);
             }

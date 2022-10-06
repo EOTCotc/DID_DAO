@@ -368,5 +368,4 @@ export default {
       }
     }
   }
-}
 </style>

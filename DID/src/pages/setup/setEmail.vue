@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">{{$t('setup.set_email')}}</span>
+        <span class="title">修改邮箱地址</span>
       </template>
     </van-nav-bar>
     <!-- 内容 -->
@@ -19,32 +19,30 @@
       <van-form ref="form" validate-trigger="onBlur">
         <!-- 邮箱地址 -->
         <div class="form-item">
-          <p>{{ $t("setup.new_email") }}</p>
-          <van-field
-            v-model="form.mail"
-            center
-            :placeholder="$t('setup.input_email')"
-          >
+          <p>新邮箱地址</p>
+          <van-field v-model="form.mail" center placeholder="请输入新邮箱地址">
             <template #button>
-              <van-button @click="sendCode" v-show="!isSendCode" size="small"
-                ><span :style="form.mail ? 'color:#237FF8;' : ''"
-                  >{{$t('content.send_code')}}</span
-                ></van-button
-              >
+              <van-button native-type='button' @click="sendCode" v-show="!isSendCode" size="small">
+                <span :style="form.mail ? 'color:#237FF8;' : ''">发送验证码</span>
+              </van-button>
               <span v-show="isSendCode">{{ times }}S</span>
             </template>
           </van-field>
         </div>
         <!-- 邮箱验证码 -->
         <div class="form-item">
-          <p>{{$t('setup.new_code')}}</p>
+          <p>新邮箱验证码</p>
           <van-field
             type="number"
             v-model="form.code"
             center
             :disabled="form.mail ? false : true"
             @input="handleCode"
-            :placeholder="$t('setup.input_code')"
+            placeholder="请输入新邮箱验证码"
+            :rules='[
+              {required: true, message: "请输入新邮箱验证码"},
+              {validator: validatorCode, message: "验证码错误"}
+            ]'
           >
           </van-field>
         </div>
@@ -63,15 +61,9 @@
             "
             @click="btnAuthorization"
           >
-            <span>{{$t('setup.impower')}}</span>
+            <span>授权</span>
             <div
-              :style="
-                isStyle == 1
-                  ? 'background:#247FF6;'
-                  : isStyle == 2
-                  ? 'background:#00B87A;'
-                  : ''
-              "
+              :style="isStyle == 1 ? 'background:#247FF6;' : isStyle == 2 ? 'background:#00B87A;' : ''"
             >
               1
             </div>
@@ -85,7 +77,7 @@
             :style="isStyle == 2 ? 'background:#247FF6;' : ''"
             @click="commitChange"
           >
-            <span>{{$t('setup.cimmit_change')}}</span>
+            <span>提交修改</span>
             <div :style="isStyle == 2 ? 'background:#247FF6;' : ''">2</div>
           </div>
         </div>
@@ -106,6 +98,7 @@ export default {
       times: 60,
       isSendCode: false, //发送验证码按钮是否隐藏
       isStyle: 0,
+      code: "",
       form: {
         mail: "",
         code: "",
@@ -117,6 +110,10 @@ export default {
     mailReg() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
+    },
+    // 验证验证码是否输入正确
+    validatorCode(val) {
+      return this.code === val
     },
     // 发送验证码
     sendCode() {
@@ -132,6 +129,7 @@ export default {
           }, 1000);
         }
         getCode({ mail: this.form.mail }).then((res) => {
+          this.code = res.data.message
           console.log(res.data, "邮箱验证码");
         });
       } else if (this.form.mail == "") {
@@ -168,15 +166,25 @@ export default {
         this.form.otype = localStorage.getItem("netType");
         this.form.sign = localStorage.getItem("mysign");
         changemail(this.form).then((res) => {
-          console.log(res);
           if (res.data.code == 0) {
-            this.$toast.success("修改成功");
+            this.$toast.success({
+              message: "修改成功",
+              forbidClick: true
+            });
             setTimeout(() => {
-              this.$router.push("/login");
+              this.$router.replace("/login");
             }, 500);
           } else {
-            this.$toast.fail("修改邮箱失败");
+            this.$toast.fail({
+              message: res.data.message,
+              forbidClick: true
+            });
           }
+        }).catch(() => {
+          this.$toast.fail({
+            message: "修改邮箱失败",
+            forbidClick: true
+          });
         });
       }
     },
