@@ -60,9 +60,15 @@
 import { login } from "@/api/pagesApi/login";
 export default {
   name: "logIn",
+<<<<<<< HEAD
+=======
+  props: {
+    wallet: {type: Object, default: () => ({})}
+  },
+>>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
   data() {
     return {
-      show: true,
+      show: false,
       pwd: "",
       height: 0,
       form: {
@@ -78,13 +84,8 @@ export default {
   },
   mounted() {
     this.height = document.body.scrollHeight - 152;
-    this.form.walletAddress = localStorage.getItem("myaddress");
-    this.form.otype = localStorage.getItem("netType");
-    this.form.sign = localStorage.getItem("mysign");
     // 如果没有钱包地址输入邮箱和密码
-    if (!this.form.walletAddress) {
-      this.show = false;
-    }
+    this.show = !!this.form.walletAddress;
   },
   methods: {
     // 获取钱包，网络类型，sign
@@ -105,6 +106,16 @@ export default {
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
+    },
+    getWallet(data) {
+      const {oType, myaddress, sign} = data
+      if (oType && myaddress && sign) {
+        console.log(2)
+        this.form.otype = oType
+        this.form.walletAddress = myaddress
+        this.form.sign = sign
+        this.show = true
+      }
     },
     // 登录
     login() {
