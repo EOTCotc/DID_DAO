@@ -99,7 +99,6 @@ export default {
       timer: null,
       nextDisabled: true,
       submitDisabled: true,
-      pre: [],
       testQuestionData: [
         {
           id: 1,
@@ -355,14 +354,16 @@ export default {
       this.jumpTestQuestions = false
       this.flag = true
       if (item.topicType == '(多选题)') {
-        item.result.push(val.contant)
+        let reindex = item.result.indexOf(val.contant)
+        reindex == -1
+          ? item.result.push(val.contant)
+          : item.result.splice(reindex, 1)
         item.questionAnswer.forEach((element, index) => {
           if (index == this.idx) {
             element.Check = !element.Check
           }
         })
         let a = item.questionAnswer.filter((el) => el.Check)
-        item.result.push(a.contant)
         a.length >= 2 ? (this.nextDisabled = false) : (this.nextDisabled = true)
       } else {
         item.result = val.contant
@@ -379,7 +380,6 @@ export default {
     previousQuestion() {
       this.count--
       this.nextDisabled = false
-      this.pre.push(this.testQuestionData[this.count].result)
     },
     nextQuestion(index) {
       this.idx = null
@@ -391,32 +391,34 @@ export default {
       ) {
         return
       } else {
-        if (this.testQuestionData[index].topicType == '(多选题)') {
+        if (this.testQuestionData[this.count - 1].topicType == '(多选题)') {
           let CheckArr = []
-          this.testQuestionData[index].questionAnswer.forEach((element) => {
-            if (element.Check == true) CheckArr.push(element.Check)
-          })
+          this.testQuestionData[this.count - 1].questionAnswer.forEach(
+            (element) => {
+              if (element.Check == true) CheckArr.push(element.Check)
+            }
+          )
           if (CheckArr.length <= 1) {
             return
           } else {
             this.count++
             this.nextDisabled = true
-            console.log(this.pre)
-            if (this.pre[0] != undefined && this.pre[0].length >= 2) {
+            if (
+              this.testQuestionData[this.count - 1].result.length >= 2 ||
+              this.count == 6
+            ) {
               this.nextDisabled = false
-              this.pre = []
             }
           }
         } else {
           this.count++
           this.nextDisabled = true
-          if (this.pre.length > 0) {
+          if (this.testQuestionData[this.count - 1].result != '') {
             if (this.count == 4) {
-              if (this.pre[0].length >= 2) this.nextDisabled = false
-              this.pre = []
+              if (this.testQuestionData[this.count - 1].result.length >= 2)
+                this.nextDisabled = false
             } else {
               this.nextDisabled = false
-              this.pre = []
             }
           }
         }

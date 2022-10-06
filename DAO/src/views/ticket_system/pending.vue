@@ -227,7 +227,9 @@ export default {
       })
         .then((res) => {
           res.data.items.map((item) => {
-            item.createDate = this.$dayjs(item.createDate).format("YYYY-MM-DD");
+            item.createDate = this.$dayjs(item.createDate).format(
+              "YYYY-MM-DD hh:mm:ss"
+            );
           });
           if (this.list.query.page === 1) {
             this.pengList = res.data.items;

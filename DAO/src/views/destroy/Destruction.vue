@@ -24,12 +24,18 @@
         <van-cell title="游戏消耗" value="2022年7月27日" />
         <van-cell :title="item.memo" :border="false" />
         <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell
-          :title="item.destructionId"
-          :border="false"
-          id="destId"
-          @click="copy()"
-        />
+        <van-cell>
+          <!-- 使用 title 插槽来自定义标题 -->
+          <template #title>
+            <span
+              class="custom-title"
+              id="destId"
+              @click="copy()"
+              :data-clipboard-text="item.destructionId"
+              >{{ item.destructionId }}</span
+            >
+          </template>
+        </van-cell>
       </van-cell-group>
 
       <van-empty
@@ -42,9 +48,9 @@
       <van-popup
         v-model="show"
         position="right"
-        :style="{ height: '730px', width: '70%' }"
+        :style="{ height: '730px', width: '80%' }"
       >
-        <div>筛选时间</div>
+        <div style="padding: 20px 0 0 20px">筛选时间</div>
         <div class="tag">
           <div
             v-for="(ite, index) in tags"
@@ -69,14 +75,17 @@
 
         <div class="btn">
           <van-button round type="default" @click="chongzhi()">重置</van-button>
-          <van-button round type="info" @click="que">确定</van-button>
+          <van-button round type="info" @click="que" :disabled="disabled"
+            >确定</van-button
+          >
         </div>
       </van-popup>
       <van-calendar
         title="日期选择"
         v-model="showDate"
         :show-subtitle="true"
-        type="multiple"
+        type="range"
+        color="#227AEE"
         @confirm="onConfirm"
       />
     </main>
@@ -87,13 +96,13 @@
 <script>
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
-import { Toast } from "vant";
-
+import Clipboard from "clipboard";
 export default {
   components: { White },
   data() {
     return {
       title: "销毁查询",
+      disabled: true,
       value: "",
       show: false,
       showDate: false,
@@ -135,25 +144,20 @@ export default {
       this.end = "";
       this.start = "";
       this.active = 0;
+      this.disabled = true;
       this.inquiry();
     },
     //复制
     copy() {
-      var value = document.getElementById("destId");
-      var cInput = document.createElement("input");
-      console.log(value.innerText);
-      cInput.value = value.innerText;
-      document.body.appendChild(cInput);
-      cInput.select(); // 选取文本框内容
-      // 执行浏览器复制命令
-      // 复制命令会将当前选中的内容复制到剪切板中（这里就是创建的input标签）
-      // Input要在正常的编辑状态下原生复制方法才会生效
-
-      document.execCommand("copy");
-
-      Toast("复制成功");
-      // // 复制成功后再将构造的标签 移除
-      document.body.removeChild(cInput);
+      let clipboard = new Clipboard("#destId");
+      clipboard.on("success", (e) => {
+        this.$toast.success("复制成功");
+        clipboard.destroy();
+      });
+      clipboard.on("error", (e) => {
+        this.$toast.fail("复制失败");
+        clipboard.destroy();
+      });
     },
 
     //搜索框
@@ -179,6 +183,7 @@ export default {
       this.showDate = false;
       this.start = this.formatDate(start);
       this.end = this.formatDate(end);
+      this.disabled = false;
     },
     //分类标签
     changeZi(index) {
@@ -250,8 +255,8 @@ export default {
 .van-popup {
   width: 100%;
   height: 320px;
-  padding: 16px;
   color: #000;
+  box-sizing: border-box;
   font-size: 20px;
 }
 .tag {
@@ -261,12 +266,12 @@ export default {
   margin: 20px 0;
 }
 .tag div {
-  width: 110px;
+  width: 140px;
   display: inline-block;
   text-align: center;
-  padding: 8px 15px;
+  padding: 15px 25px;
   margin: 16px 20px 0;
-  border-radius: 16px;
+  border-radius: 25px;
 }
 .noActive {
   border: 1px solid #f3f4f5;
@@ -285,10 +290,13 @@ export default {
 .btn {
   position: fixed;
   bottom: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
   .van-button:first-child {
     width: 96px;
-    margin-left: 16px;
-    margin-right: 19.2px;
+    /* margin-left: 16px;
+    margin-right: 19.2px; */
   }
   .van-button:last-child {
     width: 136px;
