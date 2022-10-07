@@ -7,7 +7,8 @@
       <div class="identity-card">
         <div class="card-top">
           <div class="card-top-left">
-            <img src="../../assets/img/logo_two.png" alt="" />
+            <img src="../../assets/img/logo_two.png"
+                 alt="" />
             <div>
               <div>{{ user.mail }}</div>
               <div>UID:{{ user.uid }}</div>
@@ -17,8 +18,7 @@
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ daoInfo.daoEOTC }}</span
-            ><span @click="detail">收益明细</span>
+            <span style="font-size: 28px">{{ user.daoEOTC }}</span><span @click="detail">收益明细</span>
           </div>
         </div>
       </div>
@@ -29,35 +29,35 @@
 </template>
 
 <script>
-import TopBar from "@/components/topBar/topBar";
-import List from "../../components/Nav/List.vue";
-import { getdaoinfo } from "@/api/earnings";
+import TopBar from '@/components/topBar/topBar'
+import List from '../../components/Nav/List.vue'
+import { getdaoinfo } from '@/api/earnings'
 export default {
   components: { TopBar, List },
   data() {
     return {
       total: 0,
       user: {},
-    };
+    }
   },
   created() {
     // 获取用户信息
     getdaoinfo().then((res) => {
-      this.user = res.data.items;
-      this.total = res.data.items.daoEOTC;
-      localStorage.setItem("items", res.data.items.daoEOTC);
-      localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
-      localStorage.setItem("isExamine", res.data.items.isExamine);
-      localStorage.setItem("authType", res.data.items.authType);
-    });
+      this.user = res.data.items
+      this.total = res.data.items.daoEOTC
+      localStorage.setItem('items', res.data.items.daoEOTC)
+      localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
+      localStorage.setItem('isExamine', res.data.items.isExamine)
+      localStorage.setItem('authType', res.data.items.authType)
+    })
   },
   methods: {
     // 去往详情页
     detail() {
-      this.$router.push("/Home_detail");
+      this.$router.push('/Home_detail')
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

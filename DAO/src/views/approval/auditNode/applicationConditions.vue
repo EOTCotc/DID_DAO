@@ -245,8 +245,8 @@ export default {
       show: false,
       showFraction: false,
       applynow: false,
+      // +localStorage.getItem('authType')
       authType: +localStorage.getItem('authType'),
-      items: 0,
       displayApplicationConditions: false,
       examinequalificationPassed: Boolean(
         localStorage.getItem('examinequalificationPassed')
@@ -277,17 +277,18 @@ export default {
       closeOnClick2: true,
     }
   },
-  mounted() {
+  created() {
     getuSereotc().then((res) => {
-      this.items = res.data.items
+      if (res.data.items >= 5000) {
+        this.examinequalificationPassed2 = true
+        localStorage.setItem('examinequalificationPassed2', true)
+      }
     })
-    if (this.items >= 5000) this.examinequalificationPassed2 = true
+  },
+  mounted() {
     if (this.authType == 2) {
       this.examinequalificationPassed1 = true
-      localStorage.setItem(
-        'examinequalificationPassed1',
-        this.examinequalificationPassed1
-      )
+      localStorage.setItem('examinequalificationPassed1', true)
     }
     this.isExamine == 0
       ? (this.displayApplicationConditions = true)
@@ -376,6 +377,7 @@ export default {
           this.ArbitratorsIdentityInformation = res.data.items
         })
         this.displayApplicationConditions = false
+        this.isExamine = 1
       })
     },
     ExamTips() {
@@ -415,6 +417,7 @@ export default {
           })
             .then(() => {
               this.displayApplicationConditions = true
+              this.isExamine = 0
               localStorage.removeItem('examinequalificationPassed1')
               localStorage.removeItem('examinequalificationPassed2')
               localStorage.removeItem('examinequalificationPassed3')
