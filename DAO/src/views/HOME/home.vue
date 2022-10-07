@@ -147,18 +147,18 @@ import { loadweb3 } from "@/utils/web3.js";
 
 export default {
   components: { TopBar, Notification },
-  name: 'home',
+  name: "home",
   data() {
     return {
-      iconLang: 'arrow-down',
+      iconLang: "arrow-down",
       showPopup: false,
       lang: [
-        { id: 0, text: '简体中文', lang: 'zh' },
-        { id: 1, text: 'English', lang: 'en' },
+        { id: 0, text: "简体中文", lang: "zh" },
+        { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
       proposalList: [], //提案列表
-    }
+    };
   },
   mounted() {
     loadweb3(this.handle);
@@ -188,9 +188,9 @@ export default {
     getProposal() {
       getproposallist({ page: 1, itemsPerPage: 10 }).then((res) => {
         if (res.data.code == 0) {
-          this.proposalList = res.data.items
+          this.proposalList = res.data.items;
         }
-      })
+      });
     },
     //跳转到解除风控
     Remove_risk() {
@@ -199,14 +199,14 @@ export default {
     // 选择语言
     handleTabLang() {
       if (this.showPopup) {
-        this.iconLang = 'arrow-down'
+        this.iconLang = "arrow-down";
       } else {
-        this.iconLang = 'arrow-up'
+        this.iconLang = "arrow-up";
       }
-      this.showPopup = !this.showPopup
+      this.showPopup = !this.showPopup;
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

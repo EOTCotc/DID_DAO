@@ -1,34 +1,34 @@
 <template>
   <div class="nav_an_box">
-    <van-nav-bar fixed
-                 placeholder
-                 :title="title"
-                 :name='name'
-                 left-arrow
-                 @click-left="onClickLeft(name)" />
+    <van-nav-bar
+      fixed
+      placeholder
+      :title="title"
+      :name="name"
+      left-arrow
+      @click-left="onClickLeft(name)"
+    />
   </div>
 </template>
 
 <script>
 export default {
   //白色导航栏，带返回
-  name: 'Nav-white',
+  name: "Nav-white",
   props: { title: String, name: String },
   data() {
-    return {}
+    return {};
   },
   methods: {
     onClickLeft(name) {
       if (name) {
-        this.$router.push({
-          name: name,
-        })
+        this.$router.push({ name: name });
       } else {
-        this.$router.back()
+        this.$router.back();
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
