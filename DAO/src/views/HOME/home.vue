@@ -3,31 +3,26 @@
     <TopBar />
 
     <div class="content">
-      <img class="home-logo"
-           src="@/assets/imgs/home_logo.png"
-           alt="首页logo" />
+      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
-<<<<<<< HEAD
       <button class="home-btn" @click="$router.push('/Create')">
         {{ $t("home.btn") }}
-=======
-      <button class="home-btn"
-              @click="$router.push('/Create')">
-        {{ $t('home.btn') }}
->>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
-<<<<<<< HEAD
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
           <span
             class="home-proposal-more"
-            @click="$router.push('/Bill_list')"
-            v-if="proposalList.length != 0"
+            @click="
+              $router.push({
+                path: '/Bill_list',
+                query: { isProponent: 0, home: 'home' },
+              })
+            "
           >
             {{ $t("home.more") }}
             <van-icon name="arrow" color="#fff" />
@@ -39,44 +34,25 @@
             v-for="(item, index) in proposalList"
             :key="index"
             @click="
-=======
-          <span>{{ $t("home.title") }}</span>
-          <span @click="$router.push('/Bill_list')">
-            {{ $t("home.more") }}
-            <van-icon name="arrow"
-                      color="#fff" />
-          </span>
-        </div>
-        <div class="list-box"
-             v-if="proposalList.length != 0">
-          <div class="list-every"
-               v-for="(item, index) in proposalList"
-               :key="index"
-               @click="
->>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
               $router.push({
                 path: '/detail',
                 query: { proposalId: item.proposalId },
               })
-<<<<<<< HEAD
             "
           >
-=======
-            ">
->>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
-                <template v-if="item.status === 0">
+                <template v-if="item.state === 0">
                   <span style="background-color: #237ff8"></span>
                   <span>{{ $t("home.status1") }}</span>
                 </template>
-                <template v-else-if="item.status === 1">
+                <template v-else-if="item.state === 1">
                   <span></span>
                   <span>{{ $t("home.status2") }}</span>
                 </template>
-                <template v-else-if="item.status === 2">
+                <template v-else-if="item.state === 2">
                   <span style="background-color: #00b87a"></span>
                   <span>{{ $t("home.status3") }}</span>
                 </template>
@@ -88,8 +64,7 @@
             </div>
           </div>
         </div>
-        <div v-else
-             class="not-data">暂无任何提案信息</div>
+        <div v-else class="not-data">暂无任何提案信息</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -105,13 +80,13 @@
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup v-model="showPopup"
-                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-                 position="right">
+      <van-popup
+        v-model="showPopup"
+        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+        position="right"
+      >
         <div class="menu">
-          <div class="menu-every"
-               v-for="item in lang"
-               :key="item.id">
+          <div class="menu-every" v-for="item in lang" :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>

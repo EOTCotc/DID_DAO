@@ -17,7 +17,7 @@
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ daoInfo.daoEOTC }}</span
+            <span style="font-size: 28px">{{ user.daoEOTC }}</span
             ><span @click="detail">收益明细</span>
           </div>
         </div>

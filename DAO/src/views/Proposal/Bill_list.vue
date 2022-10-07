@@ -65,6 +65,10 @@ export default {
   },
   mounted() {
     this.isProponent == 0 ? (this.title = "提案") : (this.title = "我的提案");
+    // 判断是否从home页面跳过来
+    if (this.$route.query.home) {
+      this.name = "home";
+    }
   },
   created() {
     const loading = this.$toast.loading({
