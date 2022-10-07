@@ -91,11 +91,11 @@
       }
       .value {
         color: #333;
-        font-size: 32px;
+        font-size: 28px;
       }
       .date {
         color: #999;
-        font-size: 32px;
+        font-size: 28px;
         text-align: right;
       }
       .img {
@@ -105,10 +105,10 @@
       }
       .tip {
         color: #FC7542;
-        font-size: 32px;
+        font-size: 28px;
       }
       .remark {
-        font-size: 32px;
+        font-size: 28px;
         line-height: 1.4;
         color: #888;
       }

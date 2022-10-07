@@ -54,7 +54,7 @@
           <template #title>
             <span>
               {{ $t("my.certification_audit") }}
-              <span v-show="userInfo.hasAuth" class="badge"></span>
+              <span v-show="show.identity" class="badge"></span>
             </span>
           </template>
         </van-cell>
@@ -71,7 +71,7 @@
           <template #title>
             <span>
               {{ $t("my.community_approval") }}
-              <span v-show="userInfo.hasAuth" class="badge"></span>
+              <span v-show="show.communityApproval" class="badge"></span>
             </span>
           </template>
         </van-cell>
@@ -212,6 +212,7 @@ export default {
       userInfo: {},
       form: {},
       headerIcon: require('@/assets/imgs/jin.png'),
+      isShow: false,
       show: {
         communityApproval: false,
         identity: false,
@@ -262,16 +263,16 @@ export default {
             this.userInfo.comAuditType === 2 &&
             !this.userInfo.isImprove
           ) {
-            this.$dialog
-              .confirm({
+            if (!this.isShow) {
+              this.$dialog.confirm({
                 message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
                 confirmButtonText: "确定前往",
                 cancelButtonText: "稍后前往",
-              })
-              .then(() => {
+              }).then(() => {
                 this.$router.push("/my/community/setting");
-              })
-              .catch(() => {});
+              }).catch(() => {});
+              this.isShow = true
+            }
           }
         })
         .finally(() => loading.clear());

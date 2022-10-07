@@ -17,7 +17,7 @@
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ daoInfo.daoEOTC }}</span
+            <span style="font-size: 28px">{{ total }}</span
             ><span @click="detail">收益明细</span>
           </div>
         </div>
@@ -46,6 +46,7 @@ export default {
       this.user = res.data.items;
       this.total = res.data.items.daoEOTC;
       localStorage.setItem("items", res.data.items.daoEOTC);
+      localStorage.setItem("uid", res.data.items.uid);
       localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
       localStorage.setItem("isExamine", res.data.items.isExamine);
       localStorage.setItem("authType", res.data.items.authType);

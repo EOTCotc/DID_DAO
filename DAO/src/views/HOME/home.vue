@@ -10,19 +10,12 @@
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
-<<<<<<< HEAD
       <button class="home-btn" @click="$router.push('/Create')">
         {{ $t("home.btn") }}
-=======
-      <button class="home-btn"
-              @click="$router.push('/Create')">
-        {{ $t('home.btn') }}
->>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
-<<<<<<< HEAD
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
           <span
             class="home-proposal-more"
@@ -39,31 +32,11 @@
             v-for="(item, index) in proposalList"
             :key="index"
             @click="
-=======
-          <span>{{ $t("home.title") }}</span>
-          <span @click="$router.push('/Bill_list')">
-            {{ $t("home.more") }}
-            <van-icon name="arrow"
-                      color="#fff" />
-          </span>
-        </div>
-        <div class="list-box"
-             v-if="proposalList.length != 0">
-          <div class="list-every"
-               v-for="(item, index) in proposalList"
-               :key="index"
-               @click="
->>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
               $router.push({
                 path: '/detail',
                 query: { proposalId: item.proposalId },
               })
-<<<<<<< HEAD
-            "
-          >
-=======
             ">
->>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
