@@ -399,6 +399,12 @@ export default {
             }
           )
           if (CheckArr.length <= 1) {
+            // Dialog.alert({
+            //   message: '此题是多选题，请选择两个及两个以上的选项',
+            // }).then(() => {
+            //   return
+            //   // on close
+            // })
             return
           } else {
             this.count++
