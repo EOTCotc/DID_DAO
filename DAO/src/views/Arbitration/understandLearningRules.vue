@@ -139,8 +139,10 @@ export default {
 }
 footer {
   width: 100%;
+  min-height: 200px;
+  background-color: #fff;
   box-sizing: border-box;
-  padding: 50px 28px;
+  padding: 50px 28px 20px 28px;
   position: fixed;
   bottom: 0;
 }

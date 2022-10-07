@@ -40,7 +40,7 @@
                v-else>
             <van-icon name="success"
                       color="#1D9C3F "
-                      size="18" />
+                      size="20" />
           </div>
         </div>
         <div class="list">
@@ -52,7 +52,8 @@
             <p>质押5000 EOTC以上</p>
           </div>
           <div class="right"
-               v-if="examinequalificationPassed2 == false">
+               v-if="examinequalificationPassed2 == false"
+               @click="pledge">
             去质押
             <van-icon name="arrow" />
           </div>
@@ -60,7 +61,7 @@
                v-else>
             <van-icon name="success"
                       color="#1D9C3F "
-                      size="18" />
+                      size="20" />
           </div>
         </div>
         <div class="list">
@@ -81,7 +82,7 @@
                v-else>
             <van-icon name="success"
                       color="#1D9C3F "
-                      size="18" />
+                      size="20" />
           </div>
         </div>
         <div class="list listn">
@@ -91,7 +92,7 @@
                        fit="contain"
                        :src="require('../../../assets/img/kao.png')" />
             <div class="examinationColumn">
-              <span>通过考试</span><span style="color: #999999; font-size: 12px; margin-top: 3px">考试成绩达到90分以上</span>
+              <span>通过考试</span><span style="color: #999999; font-size: 13px; margin-top: 3px">考试成绩达到90分以上</span>
             </div>
           </div>
           <div class="right"
@@ -104,7 +105,7 @@
                v-else>
             <van-icon name="success"
                       color="#1D9C3F "
-                      size="18" />
+                      size="20" />
           </div>
         </div>
       </div>
@@ -180,7 +181,7 @@
       </div>
     </van-overlay>
     <notification1 ref="notification1"
-                   :class="this.title1 > 90 ? 'dti1' : ' dti2'"
+                   :class="this.title1 >= 90 ? 'dti1' : ' dti2'"
                    :buttonText="buttonText1"
                    :buttonColor="buttonColor1"
                    :headerIcon="headerIcon1"
@@ -211,18 +212,11 @@
                   v-if="displayApplicationConditions == false"
                   class="vanbtn">解除身份</van-button>
     </footer>
-    <Notification ref="notification"
-                  title="身份认证"
-                  message="您还未身份认证，请到DID进行身份认证"
-                  :headerIcon="require('../../../assets/img/jin.png')"
-                  buttonColor="#F65F5F"
-                  buttonText="知道了"
-                  :closeOnClick="true"
-                  @buttonClick="btnClick" />
   </div>
 </template>
 <script>
 import white from '@/components/Nav/white.vue'
+import { getuSereotc } from '@/api/earnings'
 import Notification from '@/components/notification.vue'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
@@ -236,7 +230,12 @@ import icon2 from './IMG/icon2.png'
 import icon3 from './IMG/icon3.png'
 import { Dialog } from 'vant'
 export default {
-  components: { white, notification1, notification2, Notification },
+  components: {
+    white,
+    notification1,
+    notification2,
+    Notification,
+  },
   data() {
     return {
       title: '审核节点',
@@ -246,7 +245,8 @@ export default {
       show: false,
       showFraction: false,
       applynow: false,
-      authType: 0,
+      authType: +localStorage.getItem('authType'),
+      items: 0,
       displayApplicationConditions: false,
       examinequalificationPassed: Boolean(
         localStorage.getItem('examinequalificationPassed')
@@ -278,6 +278,10 @@ export default {
     }
   },
   mounted() {
+    getuSereotc().then((res) => {
+      this.items = res.data.items
+    })
+    if (this.items >= 5000) this.examinequalificationPassed2 = true
     if (this.authType == 2) {
       this.examinequalificationPassed1 = true
       localStorage.setItem(
@@ -299,7 +303,7 @@ export default {
         this.$refs.notification1.toggle(true)
       })
     }
-    if (this.title1 > 90) {
+    if (this.title1 >= 90) {
       this.title1 = this.title1
       this.headerIcon1 = icon1
       this.message1 = '恭喜通过审核节点考试'
@@ -346,13 +350,29 @@ export default {
   },
   methods: {
     didNot() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(true)
+      Dialog.alert({
+        title: '身份认证',
+        message: '您还未身份认证，请到DID进行身份认证',
+      }).then(() => {
+        // on close
+      })
+    },
+    pledge() {
+      Dialog.alert({
+        title: '质押',
+        message: '质押未达到条件，请前往OTC交易所进行质押',
+      }).then(() => {
+        // on close
       })
     },
     auditing(name) {
       this.$router.push({
         name: name,
+      })
+    },
+    btnClick2() {
+      this.$nextTick().then(() => {
+        this.$refs.notification.toggle(false)
       })
     },
     btnClick() {
@@ -457,10 +477,16 @@ export default {
   ::v-deep .dialog-title {
     color: #999999;
   }
+  ::v-deep .dialog_wrap .dialog-header-icon[data-v-2c0d290a] {
+    width: 280px;
+  }
 }
 .dti1 {
   ::v-deep .dialog-title {
     color: #237ff8;
+  }
+  ::v-deep .dialog_wrap .dialog-header-icon[data-v-2c0d290a] {
+    width: 280px;
   }
 }
 .dismissalDialog {
