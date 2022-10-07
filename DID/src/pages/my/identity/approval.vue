@@ -1,3 +1,4 @@
+<script src='../../../../../../DID-main/DID后端/apevolo-web/src/utils/index.js'></script>
 <template>
   <van-pull-refresh v-model='list.uploading' @refresh='handleBottomRefresh'>
     <div class='certificationAudit_wrap bg-gray fullscreen'>
@@ -47,8 +48,8 @@
               <van-col span='24' class='name'>证件及手持证件照</van-col>
               <van-col span='24' class='value'>
                 <div class='imgs'>
-                  <img class='img' :src='item.portraitImage' alt='' @click='preview(item.portraitImage)'>
-                  <img class='img' :src='item.nationalImage' alt='' @click='preview(item.nationalImage)'>
+                  <img class='img' v-if='item.portraitImage.includes("blob:")' :src='item.portraitImage' alt='' @click='preview(item.portraitImage)'>
+                  <img class='img' v-if='item.portraitImage.includes("blob:")' :src='item.nationalImage' alt='' @click='preview(item.nationalImage)'>
                 </div>
               </van-col>
             </van-row>
@@ -204,13 +205,11 @@ export default {
       this.list.UpRefreshLoading = true
       this.getList()
     },
-    getWatermarkImg(data) {
-      getImg(data.portraitImage).then(res => {
-        console.log(res)
-      })
-      getImg(data.nationalImage).then(res => {
-        console.log(res)
-      })
+    async getWatermarkImg(src) {
+      const res = await getImg(src)
+      const blob = new window.Blob([res.data], {type: res.type})
+      const url = window.URL.createObjectURL(blob)
+      return url
     },
     // 获取列表
     getList() {
@@ -220,7 +219,6 @@ export default {
         if (!res.data.code) {
           const data = res.data.items.map(item => {
             const auths = [...item.auths]
-            this.getWatermarkImg(item)
             if (this.tab.active === 1) {
               item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === userInfo.uid) + 1)
               item.status = item.auths[item.auths.length - 1].auditType
@@ -233,6 +231,14 @@ export default {
             this.list.data.push(...data)
           }
           this.list.finished = !data.length
+          this.list.data.forEach(item => {
+            this.getWatermarkImg(item.portraitImage).then(res => {
+              item.portraitImage = res
+            })
+            this.getWatermarkImg(item.nationalImage).then(res => {
+              item.nationalImage = res
+            })
+          })
         } else {
           this.$toast.fail({
             forbidClick: true,
