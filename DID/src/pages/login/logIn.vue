@@ -80,6 +80,12 @@ export default {
     this.height = document.body.scrollHeight - 152;
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
+    if(localStorage.getItem('myaddress')){
+      this.show=true
+      this.form.walletAddress=localStorage.getItem('myaddress')
+      this.form.otype=localStorage.getItem('netType')
+      this.form.sign=localStorage.getItem('mysign')
+    }
   },
   methods: {
     // 去注册

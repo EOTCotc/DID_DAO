@@ -4,7 +4,7 @@
     <van-nav-bar>
       <template #left>
         <van-icon
-          @click="$router.push('/setup')"
+          @click="$router.replace('/setup')"
           name="arrow-left"
           color="#000"
           size="18"

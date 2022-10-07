@@ -259,8 +259,8 @@ export default {
   .big_bg_logo {
     margin-top: -40px;
     img {
-      width: 882px;
-      height: 858px;
+      width:100%;
+      height: 100%;
     }
   }
   // 身份证背景图

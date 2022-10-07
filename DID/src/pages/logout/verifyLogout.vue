@@ -4,7 +4,7 @@
     <van-nav-bar>
       <template #left>
         <van-icon
-          @click="$router.push('/setup')"
+          @click="$router.replace('/setup')"
           name="arrow-left"
           color="#000"
           size="18"
@@ -93,7 +93,7 @@ export default {
     };
   },
   mounted() {
-    this.form.reason = this.$route.params.reason;
+    this.form.reason = this.$route.query.reason;
     this.form.mail = JSON.parse(this.cookie.get("userInfo")).mail;
   },
   methods: {
@@ -125,7 +125,7 @@ export default {
         logout(this.form).then((res) => {
           if (res.data.code == 0) {
             this.$toast.success(res.data.message);
-            this.$router.push("/setup/logout/logoutCountdown");
+            this.$router.replace("/setup/logout/logoutCountdown");
           } else if (res.data.code == 1) {
             this.$toast.fail(res.data.message);
           } else {

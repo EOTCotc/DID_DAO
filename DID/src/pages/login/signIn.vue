@@ -172,7 +172,7 @@ export default {
       this.showCode = false;
       // 更改按钮颜色
       this.emailBtnColor = "#fff";
-      getCode({ mail: this.form.mail }).then((res) => {
+      getCode({ mail: this.form.mail, type: 0 }).then((res) => {
         console.log(res.data, "code");
       });
       if (0 < this.seconds) {
@@ -289,7 +289,7 @@ p,
 :deep(.van-checkbox__label) {
   font-size: 28px;
 }
-:deep(.van-button--info){
+:deep(.van-button--info) {
   border: none;
 }
 .signin-box {
