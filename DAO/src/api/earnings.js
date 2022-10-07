@@ -15,3 +15,19 @@ export function getincome(data) {
     data,
   });
 }
+// 获取用户信息
+export const getuserinfo = (params) => {
+  return request({
+    url: "/api/user/getuserinfo",
+    method: "GET",
+    params,
+  });
+};
+//获取质押数量
+export const getuSereotc = (params) => {
+  return request({
+    url: "api/daouser/getusereotc",
+    method: "post",
+    params,
+  });
+};

@@ -2,13 +2,15 @@
   <div class="meun">
     <header>
       <div class="nav_an_box">
-        <van-nav-bar fixed
-                     placeholder
-                     :title="title"
-                     left-arrow
-                     :right-text="rightText"
-                     @click-left="onClickLeft"
-                     @click-right="onClickRight">
+        <van-nav-bar
+          fixed
+          placeholder
+          :title="title"
+          left-arrow
+          :right-text="rightText"
+          @click-left="onClickLeft"
+          @click-right="onClickRight"
+        >
         </van-nav-bar>
       </div>
     </header>
@@ -32,70 +34,71 @@
             <div class="ion fhire"></div>
             已终止
           </span>
-          <span>{{List.walletAddress}}提议</span>
+          <span>{{ List.walletAddress }}提议</span>
         </div>
       </div>
-      <div class="jindu"
-           ref="jindu">
+      <div class="jindu" ref="jindu">
         <div class="tou">
           投票进度
-          <span class="hui"><span>{{text}}</span>{{ createDate | dateFormat('yyyy-MM-dd')}}</span>
+          <span class="hui"
+            ><span>{{ text }}</span
+            >{{ createDate | dateFormat("yyyy-MM-dd") }}</span
+          >
         </div>
         <div>共{{ peopleNum }}人参与</div>
-        <van-progress :track-color="trackColor"
-                      :percentage="percentageVotes"
-                      v-if="!isNaN(parseInt(percentageVotes))"
-                      :color="valueColor"
-                      :show-pivot="false"
-                      stroke-width="12" />
-        <div class="num"
-             v-if="isVote1">
-          <span style="color: #00b87a">{{ peopleNum }}</span>/99
+        <van-progress
+          :track-color="trackColor"
+          :percentage="percentageVotes"
+          v-if="!isNaN(parseInt(percentageVotes))"
+          :color="valueColor"
+          :show-pivot="false"
+          stroke-width="12"
+        />
+        <div class="num" v-if="isVote1">
+          <span style="color: #00b87a">{{ peopleNum }}</span
+          >
         </div>
-        <div class="num vote"
-             v-if="isVote == false"
-             style="font-size: 14px">
-          <div v-if="favorVotes==0 && opposeVotes==0"> <span>赞成票{{ favorVotes+'%' }}</span>反对票{{ opposeVotes +'%'}}</div>
-          <div v-else><span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}</div>
+        <div class="num vote" v-if="isVote == false" style="font-size: 14px">
+          <div v-if="favorVotes == 0 && opposeVotes == 0">
+            <span>赞成票{{ favorVotes + "%" }}</span
+            >反对票{{ opposeVotes + "%" }}
+          </div>
+          <div v-else>
+            <span>赞成票{{ TotalFavorVotes }}</span
+            >反对票{{ TotalOpposeVotes }}
+          </div>
+        </div>
 
-        </div>
         <div class="num vote"
-             v-if="isVote == false"
-             style="color: #fc7542">
-          <div><span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票</div>
+             v-if="isVote == false">
+          <div> <span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票</div>
+          <div v-if="peopleNum < 99">
+            该提案需要99人投票才能取得进展，作者可以随时终止
+          </div>
+          <div v-if="peopleNum == 99">该提案已99人投票参与,投票已完成</div>
         </div>
-        <div v-if="peopleNum<99">该提案需要99人投票才能取得进展，作者可以随时终止</div>
-        <div v-if="peopleNum==99">该提案已99人投票参与,投票已完成</div>
-      </div>
-      <div class="xiang">
-        <div class="tou">提案详情</div>
-        <div class="wen">{{List.summary}}</div>
-        <!-- <div class="wen">
-          为了降低这些门槛，需要签订新的合同。我们选择使用与Dharma原始提案相同的智能合约代码，并带有这些新值。为此，我们部署了一个新合约，其中包含以下更改：GovernorAlpha
-          proposalThreshold已从 修改为 ，即从 1% 修改为
-          0.25%。10_000_000e182_500_000e18
-          添加了一个公共功能，允许合同在执行后对合同主张所有权。__acceptAdmin()TimelocksetPendingAdmin
-          timelock现在被声明为，而不是在合同构建期间通过分配给存储插槽，因为它们的值在部署后不可修改（并且使用将需要一个主要的Solidity版本凸起和对已经经过良好审核的代码进行相应的重构）。uniconstantimmutable
-          我们认为，该提案是朝着UNI治理的正确方向迈出的保守一步，并且创造了一个更容易获得的治理生态系统。我们希望这是Fish.vote可以参与的众多改进中的第一个。
-        </div> -->
-      </div>
-      <div class="ti"
-           v-if="isVote && List.isVote!=1">
-        <div class="tou">
-          对此提案
-          <van-button disabled
-                      type="default"
-                      size="small"
-                      v-if="radio == ''">投票</van-button>
-          <van-button type="info"
-                      size="small"
-                      @click="isDloag"
-                      v-else>投票</van-button>
+        <div class="xiang">
+          <div class="tou">提案详情</div>
+          <div class="wen">{{ List.summary }}</div>
         </div>
-        <van-radio-group v-model="radio">
-          <van-radio name="1">赞成</van-radio>
-          <van-radio name="2">反对</van-radio>
-        </van-radio-group>
+        <div class="ti"
+             v-if="isVote || List.isVote == 1">
+          <div class="tou">
+            对此提案
+            <van-button type="default"
+                        size="small"
+                        v-if="radio == '' && items<100"
+                        @click="NoVoting">投票</van-button>
+            <van-button type="info"
+                        size="small"
+                        @click="isDloag"
+                        v-else>投票</van-button>
+          </div>
+          <van-radio-group v-model="radio">
+            <van-radio name="1">赞成</van-radio>
+            <van-radio name="2">反对</van-radio>
+          </van-radio-group>
+        </div>
       </div>
     </main>
     <footer></footer>
@@ -105,6 +108,7 @@
 <script>
 import 'vant/es/toast/style'
 import { cancelproposal, proposalvote, getproposal } from '@/api/Proposal'
+import { getuSereotc } from '@/api/earnings'
 import { Toast, Dialog, List } from 'vant'
 export default {
   data() {
@@ -112,11 +116,13 @@ export default {
       text: '创建于',
       trackColor: '#fff',
       valueColor: '#00B87A',
-      rightText: '取消',
+      rightText: '',
       title: '详情',
       radio: '',
+      items: 0,
       proposalId: this.$route.query.proposalId,
       state: this.$route.query.state,
+      isProponent: this.$route.query.isProponent,
       List: {},
       isVote: true,
       Votes: 1,
@@ -134,12 +140,18 @@ export default {
     let data = {
       id: this.proposalId,
     }
+    getuSereotc().then((res) => {
+      this.items = res.data.items
+    })
     getproposal(data).then((res) => {
       res.data.items.walletAddress =
         res.data.items.walletAddress.slice(0, 4) +
         '...' +
         res.data.items.walletAddress.slice(-4)
       this.List = res.data.items
+      this.peopleNum = this.List.peopleNum
+      this.opposeVotes = this.List.opposeVotes
+      this.favorVotes = this.List.favorVotes
       if (
         Boolean(localStorage.getItem(`createDate+${this.proposalId}`)) == false
       ) {
@@ -169,9 +181,9 @@ export default {
 
   mounted() {
     setTimeout(() => {
-      console.log(this.List)
-      if (this.state == 3) this.rightText = ''
-      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
+      console.log(this.List);
+      if (this.isProponent != 0) this.rightText = "取消";
+      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
       this.favorVotes = Number(
         localStorage.getItem(`favorVotes+${this.proposalId}`)
       )
@@ -225,13 +237,23 @@ export default {
     },
   },
   methods: {
+    NoVoting() {
+      Dialog.alert({
+        message: '请选择你要投票的类型，同时当前账号需要有100 EOTC',
+      }).then(() => {
+        // on close
+      })
+    },
     onClickLeft() {
       history.go(-1)
     },
     onClickRight() {
       Dialog.confirm({
-        title: '取消提示',
-        message: '确认取消该提案？',
+        title: "取消提示",
+        message: "确认取消该提案？",
+        confirmButtonColor: "#1B2945 ",
+        cancelButtonColor: "#666666 ",
+        getContainer: ".meun",
       })
         .then(() => {
           let data = {
@@ -331,13 +353,20 @@ export default {
   background: #f3f4f5;
   height: 100vh;
 }
-
+.meun {
+  ::v-deep .van-dialog__message--has-title {
+    color: #f37a4c !important;
+  }
+  ::v-deep .van-button {
+    font-weight: bold;
+  }
+}
 .box {
   background: #fff;
   box-sizing: border-box;
   height: 92.7vh;
   color: #000;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
 }
 .van-nav-bar .van-icon {
   color: #000;

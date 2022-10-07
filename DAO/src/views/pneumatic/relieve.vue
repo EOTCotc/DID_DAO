@@ -22,20 +22,24 @@
             <van-image
               width="25"
               height="25"
-              v-if="item.status == 2"
+              v-if="item.status == 1"
               :src="require('../../assets/img/feng_jin.png')"
             />
           </template>
         </van-cell>
         <van-row class="wen">
           <van-col span="4">联系人</van-col>
-          <van-col span="10" offset="4" @click="copy">{{ item.name }}</van-col>
+          <van-col span="10" offset="4">{{ item.name }}</van-col>
         </van-row>
         <van-row class="wen">
           <van-col span="4">手机号</van-col>
-          <van-col span="10" offset="4" id="phone" @click="copy">{{
-            item.phone
-          }}</van-col>
+          <van-col
+            span="10"
+            offset="4"
+            id="phone"
+            @click="toggle(true, item.phone)"
+            >{{ item.phone }}</van-col
+          >
         </van-row>
       </van-cell-group>
       <van-empty
@@ -49,9 +53,9 @@
         :actions="actions"
         cancel-text="取消"
         close-on-click-action
-        @cancel="onCancel"
-        @select="onSelect"
+        @select="handleSelect"
       />
+      <a ref="tel" :href="`tel: ${phone};`" style="display: none"></a>
     </main>
   </div>
 </template>
@@ -60,6 +64,7 @@
 import White from "@/components/Nav/white.vue";
 import { Toast } from "vant";
 import { getrisklist } from "@/api/pneumatic";
+import { copy } from "@/utils/utils";
 export default {
   components: {
     White,
@@ -69,6 +74,7 @@ export default {
       title: "解除风控",
       show: false,
       actions: [{ name: "呼叫" }, { name: "复制号码" }],
+      phone: "",
       riskList: [],
     };
   },
@@ -80,26 +86,20 @@ export default {
     });
   },
   methods: {
-    copy() {
-      this.show = true;
+    copy,
+    toggle(show, phone) {
+      this.show = show;
+      this.phone = phone;
     },
     onCancel() {
       Toast("取消");
     },
-    onSelect(item) {
-      if (item.name == "复制号码") {
-        // 模拟 输入框
-        var cInput = document.createElement("input");
-        var value = document.getElementById("phone");
-        cInput.value = value.innerText;
-        document.body.appendChild(cInput);
-        cInput.select(); // 选取文本框内容
-
-        document.execCommand("copy");
-
-        Toast("复制成功");
-        // 复制成功后再将构造的标签 移除
-        document.body.removeChild(cInput);
+    handleSelect(data) {
+      console.log(data);
+      if (data.name === "呼叫") {
+        this.$refs.tel.click();
+      } else if (data.name === "复制号码") {
+        this.copy(this.phone);
       }
     },
   },
@@ -112,7 +112,7 @@ export default {
 }
 .section {
   .van-cell-group {
-    margin-top: 16px;
+    margin-top: 20px;
     .van-field {
       .phone ::v-deep .van-field__control {
         color: #237ff8 !important;
@@ -125,5 +125,8 @@ export default {
   /* maring: ; */
   padding: 10px 30px;
   line-height: 48px;
+}
+.custom-image {
+  margin-top: 25%;
 }
 </style>

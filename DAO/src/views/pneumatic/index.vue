@@ -1,7 +1,7 @@
 
 <template>
   <div class="fullscreen bg-gray">
-    <white :title="title"></white>
+    <white :title="title" :name="name"></white>
     <div class="contatiner">
       <div class="top">
         <div class="content">
@@ -101,6 +101,7 @@ export default {
     return {
       maticList: [],
       title: "风控",
+      name: "personage",
       over_show: false,
       status: "",
     };
@@ -238,5 +239,8 @@ export default {
     font-weight: bold;
     padding: 15px 0;
   }
+}
+.custom-image {
+  margin-top: 25%;
 }
 </style>

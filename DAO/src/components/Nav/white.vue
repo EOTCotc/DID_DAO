@@ -4,8 +4,9 @@
       fixed
       placeholder
       :title="title"
+      :name="name"
       left-arrow
-      @click-left="onClickLeft"
+      @click-left="onClickLeft(name)"
     />
   </div>
 </template>
@@ -14,14 +15,17 @@
 export default {
   //白色导航栏，带返回
   name: "Nav-white",
-  props: { title: String },
+  props: { title: String, name: String },
   data() {
     return {};
   },
   methods: {
-    onClickLeft() {
-      this.$router.back();
-      // //console.log("back");
+    onClickLeft(name) {
+      if (name) {
+        this.$router.push({ name: name });
+      } else {
+        this.$router.back();
+      }
     },
   },
 };

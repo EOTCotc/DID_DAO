@@ -1,7 +1,7 @@
 <template>
   <div :class="displayApplicationConditions ? 'box2' : 'box'">
     <header>
-      <white :title="title"></white>
+      <white :title="title" :name="name"></white>
     </header>
     <div class="backgroundPicture">
       <van-image width="100vw" height="140px" :src="require('./IMG/bg.png')" />
@@ -18,35 +18,56 @@
       <div class="conditionsList">
         <div class="list list1">
           <div class="left">
-            <van-icon name="coupon-o" />
+            <van-image
+              width="21px"
+              height="19px"
+              fit="contain"
+              :src="require('../../assets/img/zshen.png')"
+            />
             <p>DID身份认证</p>
           </div>
-          <div class="right"
-               @click="didNot"
-               v-if="qualificationPassed1 == false">
+          <div
+            class="right"
+            @click="didNot"
+            v-if="qualificationPassed1 == false"
+          >
             去认证
             <van-icon name="arrow" />
           </div>
           <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F " size="18" />
+            <van-icon name="success" color="#1D9C3F " size="20" />
           </div>
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="refund-o" />
+            <van-image
+              width="21px"
+              height="19px"
+              fit="contain"
+              :src="require('../../assets/img/zya.png')"
+            />
             <p>质押5000 EOTC以上</p>
           </div>
-          <div class="right" v-if="qualificationPassed2 == false">
+          <div
+            class="right"
+            v-if="qualificationPassed2 == false"
+            @click="pledge"
+          >
             去质押
             <van-icon name="arrow" />
           </div>
           <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F " size="18" />
+            <van-icon name="success" color="#1D9C3F " size="20" />
           </div>
         </div>
         <div class="list">
           <div class="left">
-            <van-icon name="orders-o" />
+            <van-image
+              width="21px"
+              height="19px"
+              fit="contain"
+              :src="require('../../assets/img/stay.png')"
+            />
             <p>了解学习仲裁规则</p>
           </div>
           <div
@@ -58,15 +79,20 @@
             <van-icon name="arrow" />
           </div>
           <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F" size="18" />
+            <van-icon name="success" color="#1D9C3F" size="20" />
           </div>
         </div>
         <div class="list listn">
           <div class="left">
-            <van-icon name="sign" />
+            <van-image
+              width="21px"
+              height="19px"
+              fit="contain"
+              :src="require('../../assets/img/kao.png')"
+            />
             <div class="examinationColumn">
               <span>通过考试</span
-              ><span style="color: #999999; font-size: 12px; margin-top: 3px"
+              ><span style="color: #999999; font-size: 13px; margin-top: 3px"
                 >考试成绩达到90分以上</span
               >
             </div>
@@ -80,7 +106,7 @@
             <van-icon name="arrow" />
           </div>
           <div class="right" v-else>
-            <van-icon name="success" color="#1D9C3F " size="18" />
+            <van-icon name="success" color="#1D9C3F " size="20" />
           </div>
         </div>
       </div>
@@ -119,7 +145,7 @@
       <div class="bottom">
         <div>
           <div>仲裁胜诉(个)</div>
-          <div>{{ArbitratorsIdentityInformation.victoryNum}}</div>
+          <div>{{ ArbitratorsIdentityInformation.victoryNum }}</div>
         </div>
         <div class="line"></div>
         <div>
@@ -161,7 +187,7 @@
     </van-overlay>
     <notification1
       ref="notification1"
-      :class="this.title1 > 90 ? 'dti1' : ' dti2'"
+      :class="this.title1 >= 90 ? 'dti1' : ' dti2'"
       :buttonText="buttonText1"
       :buttonColor="buttonColor1"
       :headerIcon="headerIcon1"
@@ -201,41 +227,41 @@
         >解除身份</van-button
       >
     </footer>
-    <Notification ref="notification"
-                  title="身份认证"
-                  message="您还未身份认证，请到DID进行身份认证"
-                  :headerIcon="require('../../assets/img/jin.png')"
-                  buttonColor="#F65F5F"
-                  buttonText="知道了"
-                  :closeOnClick="true"
-                  @buttonClick="btnClick" />
   </div>
 </template>
 <script>
 import white from "@/components/Nav/white.vue";
+import { getuSereotc } from "@/api/earnings";
 import {
   TerminationArbitrator,
   becomeAnArbitrator,
   getarbitrator,
-} from '@/api/TerminationOfArbitrator'
-import Notification from '@/components/notification.vue'
-import notification1 from '@/components/notification.vue'
-import notification2 from '@/components/notification.vue'
-import icon1 from './IMG/icon.png'
-import icon2 from './IMG/icon2.png'
-import icon3 from './IMG/icon3.png'
-import { Dialog } from 'vant'
+} from "@/api/TerminationOfArbitrator";
+import Notification from "@/components/notification.vue";
+import notification1 from "@/components/notification.vue";
+import notification2 from "@/components/notification.vue";
+import icon1 from "./IMG/icon.png";
+import icon2 from "./IMG/icon2.png";
+import icon3 from "./IMG/icon3.png";
+import { Dialog } from "vant";
 export default {
-  components: { white, notification1, notification2, Notification },
+  components: {
+    white,
+    notification1,
+    notification2,
+    Notification,
+  },
   data() {
     return {
       title: "仲裁员",
+      name: "arbitration",
       isArbitrate: +localStorage.getItem("isArbitrate"),
       ArbitratorsIdentityInformation: {},
       show: false,
       showFraction: false,
       applynow: false,
-      authType: 0,
+      authType: +localStorage.getItem("authType"),
+      items: 0,
       displayApplicationConditions: true,
       qualificationPassed: Boolean(localStorage.getItem("qualificationPassed")),
       qualificationPassed1: Boolean(
@@ -280,9 +306,13 @@ export default {
     },
   },
   mounted() {
+    getuSereotc().then((res) => {
+      this.items = res.data.items;
+    });
+    if (this.items >= 5000) this.qualificationPassed2 = true;
     if (this.authType == 2) {
-      this.qualificationPassed1 = true
-      localStorage.setItem('qualificationPassed1', this.qualificationPassed1)
+      this.qualificationPassed1 = true;
+      localStorage.setItem("qualificationPassed1", this.qualificationPassed1);
     }
     this.isArbitrate == 0
       ? (this.displayApplicationConditions = true)
@@ -298,7 +328,7 @@ export default {
         this.$refs.notification1.toggle(true);
       });
     }
-    if (this.title1 > 90) {
+    if (this.title1 >= 90) {
       this.title1 = this.title1;
       this.headerIcon1 = icon1;
       this.message1 = "恭喜通过仲裁考试";
@@ -329,14 +359,20 @@ export default {
 
   methods: {
     didNot() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(true)
-      })
+      Dialog.alert({
+        title: "身份认证",
+        message: "您还未身份认证，请到DID进行身份认证",
+      }).then(() => {
+        // on close
+      });
     },
-    btnClick() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false)
-      })
+    pledge() {
+      Dialog.alert({
+        title: "质押",
+        message: "质押未达到条件，请前往OTC交易所进行质押",
+      }).then(() => {
+        // on close
+      });
     },
     auditing(name) {
       this.$router.push({
@@ -439,10 +475,16 @@ export default {
   ::v-deep .dialog-title {
     color: #999999;
   }
+  ::v-deep .dialog_wrap .dialog-header-icon[data-v-2c0d290a] {
+    width: 280px;
+  }
 }
 .dti1 {
   ::v-deep .dialog-title {
     color: #237ff8;
+  }
+  ::v-deep .dialog_wrap .dialog-header-icon[data-v-2c0d290a] {
+    width: 280px;
   }
 }
 .dismissalDialog {
@@ -615,17 +657,17 @@ export default {
   color: #333333;
   padding: 0 35px;
   h4 {
-    font-size: 32px;
-    padding: 30px 0;
+    font-size: 34px;
+    padding: 30px 5px 35px 5px;
   }
   .conditionsList {
     background-color: #f3f4f5;
-    height: 448px;
+    height: 450px;
     border-radius: 25px;
     padding: 25px 0;
     box-sizing: border-box;
     .list {
-      padding: 20px 25px;
+      padding: 27px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -636,18 +678,13 @@ export default {
         align-items: center;
         font-weight: bold;
         color: #333333;
-        .van-icon {
-          font-size: 23px;
-          margin-top: 1px;
-          font-weight: bold;
-        }
+
         p {
-          font-size: 26px;
-          color: #333333;
+          font-size: 29px;
           margin-left: 20px;
         }
         .examinationColumn {
-          font-size: 26px;
+          font-size: 29px;
           display: flex;
           line-height: 35px;
           flex-direction: column;
@@ -657,7 +694,7 @@ export default {
       }
       .right {
         color: #999999;
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
         margin-top: 4px;
         .van-icon-arrow {
@@ -666,14 +703,20 @@ export default {
       }
     }
     .listn {
+      padding: 10px 30px;
       .left {
-        .van-icon {
-          margin-top: 0;
+        ::v-deep .van-image__img {
+          margin-top: -1px;
         }
       }
     }
     .list1 {
       margin-top: 2px;
+      .left {
+        p {
+          margin-top: 3px;
+        }
+      }
     }
   }
 }
@@ -682,7 +725,7 @@ footer {
   box-sizing: border-box;
   padding: 0 30px;
   position: fixed;
-  bottom: 32px;
+  bottom: 50px;
   .vanbtn {
     color: #999999 !important;
     font-weight: bold;

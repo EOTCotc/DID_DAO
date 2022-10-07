@@ -3,7 +3,7 @@
   <div class="meun">
     <white :title="title"></white>
     <div class="content">
-      <van-form @submit="submit" @failed="onFailed">
+      <van-form @submit="submit" @failed="onfailed" id="submit">
         <div>
           <van-cell
             :value="titleList[0]"
@@ -35,7 +35,6 @@
             type="textarea"
             maxlength="300"
             placeholder="请详细说明，以便于我们为您解决问题"
-            required
             show-word-limit
           />
         </div>
@@ -67,7 +66,6 @@
             @focus="focusFun()"
             @blur="show = false"
             class="phone"
-            required
             :rules="
               phone != ''
                 ? [
@@ -127,7 +125,7 @@ export default {
       show: false,
       fileList: [],
       //按钮禁用开关
-      btnSwitch: false,
+      btnSwitch: true,
       phonePattern:
         /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
       feedbackTypeList: [
@@ -142,8 +140,21 @@ export default {
       ],
     };
   },
+  watch: {
+    phone: function (val) {
+      var el = val.trim();
+      if (el.length == 11) {
+        this.btnSwitch = false;
+      } else {
+        this.btnSwitch = true;
+      }
+    },
+  },
   created() {},
   methods: {
+    onfailed(errorInfo) {
+      console.log("failed", errorInfo);
+    },
     afterRead(fileObj) {
       // 声明form表单数据
       const formData = new FormData();
@@ -174,6 +185,7 @@ export default {
     },
     submit(val) {
       if (val.feedbackText != "" && val.phone != "") {
+        this.btnSwitch = true;
         addworkorder({
           workOrderType: this.active,
           describe: this.feedbackText,
@@ -187,9 +199,6 @@ export default {
         });
       }
     },
-    onFailed(errorInfo) {
-      console.log(errorInfo);
-    },
   },
 };
 </script>
@@ -201,7 +210,6 @@ export default {
 .content {
   background: #fff;
   margin-top: 25px;
-  height: 100vh;
 }
 .feedbackTitle {
   font-size: 30px;

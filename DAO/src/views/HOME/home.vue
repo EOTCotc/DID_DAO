@@ -1,75 +1,106 @@
 <template>
   <div>
     <TopBar />
+
     <div class="content">
       <img class="home-logo"
            src="@/assets/imgs/home_logo.png"
            alt="首页logo" />
       <div class="home-title">
-        <p>{{$t('home.text1')}}</p>
-        <p>{{$t('home.text2')}}</p>
+        <p>{{ $t("home.text1") }}</p>
+        <p>{{ $t("home.text2") }}</p>
       </div>
-      <button
-        class="home-btn"
-        @click="$router.push('/Create')">
+<<<<<<< HEAD
+      <button class="home-btn" @click="$router.push('/Create')">
+        {{ $t("home.btn") }}
+=======
+      <button class="home-btn"
+              @click="$router.push('/Create')">
         {{ $t('home.btn') }}
+>>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
-          <span>{{ $t('home.title') }}</span>
-          <span @click="$router.push('/Bill_list')">
-            {{ $t('home.more') }}
+<<<<<<< HEAD
+          <span class="home-proposal-title">{{ $t("home.title") }}</span>
+          <span
+            class="home-proposal-more"
+            @click="$router.push('/Bill_list')"
+            v-if="proposalList.length != 0"
+          >
+            {{ $t("home.more") }}
             <van-icon name="arrow" color="#fff" />
           </span>
         </div>
-        <div class="list-box">
+        <div class="list-box" v-if="proposalList.length != 0">
           <div
             class="list-every"
             v-for="(item, index) in proposalList"
             :key="index"
             @click="
+=======
+          <span>{{ $t("home.title") }}</span>
+          <span @click="$router.push('/Bill_list')">
+            {{ $t("home.more") }}
+            <van-icon name="arrow"
+                      color="#fff" />
+          </span>
+        </div>
+        <div class="list-box"
+             v-if="proposalList.length != 0">
+          <div class="list-every"
+               v-for="(item, index) in proposalList"
+               :key="index"
+               @click="
+>>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
               $router.push({
                 path: '/detail',
                 query: { proposalId: item.proposalId },
               })
+<<<<<<< HEAD
             "
           >
+=======
+            ">
+>>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
-              <span>{{ item.total }}{{$t('home.company')}}</span>
+              <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
-                <template v-if='item.status === 0'>
-                  <span style='background-color: #237FF8;'></span>
-                  <span>{{ $t('home.status1') }}</span>
+                <template v-if="item.status === 0">
+                  <span style="background-color: #237ff8"></span>
+                  <span>{{ $t("home.status1") }}</span>
                 </template>
-                <template v-else-if='item.status === 1'>
+                <template v-else-if="item.status === 1">
                   <span></span>
-                  <span>{{ $t('home.status2') }}</span>
+                  <span>{{ $t("home.status2") }}</span>
                 </template>
-                <template v-else-if='item.status === 2'>
-                  <span style='background-color: #00B87A;'></span>
-                  <span>{{ $t('home.status3') }}</span>
+                <template v-else-if="item.status === 2">
+                  <span style="background-color: #00b87a"></span>
+                  <span>{{ $t("home.status3") }}</span>
                 </template>
                 <template v-else>
                   <span></span>
-                  <span>{{ $t('home.status4') }}</span>
+                  <span>{{ $t("home.status4") }}</span>
                 </template>
               </div>
             </div>
           </div>
         </div>
+        <div v-else
+             class="not-data">暂无任何提案信息</div>
       </div>
       <!-- 条件 -->
-      <div class="condition">{{ $t('home.tip') }}</div>
+      <div class="condition">{{ $t("home.tip") }}</div>
       <!-- 底部 -->
       <div class="tail">
         <div>
           <img src="@/assets/imgs/c.png" />
-          <span> {{ $t('home.copyright') }}</span>
+          <span> {{ $t("home.copyright") }}</span>
         </div>
         <div @click="handleTabLang">
-          <span class="tab-lang">{{ $t('home.language') }}</span>
+          <span class="tab-lang">{{ $t("home.language") }}</span>
           <van-icon :name="iconLang" />
         </div>
       </div>
@@ -86,13 +117,22 @@
         </div>
       </van-popup>
     </div>
+    <div class="filed" v-show="tanShow == true" @click="Remove_risk">
+      <van-image
+        width="30"
+        height="30"
+        style="margin-right: 5px"
+        :src="require('../../assets/img/jin.png')"
+      />
+      <span>解除风控</span>
+    </div>
     <Notification
       ref="notification"
-      buttonColor="#F65F5F"
-      :title="$t('notification.risk.title')"
-      :message="$t('notification.risk.message')"
+      title="系统检测您的账号存在异常"
+      message="暂无法使用该系统，请根据提示解除风控"
       :headerIcon="require('../../assets/img/jin.png')"
-      :buttonText="$t('notification.risk.btn')"
+      buttonColor="#F65F5F"
+      buttonText="解除风控"
       :closeOnClick="true"
       @buttonClick="buttonClick"
     />
@@ -107,18 +147,18 @@ import { loadweb3 } from "@/utils/web3.js";
 
 export default {
   components: { TopBar, Notification },
-  name: 'home',
+  name: "home",
   data() {
     return {
-      iconLang: 'arrow-down',
+      iconLang: "arrow-down",
       showPopup: false,
       lang: [
-        { id: 0, text: '简体中文', lang: 'zh' },
-        { id: 1, text: 'English', lang: 'en' },
+        { id: 0, text: "简体中文", lang: "zh" },
+        { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
       proposalList: [], //提案列表
-    }
+    };
   },
   mounted() {
     loadweb3(this.handle);
@@ -143,27 +183,30 @@ export default {
     },
     buttonClick() {
       this.tanShow = true;
-      this.$router.push("/relieve");
     },
     // 获取最新的十个提案
     getProposal() {
       getproposallist({ page: 1, itemsPerPage: 10 }).then((res) => {
         if (res.data.code == 0) {
-          this.proposalList = res.data.items
+          this.proposalList = res.data.items;
         }
-      })
+      });
+    },
+    //跳转到解除风控
+    Remove_risk() {
+      this.$router.push("/relieve");
     },
     // 选择语言
     handleTabLang() {
       if (this.showPopup) {
-        this.iconLang = 'arrow-down'
+        this.iconLang = "arrow-down";
       } else {
-        this.iconLang = 'arrow-up'
+        this.iconLang = "arrow-up";
       }
-      this.showPopup = !this.showPopup
+      this.showPopup = !this.showPopup;
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -202,14 +245,14 @@ export default {
   margin-top: 100px;
   color: #fff;
   .proposal-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    span:first-of-type {
+    overflow: hidden;
+    .home-proposal-title {
+      float: left;
       font-size: 36px;
       line-height: 56px;
     }
-    span:last-of-type {
+    .home-proposal-more {
+      float: right;
       font-size: 32px;
       color: #9296a2;
     }
@@ -247,6 +290,17 @@ export default {
         }
       }
     }
+  }
+  .not-data {
+    margin-top: 37px;
+    width: 100%;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    font-size: 28px;
+    color: #9296a2;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
 // 条件

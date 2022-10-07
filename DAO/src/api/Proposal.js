@@ -1,6 +1,6 @@
 import request from "../utils/request";
 //提案列表
-export function getmyprops(data) {
+export function getmyprops (data) {
   return request({
     url: "api/proposal/getmyproposallist",
     method: "post",
@@ -8,7 +8,7 @@ export function getmyprops(data) {
   });
 }
 //提案详情
-export function getproposal (data) {
+export function getproposal(data) {
   return request({
     url: "api/proposal/getproposal",
     method: "post",
@@ -16,7 +16,7 @@ export function getproposal (data) {
   });
 }
 //提交提案
-export function putproposal(data) {
+export function putproposal (data) {
   return request({
     url: "api/proposal/addproposal",
     method: "put",
@@ -25,7 +25,7 @@ export function putproposal(data) {
 }
 
 //取消提案
-export function cancelproposal (data) {
+export function cancelproposal(data) {
   return request({
     url: "api/proposal/cancelproposal",
     method: "post",
@@ -34,7 +34,7 @@ export function cancelproposal (data) {
 }
 
 //投票
-export function proposalvote(data) {
+export function proposalvote (data) {
   return request({
     url: "api/proposal/proposalvote",
     method: "post",

@@ -34,6 +34,7 @@
 <script>
 import white from "@/components/Nav/white.vue";
 import { putproposal } from "@/api/Proposal";
+import { getuSereotc } from "@/api/earnings";
 import { Toast } from "vant";
 export default {
   components: { white },
@@ -42,8 +43,14 @@ export default {
       title: "创建提案",
       value: "",
       message: "",
-      items: localStorage.getItem("items"),
+      items: undefined,
     };
+  },
+  created() {
+    getuSereotc().then((res) => {
+      console.log(res);
+      this.items = res.data.items;
+    });
   },
   methods: {
     onClickLeft() {
@@ -74,7 +81,7 @@ export default {
 
 .section {
   height: 100vh;
-  margin-top: 30px;
+  margin-top: 20px;
   padding: 16px;
   background: #fff;
   .title {

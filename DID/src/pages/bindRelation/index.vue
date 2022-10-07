@@ -7,12 +7,12 @@
       @click-left="onClickLeft"
     />
     <div class="content">
-      <van-cell
+      <!-- <van-cell
         class="now"
         :title="$t('bindRelation.user_loc')"
         :value="$t('bindRelation.loc')"
         :border="false"
-      />
+      /> -->
       <van-cell
         class="now"
         :title="$t('bindRelation.country')"
@@ -106,25 +106,25 @@ export default {
       this.objSite.country = this.country;
       this.reqComNum.country = this.country[0];
     }
-    this.getNowLocation(); //获取当前位置
+    // this.getNowLocation(); //获取当前位置
     this.getHaveSite();
   },
   methods: {
     // 获取当前位置
-    getNowLocation() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (res) => {
-            // console.log(res, "suc");
-          },
-          (err) => {
-            // console.log(err, "err");
-          }
-        );
-      } else {
-        this.$toast.fail("地理位置服务不可用");
-      }
-    },
+    // getNowLocation() {
+    //   if ("geolocation" in navigator) {
+    //     navigator.geolocation.getCurrentPosition(
+    //       (res) => {
+    //         // console.log(res, "suc");
+    //       },
+    //       (err) => {
+    //         // console.log(err, "err");
+    //       }
+    //     );
+    //   } else {
+    //     this.$toast.fail("地理位置服务不可用");
+    //   }
+    // },
     // 获取已有的社区地址
     getHaveSite() {
       getcomaddr().then((res) => {
