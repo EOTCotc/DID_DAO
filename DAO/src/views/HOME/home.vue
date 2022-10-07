@@ -5,24 +5,23 @@
     <div class="content">
       <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
       <div class="home-title">
-        <p>{{$t('home.text1')}}</p>
-        <p>{{$t('home.text2')}}</p>
+        <p>{{ $t("home.text1") }}</p>
+        <p>{{ $t("home.text2") }}</p>
       </div>
-      <button
-        class="home-btn"
-        @click="$router.push('/Create')">
+      <button class="home-btn"
+              @click="$router.push('/Create')">
         {{ $t('home.btn') }}
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
-          <span>{{ $t('home.title') }}</span>
+          <span>{{ $t("home.title") }}</span>
           <span @click="$router.push('/Bill_list')">
-            {{ $t('home.more') }}
+            {{ $t("home.more") }}
             <van-icon name="arrow" color="#fff" />
           </span>
         </div>
-        <div class="list-box">
+        <div class="list-box" v-if="proposalList.length != 0">
           <div
             class="list-every"
             v-for="(item, index) in proposalList"
@@ -30,45 +29,46 @@
             @click="
               $router.push({
                 path: '/detail',
-                query: { proposalId: item.proposalId, state: item.state },
+                query: { proposalId: item.proposalId },
               })
             "
           >
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
-              <span>{{ item.total }}{{$t('home.company')}}</span>
+              <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
-                <template v-if='item.status === 0'>
-                  <span style='background-color: #237FF8;'></span>
-                  <span>{{ $t('home.status1') }}</span>
+                <template v-if="item.status === 0">
+                  <span style="background-color: #237ff8"></span>
+                  <span>{{ $t("home.status1") }}</span>
                 </template>
-                <template v-else-if='item.status === 1'>
+                <template v-else-if="item.status === 1">
                   <span></span>
-                  <span>{{ $t('home.status2') }}</span>
+                  <span>{{ $t("home.status2") }}</span>
                 </template>
-                <template v-else-if='item.status === 2'>
-                  <span style='background-color: #00B87A;'></span>
-                  <span>{{ $t('home.status3') }}</span>
+                <template v-else-if="item.status === 2">
+                  <span style="background-color: #00b87a"></span>
+                  <span>{{ $t("home.status3") }}</span>
                 </template>
                 <template v-else>
                   <span></span>
-                  <span>{{ $t('home.status4') }}</span>
+                  <span>{{ $t("home.status4") }}</span>
                 </template>
               </div>
             </div>
           </div>
         </div>
+        <div v-else class="not-data">暂无任何提案信息</div>
       </div>
       <!-- 条件 -->
-      <div class="condition">{{ $t('home.tip') }}</div>
+      <div class="condition">{{ $t("home.tip") }}</div>
       <!-- 底部 -->
       <div class="tail">
         <div>
           <img src="@/assets/imgs/c.png" />
-          <span> {{ $t('home.copyright') }}</span>
+          <span> {{ $t("home.copyright") }}</span>
         </div>
         <div @click="handleTabLang">
-          <span class="tab-lang">{{ $t('home.language') }}</span>
+          <span class="tab-lang">{{ $t("home.language") }}</span>
           <van-icon :name="iconLang" />
         </div>
       </div>
@@ -85,33 +85,31 @@
         </div>
       </van-popup>
     </div>
-    <div class="filed" v-show="tanShow == true" @click="Remove_risk">
-      <van-image
-        width="30"
-        height="30"
-        style="margin-right: 5px"
-        :src="require('../../assets/img/jin.png')"
-      />
+    <div class="filed"
+         v-show="tanShow == true"
+         @click="Remove_risk">
+      <van-image width="30"
+                 height="30"
+                 style="margin-right: 5px"
+                 :src="require('../../assets/img/jin.png')" />
       <span>解除风控</span>
     </div>
-    <Notification
-      ref="notification"
-      title="系统检测您的账号存在异常"
-      message="暂无法使用该系统，请根据提示解除风控"
-      :headerIcon="require('../../assets/img/jin.png')"
-      buttonColor="#F65F5F"
-      buttonText="解除风控"
-      :closeOnClick="true"
-      @buttonClick="buttonClick"
-    />
+    <Notification ref="notification"
+                  title="系统检测您的账号存在异常"
+                  message="暂无法使用该系统，请根据提示解除风控"
+                  :headerIcon="require('../../assets/img/jin.png')"
+                  buttonColor="#F65F5F"
+                  buttonText="解除风控"
+                  :closeOnClick="true"
+                  @buttonClick="buttonClick" />
   </div>
 </template>
 
 <script>
-import TopBar from "@/components/topBar/topBar";
-import Notification from "@/components/notification";
-import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
-import { loadweb3 } from "@/utils/web3.js";
+import TopBar from '@/components/topBar/topBar'
+import Notification from '@/components/notification'
+import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
+import { loadweb3 } from '@/utils/web3.js'
 
 export default {
   components: { TopBar, Notification },
@@ -129,28 +127,28 @@ export default {
     };
   },
   mounted() {
-    loadweb3(this.handle);
+    loadweb3(this.handle)
   },
   methods: {
     handle() {
-      this.getuserrisklevel();
-      this.getProposal();
+      this.getuserrisklevel()
+      this.getProposal()
     },
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
-          this.cookie.set("riskLevel", res.data.items);
+          this.cookie.set('riskLevel', res.data.items)
           if (res.data.items == 2) {
             this.$nextTick().then(() => {
-              this.$refs.notification.toggle(true);
-            });
+              this.$refs.notification.toggle(true)
+            })
           }
         }
-      });
+      })
     },
     buttonClick() {
-      this.tanShow = true;
+      this.tanShow = true
     },
     // 获取最新的十个提案
     getProposal() {
@@ -162,7 +160,7 @@ export default {
     },
     //跳转到解除风控
     Remove_risk() {
-      this.$router.push("/relieve");
+      this.$router.push('/relieve')
     },
     // 选择语言
     handleTabLang() {
@@ -258,6 +256,17 @@ export default {
         }
       }
     }
+  }
+  .not-data {
+    margin-top: 37px;
+    width: 100%;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    font-size: 28px;
+    color: #9296a2;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
 // 条件

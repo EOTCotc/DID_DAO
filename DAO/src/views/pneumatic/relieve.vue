@@ -126,4 +126,7 @@ export default {
   padding: 10px 30px;
   line-height: 48px;
 }
+.custom-image {
+  margin-top: 25%;
+}
 </style>

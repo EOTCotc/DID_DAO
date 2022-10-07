@@ -10,9 +10,9 @@ import store from "./store";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import Cookie from "js-cookie";
-import i18n from '@/i18n'
+import i18n from "@/i18n";
 
-import "normalize.css"
+import "normalize.css";
 import "amfe-flexible";
 import "./registerServiceWorker";
 
@@ -22,7 +22,7 @@ import "./assets/styles/index.scss";
 
 Vue.config.productionTip = false;
 
-dayjs.extend(utc)
+dayjs.extend(utc);
 
 Vue.prototype.cookie = Cookie;
 Vue.prototype.$md5 = md5;

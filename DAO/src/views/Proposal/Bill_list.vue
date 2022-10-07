@@ -1,7 +1,7 @@
 <template>
   <div class="fullscreen bg-gray">
     <header class="me">
-      <white :title="title"></white>
+      <white :title="title" :name="name"></white>
     </header>
     <main class="box">
       <div>
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       title: "我的提案",
+      name: "personage",
       List: [],
     };
   },
@@ -149,6 +150,9 @@ export default {
   left: 0;
   margin: 0 auto;
   border-radius: 160px;
+}
+.custom-image {
+  margin-top: 25%;
 }
 </style>
 

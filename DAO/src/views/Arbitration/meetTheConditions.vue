@@ -21,9 +21,11 @@
             <van-icon name="coupon-o" />
             <p>DID身份认证</p>
           </div>
-          <div class="right"
-               @click="didNot"
-               v-if="qualificationPassed1 == false">
+          <div
+            class="right"
+            @click="didNot"
+            v-if="qualificationPassed1 == false"
+          >
             去认证
             <van-icon name="arrow" />
           </div>
@@ -119,7 +121,7 @@
       <div class="bottom">
         <div>
           <div>仲裁胜诉(个)</div>
-          <div>{{ArbitratorsIdentityInformation.victoryNum}}</div>
+          <div>{{ ArbitratorsIdentityInformation.victoryNum }}</div>
         </div>
         <div class="line"></div>
         <div>
@@ -201,14 +203,16 @@
         >解除身份</van-button
       >
     </footer>
-    <Notification ref="notification"
-                  title="身份认证"
-                  message="您还未身份认证，请到DID进行身份认证"
-                  :headerIcon="require('../../assets/img/jin.png')"
-                  buttonColor="#F65F5F"
-                  buttonText="知道了"
-                  :closeOnClick="true"
-                  @buttonClick="btnClick" />
+    <Notification
+      ref="notification"
+      title="身份认证"
+      message="您还未身份认证，请到DID进行身份认证"
+      :headerIcon="require('../../assets/img/jin.png')"
+      buttonColor="#F65F5F"
+      buttonText="知道了"
+      :closeOnClick="true"
+      @buttonClick="btnClick"
+    />
   </div>
 </template>
 <script>
@@ -217,14 +221,14 @@ import {
   TerminationArbitrator,
   becomeAnArbitrator,
   getarbitrator,
-} from '@/api/TerminationOfArbitrator'
-import Notification from '@/components/notification.vue'
-import notification1 from '@/components/notification.vue'
-import notification2 from '@/components/notification.vue'
-import icon1 from './IMG/icon.png'
-import icon2 from './IMG/icon2.png'
-import icon3 from './IMG/icon3.png'
-import { Dialog } from 'vant'
+} from "@/api/TerminationOfArbitrator";
+import Notification from "@/components/notification.vue";
+import notification1 from "@/components/notification.vue";
+import notification2 from "@/components/notification.vue";
+import icon1 from "./IMG/icon.png";
+import icon2 from "./IMG/icon2.png";
+import icon3 from "./IMG/icon3.png";
+import { Dialog } from "vant";
 export default {
   components: { white, notification1, notification2, Notification },
   data() {
@@ -281,8 +285,8 @@ export default {
   },
   mounted() {
     if (this.authType == 2) {
-      this.qualificationPassed1 = true
-      localStorage.setItem('qualificationPassed1', this.qualificationPassed1)
+      this.qualificationPassed1 = true;
+      localStorage.setItem("qualificationPassed1", this.qualificationPassed1);
     }
     this.isArbitrate == 0
       ? (this.displayApplicationConditions = true)
@@ -330,13 +334,13 @@ export default {
   methods: {
     didNot() {
       this.$nextTick().then(() => {
-        this.$refs.notification.toggle(true)
-      })
+        this.$refs.notification.toggle(true);
+      });
     },
     btnClick() {
       this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false)
-      })
+        this.$refs.notification.toggle(false);
+      });
     },
     auditing(name) {
       this.$router.push({

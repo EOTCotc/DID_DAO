@@ -149,6 +149,7 @@ export default {
     return {};
   },
   mounted() {},
+  created() {},
   methods: {
     auditing(name) {
       this.$router.push({ name: name });
@@ -164,7 +165,7 @@ export default {
     display: flex;
     align-items: center;
     padding-left: 20px;
-    line-height: 48px;
+    line-height: 45px;
   }
   .van-cell {
     color: #fff;
@@ -173,14 +174,10 @@ export default {
     font-weight: 500;
   }
 }
-/* .audit {
-  .van-cell {
-    background: #000;
-    color: #fff;
-    line-height: 30px;
-    .van-icon {
-      margin-top: 5px;
-    }
-  }
-} */
+.after {
+  display: none;
+}
+.before {
+  display: block;
+}
 </style>

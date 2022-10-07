@@ -9,8 +9,8 @@
           <div class="card-top-left">
             <img src="../../assets/img/logo_two.png" alt="" />
             <div>
-              <div>1111111</div>
-              <div>UID:1111</div>
+              <div>{{ user.mail }}</div>
+              <div>UID:{{ user.uid }}</div>
             </div>
           </div>
         </div>
@@ -22,15 +22,6 @@
           </div>
         </div>
       </div>
-      <!-- <van-cell-group inset :border="false">
-        <van-cell
-          title="总收益(EOTC)"
-          :border="false"
-          value="收益明细"
-          @click="detail"
-        />
-        <van-cell :title="total" style="font-size: 25px" :border="false" />
-      </van-cell-group> -->
       <List></List>
     </main>
     <footer></footer>
@@ -40,16 +31,18 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import List from "../../components/Nav/List.vue";
-import { getdaoinfo, getuserinfo } from "@/api/earnings";
+import { getdaoinfo } from "@/api/earnings";
 export default {
   components: { TopBar, List },
   data() {
     return {
       total: 0,
+      user: {},
     };
   },
   created() {
     getdaoinfo().then((res) => {
+      this.user = res.data.items;
       this.total = res.data.items.daoEOTC;
       localStorage.setItem("items", res.data.items.daoEOTC);
       localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
@@ -60,11 +53,6 @@ export default {
   methods: {
     detail() {
       this.$router.push("/Home_detail");
-    },
-    userInfo() {
-      getuserinfo().then((res) => {
-        console.log(res);
-      });
     },
   },
 };

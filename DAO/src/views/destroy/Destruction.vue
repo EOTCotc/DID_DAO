@@ -97,6 +97,7 @@
 import White from "../../components/Nav/white.vue";
 import { getdestruction } from "@/api/Destruction";
 import Clipboard from "clipboard";
+import moment from "moment";
 export default {
   components: { White },
   data() {
@@ -107,7 +108,7 @@ export default {
       show: false,
       showDate: false,
       timer: null, //防抖的定时器
-      active: 0, //分类标签选中的下标
+      active: undefined, //分类标签选中的下标
       tags: [
         {
           title: "本周",
@@ -143,7 +144,7 @@ export default {
     chongzhi() {
       this.end = "";
       this.start = "";
-      this.active = 0;
+      this.active = undefined;
       this.disabled = true;
       this.inquiry();
     },
@@ -176,7 +177,7 @@ export default {
     formatDate(date) {
       return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(
         -2
-      )}-${("0" + (date.getDate() + 1)).slice(-2)}`;
+      )}-${("0" + date.getDate()).slice(-2)}`;
     },
     onConfirm(date) {
       const [start, end] = date;
@@ -188,9 +189,40 @@ export default {
     //分类标签
     changeZi(index) {
       this.active = index;
+      if (this.active == 0) {
+        this.getCurrWeekDays();
+        this.disabled = false;
+      }
+      if (this.active == 1) {
+        this.getCurrMonthDays();
+        this.disabled = false;
+      }
       if (this.active == 2) {
         this.showDate = true;
       }
+    },
+    // 获取当前月的开始结束时间
+    getCurrMonthDays() {
+      let start = moment().add("month", 0).format("YYYY-MM") + "-01";
+      let end = moment(start)
+        .add("month", 1)
+        .add("days", -1)
+        .format("YYYY-MM-DD");
+      this.start = start;
+      this.end = end;
+    },
+
+    // 获取当前周的开始结束时间
+    getCurrWeekDays() {
+      let weekOfday = parseInt(moment().format("d")); // 计算今天是这周第几天 周日为一周中的第一天
+      let start = moment()
+        .subtract(weekOfday - 1, "days")
+        .format("YYYY-MM-DD"); // 周一日期
+      let end = moment()
+        .add(7 - weekOfday, "days")
+        .format("YYYY-MM-DD"); // 周日日期
+      this.start = start;
+      this.end = end;
     },
 
     //查询销毁
@@ -318,5 +350,8 @@ export default {
 }
 .dest ::v-deep .van-dialog__message--has-title {
   color: #f37a4c !important;
+}
+.custom-image {
+  margin-top: 25%;
 }
 </style>

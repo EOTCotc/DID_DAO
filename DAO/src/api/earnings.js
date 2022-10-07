@@ -24,3 +24,11 @@ export const getuserinfo = (params) => {
     params,
   });
 };
+//获取质押数量
+export const getuSereotc = (params) => {
+  return request({
+    url: "api/daouser/getusereotc",
+    method: "post",
+    params,
+  });
+};
