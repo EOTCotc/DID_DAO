@@ -8,7 +8,7 @@ export function getmyprops (data) {
   });
 }
 //提案详情
-export function getproposal (data) {
+export function getproposal(data) {
   return request({
     url: "api/proposal/getproposal",
     method: "post",
@@ -25,7 +25,7 @@ export function putproposal (data) {
 }
 
 //取消提案
-export function cancelproposal (data) {
+export function cancelproposal(data) {
   return request({
     url: "api/proposal/cancelproposal",
     method: "post",

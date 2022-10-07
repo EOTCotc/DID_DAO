@@ -32,7 +32,7 @@
         <div class="zan" v-else>
           <van-empty
             class="custom-image"
-            :image="require('./../../assets/img/empty.png')"
+            :image="require('./../../assets/img/空态-02.png')"
             description="暂无任何数据"
           />
         </div>
@@ -111,7 +111,6 @@ export default {
 <style lang="scss" scoped>
 .detail {
   background: #f3f4f5;
-  height: 100vh;
 }
 .title {
   background: #f3f4f5;
@@ -133,11 +132,13 @@ export default {
   color: #999999;
 }
 .zan {
-  height: 400px;
   font-size: 30px;
   padding-top: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.custom-image {
+  margin-top: 25%;
 }
 </style>

@@ -7,30 +7,21 @@
       <div class="identity-card">
         <div class="card-top">
           <div class="card-top-left">
-            <img src="../../assets/img/logo_two.png"
-                 alt="" />
+            <img src="../../assets/img/logo_two.png" alt="" />
             <div>
-              <div>1111111</div>
-              <div>UID:1111</div>
+              <div>{{ user.mail }}</div>
+              <div>UID:{{ user.uid }}</div>
             </div>
           </div>
         </div>
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ total }}</span><span @click="detail">收益明细</span>
+            <span style="font-size: 28px">{{ daoInfo.daoEOTC }}</span
+            ><span @click="detail">收益明细</span>
           </div>
         </div>
       </div>
-      <!-- <van-cell-group inset :border="false">
-        <van-cell
-          title="总收益(EOTC)"
-          :border="false"
-          value="收益明细"
-          @click="detail"
-        />
-        <van-cell :title="total" style="font-size: 25px" :border="false" />
-      </van-cell-group> -->
       <List></List>
     </main>
     <footer></footer>
@@ -38,36 +29,35 @@
 </template>
 
 <script>
-import TopBar from '@/components/topBar/topBar'
-import List from '../../components/Nav/List.vue'
-import { getdaoinfo, getuserinfo } from '@/api/earnings'
+import TopBar from "@/components/topBar/topBar";
+import List from "../../components/Nav/List.vue";
+import { getdaoinfo } from "@/api/earnings";
 export default {
   components: { TopBar, List },
   data() {
     return {
       total: 0,
-    }
+      user: {},
+    };
   },
   created() {
+    // 获取用户信息
     getdaoinfo().then((res) => {
-      this.total = res.data.items.daoEOTC
-      localStorage.setItem('items', res.data.items.daoEOTC)
-      localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
-      localStorage.setItem('isExamine', res.data.items.isExamine)
-      localStorage.setItem('authType', res.data.items.authType)
-    })
+      this.user = res.data.items;
+      this.total = res.data.items.daoEOTC;
+      localStorage.setItem("items", res.data.items.daoEOTC);
+      localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
+      localStorage.setItem("isExamine", res.data.items.isExamine);
+      localStorage.setItem("authType", res.data.items.authType);
+    });
   },
   methods: {
+    // 去往详情页
     detail() {
-      this.$router.push('/Home_detail')
-    },
-    userInfo() {
-      getuserinfo().then((res) => {
-        console.log(res)
-      })
+      this.$router.push("/Home_detail");
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

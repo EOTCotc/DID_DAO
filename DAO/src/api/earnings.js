@@ -1,6 +1,6 @@
 import request from "../utils/request";
 //获取Dao用户信息
-export function getdaoinfo (data) {
+export function getdaoinfo(data) {
   return request({
     url: "api/daouser/getdaoinfo",
     method: "post",
@@ -8,14 +8,13 @@ export function getdaoinfo (data) {
   });
 }
 //收益详情
-export function getincome (data) {
+export function getincome(data) {
   return request({
     url: "api/incomedetails/getincomedetails",
     method: "post",
     data,
   });
 }
-
 // 获取用户信息
 export const getuserinfo = (params) => {
   return request({
@@ -25,10 +24,10 @@ export const getuserinfo = (params) => {
   });
 };
 //获取质押数量
-export const getuSereotc = (data) => {
+export const getuSereotc = (params) => {
   return request({
     url: "api/daouser/getusereotc",
     method: "post",
-    data,
+    params,
   });
 };

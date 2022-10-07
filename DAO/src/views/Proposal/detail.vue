@@ -2,13 +2,15 @@
   <div class="meun">
     <header>
       <div class="nav_an_box">
-        <van-nav-bar fixed
-                     placeholder
-                     :title="title"
-                     left-arrow
-                     :right-text="rightText"
-                     @click-left="onClickLeft"
-                     @click-right="onClickRight">
+        <van-nav-bar
+          fixed
+          placeholder
+          :title="title"
+          left-arrow
+          :right-text="rightText"
+          @click-left="onClickLeft"
+          @click-right="onClickRight"
+        >
         </van-nav-bar>
       </div>
     </header>
@@ -35,31 +37,35 @@
           <span>{{ List.walletAddress }}提议</span>
         </div>
       </div>
-      <div class="jindu"
-           ref="jindu">
+      <div class="jindu" ref="jindu">
         <div class="tou">
           投票进度
-          <span class="hui"><span>{{ text }}</span>{{ createDate | dateFormat("yyyy-MM-dd") }}</span>
+          <span class="hui"
+            ><span>{{ text }}</span
+            >{{ createDate | dateFormat("yyyy-MM-dd") }}</span
+          >
         </div>
         <div>共{{ peopleNum }}人参与</div>
-        <van-progress :track-color="trackColor"
-                      :percentage="percentageVotes"
-                      v-if="!isNaN(parseInt(percentageVotes))"
-                      :color="valueColor"
-                      :show-pivot="false"
-                      stroke-width="12" />
-        <div class="num"
-             v-if="isVote1">
-          <span style="color: #00b87a">{{ peopleNum }}</span>/99
+        <van-progress
+          :track-color="trackColor"
+          :percentage="percentageVotes"
+          v-if="!isNaN(parseInt(percentageVotes))"
+          :color="valueColor"
+          :show-pivot="false"
+          stroke-width="12"
+        />
+        <div class="num" v-if="isVote1">
+          <span style="color: #00b87a">{{ peopleNum }}</span
+          >
         </div>
-        <div class="num vote"
-             v-if="isVote == false"
-             style="font-size: 14px">
+        <div class="num vote" v-if="isVote == false" style="font-size: 14px">
           <div v-if="favorVotes == 0 && opposeVotes == 0">
-            <span>赞成票{{ favorVotes + "%" }}</span>反对票{{ opposeVotes + "%" }}
+            <span>赞成票{{ favorVotes + "%" }}</span
+            >反对票{{ opposeVotes + "%" }}
           </div>
           <div v-else>
-            <span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}
+            <span>赞成票{{ TotalFavorVotes }}</span
+            >反对票{{ TotalOpposeVotes }}
           </div>
         </div>
 
@@ -175,9 +181,9 @@ export default {
 
   mounted() {
     setTimeout(() => {
-      console.log(this.List)
-      if (this.isProponent != 0) this.rightText = '取消'
-      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
+      console.log(this.List);
+      if (this.isProponent != 0) this.rightText = "取消";
+      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
       this.favorVotes = Number(
         localStorage.getItem(`favorVotes+${this.proposalId}`)
       )
@@ -244,11 +250,11 @@ export default {
     },
     onClickRight() {
       Dialog.confirm({
-        title: '取消提示',
-        message: '确认取消该提案？',
-        confirmButtonColor: '#1B2945 ',
-        cancelButtonColor: '#666666 ',
-        getContainer: '.meun',
+        title: "取消提示",
+        message: "确认取消该提案？",
+        confirmButtonColor: "#1B2945 ",
+        cancelButtonColor: "#666666 ",
+        getContainer: ".meun",
       })
         .then(() => {
           let data = {

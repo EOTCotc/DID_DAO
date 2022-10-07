@@ -1,7 +1,7 @@
 <template>
   <div class="fullscreen bg-gray">
     <header>
-      <white :title="title"></white>
+      <white :title="title" :name="name"></white>
     </header>
     <main class="home">
       <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
@@ -157,6 +157,7 @@ export default {
   data() {
     return {
       title: "工单系统",
+      name: "personage",
       activeName: 0,
       active: undefined,
       pengList: [],
