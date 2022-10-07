@@ -17,7 +17,7 @@
             :duration="duration"
           ></countTo>
         </p>
-        <p>信用评分低</p>
+        <p>信用评分总计</p>
       </div>
       <div class="svgbox">
         <svg class="svg" viewBox="0 0 300 300">
