@@ -41,7 +41,7 @@
       this.show = show
     },
     getInfo(data) {
-      referrerInfo(data.refUserId).then(res => {
+      referrerInfo(data.refUId).then(res => {
         if (!res.data.code) {
           this.referrer = {
             ...data,

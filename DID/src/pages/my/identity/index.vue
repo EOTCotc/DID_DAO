@@ -223,10 +223,9 @@ export default {
       submit(this.form.data)
         .then((res) => {
           if (!!res.data.code) {
-            const message = ["证件号错误", "请上传认证图片", "请重复提交"];
             this.$toast.fail({
               forbidClick: false,
-              message: message[res.data.code - 1],
+              message: res.data.message
             });
           } else {
             this.$toast.success({
@@ -398,5 +397,5 @@ export default {
       }
     }
   }
-}
+
 </style>

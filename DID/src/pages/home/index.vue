@@ -141,13 +141,11 @@ export default {
     risklevel().then((res) => {
       const {code, items: level} = res.data
       if (code === 0) {
+        this.cookie.set('riskLevel', level)
         if (level === 2) {
-          this.cookie.set('riskLevel', level)
           this.$nextTick().then(() => {
             this.$refs.notification.toggle(true)
           })
-        } else {
-          this.cookie.remove('riskLevel')
         }
       }
     });

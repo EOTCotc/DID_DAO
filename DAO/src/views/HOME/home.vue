@@ -38,8 +38,7 @@
                 path: '/detail',
                 query: { proposalId: item.proposalId },
               })
-            "
-          >
+            ">
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
