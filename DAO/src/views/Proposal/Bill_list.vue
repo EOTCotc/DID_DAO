@@ -154,10 +154,10 @@ export default {
   height: 100vh;
   border-radius: 8px;
   margin-top: 20px;
-  overflow: hidden;
+  overflow: auto;
 }
 footer {
-  min-height: 170px;
+  min-height: 160px;
   background-color: #fff;
   width: 100%;
   position: fixed;
