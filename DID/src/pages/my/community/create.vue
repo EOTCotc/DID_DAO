@@ -105,6 +105,9 @@
       submitDisable() {
         const data = {...this.form.data}
         delete data.address
+        delete data.province
+        delete data.city
+        delete data.area
         return !!Object.values(data).includes("")
       }
     },

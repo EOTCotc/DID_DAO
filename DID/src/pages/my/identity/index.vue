@@ -280,28 +280,59 @@ export default {
         padding-bottom: 120px;
         .upload_wrap {
           padding: 30px;
+
           .example_wrap {
             padding: 35px 25px;
             border-radius: 20px;
             border: 2px dashed #eee;
-            &::v-deep(.van-uploader) {
-              width: 100%;
-              .van-uploader__preview-image,
-              .van-uploader__wrapper,
-              .van-uploader__upload {
-                width: 100%;
-                height: 100%;
-                margin: 0;
+
+            .title {
+              color: #666;
+              font-size: 23px;
+            }
+
+            .img {
+              display: block;
+              width: 60%;
+              margin: 0 auto;
+            }
+
+            .upload_main {
+              margin-top: 40px;
+
+              .title {
+                color: #333;
+                font-size: 28px;
+                margin-bottom: 20px;
               }
-              .van-uploader__upload {
-                padding: 60px 0;
+
+              .upload {
+                border-radius: 20px;
+                border: 2px dashed #eee;
+
+                &::v-deep(.van-uploader) {
+                  width: 100%;
+
+                  .van-uploader__preview-image,
+                  .van-uploader__wrapper,
+                  .van-uploader__upload {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                  }
+
+                  .van-uploader__upload {
+                    padding: 60px 0;
+                  }
+                }
               }
             }
-          }
-          .tip {
-            color: #fc7542;
-            font-size: 24px;
-            margin-top: 50px;
+
+            .tip {
+              color: #fc7542;
+              font-size: 24px;
+              margin-top: 50px;
+            }
           }
         }
         .tip_wrap {

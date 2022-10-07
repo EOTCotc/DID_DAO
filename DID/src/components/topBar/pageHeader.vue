@@ -2,7 +2,7 @@
   <van-nav-bar
       :class="{'nav-bar': theme === 'dark'}"
       :title="title"
-      left-arrow
+      :left-arrow='hasLeftArrow'
       @click-left="$router.go(-1)"
   />
 </template>
@@ -11,7 +11,8 @@
   export default {
     props: {
       title: {type: String, default: '', required: true},
-      theme: {type: String, default: 'light'}
+      theme: {type: String, default: 'light'},
+      hasLeftArrow: {type: Boolean, default: true}
     }
   }
 </script>

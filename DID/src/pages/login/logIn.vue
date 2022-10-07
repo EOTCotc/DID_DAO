@@ -60,12 +60,9 @@
 import { login } from "@/api/pagesApi/login";
 export default {
   name: "logIn",
-<<<<<<< HEAD
-=======
   props: {
     wallet: {type: Object, default: () => ({})}
   },
->>>>>>> 43df0f530bdc26d7660f1f939cd514e100bbc01c
   data() {
     return {
       show: false,
@@ -106,16 +103,6 @@ export default {
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
-    },
-    getWallet(data) {
-      const {oType, myaddress, sign} = data
-      if (oType && myaddress && sign) {
-        console.log(2)
-        this.form.otype = oType
-        this.form.walletAddress = myaddress
-        this.form.sign = sign
-        this.show = true
-      }
     },
     // 登录
     login() {

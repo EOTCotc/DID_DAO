@@ -267,7 +267,7 @@ export default {
               .then(() => {
                 this.$router.push("/my/community/setting");
               })
-              .catch((err) => {});
+              .catch(() => {});
           }
         })
         .finally(() => loading.clear());

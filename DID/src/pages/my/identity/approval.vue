@@ -54,18 +54,18 @@
             </van-row>
             <!-- 流程 -->
             <van-steps
-              v-if='tab.active > 0'
+              v-if='tab.active > 0 && !!item.auths.length'
               :active='3'
               direction='vertical'
               active-color='#227AEE'
             >
               <van-step v-for='step in item.auths' :key='step.id'>
                 <template slot='active-icon'>
-                  <van-icon v-if='!!step.auditType' size='16px' name='checked' color='#227AEE' />
+                  <van-icon v-if='step.auditType === 1' size='16px' name='checked' color='#227AEE' />
                   <van-icon v-else name='clear' size='16px' color='#227AEE' />
                 </template>
                 <template slot='inactive-icon'>
-                  <van-icon v-if='!!step.auditType' size='16px' name='checked' color='#227AEE' />
+                  <van-icon v-if='step.auditType === 1' size='16px' name='checked' color='#227AEE' />
                   <van-icon v-else name='clear' size='16px' color='#227AEE' />
                 </template>
                 <van-row class='main'>
@@ -124,7 +124,13 @@
       />
     </div>
     <!-- 拒绝 -->
-    <reject ref='reject' title='打回原因' :types='["恶意提交", "信息有误"]' @handleReject='handleReject' />
+    <reject
+      showSwitch
+      ref='reject'
+      title='打回原因'
+      :types='["恶意提交", "信息有误"]'
+      @handleReject='handleReject'
+    />
     <!-- 通过 -->
     <!--  图片预览  -->
     <van-image-preview v-model='imgPreview.show' :images='imgPreview.images' />
@@ -135,7 +141,8 @@ import pageHeader from '@/components/topBar/pageHeader'
 import Reject from '@/components/reject'
 import {
   approval,
-  list
+  list,
+  getImg
 } from '@/api/pagesApi/identity';
 import {
   transformUTCDate,
@@ -197,17 +204,25 @@ export default {
       this.list.UpRefreshLoading = true
       this.getList()
     },
+    getWatermarkImg(data) {
+      getImg(data.portraitImage).then(res => {
+        console.log(res)
+      })
+      getImg(data.nationalImage).then(res => {
+        console.log(res)
+      })
+    },
     // 获取列表
     getList() {
+      const userInfo = JSON.parse(this.cookie.get('userInfo'))
       this.$toast.loading('列表加载中…')
       list(this.tab.active, this.list.query).then(res => {
         if (!res.data.code) {
           const data = res.data.items.map(item => {
             const auths = [...item.auths]
-            item.portraitImage = this.spliceSrc(item.portraitImage)
-            item.nationalImage = this.spliceSrc(item.nationalImage)
+            this.getWatermarkImg(item)
             if (this.tab.active === 1) {
-              item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === this.userInfo.uid) + 1)
+              item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === userInfo.uid) + 1)
               item.status = item.auths[item.auths.length - 1].auditType
             }
             return item
@@ -299,7 +314,6 @@ export default {
     },
     // 转换时间格式
     transformUTCDate,
-    spliceSrc
   },
   created() {
     this.getList()

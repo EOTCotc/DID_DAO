@@ -45,7 +45,7 @@ export function copy(text) {
 }
 // 日期格式转换
 export function transformUTCDate(str) {
-  return dayjs(str).format('YYYY-MM-DD HH-mm:ss')
+  return dayjs(str).utc().format('YYYY-MM-DD HH-mm:ss')
 }
 // 浏览远程图片
 export function spliceSrc(src) {
