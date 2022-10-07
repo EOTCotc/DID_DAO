@@ -233,6 +233,7 @@ export default {
   methods: {
     NoVoting() {
       Dialog.alert({
+        title: '提案投票',
         message: '请选择你要投票的类型，同时当前账号需要有100 EOTC',
       }).then(() => {
         // on close

@@ -370,16 +370,6 @@ export default {
         name: name,
       })
     },
-    btnClick2() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false)
-      })
-    },
-    btnClick() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false)
-      })
-    },
     buttonClick() {
       becomeAnAuditor().then((res) => {
         getUnapprovedInformation().then((res) => {
