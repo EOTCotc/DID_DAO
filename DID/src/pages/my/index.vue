@@ -394,12 +394,12 @@ export default {
           }
 
           div:first-of-type {
-            font-size: 46px;
+            font-size: 36px;
           }
 
           div:last-of-type {
             margin-top: 8px;
-            font-size: 38px;
+            font-size: 32px;
           }
         }
       }
@@ -440,12 +440,12 @@ export default {
         }
 
         span:first-of-type {
-          font-size: 28px;
+          font-size: 32px;
         }
 
         span:last-of-type {
           margin-left: 16px;
-          font-size: 36px;
+          font-size: 32px;
           font-weight: bold;
         }
       }
@@ -469,7 +469,7 @@ export default {
       position: relative;
       margin-left: 20px;
       color: #fff;
-      font-size: 42px;
+      font-size: 32px;
       .badge {
         position: absolute;
         top: -8px;

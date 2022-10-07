@@ -48,7 +48,6 @@
             placeholder="请输入新邮箱验证码"
             :rules="[
               { required: true, message: '请输入新邮箱验证码' },
-              { validator: validatorCode, message: '验证码错误' },
             ]"
           >
           </van-field>
@@ -124,10 +123,6 @@ export default {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
-    // 验证验证码是否输入正确
-    validatorCode(val) {
-      return this.code === val;
-    },
     // 发送验证码
     sendCode() {
       if (this.form.mail != "" && this.mailReg()) {
@@ -141,10 +136,7 @@ export default {
             }
           }, 1000);
         }
-        getCode({ mail: this.form.mail, type: 1 }).then((res) => {
-          this.code = res.data.message;
-          console.log(res.data, "邮箱验证码");
-        });
+        getCode({ mail: this.form.mail, type: 1 }).then((res) => {});
       } else if (this.form.mail == "") {
         this.$toast("请填写邮箱");
       } else if (!this.mailReg()) {
@@ -281,7 +273,7 @@ export default {
       bottom: -58px;
       left: 50%;
       transform: translateX(-50%);
-      width: 420px;
+      width: 300px;
       height: 2px;
       background: linear-gradient(46deg, #247ff6 0%, #cccccc 100%);
     }
