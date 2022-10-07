@@ -3,17 +3,26 @@
     <TopBar />
 
     <div class="content">
-      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
+      <img class="home-logo"
+           src="@/assets/imgs/home_logo.png"
+           alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
+<<<<<<< HEAD
       <button class="home-btn" @click="$router.push('/Create')">
         {{ $t("home.btn") }}
+=======
+      <button class="home-btn"
+              @click="$router.push('/Create')">
+        {{ $t('home.btn') }}
+>>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
+<<<<<<< HEAD
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
           <span
             class="home-proposal-more"
@@ -30,12 +39,31 @@
             v-for="(item, index) in proposalList"
             :key="index"
             @click="
+=======
+          <span>{{ $t("home.title") }}</span>
+          <span @click="$router.push('/Bill_list')">
+            {{ $t("home.more") }}
+            <van-icon name="arrow"
+                      color="#fff" />
+          </span>
+        </div>
+        <div class="list-box"
+             v-if="proposalList.length != 0">
+          <div class="list-every"
+               v-for="(item, index) in proposalList"
+               :key="index"
+               @click="
+>>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
               $router.push({
                 path: '/detail',
                 query: { proposalId: item.proposalId },
               })
+<<<<<<< HEAD
             "
           >
+=======
+            ">
+>>>>>>> 757e5fa3f91ed2eaec7a1eff64ce0278e7c89967
             <div class="every-title">{{ item.title }}</div>
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
@@ -60,7 +88,8 @@
             </div>
           </div>
         </div>
-        <div v-else class="not-data">暂无任何提案信息</div>
+        <div v-else
+             class="not-data">暂无任何提案信息</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -76,13 +105,13 @@
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup
-        v-model="showPopup"
-        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-        position="right"
-      >
+      <van-popup v-model="showPopup"
+                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+                 position="right">
         <div class="menu">
-          <div class="menu-every" v-for="item in lang" :key="item.id">
+          <div class="menu-every"
+               v-for="item in lang"
+               :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>
@@ -118,18 +147,18 @@ import { loadweb3 } from "@/utils/web3.js";
 
 export default {
   components: { TopBar, Notification },
-  name: "home",
+  name: 'home',
   data() {
     return {
-      iconLang: "arrow-down",
+      iconLang: 'arrow-down',
       showPopup: false,
       lang: [
-        { id: 0, text: "简体中文", lang: "zh" },
-        { id: 1, text: "English", lang: "en" },
+        { id: 0, text: '简体中文', lang: 'zh' },
+        { id: 1, text: 'English', lang: 'en' },
       ],
       tanShow: false,
       proposalList: [], //提案列表
-    };
+    }
   },
   mounted() {
     loadweb3(this.handle);
@@ -159,9 +188,9 @@ export default {
     getProposal() {
       getproposallist({ page: 1, itemsPerPage: 10 }).then((res) => {
         if (res.data.code == 0) {
-          this.proposalList = res.data.items;
+          this.proposalList = res.data.items
         }
-      });
+      })
     },
     //跳转到解除风控
     Remove_risk() {
@@ -170,14 +199,14 @@ export default {
     // 选择语言
     handleTabLang() {
       if (this.showPopup) {
-        this.iconLang = "arrow-down";
+        this.iconLang = 'arrow-down'
       } else {
-        this.iconLang = "arrow-up";
+        this.iconLang = 'arrow-up'
       }
-      this.showPopup = !this.showPopup;
+      this.showPopup = !this.showPopup
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
