@@ -15,7 +15,6 @@ export function getincome(data) {
     data,
   });
 }
-
 // 获取用户信息
 export const getuserinfo = (params) => {
   return request({

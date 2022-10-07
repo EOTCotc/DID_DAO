@@ -1,6 +1,7 @@
 <template>
   <div class="approval_wrap fullscreen bg-gray">
-    <page-header title="审核" />
+    <white :title="title1"
+           :name='name'></white>
     <div class="content">
       <div class="main">
         <van-cell :title="title"
@@ -25,12 +26,14 @@
 </template>
 
 <script>
-import PageHeader from "@/components/topBar/pageHeader";
+import white from '../../components/Nav/white.vue'
 export default {
   name: 'approval',
-  components: { PageHeader },
+  components: { white },
   data() {
     return {
+      title1: '审核',
+      name: 'personage',
       isExamine: +localStorage.getItem('isExamine'),
       title: '',
     }
@@ -58,5 +61,9 @@ export default {
       }
     }
   }
+}
+.van-cell__left-icon,
+.van-cell__right-icon {
+  line-height: 36px;
 }
 </style>

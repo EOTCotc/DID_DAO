@@ -90,7 +90,7 @@ export default {
       })
     },
     applyCreateCommunity() {
-      if (this.eotc < 5000) {
+      if (this.eotc > 5000) {
         this.$router.push('/my/community/create')
       } else {
         this.$toast({

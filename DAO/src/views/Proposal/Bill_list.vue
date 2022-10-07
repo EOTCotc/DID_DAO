@@ -40,7 +40,7 @@
         />
       </div>
     </main>
-    <footer>
+    <footer v-if="isProponent != 0">
       <van-button icon="plus" block type="info" @click="createAn"
         >创建提案</van-button
       >
@@ -51,6 +51,7 @@
 <script>
 import white from "@/components/Nav/white.vue";
 import { getmyprops } from "@/api/Proposal";
+import { getproposallist } from "@/api/viewsApi/home";
 export default {
   components: { white },
   name: "home",
@@ -59,39 +60,72 @@ export default {
       title: "我的提案",
       name: "personage",
       List: [],
+      isProponent: this.$route.query.isProponent,
     };
+  },
+  mounted() {
+    this.isProponent == 0 ? (this.title = "提案") : (this.title = "我的提案");
   },
   created() {
     const loading = this.$toast.loading({
       forbidClick: true,
       message: "加载中…",
     });
-    getmyprops()
-      .then((res) => {
-        const { code, items } = res.data;
-        if (code) {
+    if (this.isProponent != 0) {
+      getmyprops()
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: "加载失败！",
+            });
+          } else {
+            this.List = items.map((item) => {
+              item.total =
+                Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
+                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
+              return item;
+            });
+          }
+        })
+        .catch(() => {
           this.$toast.fail({
             forbidClick: true,
             message: "加载失败！",
           });
-        } else {
-          this.List = items.map((item) => {
-            item.total =
-              Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-              Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
-            return item;
-          });
-        }
-      })
-      .catch(() => {
-        this.$toast.fail({
-          forbidClick: true,
-          message: "加载失败！",
+        })
+        .finally(() => {
+          loading.clear();
         });
-      })
-      .finally(() => {
-        loading.clear();
-      });
+    } else {
+      getproposallist({ page: 1, itemsPerPage: 10 })
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: "加载失败！",
+            });
+          } else {
+            this.List = items.map((item) => {
+              item.total =
+                Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
+                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
+              return item;
+            });
+          }
+        })
+        .catch(() => {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！",
+          });
+        })
+        .finally(() => {
+          loading.clear();
+        });
+    }
   },
   methods: {
     createAn() {

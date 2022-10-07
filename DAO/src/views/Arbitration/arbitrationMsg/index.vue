@@ -2,7 +2,7 @@
   <div class="container">
     <page-header title="仲裁案动态" />
     <div class="content">
-      <ul>
+      <ul v-if="list.length != 0">
         <li
           v-for="(item, index) in list"
           @click="
@@ -24,6 +24,10 @@
           </div>
         </li>
       </ul>
+      <div class="not-data" v-else>
+        <img src="@/assets/imgs/empty.png" alt="" />
+        <p>暂无任何数据</p>
+      </div>
     </div>
   </div>
 </template>
@@ -156,6 +160,21 @@ export default {
         font-size: 28px;
         color: #999;
       }
+    }
+  }
+  .not-data {
+    margin-top: 50%;
+    transform: translateY(-50%);
+    img {
+      margin: 0 auto;
+      width: 400px;
+      height: 400px;
+      display: block;
+    }
+    p {
+      text-align: center;
+      font-size: 32px;
+      color: #999;
     }
   }
 }

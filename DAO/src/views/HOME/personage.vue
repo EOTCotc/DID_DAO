@@ -17,7 +17,7 @@
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ total }}</span
+            <span style="font-size: 28px">{{ daoInfo.daoEOTC }}</span
             ><span @click="detail">收益明细</span>
           </div>
         </div>
@@ -41,6 +41,7 @@ export default {
     };
   },
   created() {
+    // 获取用户信息
     getdaoinfo().then((res) => {
       this.user = res.data.items;
       this.total = res.data.items.daoEOTC;
@@ -51,6 +52,7 @@ export default {
     });
   },
   methods: {
+    // 去往详情页
     detail() {
       this.$router.push("/Home_detail");
     },

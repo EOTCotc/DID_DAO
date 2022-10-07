@@ -66,7 +66,7 @@
             :finished-text="!!list.length ? '没有更多了' : ''"
             @load="onLoad"
           >
-            <div v-if='!!list.length'>
+            <div v-if="!!list.length">
               <div class="every" v-for="(item, index) in list" :key="index">
                 <div>
                   <p>{{ item.remarks }}</p>
@@ -92,7 +92,7 @@
             :finished-text="!!list.length ? '没有更多了' : ''"
             @load="onLoad"
           >
-            <div v-if='!!list.length'>
+            <div v-if="!!list.length">
               <div class="every" v-for="(item2, index2) in list" :key="index2">
                 <div>
                   <p>{{ item2.remarks }}</p>
@@ -171,7 +171,7 @@ export default {
           // 加载状态结束
           this.loading = false;
           // 数据全部加载完成
-          if (this.list.length >= data.creditScore) {
+          if (data.items.length < this.req.itemsPerPage) {
             this.finished = true;
           }
         }
