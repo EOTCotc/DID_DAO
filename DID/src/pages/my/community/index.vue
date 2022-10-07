@@ -4,7 +4,7 @@
     <div class="content">
       <van-cell class="title" v-if="userInfo.communityId">
         <template #title><div>{{community.comName}}</div></template>
-        <i class="icon icon-setting" v-if="userInfo.authType === 2" @click="$router.push('/my/community/setting')"></i>
+        <i class="icon icon-setting" v-if="userInfo.applyCommunityId === community.communityId" @click="$router.push('/my/community/setting')"></i>
       </van-cell>
       <img class="img" :src="community.image" alt="">
       <van-row class="row">
@@ -26,8 +26,8 @@
         <van-col class="value" span="16" v-if="community.discord">{{community.discord}} <i class="icon icon-copy" @click="copy(community.discord)"></i></van-col>
       </van-row>
       <div class="btn" v-if="!userInfo.applyCommunityId" @click="applyCreateCommunity">申请创建社区</div>
-      <div class="btn pending" v-else-if="userInfo.authType === 1">社区创建审核中</div>
-      <div class="btn reject" v-else-if="userInfo.authType === 3" @click="$router.push('/my/community/process')">社区创建审核失败</div>
+      <div class="btn pending" v-else-if="userInfo.comAuditType === 1">社区创建审核中</div>
+      <div class="btn reject" v-else-if="userInfo.comAuditType === 3" @click="$router.push('/my/community/process')">社区创建审核失败</div>
     </div>
   </div>
 </template>
@@ -41,6 +41,7 @@ import {
   getUserEotc
 } from '@/api/pagesApi/community';
 import {copy} from "@/utils/utils";
+import {getuserinfo} from '@/api/pagesApi/home'
 
 export default {
   components: { pageHeader },
@@ -91,7 +92,7 @@ export default {
     },
     applyCreateCommunity() {
       if (this.eotc > 5000) {
-        this.$router.push('/my/community/create')
+        this.$router.replace('/my/community/create')
       } else {
         this.$toast({
           message: '您必须持有5000EOTC才能申请',
@@ -102,9 +103,15 @@ export default {
     copy
   },
   created() {
-    const userInfo = this.cookie.get('userInfo')
-    this.userInfo = !!userInfo ? JSON.parse(userInfo) : {}
     this.onRefresh()
+    const loading = this.$toast.loading({
+      forbidClick: true,
+      message: '加载中…'
+    });
+    getuserinfo().then((res) => {
+      this.userInfo = res.data.items;
+      this.cookie.set("userInfo", JSON.stringify(this.userInfo));
+    }).finally(() => loading.clear());
   }
 }
 </script>

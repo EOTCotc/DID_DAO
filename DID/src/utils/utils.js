@@ -43,8 +43,9 @@ export function copy (text) {
   document.body.removeChild(input);
 }
 // 日期格式转换
-export function transformUTCDate (str) {
-  return dayjs(str).format('YYYY-MM-DD HH-mm:ss')
+export function transformUTCDate(str) {
+  return dayjs(str).utc().format('YYYY-MM-DD HH-mm:ss')
+
 }
 // 浏览远程图片
 export function spliceSrc (src) {

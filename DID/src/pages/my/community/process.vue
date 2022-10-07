@@ -14,6 +14,14 @@
               :active="3"
           >
             <van-step v-for="item in step" :key="item.id">
+              <template slot="active-icon">
+                <van-icon v-if="!!item.status" size='16px' style='background-color: #FFF;' name="checked" color="#227AEE"/>
+                <van-icon v-else name="clear" size='16px' style='background-color: #FFF;' color="#227AEE"/>
+              </template>
+              <template slot="inactive-icon">
+                <van-icon v-if="!!item.status" size='16px' style='background-color: #FFF;' name="checked" color="#227AEE"/>
+                <van-icon v-else name="clear" size='16px' style='background-color: #FFF;' color="#227AEE"/>
+              </template>
               <van-row class="main">
                 <van-col :span="!!item.authDate ? 12 : 24" class="title">{{item.name}}</van-col>
                 <van-col :span="12" class="date">{{item.authDate}}</van-col>
@@ -105,10 +113,11 @@ export default {
     &>.title {
       color: #333;
       font-size: 32px;
+      font-weight: bold;
     }
     .date {
       color: #999;
-      font-size: 28px;
+      font-size: 32px;
       text-align: right;
     }
     .reason_wrap {

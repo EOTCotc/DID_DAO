@@ -91,6 +91,7 @@ export default {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
+
     getWallet(data) {
       const { oType, myaddress, sign } = data;
       if (oType && myaddress && sign) {

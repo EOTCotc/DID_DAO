@@ -122,7 +122,7 @@
           type="primary"
           :disabled="disable || form.loading"
           :loading="form.loading"
-          :loading-text="step.active < 3 ? '图片上传中…' : '审核信息提交中…'"
+          :loading-text="step.active < 3 ? '图片上传中…' : '信息提交中…'"
           @click="next"
         >
           {{ step.active < 3 ? "下一步" : "提交" }}
@@ -224,7 +224,6 @@ export default {
         .then((res) => {
           if (!!res.data.code) {
             const message = [
-              "手机号错误",
               "证件号错误",
               "请上传认证图片",
               "请重复提交",
@@ -271,31 +270,68 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  .form_wrap {
-    flex: 1;
-    padding-bottom: 30px;
-    .main {
-      min-height: 100%;
-      padding-bottom: 120px;
-      .upload_wrap {
-        padding: 30px;
-        .example_wrap {
-          padding: 35px 25px;
-          border-radius: 20px;
-          border: 2px dashed #eee;
-          &::v-deep(.van-uploader) {
-            width: 100%;
-            .van-uploader__preview-image,
-            .van-uploader__wrapper,
-            .van-uploader__upload {
-              width: 100%;
-              height: 100%;
-              margin: 0;
+  .container {
+    .form_wrap {
+      flex: 1;
+      padding-bottom: 30px;
+      .main {
+        min-height: 100%;
+        padding-bottom: 120px;
+        .upload_wrap {
+          padding: 30px;
+
+          .example_wrap {
+            padding: 35px 25px;
+            border-radius: 20px;
+            border: 2px dashed #eee;
+
+            .title {
+              color: #666;
+              font-size: 23px;
             }
-            .van-uploader__upload {
-              padding: 60px 0;
+
+            .img {
+              display: block;
+              width: 60%;
+              margin: 0 auto;
             }
+          }
+
+          .upload_main {
+            margin-top: 40px;
+
+            .title {
+              color: #333;
+              font-size: 28px;
+              margin-bottom: 20px;
+            }
+
+            .upload {
+              border-radius: 20px;
+              border: 2px dashed #eee;
+
+              &::v-deep(.van-uploader) {
+                width: 100%;
+
+                .van-uploader__preview-image,
+                .van-uploader__wrapper,
+                .van-uploader__upload {
+                  width: 100%;
+                  height: 100%;
+                  margin: 0;
+                }
+
+                .van-uploader__upload {
+                  padding: 60px 0;
+                }
+              }
+            }
+          }
+
+          .tip {
+            color: #fc7542;
+            font-size: 24px;
+            margin-top: 50px;
           }
         }
         .tip {

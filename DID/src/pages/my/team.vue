@@ -80,13 +80,14 @@
             </van-row>
           </li>
           <van-button
-              class="more"
-              color="#1B2945"
-              type="primary"
-              :loading="moreLoading"
-              :disabled="moreLoading"
-              loading-text="申请提交中…"
-              @click="getMore"
+            block
+            class='more'
+            color="#1B2945"
+            type="primary"
+            :loading="moreLoading"
+            :disabled="moreLoading"
+            loading-text="申请提交中…"
+            @click="getMore"
           >
             更多团队成员
           </van-button>

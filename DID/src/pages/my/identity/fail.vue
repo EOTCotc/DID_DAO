@@ -37,7 +37,7 @@
             round
             color="#1B2945"
             type="primary"
-            @click="$router.push({name: 'identity', params: info})"
+            @click="$router.replace({name: 'identity', params: info})"
         >
           重新提交
         </van-button>

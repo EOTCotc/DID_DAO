@@ -146,6 +146,8 @@ export default {
           this.$nextTick().then(() => {
             this.$refs.notification.toggle(true)
           })
+        } else {
+          this.cookie.remove('riskLevel')
         }
       }
     });
