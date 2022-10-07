@@ -1,5 +1,5 @@
 <template>
-  <div class="risk_wrap bg-gray">
+  <div class="risk_wrap bg-gray fullscreen"> 
     <page-header title="解除风控" />
     <div class="tip">为了正常使用账户，请及时与以下5位联系人进行视频身份核对(3位及以上联系人解除即生效)</div>
     <div class="content">

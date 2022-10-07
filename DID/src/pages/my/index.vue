@@ -79,7 +79,6 @@
         <van-cell
           is-link
           :border="false"
-          v-if="!!userInfo.authType"
           :to="identifyRouter"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->

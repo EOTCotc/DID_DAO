@@ -6,15 +6,15 @@
     <div class="content">
       <!-- 名称 -->
       <div class="project_name">
-        <img src="../../assets/imgs/project_name.png" />
+        <img src="@/assets/imgs/project_name.png" />
       </div>
       <!-- 背景图 -->
       <div class="big_bg_logo">
-        <img src="../../assets/imgs/big_bg_logo.png" />
+        <img src="@/assets/imgs/big_bg_logo.png" />
       </div>
       <!-- 身份证图片 -->
       <div class="identity_card">
-        <img src="../../assets/imgs/identity_card.png" alt="" />
+        <img src="@/assets/imgs/identity_card.png" alt="" />
       </div>
       <!-- 认证按钮 -->
       <div
@@ -117,8 +117,6 @@ import Notification from '@/components/notification'
 import headerIcon from "@/assets/imgs/jin.png"
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import { login } from "@/api/pagesApi/login";
-import { loadweb3 } from "@/utils/web3";
 import {risklevel} from '@/api/risk'
 export default {
   data() {
