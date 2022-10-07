@@ -235,6 +235,11 @@ export default {
         this.IDList.some((item) => this.proposalId == item)
       )
         this.rightText = '取消'
+      if (
+        this.IDList2.some((item) => this.proposalId == item) &&
+        this.state != 3
+      )
+        this.rightText = '取消'
       this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
       this.favorVotes =
         this.InitialfavorVotes +

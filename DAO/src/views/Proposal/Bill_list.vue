@@ -79,11 +79,6 @@ export default {
       this.IDList = res.data.items.map((item) => {
         return item.proposalId
       })
-      // localStorage.setItem('IDList', this.IDList)
-      // if (localStorage.getItem('IDList')) {
-      //   localStorage.removeItem('IDList')
-      //   localStorage.setItem('IDList', this.IDList)
-      // }
     })
     if (this.isProponent != 0) {
       getmyprops()
