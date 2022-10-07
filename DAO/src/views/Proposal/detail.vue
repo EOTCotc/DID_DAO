@@ -125,6 +125,7 @@ export default {
       state: this.$route.query.state,
       isProponent: this.$route.query.isProponent || 1,
       IDList: this.$route.query.IDList || [],
+      IDList2: this.$route.query.IDList2 || [],
       List: {},
       isVote: true,
       Votes: 1,
@@ -144,6 +145,12 @@ export default {
     }
   },
   mounted() {
+    console.log(this.proposalId, 1111, this.IDList2)
+    console.log(this.IDList2.some((item) => this.proposalId == item))
+    this.IDList2.some((item) => {
+      console.log(item, 1111)
+      // if (this.proposalId == item)
+    })
     // console.log(this.$dayjs('2022-10-07T18:33:01.98Z').format('YYYY年MM月DD '))
   },
   created() {

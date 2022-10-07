@@ -220,7 +220,7 @@
             } else {
               this.list.data.push(...data)
             }
-            this.list.finished = !data.length
+            this.list.finished = data.length < 10
           } else {
             this.$toast.fail({
               forbidClick: true,

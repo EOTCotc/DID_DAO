@@ -3,40 +3,42 @@
     <TopBar />
 
     <div class="content">
-      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
+      <img class="home-logo"
+           src="@/assets/imgs/home_logo.png"
+           alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
-      <button class="home-btn" @click="$router.push('/Create')">
+      <button class="home-btn"
+              @click="$router.push('/Create')">
         {{ $t("home.btn") }}
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
-          <span
-            class="home-proposal-more"
-            @click="
+          <span class="home-proposal-more"
+                @click="
               $router.push({
                 path: '/Bill_list',
                 query: { isProponent: 0, home: 'home' },
               })
-            "
-          >
+            ">
             {{ $t("home.more") }}
-            <van-icon name="arrow" color="#fff" />
+            <van-icon name="arrow"
+                      color="#fff" />
           </span>
         </div>
-        <div class="list-box" v-if="proposalList.length != 0">
-          <div
-            class="list-every"
-            v-for="(item, index) in proposalList"
-            :key="index"
-            @click="
+        <div class="list-box"
+             v-if="proposalList.length != 0">
+          <div class="list-every"
+               v-for="(item, index) in proposalList"
+               :key="index"
+               @click="
               $router.push({
                 path: '/detail',
-                query: { proposalId: item.proposalId ,isProponent:0,state:item.state},
+                query: { proposalId: item.proposalId ,isProponent:0,state:item.state,IDList2:IDList2},
               })
             ">
             <div class="every-title">{{ item.title }}</div>
@@ -63,7 +65,8 @@
             </div>
           </div>
         </div>
-        <div v-else class="not-data">暂无任何提案信息</div>
+        <div v-else
+             class="not-data">暂无任何提案信息</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -79,13 +82,13 @@
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup
-        v-model="showPopup"
-        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-        position="right"
-      >
+      <van-popup v-model="showPopup"
+                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+                 position="right">
         <div class="menu">
-          <div class="menu-every" v-for="item in lang" :key="item.id">
+          <div class="menu-every"
+               v-for="item in lang"
+               :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>
@@ -116,7 +119,7 @@ import TopBar from '@/components/topBar/topBar'
 import Notification from '@/components/notification'
 import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
 import { loadweb3 } from '@/utils/web3.js'
-
+import { getmyprops } from '@/api/Proposal'
 export default {
   components: { TopBar, Notification },
   name: 'home',
@@ -129,6 +132,7 @@ export default {
         { id: 1, text: 'English', lang: 'en' },
       ],
       tanShow: false,
+      IDList2: [],
       proposalList: [], //提案列表
     }
   },
@@ -136,6 +140,13 @@ export default {
     loadweb3(this.handle)
   },
   methods: {
+    getmyList() {
+      getmyprops().then((res) => {
+        this.IDList2 = res.data.items.map((item) => {
+          return item.proposalId
+        })
+      })
+    },
     handle() {
       this.getuserrisklevel()
       this.getProposal()

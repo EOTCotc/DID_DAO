@@ -219,6 +219,12 @@ export default {
         if (!res.data.code) {
           const data = res.data.items.map(item => {
             const auths = [...item.auths]
+            this.getWatermarkImg(item.portraitImage).then(res => {
+              item.portraitImage = res
+              this.getWatermarkImg(item.nationalImage).then(res => {
+                item.nationalImage = res
+              })
+            })
             if (this.tab.active === 1) {
               item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === userInfo.uid) + 1)
               item.status = item.auths[item.auths.length - 1].auditType
@@ -230,15 +236,7 @@ export default {
           } else {
             this.list.data.push(...data)
           }
-          this.list.finished = !data.length
-          this.list.data.forEach(item => {
-            this.getWatermarkImg(item.portraitImage).then(res => {
-              item.portraitImage = res
-            })
-            this.getWatermarkImg(item.nationalImage).then(res => {
-              item.nationalImage = res
-            })
-          })
+          this.list.finished = data.length < 10
         } else {
           this.$toast.fail({
             forbidClick: true,
@@ -274,12 +272,11 @@ export default {
               if (res.data.code) {
                 this.$toast.fail('操作失败')
               } else {
-                this.$toast({
+                this.$toast.success({
                   type: 'success',
-                  message: res.data.message
+                  message: '操作成功',
+                  onClose: () => this.getList()
                 })
-                this.tab.active = 1
-                this.getList()
               }
             })
           } else {

@@ -31,10 +31,16 @@
               :key="item.id"
           >
             <img
-                class="status"
-                v-if="!!tab.active"
-                :src="require(`../../assets/imgs/status_${tab.active === 1 ? 'confirm' : 'cancel'}.png`)"
-                alt=""
+              class="status"
+              v-if="tab.active === 1"
+              :src="require(`../../assets/imgs/status_${tab.status === 1 ? 'confirm' : 'cancel'}.png`)"
+              alt=""
+            >
+            <img
+              class="status"
+              v-else-if="tab.active === 2"
+              :src="require(`../../assets/imgs/status_cancel.png`)"
+              alt=""
             >
             <van-row class="item-row user">
               <van-cell :title="item.comName" :value="transformUTCDate(item.createDate)"></van-cell>
@@ -82,12 +88,12 @@
             >
               <van-step v-for="step in item.auths" :key="step.id">
                 <template slot="active-icon">
-                  <van-icon v-if="!!step.status" name="checked" color="#227AEE"/>
-                  <van-icon v-else name="clear" color="#227AEE"/>
+                  <van-icon v-if="!!step.auditType" size='14px' style='background-color: #FFF;' name="checked" color="#227AEE"/>
+                  <van-icon v-else name="clear" size='14px' style='background-color: #FFF;' color="#227AEE"/>
                 </template>
                 <template slot="inactive-icon">
-                  <van-icon v-if="!!step.status" name="checked" color="#227AEE"/>
-                  <van-icon v-else name="clear" color="#227AEE"/>
+                  <van-icon v-if="!!step.auditType" size='14px' style='background-color: #FFF;' name="checked" color="#227AEE"/>
+                  <van-icon v-else name="clear" size='14px' style='background-color: #FFF;' color="#227AEE"/>
                 </template>
                 <van-row class="main">
                   <van-col :span="12" class="title">{{step.isDao ? 'Dao' : getAuditStep(step.auditStep)}}:{{step.name}}</van-col>
@@ -97,9 +103,9 @@
                 </van-row>
               </van-step>
             </van-steps>
-            <van-row class="item-row reason_wrap" v-if="tab.active === 2  ">
+            <van-row class="item-row reason_wrap" v-if="tab.active === 2 && item.remark">
               <div class="title">打回原因</div>
-              <div class="message">信息有误: 手持证件照有误,请重新提交</div>
+              <div class="message">{{item.remark}}</div>
             </van-row>
             <van-row class="item-row" gutter="20" v-if="tab.active === 0">
               <van-col span="12">
@@ -197,10 +203,18 @@
       },
       // 获取列表
       getList() {
-        this.$toast.loading('列表加载中…')
+        const userInfo = this.cookie.get('userInfo')
+        const loading = this.$toast.loading('列表加载中…')
         communityList(this.tab.active, this.list.query).then(res => {
           if (!res.data.code) {
-            const data = res.data.items
+            const data = res.data.items.map(item => {
+              const auths = [...item.auths]
+              if (this.tab.active === 1) {
+                item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === userInfo.uid && !!auth.auditType) + 1)
+                item.status = item.auths[item.auths.length - 1].auditType
+              }
+              return item
+            })
             if (this.list.query.page === 1) {
               this.list.data = data
             } else {
@@ -209,7 +223,7 @@
             this.list.finished = !data.length
           }
         }).finally(() => {
-          this.$toast.clear()
+          loading.clear()
           this.list.uploading = false
           this.list.UpRefreshLoading = false
         })
@@ -250,6 +264,7 @@
                     type: "success",
                     message: res.data.message
                   })
+                  this.tab.active = 1
                   this.getList()
                 }
               })
