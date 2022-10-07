@@ -2,13 +2,13 @@
   <div>
     <div class="heade">
       <div @click="handleMenu">
-        <img class="icon_menu" src="../../assets/imgs/icon_menu.png" />
+        <img class="icon_menu" src="@/assets/imgs/icon_menu.png" />
       </div>
       <div @click="toHome">
-        <img class="logo" src="../../assets/imgs/logo.png" />
+        <img class="logo" src="@/assets/imgs/logo.png" />
       </div>
       <div @click="toMy">
-        <img class="icon_my" src="../../assets/imgs/icon_my.png" />
+        <img class="icon_my" src="@/assets/imgs/icon_my.png" />
       </div>
     </div>
     <!-- 菜单 -->
@@ -18,9 +18,9 @@
       position="left"
     >
       <div class="menu">
-        <div class="menu-every" v-for="(item, index) in 0" :key="index">
-          <span>的雷克萨就到了</span>
-          <img src="../../assets/imgs/r_t_arrow.png" alt="" />
+        <div class="menu-every" v-for="item in list" :key="item.id">
+          <a :href="item.link">{{ item.name }}</a>
+          <img src="@/assets/imgs/r_t_arrow.png" alt="" />
         </div>
       </div>
     </van-popup>
@@ -30,10 +30,22 @@
 <script>
 export default {
   name: "NavBar",
-  props: {},
   data() {
     return {
       showPopup: false,
+      list: [
+        { id: 0, name: "EOTC官网", link: "https://eotc.im" },
+        { id: 1, name: "去中心化OTC交易所" },
+        { id: 2, name: "去中心化币币交易所" },
+        { id: 3, name: "去中心化借贷交易所" },
+        { id: 4, name: "去中心化合约交易所" },
+        { id: 5, name: "链上理财赚币", link: "https://fi.eotc.im/" },
+        { id: 6, name: "DID去中心化身份系统" },
+        { id: 7, name: "去中心化应用系统" },
+        { id: 8, name: "EOTC NFT", link: "https://nft.eotc.im/" },
+        { id: 9, name: "EOTC 元宇宙" },
+        { id: 10, name: "EOTC DAO" },
+      ],
     };
   },
   methods: {
@@ -94,10 +106,13 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 120px;
     font-size: 32px;
-    color: #b4b7c2;
     border-bottom: 1px solid #2b374f;
+    a {
+      text-decoration: none;
+      color: #b4b7c2;
+    }
     img {
       margin-left: 50px;
       width: 40px;

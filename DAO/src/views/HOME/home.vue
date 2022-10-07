@@ -3,35 +3,37 @@
     <TopBar />
 
     <div class="content">
-      <img class="home-logo"
-           src="@/assets/imgs/home_logo.png"
-           alt="首页logo" />
+      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
-      <button class="home-btn"
-              @click="$router.push('/Create')">
+      <button class="home-btn" @click="$router.push('/Create')">
         {{ $t("home.btn") }}
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
-          <span class="home-proposal-more"
-                @click="$router.push({path: '/Bill_list',query: { isProponent:0},})"
-                v-if="proposalList.length != 0">
+          <span
+            class="home-proposal-more"
+            @click="
+              $router.push({
+                path: '/Bill_list',
+                query: { isProponent: 0, home: 'home' },
+              })
+            "
+          >
             {{ $t("home.more") }}
-            <van-icon name="arrow"
-                      color="#fff" />
+            <van-icon name="arrow" color="#fff" />
           </span>
         </div>
-        <div class="list-box"
-             v-if="proposalList.length != 0">
-          <div class="list-every"
-               v-for="(item, index) in proposalList"
-               :key="index"
-               @click="
+        <div class="list-box" v-if="proposalList.length != 0">
+          <div
+            class="list-every"
+            v-for="(item, index) in proposalList"
+            :key="index"
+            @click="
               $router.push({
                 path: '/detail',
                 query: { proposalId: item.proposalId ,isProponent:0,state:item.state},
@@ -41,15 +43,15 @@
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
-                <template v-if="item.status === 0">
+                <template v-if="item.state === 0">
                   <span style="background-color: #237ff8"></span>
                   <span>{{ $t("home.status1") }}</span>
                 </template>
-                <template v-else-if="item.status === 1">
+                <template v-else-if="item.state === 1">
                   <span></span>
                   <span>{{ $t("home.status2") }}</span>
                 </template>
-                <template v-else-if="item.status === 2">
+                <template v-else-if="item.state === 2">
                   <span style="background-color: #00b87a"></span>
                   <span>{{ $t("home.status3") }}</span>
                 </template>
@@ -61,8 +63,7 @@
             </div>
           </div>
         </div>
-        <div v-else
-             class="not-data">暂无任何提案信息</div>
+        <div v-else class="not-data">暂无任何提案信息</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -78,13 +79,13 @@
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup v-model="showPopup"
-                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-                 position="right">
+      <van-popup
+        v-model="showPopup"
+        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+        position="right"
+      >
         <div class="menu">
-          <div class="menu-every"
-               v-for="item in lang"
-               :key="item.id">
+          <div class="menu-every" v-for="item in lang" :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>

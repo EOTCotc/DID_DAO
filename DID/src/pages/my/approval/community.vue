@@ -31,10 +31,16 @@
               :key="item.id"
           >
             <img
-                class="status"
-                v-if="!!tab.active"
-                :src="require(`../../../assets/imgs/status_${tab.active === 1 ? 'confirm' : 'cancel'}.png`)"
-                alt=""
+              class="status"
+              v-if="tab.active === 1"
+              :src="require(`../../../assets/imgs/status_${item.status === 1 ? 'confirm' : 'cancel'}.png`)"
+              alt=""
+            >
+            <img
+              class="status"
+              v-if="tab.active === 2"
+              :src="require(`../../../assets/imgs/status_cancel.png`)"
+              alt=""
             >
             <van-row class="item-row user">
               <van-cell :title="item.comName" :value="transformUTCDate(item.createDate)"></van-cell>
@@ -75,32 +81,32 @@
               </van-col>
             </van-row>
             <van-steps
-                v-if="tab.active > 0"
+                v-if="tab.active > 0 && !!item.auths.length"
                 :active="3"
                 direction="vertical"
                 active-color="#227AEE"
             >
               <van-step v-for="step in item.auths" :key="step.id">
                 <template slot="active-icon">
-                  <van-icon v-if="!!step.status" name="checked" color="#227AEE"/>
-                  <van-icon v-else name="clear" color="#227AEE"/>
+                  <van-icon v-if="step.auditType === 1" size='16px' style='background-color: #FFF;' name="checked" color="#227AEE"/>
+                  <van-icon v-else name="clear" size='16px' style='background-color: #FFF;' color="#227AEE"/>
                 </template>
                 <template slot="inactive-icon">
-                  <van-icon v-if="!!step.status" name="checked" color="#227AEE"/>
-                  <van-icon v-else name="clear" color="#227AEE"/>
+                  <van-icon v-if="step.auditType === 1" size='16px' style='background-color: #FFF;' name="checked" color="#227AEE"/>
+                  <van-icon v-else name="clear" size='16px' style='background-color: #FFF;' color="#227AEE"/>
                 </template>
                 <van-row class="main">
                   <van-col :span="12" class="title">{{step.isDao ? 'Dao' : getAuditStep(step.auditStep)}}:{{step.name}}</van-col>
-                  <van-col :span="12" class="date" style="font-size: 12px;color: #999;text-align: right;">
+                  <van-col :span="12" class="date" style="font-size: 13px;color: #999;text-align: right;">
                     {{transformUTCDate(step.authDate)}}
+                  </van-col>
+                  <van-col :span='24' class="item-row reason_wrap" v-if="!!step.remark">
+                    <div class="title">打回原因</div>
+                    <div class='message'>{{ step.remark }}</div>
                   </van-col>
                 </van-row>
               </van-step>
             </van-steps>
-            <van-row class="item-row reason_wrap" v-if="tab.active === 2  ">
-              <div class="title">打回原因</div>
-              <div class="message">信息有误: 手持证件照有误,请重新提交</div>
-            </van-row>
             <van-row class="item-row" gutter="20" v-if="tab.active === 0">
               <van-col span="12">
                 <van-button
@@ -197,10 +203,18 @@
       },
       // 获取列表
       getList() {
+        const userInfo = JSON.parse(this.cookie.get('userInfo'))
         this.$toast.loading('列表加载中…')
         list(this.tab.active, this.list.query).then(res => {
           if (!res.data.code) {
-            const data = res.data.items
+            const data = res.data.items.map(item => {
+              const auths = [...item.auths]
+              if (this.tab.active === 1) {
+                item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === userInfo.uid && !!auth.auditType) + 1)
+                item.status = item.auths[item.auths.length - 1].auditType
+              }
+              return item
+            })
             if (this.list.query.page === 1) {
               this.list.data = data
             } else {
@@ -255,6 +269,7 @@
                     type: "success",
                     message: res.data.message
                   })
+                  this.tab.active = 1
                   this.getList()
                 }
               })
@@ -283,7 +298,7 @@
       getAuditStep,
       // 获取审核状态
       getAuditType(type) {
-        const arr = ['未审核', '审核通过', '信息不全', '信息有误', '证件照片有误', '证件照片不清晰']
+        const arr = ['未审核', '审核通过', '恶意提交', '信息有误']
         return arr.indexOf(type)
       },
       // 转换时间格式
@@ -336,23 +351,23 @@
 
       .name {
         color: #999;
-        font-size: 28px;
+        font-size: 32px;
       }
 
       .value {
         color: #333;
-        font-size: 28px;
+        font-size: 32px;
 
         .icon {
           color: #237FF8;
-          font-size: 26px;
+          font-size: 32px;
           margin-left: 10px;
         }
       }
     }
 
     .reason_wrap {
-      font-size: 28px;
+      font-size: 32px;
 
       .title {
         color: #333;

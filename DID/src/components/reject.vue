@@ -41,10 +41,10 @@
         <div class="label">
           <span class="text">具体原因</span>
         </div>
-<!--        <div class="switch" @click="handleSwitch">-->
-<!--          <span class="text">{{isInput ? '选择' : '输入'}}</span>-->
-<!--          <i class="icon icon-refresh"></i>-->
-<!--        </div>-->
+        <div class="switch" v-if='showSwitch' @click="handleSwitch">
+          <span class="text">{{isInput ? '选择' : '输入'}}</span>
+          <i class="icon icon-refresh"></i>
+        </div>
       </div>
       <div class="item" v-show="isInput">
         <van-field
@@ -76,7 +76,8 @@
 export default {
   props: {
     title: {required: true, type: String},
-    types: {type: Array, default: () => ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰']}
+    types: {type: Array, default: () => ['恶意提交', '信息有误']},
+    showSwitch: {type: Boolean, default: false}
   },
   data() {
     return {

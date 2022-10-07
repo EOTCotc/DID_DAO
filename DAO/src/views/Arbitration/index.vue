@@ -21,7 +21,7 @@
                   is-link
                   to="/user/arbitration/case" />
         <div class="msg">
-          <van-cell title="仲裁消息"
+          <van-cell title="仲裁案动态"
                     title-class="row-title"
                     is-link
                     to="/arbitrationList" />

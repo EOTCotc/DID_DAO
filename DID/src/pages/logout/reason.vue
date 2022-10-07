@@ -1,7 +1,7 @@
 <template>
   <!-- 确定信息 -->
   <div ref="child" class="container-child" :style="`min-height:${height}px;`">
-    <div class="tille">{{ $t("logout.reason") }}</div>
+    <div class="title">{{ $t("logout.reason") }}</div>
     <div class="radio-box">
       <van-radio-group v-model="radio">
         <van-radio
@@ -59,10 +59,10 @@ export default {
     // 动态获取高度
     this.height = document.body.clientHeight - 235;
     this.changeStepNum(2); //修改步骤
-    this.changeBackNum(-3); //修改路由返回级数
+    this.changeBackNum(-2); //修改路由返回级数
   },
   methods: {
-    ...mapMutations(["changeStepNum", "changeBackNum"]),
+    ...mapMutations(["changeStepNum","changeBackNum"]),
     // 选择原因
     handleRadio(text, id) {
       if (id == 4) {
@@ -89,9 +89,9 @@ export default {
       }
     },
     submit() {
-      this.$router.push({
-        name: "verifyLogout",
-        params: { reason: this.reason },
+      this.$router.replace({
+        path: "/setup/logout/verifyLogout",
+        query: { reason: this.reason },
       });
     },
   },

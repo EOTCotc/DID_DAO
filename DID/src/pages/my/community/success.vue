@@ -1,6 +1,6 @@
 <template>
   <div class="community_wrap fullscreen bg-gray">
-    <page-header title="申请创建社区" />
+    <page-header title="申请创建社区" :hasLeftArrow='false' />
     <div class="success_wrap">
       <van-icon class="icon" name="passed" />
       <div class="title">申请提交成功</div>
@@ -19,7 +19,7 @@ export default {
   name: "communityCreateSuccess",
   components: {
     PageHeader
-  },
+  }
 }
 </script>
 
