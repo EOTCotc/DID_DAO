@@ -22,8 +22,15 @@
           <p>新邮箱地址</p>
           <van-field v-model="form.mail" center placeholder="请输入新邮箱地址">
             <template #button>
-              <van-button native-type='button' @click="sendCode" v-show="!isSendCode" size="small">
-                <span :style="form.mail ? 'color:#237FF8;' : ''">发送验证码</span>
+              <van-button
+                native-type="button"
+                @click="sendCode"
+                v-show="!isSendCode"
+                size="small"
+              >
+                <span :style="form.mail ? 'color:#237FF8;' : ''"
+                  >发送验证码</span
+                >
               </van-button>
               <span v-show="isSendCode">{{ times }}S</span>
             </template>
@@ -39,10 +46,10 @@
             :disabled="form.mail ? false : true"
             @input="handleCode"
             placeholder="请输入新邮箱验证码"
-            :rules='[
-              {required: true, message: "请输入新邮箱验证码"},
-              {validator: validatorCode, message: "验证码错误"}
-            ]'
+            :rules="[
+              { required: true, message: '请输入新邮箱验证码' },
+              { validator: validatorCode, message: '验证码错误' },
+            ]"
           >
           </van-field>
         </div>
@@ -63,7 +70,13 @@
           >
             <span>授权</span>
             <div
-              :style="isStyle == 1 ? 'background:#247FF6;' : isStyle == 2 ? 'background:#00B87A;' : ''"
+              :style="
+                isStyle == 1
+                  ? 'background:#247FF6;'
+                  : isStyle == 2
+                  ? 'background:#00B87A;'
+                  : ''
+              "
             >
               1
             </div>
@@ -113,7 +126,7 @@ export default {
     },
     // 验证验证码是否输入正确
     validatorCode(val) {
-      return this.code === val
+      return this.code === val;
     },
     // 发送验证码
     sendCode() {
@@ -128,8 +141,8 @@ export default {
             }
           }, 1000);
         }
-        getCode({ mail: this.form.mail }).then((res) => {
-          this.code = res.data.message
+        getCode({ mail: this.form.mail, type: 1 }).then((res) => {
+          this.code = res.data.message;
           console.log(res.data, "邮箱验证码");
         });
       } else if (this.form.mail == "") {
@@ -165,27 +178,29 @@ export default {
         this.form.walletAddress = localStorage.getItem("myaddress");
         this.form.otype = localStorage.getItem("netType");
         this.form.sign = localStorage.getItem("mysign");
-        changemail(this.form).then((res) => {
-          if (res.data.code == 0) {
-            this.$toast.success({
-              message: "修改成功",
-              forbidClick: true
-            });
-            setTimeout(() => {
-              this.$router.replace("/login");
-            }, 500);
-          } else {
+        changemail(this.form)
+          .then((res) => {
+            if (res.data.code == 0) {
+              this.$toast.success({
+                message: "修改成功",
+                forbidClick: true,
+              });
+              setTimeout(() => {
+                this.$router.replace("/login");
+              }, 500);
+            } else {
+              this.$toast.fail({
+                message: res.data.message,
+                forbidClick: true,
+              });
+            }
+          })
+          .catch(() => {
             this.$toast.fail({
-              message: res.data.message,
-              forbidClick: true
+              message: "修改邮箱失败",
+              forbidClick: true,
             });
-          }
-        }).catch(() => {
-          this.$toast.fail({
-            message: "修改邮箱失败",
-            forbidClick: true
           });
-        });
       }
     },
   },
