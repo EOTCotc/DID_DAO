@@ -58,7 +58,6 @@ export default {
       title: '我的提案',
       name: 'personage',
       List: [],
-      a: false,
       IDList: [],
       isProponent: this.$route.query.isProponent || 1,
     }
