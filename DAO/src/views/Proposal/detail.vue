@@ -145,12 +145,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.proposalId, 1111, this.IDList2)
-    console.log(this.IDList2.some((item) => this.proposalId == item))
-    this.IDList2.some((item) => {
-      console.log(item, 1111)
-      // if (this.proposalId == item)
-    })
     // console.log(this.$dayjs('2022-10-07T18:33:01.98Z').format('YYYY年MM月DD '))
   },
   created() {
@@ -233,6 +227,11 @@ export default {
       if (
         this.state != 3 &&
         this.IDList.some((item) => this.proposalId == item)
+      )
+        this.rightText = '取消'
+      if (
+        this.IDList2.some((item) => this.proposalId == item) &&
+        this.state != 3
       )
         this.rightText = '取消'
       this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
