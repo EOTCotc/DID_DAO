@@ -23,11 +23,13 @@
                 query: { isProponent: 0, home: 'home' },
               })
             "
+            v-if="proposalList.length != 0"
           >
             {{ $t("home.more") }}
             <van-icon name="arrow" color="#fff" />
           </span>
         </div>
+        <!-- 最新提案 -->
         <div class="list-box" v-if="proposalList.length != 0">
           <div
             class="list-every"
@@ -45,7 +47,9 @@
               })
             "
           >
+            <!-- 提案标题 -->
             <div class="every-title">{{ item.title }}</div>
+            <!-- 提案状态 -->
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
@@ -142,8 +146,14 @@ export default {
     };
   },
   mounted() {
-    loadweb3(this.handle)
-    this.getmyList()
+    if (localStorage.getItem("myaddress")) {
+      //有钱包地址
+      this.handle;
+    } else {
+      //没有钱包地址
+      loadweb3(this.handle);
+    }
+    this.getmyList();
   },
   methods: {
     getmyList() {
