@@ -364,6 +364,7 @@ export default {
         getarbitrator().then((res) => {
           console.log(res.data)
           this.ArbitratorsIdentityInformation = res.data.items
+          localStorage.setItem('isArbitrate', 1)
         })
         this.displayApplicationConditions = false
         this.isArbitrate = 1

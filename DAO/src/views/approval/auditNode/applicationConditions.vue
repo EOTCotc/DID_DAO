@@ -362,6 +362,7 @@ export default {
       this.isExamine = 1
       becomeAnAuditor().then(() => {
         getUnapprovedInformation().then((res) => {
+          localStorage.setItem('isExamine', 1)
           this.ArbitratorsIdentityInformation = res.data.items
         })
         this.displayApplicationConditions = false
