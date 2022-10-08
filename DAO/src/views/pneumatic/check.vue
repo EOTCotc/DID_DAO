@@ -14,14 +14,14 @@
             <div class="title">身份证</div>
 
             <div class="example_wrap">
-              <img class="img" :src="spliceSrc(user.portraitImage)" alt="" />
-              <img class="img" :src="spliceSrc(user.nationalImage)" alt="" />
+              <img class="img" :src="user.portraitImage" alt="" />
+              <img class="img" :src="user.nationalImage" alt="" />
             </div>
           </div>
           <div class="upload_wrap step-2">
             <div class="title">手持证件照</div>
             <div class="example_zheng">
-              <img class="img" :src="spliceSrc(user.handHeldImage)" alt="" />
+              <img class="img" :src="user.handHeldImage" alt="" />
             </div>
           </div>
           <div
@@ -92,8 +92,13 @@
 
 <script>
 import White from "@/components/Nav/white.vue";
+import {
+  getuserinfo,
+  userriskstatus,
+  uploadimage,
+  getImg,
+} from "@/api/pneumatic";
 import { spliceSrc } from "@/utils/utils";
-import { getuserinfo, userriskstatus, uploadimage } from "@/api/pneumatic";
 import { Dialog } from "vant";
 import { Toast } from "vant";
 export default {
@@ -126,6 +131,12 @@ export default {
   mounted() {},
   methods: {
     spliceSrc,
+    async getWatermarkImg(src) {
+      const res = await getImg(src);
+      const blob = new window.Blob([res.data], { type: res.type });
+      const url = window.URL.createObjectURL(blob);
+      return url;
+    },
     afterRead(fileObj) {
       // 声明form表单数据
       const formData = new FormData();
@@ -154,10 +165,25 @@ export default {
       getuserinfo({
         userRiskId: this.id,
       }).then((res) => {
-        res.data.items.image = res.data.items.image.split(",");
-
-        console.log(res);
+        if (res.data.items.images != null) {
+          res.data.items.image = res.data.items.image.split(",");
+        }
+        console.log((res.data.items.image = res.data.items.image.split(",")));
         this.user = res.data.items;
+        this.getWatermarkImg(this.user.portraitImage)
+          .then((res) => {
+            this.user.portraitImage = res;
+          })
+          .then(() => {
+            this.getWatermarkImg(this.user.nationalImage).then((res) => {
+              this.user.nationalImage = res;
+            });
+          })
+          .then(() => {
+            this.getWatermarkImg(this.user.handHeldImage).then((res) => {
+              this.user.handHeldImage = res;
+            });
+          });
       });
     },
     //核对信息异常
