@@ -92,7 +92,7 @@ export default {
     },
     applyCreateCommunity() {
       if (this.eotc > 5000) {
-        this.$router.replace('/my/community/create')
+        this.$router.push('/my/community/create')
       } else {
         this.$toast({
           message: '您必须持有5000EOTC才能申请',

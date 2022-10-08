@@ -1,7 +1,7 @@
 import axios from "axios";
 import md5 from "js-md5";
 import qs from "qs";
-import Vant from "vant";
+import Vant, {Toast} from "vant";
 import "vant/lib/index.css";
 import Vue from "vue";
 import App from "./App.vue";
@@ -22,6 +22,7 @@ import "./assets/styles/index.scss";
 
 Vue.config.productionTip = false;
 
+Toast.allowMultiple();
 dayjs.extend(utc);
 
 Vue.prototype.cookie = Cookie;

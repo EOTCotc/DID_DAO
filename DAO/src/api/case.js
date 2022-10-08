@@ -5,7 +5,7 @@ export const list = (type) => request.post('/api/arbitrate/getarbitratelist', { 
 // 仲裁详情
 export const detail = (id) => request.post('/api/arbitrate/getarbitratedetails', { arbitrateInfoId: id })
 // 仲裁判决
-export const sentence = (data) => request.post('/api/arbitrate/getarbitratedetails', data)
+export const sentence = (data) => request.post('/api/arbitrate/arbitratevote', data)
 // 原被告身份信息
 export const personnelInfo = (id) => request.post('/api/arbitrate/getuserinfo', {id})
 // 发起重新举证

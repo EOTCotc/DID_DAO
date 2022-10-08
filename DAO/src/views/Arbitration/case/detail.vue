@@ -12,7 +12,7 @@
         >
           <van-col :span="12">
             <van-row type="flex" align="center">
-              <van-icon class="icon" size="16px" style="margin-right: 5px;" name="underway-o" />
+              <van-icon class="icon" style="margin-right: 5px;" name="underway-o" />
               <div class="text">双方举证中</div>
             </van-row>
           </van-col>
@@ -23,17 +23,30 @@
           class="header"
           type="flex"
           align="center"
+          justify='space-between'
           v-else-if="info.status === 1"
         >
           <van-col :span="12">
             <van-row>
               <van-row type="flex" align="center">
-                <van-icon class="icon" size="16px" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
-                <van-count-down :time="info.time" style="color: #237DF4;" format="DD:HH:mm" />
+                <van-icon class="icon" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
+                <van-count-down class='time' :time="info.time" style="color: #237DF4;" format="DD天HH时mm分" />
               </van-row>
             </van-row>
           </van-col>
-          <van-col :span="12" class="date">{{ transformUTCDate(info.adduceDate) }}</van-col>
+          <van-col :span="6" class="date" v-if='!info.hasDelay'>
+            <van-button
+              round
+              plain
+              block
+              size='small'
+              type="primary"
+              color="#237FF8"
+              @click="$router.push({path:'/user/arbitration/case/initiateNewProof', query: { id: info.arbitrateInfoId }})"
+            >
+              重新举证
+            </van-button>
+          </van-col>
         </van-row>
         <!-- 未投票 -->
         <van-row
@@ -107,18 +120,16 @@
               <span class="name">{{ info.plaintiff }}</span>
               <span class="identity">（卖家）</span>
             </div>
-            <van-icon class="icon" name="chat-o" />
           </div>
           <div class="item" @click="go('/user/arbitration/case/personnelInfo', { id: info.defendantId, type: 'plaintiff' })">
             <span class="label red">被告</span>
             <div class="user_wrap">
               <span class="name">{{ info.defendant }}</span>
               <span class="identity">（卖家）</span>
-              <van-icon class="icon" name="chat-o" />
             </div>
           </div>
         </div>
-        <div class="remark">卖家发起仲裁，仲裁事件为账户冻结</div>
+        <div class="remark">卖家发起仲裁，仲裁事件为{{ getArbitrateInType(info.arbitrateInType) }}</div>
         <!-- 仲裁结果 -->
         <div class="result_wrap" v-if="info.status > 1">
           <div class="h3">仲裁结果</div>
@@ -132,82 +143,78 @@
             <li class="item" v-for="item in info.adduce" :key="item.adduceListId">
               <span class="label plaintiff" v-if="item.adduceUserId === info.plaintiffId">原告举证</span>
               <span class="label defendant" v-else>被告举证</span>
-              <div class="main">
-                <img :src="spliceSrc(item.images)" alt="" class="img" />
-                <div class="message">{{ item.memo }}</div>
-              </div>
+              <van-grid v-if='!!item.images.length' :column-num="1">
+                <van-grid-item v-for="img in item.images" :key="img">
+                  <van-image
+                    class="img"
+                    :src="spliceSrc(img)"
+                    fit="contain"
+                    @click="preview(item.images)"
+                  />
+                </van-grid-item>
+                <div class='message'>{{item.memo}}</div>
+              </van-grid>
             </li>
           </ul>
         </div>
         <!-- 订单信息 -->
-        <div class="order_wrap">
-          <van-row class="header" @click="toggle('order', !show.order)">
-            <van-col :span="23" class="text">订单详情</van-col>
-            <van-col :span="1" class="icon">
-              <van-icon :name="show.order ? 'arrow-down' : 'arrow'" />
-            </van-col>
-          </van-row>
-          <div class="main" v-show="show.order">
-            <van-row class="row">
-              <van-col class="title" :span="6">订单号</van-col>
-              <van-col class="value" :span="18">7777781205789</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">交易数量</van-col>
-              <van-col class="value" :span="18">997.00000 USDT</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">交易单价</van-col>
-              <van-col class="value" :span="18">6.35 CNY</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">交易总价</van-col>
-              <van-col class="value" :span="18">6350.00 CNY</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">交易时间</van-col>
-              <van-col class="value" :span="18">2022.05.26 15:00:21</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title payment" :span="24">付款信息</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">姓名</van-col>
-              <van-col class="value" :span="18">李牧</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">开户银行</van-col>
-              <van-col class="value" :span="18">工商银行</van-col>
-            </van-row>
-            <van-row class="row">
-              <van-col class="title" :span="6">银行卡号</van-col>
-              <van-col class="value" :span="18">4005633224656232</van-col>
-            </van-row>
-          </div>
-        </div>
-        <!-- 判决信息 -->
-        <div class="sentence_wrap" v-if="info.status > 1">
-          <van-row class="header" @click="toggle('sentence', !show.sentence)">
-            <van-col :span="23" class="text">公示判决</van-col>
-            <van-col :span="1" class="icon">
-              <van-icon :name="show.sentence ? 'arrow-down' : 'arrow'" />
-            </van-col>
-          </van-row>
-          <ul class="list" v-show="show.sentence">
-            <li class="item" v-for="item in info.votes" :key="item.number">
-              <van-row>
-                <van-col :span="6" class="text name">{{ item.name }}</van-col>
-                <van-col :span="12" class="text phone">{{ item.phone }}</van-col>
-                <van-col v-if="item.voteStatus === 1" :span="6" class="winner icon icon-court plaintiff"> 原告胜</van-col>
-                <van-col v-if="item.voteStatus === 2" :span="6" class="winner icon icon-court defendant"> 被告胜</van-col>
+        <div class="order_wrap" v-if='false'>
+          <van-collapse v-model="show">
+            <van-collapse-item title="订单详情" name="1">
+              <van-row class="row">
+                <van-col class="title" :span="6">订单号</van-col>
+                <van-col class="value" :span="18">7777781205789</van-col>
               </van-row>
-              <div class="remark">{{item.reason}}</div>
-            </li>
-          </ul>
+              <van-row class="row">
+                <van-col class="title" :span="6">交易数量</van-col>
+                <van-col class="value" :span="18">997.00000 USDT</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title" :span="6">交易单价</van-col>
+                <van-col class="value" :span="18">6.35 CNY</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title" :span="6">交易总价</van-col>
+                <van-col class="value" :span="18" style='color: #f37a4c;'>6350.00 CNY</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title" :span="6">交易时间</van-col>
+                <van-col class="value" :span="18">2022.05.26 15:00:21</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title payment" :span="24">付款信息</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title" :span="6">姓名</van-col>
+                <van-col class="value" :span="18">李牧</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title" :span="6">开户银行</van-col>
+                <van-col class="value" :span="18">工商银行</van-col>
+              </van-row>
+              <van-row class="row">
+                <van-col class="title" :span="6">银行卡号</van-col>
+                <van-col class="value" :span="18">4005633224656232</van-col>
+              </van-row>
+            </van-collapse-item>
+            <van-collapse-item title="公示判决" name="2" v-if='info.status > 1'>
+              <ul class="list sentence_wrap">
+                <li class="item" v-for="item in info.votes" :key="item.number">
+                  <van-row>
+                    <van-col :span="6" class="text name">{{ item.name }}</van-col>
+                    <van-col :span="12" class="text phone">{{ item.phone }}</van-col>
+                    <van-col v-if="item.voteStatus === 1" :span="6" class="winner icon icon-court plaintiff"> 原告胜</van-col>
+                    <van-col v-if="item.voteStatus === 2" :span="6" class="winner icon icon-court defendant"> 被告胜</van-col>
+                  </van-row>
+                  <div class="remark">{{item.reason}}</div>
+                </li>
+              </ul>
+            </van-collapse-item>
+          </van-collapse>
         </div>
       </div>
     </div>
-    <van-row class="btn" :gutter="15">
+    <van-row class="btn" :gutter="15" v-if='info.status === 1'>
       <van-col :span="12">
         <van-button
           block
@@ -285,7 +292,11 @@
 import pageHeader from "@/components/topBar/pageHeader";
 import Popup from "@/components/popup";
 import { detail, sentence as submit } from '@/api/case'
-import { transformUTCDate, spliceSrc } from '@/utils/utils'
+import {
+  transformUTCDate,
+  spliceSrc,
+  getArbitrateInType
+} from '@/utils/utils'
 import icon1 from '@/assets/imgs/victory.png'
 import icon2 from '@/assets/imgs/fail.png'
 
@@ -300,10 +311,7 @@ export default {
       icon1,
       icon2,
       loading: false,
-      show: {
-        order: false,
-        sentence: false
-      },
+      show: [],
       title: "",
       remark: "",
       status: 0,
@@ -313,10 +321,8 @@ export default {
   },
   methods: {
     spliceSrc,
+    getArbitrateInType,
     transformUTCDate,
-    toggle(type, show) {
-      this.show[type] = show
-    },
     // 跳转页面
     go(path, query) {
       this.$router.push({ path, query })
@@ -335,6 +341,8 @@ export default {
           })
         } else {
           items.total = items.plaintiffNum + items.defendantNum
+          items.adduce = items.adduce.map(item => ({...item, images: item.images.split(',')}))
+          items.time = this.$dayjs(items.status === 0 ? items.adduceDate : items.voteDate).diff(this.$dayjs(), 'millisecond')
           this.info = items
         }
       }).catch(() => {
@@ -373,7 +381,8 @@ export default {
         if (res.data.code) {
           this.$toast.fail({
             forbidClick: true,
-            message: '判决失败',
+            duration: 2000,
+            message: res.data.message,
           })
         } else {
           this.$toast.success({
@@ -409,7 +418,7 @@ export default {
     & > .main {
       min-height: 100%;
       box-sizing: border-box;
-      padding: 30px 30px 0;
+      padding: 30px;
       border-radius: 20px;
       background-color: #fff;
       .h3 {
@@ -454,11 +463,15 @@ export default {
           width: 30px;
         }
         .icon {
-          font-size: 28px;
+          font-size: 35px;
         }
         .text {
           color: #333;
-          font-size: 30px;
+          font-size: 32px;
+        }
+        .time {
+          color: #237FF8;
+          font-size: 32px;
         }
         .date {
           color: #999;
@@ -542,10 +555,6 @@ export default {
               border-radius: 40px 0 50px 40px;
               background-color: #EC6F66;
             }
-            .img {
-              display: block;
-              width: 100%;
-            }
             .message {
               color: #333;
               font-size: 28px;
@@ -558,10 +567,10 @@ export default {
         margin-top: 30px;
       }
       .sentence_wrap {
-        margin-top: 50px;
-        .list {
-          .item {
-            margin-top: 30px;
+        .item {
+          margin-top: 30px;
+          &:first-of-type {
+            margin-top: 0;
           }
         }
       }
