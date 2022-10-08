@@ -23,10 +23,7 @@
         </div>
         <div class="card-bottom">
           <div>
-            <img
-              v-if="userInfo.authType == 2"
-              src="@/assets/imgs/dunpai.png"
-            />
+            <img v-if="userInfo.authType == 2" src="@/assets/imgs/dunpai.png" />
             <img v-else src="../../assets/imgs/dunpai2.png" />
             <span v-if="userInfo.authType == 2">{{
               $t("home.authenticated")
@@ -44,8 +41,8 @@
         <!-- 认证审核 -->
         <van-cell
           is-link
-          :border='false'
-          @click='auth("/my/identity/approval", true)'
+          :border="false"
+          @click="auth('/my/identity/approval', true)"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -61,8 +58,8 @@
         <!-- 社区审批 -->
         <van-cell
           is-link
-          :border='false'
-          @click='auth("/my/approval/community", true)'
+          :border="false"
+          @click="auth('/my/approval/community', true)"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
@@ -76,11 +73,7 @@
           </template>
         </van-cell>
         <!-- 身份信息 -->
-        <van-cell
-          is-link
-          :border="false"
-          :to="identifyRouter"
-        >
+        <van-cell is-link :border="false" :to="identifyRouter">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/shenfen.png" />
@@ -107,11 +100,7 @@
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell
-          is-link
-          :border='false'
-          @click='auth("/my/payment", false)'
-        >
+        <van-cell is-link :border="false" @click="auth('/my/payment', false)">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/fukuan.png" />
@@ -141,7 +130,7 @@
           </template>
         </van-cell>
         <!-- 我的团队 -->
-        <van-cell is-link :border='false' @click='auth("/my/team")'>
+        <van-cell is-link :border="false" @click="auth('/my/team')">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/tuandui.png" />
@@ -154,7 +143,7 @@
           </template>
         </van-cell>
         <!-- 邀请好友 -->
-        <van-cell is-link :border='false' @click='auth("/my/invite")'>
+        <van-cell is-link :border="false" @click="auth('/my/invite')">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/haoyou.png" />
@@ -197,21 +186,21 @@
   </div>
 </template>
 <script>
-import TopBar from '@/components/topBar/topBar';
-import {getuserinfo} from '@/api/pagesApi/home';
-import {list as communityList} from '@/api/pagesApi/approvalCommunity'
-import {list as identityList} from '@/api/pagesApi/identity'
+import TopBar from "@/components/topBar/topBar";
+import { getuserinfo } from "@/api/pagesApi/home";
+import { list as communityList } from "@/api/pagesApi/approvalCommunity";
+import { list as identityList } from "@/api/pagesApi/identity";
 
 export default {
   name: "my",
   components: {
-    TopBar
+    TopBar,
   },
   data() {
     return {
       userInfo: {},
       form: {},
-      headerIcon: require('@/assets/imgs/jin.png'),
+      headerIcon: require("@/assets/imgs/jin.png"),
       isShow: false,
       show: {
         communityApproval: false,
@@ -221,7 +210,7 @@ export default {
   },
   created() {
     this.handleRefresh();
-    this.getBadge()
+    this.getBadge();
   },
   computed: {
     // 身份信息跳转
@@ -238,12 +227,12 @@ export default {
   methods: {
     // 获取是否有未处理的审批
     getBadge() {
-      communityList(0, {page: 1, itemsPerPage: 10}).then(res => {
-        this.show.communityApproval = !res.data.code && !!res.data.items.length
-      })
-      identityList(0, {page: 1, itemsPerPage: 10}).then(res => {
-        this.show.identity = !res.data.code && !!res.data.items.length
-      })
+      communityList(0, { page: 1, itemsPerPage: 10 }).then((res) => {
+        this.show.communityApproval = !res.data.code && !!res.data.items.length;
+      });
+      identityList(0, { page: 1, itemsPerPage: 10 }).then((res) => {
+        this.show.identity = !res.data.code && !!res.data.items.length;
+      });
     },
     // 去设置
     toSetup() {
@@ -264,14 +253,17 @@ export default {
             !this.userInfo.isImprove
           ) {
             if (!this.isShow) {
-              this.$dialog.confirm({
-                message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
-                confirmButtonText: "确定前往",
-                cancelButtonText: "稍后前往",
-              }).then(() => {
-                this.$router.push("/my/community/setting");
-              }).catch(() => {});
-              this.isShow = true
+              this.$dialog
+                .confirm({
+                  message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
+                  confirmButtonText: "确定前往",
+                  cancelButtonText: "稍后前往",
+                })
+                .then(() => {
+                  this.$router.push("/my/community/setting");
+                })
+                .catch(() => {});
+              this.isShow = true;
             }
           }
         })
@@ -283,75 +275,81 @@ export default {
      * validateAuthType：是否需要验证身份认证通过
      * **/
     auth(path, validateAuthType = false) {
-      const {name, phoneNum, idCard} = this.userInfo
+      const { name, phoneNum, idCard } = this.userInfo;
       const options = {
-        title: '',
-        type: '',
-        message: '',
-        cb: null
-      }
+        title: "",
+        type: "",
+        message: "",
+        cb: null,
+      };
       if (this.userInfo.refUid) {
         if (validateAuthType) {
           if (this.userInfo.authType === 2) {
-            this.$router.push(path)
+            this.$router.push(path);
           } else {
             switch (this.userInfo.authType) {
               case 0:
-                options.type = 'confirm'
-                options.title = '身份认证'
-                options.message = '身份未认证，请立即认证'
-                options.cb = () => this.$router.push({path: '/my/identity'})
+                options.type = "confirm";
+                options.title = "身份认证";
+                options.message = "身份未认证，请立即认证";
+                options.cb = () => this.$router.push({ path: "/my/identity" });
                 break;
               case 1:
-                options.type = 'alert'
-                options.title = '身份认证'
-                options.message = '身份认证审核中，请耐心等待'
-                options.cb = null
+                options.type = "alert";
+                options.title = "身份认证";
+                options.message = "身份认证审核中，请耐心等待";
+                options.cb = null;
                 break;
               case 3:
-                options.type = 'confirm'
-                options.title = '身份认证'
-                options.message = '身份认证审核未通过，请重新认证'
-                options.cb = this.$router.push({name: 'identity', params: {name, phoneNum, idCard}})
+                options.type = "confirm";
+                options.title = "身份认证";
+                options.message = "身份认证审核未通过，请重新认证";
+                options.cb = this.$router.push({
+                  name: "identity",
+                  params: { name, phoneNum, idCard },
+                });
                 break;
             }
             this.$dialog[options.type]({
               title: options.title,
               message: options.message,
-              confirmButtonText: options.type === 'confirm' ? '前往认证' : '确定',
-              confirmButtonColor: '#F65F5F',
+              confirmButtonText:
+                options.type === "confirm" ? "前往认证" : "确定",
+              confirmButtonColor: "#F65F5F",
               beforeClose: (action, done) => {
-                if (action === 'confirm') {
-                  done()
-                  options.cb && options.cb()
+                if (action === "confirm") {
+                  done();
+                  options.cb && options.cb();
                 } else {
-                  done()
+                  done();
                 }
-              }
-            }).catch(() => {})
+              },
+            }).catch(() => {});
           }
         } else {
-          this.$router.push(path)
+          this.$router.push(path);
         }
       } else {
-        this.$dialog.confirm({
-          title: '推荐关系',
-          message: '暂未绑定推荐关系，请立即绑定',
-          confirmButtonText: '立即绑定',
-          confirmButtonColor: '#F65F5F',
-          beforeClose: (action, done) => {
-            if (action === 'confirm') {
-              done()
-              this.$router.push({path: "/bindRelation"})
-            } else {
-              done()
-            }
-          }
-        }).catch(() => {})
+        this.$dialog
+          .confirm({
+            title: "推荐关系",
+            message: "暂未绑定推荐关系，请立即绑定",
+            confirmButtonText: "立即绑定",
+            confirmButtonColor: "#F65F5F",
+            beforeClose: (action, done) => {
+              if (action === "confirm") {
+                done();
+                this.$router.push({ path: "/bindRelation" });
+              } else {
+                done();
+              }
+            },
+          })
+          .catch(() => {});
       }
     },
-  }
-}
+  },
+};
 </script>
 <style lang='scss' scoped>
 .container {

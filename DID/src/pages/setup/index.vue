@@ -44,7 +44,7 @@
       />
       <van-cell
         :title="$t('setup.telegram')"
-        @click="showPopup = true"
+        @click="cookie.get('riskLevel') == 2 ? '' : (showPopup = true)"
         :value="userInfo.telegram || $t('setup.set')"
         is-link
       />
