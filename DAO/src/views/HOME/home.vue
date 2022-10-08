@@ -142,7 +142,8 @@ export default {
     };
   },
   mounted() {
-    loadweb3(this.handle);
+    loadweb3(this.handle)
+    this.getmyList()
   },
   methods: {
     getmyList() {

@@ -58,7 +58,6 @@ export default {
       title: '我的提案',
       name: 'personage',
       List: [],
-      a: false,
       IDList: [],
       isProponent: this.$route.query.isProponent || 1,
     }
@@ -79,11 +78,6 @@ export default {
       this.IDList = res.data.items.map((item) => {
         return item.proposalId
       })
-      // localStorage.setItem('IDList', this.IDList)
-      // if (localStorage.getItem('IDList')) {
-      //   localStorage.removeItem('IDList')
-      //   localStorage.setItem('IDList', this.IDList)
-      // }
     })
     if (this.isProponent != 0) {
       getmyprops()
