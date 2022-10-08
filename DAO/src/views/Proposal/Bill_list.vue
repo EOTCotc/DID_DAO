@@ -74,11 +74,6 @@ export default {
       forbidClick: true,
       message: '加载中…',
     })
-    getmyprops().then((res) => {
-      this.IDList = res.data.items.map((item) => {
-        return item.proposalId
-      })
-    })
     if (this.isProponent != 0) {
       getmyprops()
         .then((res) => {
@@ -122,7 +117,10 @@ export default {
             this.List = items.map((item) => {
               item.total =
                 Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`))
+                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
+                Number(
+                  localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
+                )
               return item
             })
           }
@@ -142,10 +140,10 @@ export default {
     createAn() {
       this.$router.push('/Create')
     },
-    detail(id, state, IDList) {
+    detail(id, state) {
       this.$router.push({
         path: '/detail',
-        query: { proposalId: id, state: state, IDList: IDList },
+        query: { proposalId: id, state: state },
       })
     },
   },
@@ -155,12 +153,12 @@ export default {
 .box {
   background: #fff;
   height: 100vh;
+  overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
-  overflow: auto;
 }
 footer {
-  min-height: 160px;
+  height: 170px;
   background-color: #fff;
   width: 100%;
   position: fixed;
