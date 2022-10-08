@@ -269,9 +269,11 @@ export default {
   .form_wrap {
     flex: 1;
     padding-bottom: 30px;
+
     .main {
       min-height: 100%;
       padding-bottom: 120px;
+
       .upload_wrap {
         padding: 30px;
 
@@ -329,19 +331,23 @@ export default {
           margin-top: 50px;
         }
       }
+
       .tip {
         color: #fc7542;
         font-size: 24px;
         margin-top: 50px;
       }
     }
+
     .tip_wrap {
       margin-top: 40px;
+
       .title {
         color: #333;
         font-size: 28px;
         margin-bottom: 20px;
       }
+
       .tip {
         color: #fc7542;
         padding: 25px;
@@ -349,22 +355,28 @@ export default {
         font-size: 26px;
         background-color: #fffbe8;
       }
+
       .img_wrap {
         display: flex;
         justify-content: space-between;
+
         .item {
           flex: 0 0 48%;
+
           &:nth-of-type(1) .img:after {
             @include posi($t: 0, $l: 0);
           }
+
           &:nth-of-type(2) .img:after {
             @include posi($t: 0, $r: 0);
           }
+
           .img {
             position: relative;
             padding: 25px 45px;
             border-radius: 20px;
             border: 2px dashed #eee;
+
             &:after {
               display: block;
               content: "";
@@ -372,11 +384,13 @@ export default {
               height: 100%;
               backdrop-filter: blur(10px);
             }
+
             img {
               display: block;
               width: 100%;
             }
           }
+
           .text {
             color: #999;
             font-size: 24px;
@@ -387,11 +401,14 @@ export default {
       }
     }
   }
+
   .btns {
     margin: -120px 30px 0;
     display: flex;
+
     .btn {
       flex: 1;
+
       &:nth-of-type(2) {
         margin-left: 30px;
       }

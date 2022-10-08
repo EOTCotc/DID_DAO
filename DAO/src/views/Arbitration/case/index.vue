@@ -22,42 +22,43 @@
           <li class="item"
               v-for="item in list.data"
               :key="item.id"
+              @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })"
           >
-            <template v-if="tab.active === 0">
-              <!-- 举证中 -->
-              <van-row
-                v-if="item.status === 0"
-                class="header"
-                type="flex"
-                align="center"
-              >
-                <van-col :span="12">
+            <!-- 举证中 -->
+            <van-row
+              v-if="item.status === 0"
+              class="header"
+              type="flex"
+              align="center"
+            >
+              <van-col :span="12">
+                <van-row type="flex" align="center">
+                  <van-icon class="icon" style="margin-right: 5px;" name="underway-o" />
+                  <div class="text">双方举证中</div>
+                </van-row>
+              </van-col>
+              <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
+            </van-row>
+            <!-- 投票中 -->
+            <van-row
+              class="header"
+              type="flex"
+              align="center"
+              v-else-if="item.status === 1"
+            >
+              <van-col :span="12">
+                <van-row>
                   <van-row type="flex" align="center">
-                    <van-icon class="icon" size="16px" style="margin-right: 5px;" name="underway-o" />
-                    <div class="text">双方举证中</div>
+                    <van-icon class="icon" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
+                    <van-count-down class='countDown' :time="item.time" format="DD天HH时mm分" />
                   </van-row>
-                </van-col>
-                <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
-              </van-row>
-              <!-- 投票中 -->
-              <van-row
-                class="header"
-                type="flex"
-                align="center"
-                v-else-if="item.status === 1"
-              >
-                <van-col :span="12">
-                  <van-row>
-                    <van-row type="flex" align="center">
-                      <van-icon class="icon" size="16px" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
-                      <van-count-down :time="item.time" style="color: #237DF4;" format="DD:HH:mm" />
-                    </van-row>
-                  </van-row>
-                </van-col>
-                <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
-              </van-row>
-            </template>
-            <template v-else>
+                </van-row>
+              </van-col>
+              <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
+            </van-row>
+            <template
+              v-if='item.status > 1'
+            >
               <!-- 未投票 -->
               <van-row
                 v-if="item.voteStatus === 0"
@@ -121,7 +122,7 @@
             </template>
             <!-- 原被告信息 -->
             <van-row>
-              <van-col class="lf" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.plaintiffId, type: 1 })">
+              <van-col class="lf" :span="12">
                 <div class="identity_wrap">
                   <img v-if="item.status === 2" src="../../../assets/imgs/huangguan.png" alt="" class="img">
                   原告
@@ -130,9 +131,9 @@
                   <span class="name">{{ item.plaintiff }}</span>
                   <span class="text">（卖家）</span>
                 </div>
-                <div class="num">{{item.plaintiffNum}}票</div>
+                <div class="num" v-if="item.status > 0">{{item.plaintiffNum}}票</div>
               </van-col>
-              <van-col class="rt" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.defendantId, type: 2 })">
+              <van-col class="rt" :span="12">
                 <div class="identity_wrap">
                   <img v-if="item.status === 3" src="../../../assets/imgs/huangguan.png" alt="" class="img">
                   被告
@@ -141,19 +142,19 @@
                   <span class="text">（卖家）</span>
                   <span class="name">{{ item.plaintiff }}</span>
                 </div>
-                <div class="num">{{item.plaintiffNum}}票</div>
+                <div class="num" v-if="item.status > 0">{{item.defendantNum}}票</div>
               </van-col>
             </van-row>
             <div class="process_wrap" v-if="item.status > 0">
               <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffNum / item.total * 100}%`}"></div>
-              <div class="border" v-if="!!item.plaintiffNum || !!item.defendantNum"></div>
+              <div class="border" v-if="item.plaintiffNum && !!item.defendantNum"></div>
               <div class="rt chunk"></div>
             </div>
             <div class="remark">
               原告卖家发起仲裁，仲裁事件为{{ getArbitrateInType(item.arbitrateInType) }}
             </div>
             <div class="row">
-              <div class="message" @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })">
+              <div class="message">
                 <div class="more" style="text-align: left;color: #237FF8;">
                   <van-icon name="description" /> 仲裁详情
                 </div>
@@ -163,7 +164,7 @@
             <!-- 仲裁结果 -->
             <div class="row" v-if="tab.active === 1 && item.status > 1">
               <div class="title">仲裁结果</div>
-              <div class="message" @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })">
+              <div class="message">
                 <p v-if="item.status === 1">本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.plaintiffNum }}位仲裁员判定原告…</p>
                 <p v-else-if="item.status === 2">本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.defendantNum }}位仲裁员判定被告…</p>
                 <div class="more"><van-icon name="description" /> 详情</div>
@@ -172,9 +173,9 @@
             <van-row
               v-if="tab.active === 0 && item.status === 1"
               class="row"
-              :gutter="item.hasDelay ? 0 :20"
+              :gutter="item.hasDelay ? 0 : 20"
             >
-              <van-col span="12" v-if="!item.hasDelay">
+              <van-col span="12" v-if="item.status === 1 && !item.hasDelay">
                 <van-button
                   class="more"
                   color="#237FF8"
@@ -182,7 +183,7 @@
                   plain
                   block
                   type="primary"
-                  @click="go('/user/arbitration/case/initiateNewProof', { id: item.arbitrateInfoId })"
+                  @click.stop="go('/user/arbitration/case/initiateNewProof', { id: item.arbitrateInfoId })"
                 >
                   重新举证
                 </van-button>
@@ -194,7 +195,6 @@
                   block
                   color="#237FF8"
                   type="primary"
-                  @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })"
                 >
                   <i class="icon icon-court"></i> 去判决
                 </van-button>
@@ -354,11 +354,15 @@ export default {
             width: 30px;
           }
           .icon {
-            font-size: 28px;
+            font-size: 35px;
           }
           .text {
             color: #333;
-            font-size: 30px;
+            font-size: 32px;
+          }
+          .countDown {
+            color: #237DF4;
+            font-size: 32px;
           }
           .date {
             color: #999;
@@ -402,7 +406,6 @@ export default {
           display: flex;
           align-items: center;
           margin-top: 30px;
-          background-color: #4EA0F5;
           border-radius: 24px;
           overflow: hidden;
           .border {
@@ -413,6 +416,9 @@ export default {
           }
           .chunk {
             height: 24px;
+            &.lt {
+              background-color: #4EA0F5;
+            }
             &.rt {
               display: flex;
               align-items: center;

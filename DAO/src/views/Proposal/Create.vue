@@ -14,17 +14,15 @@
         type="textarea"
         placeholder="描述您的提案…"
       />
-      <van-button block type="warning" v-show="items >= 10000"
-        >您必须持有10000EOTC才能提交提案</van-button
-      >
-      <van-button
-        class="but"
-        block
-        type="warning"
-        @click="submit()"
-        v-show="items >= 10000"
-        >提交提案</van-button
-      >
+
+      <div v-if="items < 10000">
+        <van-button block type="warning" color="#fc7542">
+          您必须持有10000EOTC才能提交提案
+        </van-button>
+      </div>
+      <div v-else>
+        <van-button block type="warning" color="#237ff8"> 提交提案 </van-button>
+      </div>
     </main>
   </div>
 </template>
@@ -93,7 +91,6 @@ export default {
   }
 }
 .van-button {
-  background: #fc7542;
   width: 352px;
   position: absolute;
   right: 0;
@@ -102,8 +99,5 @@ export default {
   margin: 0 auto;
   border-radius: 32px;
   border: none;
-}
-.van-button:last-child {
-  background: #237ff8;
 }
 </style>

@@ -129,6 +129,7 @@ import Notification from "@/components/notification";
 import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
 import { loadweb3 } from "@/utils/web3.js";
 import { getmyprops } from "@/api/Proposal";
+import { getdaoinfo } from "@/api/earnings";
 export default {
   components: { TopBar, Notification },
   name: "home",
@@ -143,6 +144,7 @@ export default {
       tanShow: false,
       IDList2: [],
       proposalList: [], //提案列表
+      riskShow: this.cookie.get("riskShow"),
     };
   },
   mounted() {
@@ -156,6 +158,18 @@ export default {
     this.getmyList();
   },
   methods: {
+    getLocal() {
+      // 获取用户信息
+      getdaoinfo().then((res) => {
+        this.user = res.data.items;
+        localStorage.setItem("user", JSON.stringify(res.data.items));
+        localStorage.setItem("items", res.data.items.daoEOTC);
+        localStorage.setItem("uid", res.data.items.uid);
+        localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
+        localStorage.setItem("isExamine", res.data.items.isExamine);
+        localStorage.setItem("authType", res.data.items.authType);
+      });
+    },
     getmyList() {
       getmyprops().then((res) => {
         this.IDList2 = res.data.items.map((item) => {
@@ -166,16 +180,21 @@ export default {
     handle() {
       this.getuserrisklevel();
       this.getProposal();
+      this.getLocal();
     },
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
           this.cookie.set("riskLevel", res.data.items);
-          if (res.data.items == 2) {
+          this.cookie.set("riskShow", "false");
+          if (res.data.items == 2 && !this.riskShow) {
             this.$nextTick().then(() => {
               this.$refs.notification.toggle(true);
             });
+          }
+          if (res.data.items == 2 && this.riskShow) {
+            this.tanShow = true;
           }
         }
       });

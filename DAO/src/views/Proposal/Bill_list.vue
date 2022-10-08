@@ -1,15 +1,16 @@
 <template>
   <div class="fullscreen bg-gray">
     <header class="me">
-      <white :title="title"
-             :name="name"></white>
+      <white :title="title" :name="name"></white>
     </header>
     <main class="box">
       <div>
-        <div class="one_an"
-             @click="detail(item.proposalId, item.state,IDList)"
-             v-for="(item, index) in List"
-             :key="index">
+        <div
+          class="one_an"
+          @click="detail(item.proposalId, item.state, IDList)"
+          v-for="(item, index) in List"
+          :key="index"
+        >
           <div>{{ item.title }}</div>
           <div class="piao">
             <span>{{ item.total }}票</span>
@@ -31,63 +32,59 @@
             </span>
           </div>
         </div>
-        <van-empty v-show="!List.length"
-                   class="custom-image"
-                   :image="require('../../assets/img/empty.png')"
-                   description="暂无任何数据" />
+        <van-empty
+          v-show="!List.length"
+          class="custom-image"
+          :image="require('../../assets/img/empty.png')"
+          description="暂无任何数据"
+        />
       </div>
     </main>
     <footer v-if="isProponent != 0">
-      <van-button icon="plus"
-                  block
-                  type="info"
-                  @click="createAn">创建提案</van-button>
+      <van-button icon="plus" block type="info" @click="createAn"
+        >创建提案</van-button
+      >
     </footer>
   </div>
 </template>
 
 <script>
-import white from '@/components/Nav/white.vue'
-import { getmyprops } from '@/api/Proposal'
-import { getproposallist } from '@/api/viewsApi/home'
+import white from "@/components/Nav/white.vue";
+import { getmyprops } from "@/api/Proposal";
+import { getproposallist } from "@/api/viewsApi/home";
 export default {
   components: { white },
-  name: 'home',
+  name: "home",
   data() {
     return {
-      title: '我的提案',
-      name: 'personage',
+      title: "我的提案",
+      name: "personage",
       List: [],
       IDList: [],
       isProponent: this.$route.query.isProponent || 1,
-    }
+    };
   },
   mounted() {
-    this.isProponent == 0 ? (this.title = '提案') : (this.title = '我的提案')
+    this.isProponent == 0 ? (this.title = "提案") : (this.title = "我的提案");
     // 判断是否从home页面跳过来
     if (this.$route.query.home) {
-      this.name = 'home'
+      this.name = "home";
     }
   },
   created() {
     const loading = this.$toast.loading({
       forbidClick: true,
-      message: '加载中…',
-    })
-    getmyprops().then((res) => {
-      this.IDList = res.data.items.map((item) => {
-        return item.proposalId
-      })
-    })
+      message: "加载中…",
+    });
     if (this.isProponent != 0) {
       getmyprops()
         .then((res) => {
-          const { code, items } = res.data
+          const { code, items } = res.data;
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: '加载失败！',
-            })
+              message: "加载失败！",
+            });
           } else {
             this.List = items.map((item) => {
               item.total =
@@ -95,72 +92,82 @@ export default {
                 Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
                 Number(
                   localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
-                )
-              return item
-            })
+                );
+              return item;
+            });
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: '加载失败！',
-          })
+            message: "加载失败！",
+          });
         })
         .finally(() => {
-          loading.clear()
-        })
+          loading.clear();
+        });
     } else {
       getproposallist({ page: 1, itemsPerPage: 10 })
         .then((res) => {
-          const { code, items } = res.data
+          const { code, items } = res.data;
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: '加载失败！',
-            })
+              message: "加载失败！",
+            });
           } else {
             this.List = items.map((item) => {
               item.total =
                 Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`))
-              return item
-            })
+                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
+                Number(
+                  localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
+                );
+              return item;
+            });
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: '加载失败！',
-          })
+            message: "加载失败！",
+          });
         })
         .finally(() => {
-          loading.clear()
-        })
+          loading.clear();
+        });
     }
   },
   methods: {
     createAn() {
-      this.$router.push('/Create')
+      this.$router.push("/Create");
     },
-    detail(id, state, IDList) {
+    detail(id, state) {
       this.$router.push({
-        path: '/detail',
+        path: "/detail",
         query: { proposalId: id, state: state, IDList: IDList },
-      })
+      });
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .box {
   background: #fff;
   height: 100vh;
+  overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
-  overflow: auto;
 }
 footer {
-  min-height: 160px;
+  height: 170px;
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+footer {
+  height: 170px;
   background-color: #fff;
   width: 100%;
   position: fixed;

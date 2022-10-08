@@ -31,27 +31,16 @@
 <script>
 import TopBar from "@/components/topBar/topBar";
 import List from "../../components/Nav/List.vue";
-import { getdaoinfo } from "@/api/earnings";
+
 export default {
   components: { TopBar, List },
   data() {
     return {
       total: 0,
-      user: {},
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
-  created() {
-    // 获取用户信息
-    getdaoinfo().then((res) => {
-      this.user = res.data.items;
-      this.total = res.data.items.daoEOTC;
-      localStorage.setItem("items", res.data.items.daoEOTC);
-      localStorage.setItem("uid", res.data.items.uid);
-      localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
-      localStorage.setItem("isExamine", res.data.items.isExamine);
-      localStorage.setItem("authType", res.data.items.authType);
-    });
-  },
+  created() {},
   methods: {
     // 去往详情页
     detail() {
@@ -71,7 +60,7 @@ export default {
 }
 
 .identity-card {
-  padding: 30px;
+  padding: 20px;
   border-radius: 20px;
   margin: 40px 25px 30px;
   background: linear-gradient(134deg, #2a86ff 0%, #54dcff 100%);
