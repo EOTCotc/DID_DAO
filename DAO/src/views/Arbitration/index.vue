@@ -4,35 +4,29 @@
            :name='name'></white>
     <div class='content'>
       <div class='main'>
-        <van-cell
-          title='仲裁员公示'
-          title-class='row-title'
-          is-link
-          to='/user/arbitration/publicity/personnel' />
-        <van-cell
-          title='仲裁案公示'
-          title-class='row-title'
-          is-link
-          to='/user/arbitration/publicity/case' />
-        <van-cell
-          :title='title'
-          title-class='row-title'
-          is-link
-          to='/user/meetTheConditions'
-        />
-        <van-cell
-          title='仲裁案件'
-          title-class='row-title'
-          is-link
-          @click='auth("/user/arbitration/case")'
-        />
+        <van-cell title='仲裁员公示'
+                  title-class='row-title'
+                  is-link
+                  to='/user/arbitration/publicity/personnel' />
+        <van-cell title='仲裁案公示'
+                  title-class='row-title'
+                  is-link
+                  to='/user/arbitration/publicity/case' />
+        <van-cell :title='title'
+                  title-class='row-title'
+                  is-link
+                  to='/user/meetTheConditions' />
+        <van-cell title='仲裁案件'
+                  title-class='row-title'
+                  is-link
+                  @click='auth("/user/arbitration/case")' />
         <div class='msg'>
-          <van-cell
-            title='仲裁消息'
-            title-class='row-title'
-            is-link
-            to='/arbitrationList' />
-          <div class='dot' v-show='isDot'></div>
+          <van-cell title='仲裁消息'
+                    title-class='row-title'
+                    is-link
+                    to='/arbitrationList' />
+          <div class='dot'
+               v-show='isDot'></div>
         </div>
       </div>
     </div>
@@ -40,11 +34,11 @@
 </template>
 <script>
 import white from '@/components/Nav/white.vue'
-import {getmessageisopen} from '@/api/viewsApi/Arbitration.js'
+import { getmessageisopen } from '@/api/viewsApi/Arbitration.js'
 
 export default {
   name: 'arbitration',
-  components: {white},
+  components: { white },
   data() {
     return {
       isArbitrate: +localStorage.getItem('isArbitrate'),
@@ -52,7 +46,7 @@ export default {
       title1: '仲裁',
       name: 'personage',
       isDot: false,
-      user: {}
+      user: {},
     }
   },
   mounted() {
@@ -74,16 +68,19 @@ export default {
       if (this.isArbitrate) {
         this.$router.push(path)
       } else {
-        this.$dialog.confirm({
-          title: '提示',
-          message: '暂未成为仲裁员',
-          confirmButtonText: '前往申请'
-        }).then(() => {
-          this.$router.push('/user/approval/auditNode/applicationConditions')
-        }).catch(() => {})
+        this.$dialog
+          .confirm({
+            title: '提示',
+            message: '暂未成为仲裁员',
+            confirmButtonText: '前往申请',
+          })
+          .then(() => {
+            this.$router.push('/user/meetTheConditions')
+          })
+          .catch(() => {})
       }
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped lang='scss'>
