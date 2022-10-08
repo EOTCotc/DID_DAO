@@ -54,3 +54,12 @@ export function uploadimage(data) {
     headers: { "Content-Type": "multipart/form-data" },
   });
 }
+// 获取水印图片
+export const getImg = (path) =>
+  request.post(
+    `/api/daouser/getauthimage`,
+    { path },
+    {
+      responseType: "blob",
+    }
+  );

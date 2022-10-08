@@ -28,8 +28,8 @@
       </van-cell-group>
       <van-cell-group inset class="tu">
         <van-image
-          width="60"
-          height="60"
+          width="55"
+          height="55"
           v-for="(item, index) in order.images"
           :key="index"
           :src="spliceSrc(item)"
@@ -39,7 +39,7 @@
         <van-cell title="处理记录" style="color: #999" :border="false" />
         <van-field
           v-model="message"
-          rows="6"
+          rows="5"
           type="textarea"
           placeholder="工单处理记录..."
         />
@@ -48,8 +48,6 @@
         <van-cell title="处理记录" style="color: #999" :border="false" />
         <van-cell :title="order.record"></van-cell>
       </van-cell-group>
-    </main>
-    <footer>
       <van-button
         round
         type="info"
@@ -66,7 +64,7 @@
           >处理完成</van-button
         >
       </div>
-    </footer>
+    </main>
   </div>
 </template>
 
@@ -175,7 +173,7 @@ export default {
 .van-cell-group {
   margin-top: 16px;
   color: #999;
-  padding: 12.8px 3.2px;
+  padding: 5px 3.2px;
   .van-cell {
     font-size: 16px;
   }
@@ -197,21 +195,23 @@ export default {
     margin: 0 10px;
   }
 }
+
 .one_btn {
   width: 90%;
   position: absolute;
-  bottom: 16px;
+  bottom: 20px;
   right: 0;
   left: 0;
   margin: 0 auto;
-  bottom: 20px;
 }
+
 .two_btn {
-  margin-top: 32px;
   display: flex;
   justify-content: space-around;
+
   .van-button {
     width: 176px;
+    margin-top: 16px;
   }
 }
 .order ::v-deep .van-dialog__message--has-title {
