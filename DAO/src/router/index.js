@@ -219,7 +219,7 @@ router.beforeEach((to, from, next) => {
   if (Cookie.get("riskLevel") * 1 !== 2) {
     next();
   } else {
-    if (to.path === "/risk") {
+    if (to.path === "/relieve") {
       next();
     } else {
       to.path === "/" ? next() : next("/");

@@ -261,7 +261,7 @@ export default {
       showFraction: false,
       applynow: false,
       authType: +localStorage.getItem("authType"),
-      items: 0,
+      items: +localStorage.getItem("qualifitems"),
       displayApplicationConditions: true,
       qualificationPassed: Boolean(localStorage.getItem("qualificationPassed")),
       qualificationPassed1: Boolean(
@@ -305,14 +305,17 @@ export default {
       return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
     },
   },
-  mounted() {
+  created() {
     getuSereotc().then((res) => {
-      this.items = res.data.items;
+      localStorage.setItem("qualifitems", res.data.items);
+      if (res.data.items >= 5000) {
+        localStorage.setItem("qualificationPassed2", true);
+      }
     });
-    if (this.items >= 5000) this.qualificationPassed2 = true;
+  },
+  mounted() {
     if (this.authType == 2) {
-      this.qualificationPassed1 = true;
-      localStorage.setItem("qualificationPassed1", this.qualificationPassed1);
+      localStorage.setItem("qualificationPassed1", true);
     }
     this.isArbitrate == 0
       ? (this.displayApplicationConditions = true)
@@ -385,6 +388,7 @@ export default {
           this.ArbitratorsIdentityInformation = res.data.items;
         });
         this.displayApplicationConditions = false;
+        this.isArbitrate = 1;
       });
     },
     ExamTips() {

@@ -355,6 +355,10 @@ export default {
   color: #f37a4c !important;
 }
 .custom-image {
-  margin-top: 25%;
+  margin-top: 10%;
+}
+.home::-webkit-scrollbar {
+  display: none; //去掉滚动条，不能滚动了；
+  width: 0; //可以滚动，且滚动条不显示；
 }
 </style>

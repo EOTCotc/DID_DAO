@@ -176,6 +176,9 @@ export default {
     }
   }
 }
+.custom-image {
+  margin-top: 10%;
+}
 .van-button {
   width: 352px;
   position: absolute;
@@ -184,9 +187,6 @@ export default {
   left: 0;
   margin: 0 auto;
   border-radius: 160px;
-}
-.custom-image {
-  margin-top: 25%;
 }
 </style>
 

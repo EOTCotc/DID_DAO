@@ -14,9 +14,7 @@
         type="textarea"
         placeholder="描述您的提案…"
       />
-    </main>
-    <footer>
-      <van-button block type="warning" v-show="items < 10000"
+      <van-button block type="warning" v-show="items >= 10000"
         >您必须持有10000EOTC才能提交提案</van-button
       >
       <van-button
@@ -27,7 +25,7 @@
         v-show="items >= 10000"
         >提交提案</van-button
       >
-    </footer>
+    </main>
   </div>
 </template>
 
@@ -76,11 +74,10 @@ export default {
 .meun {
   position: relative;
   background: #f3f4f5;
-  height: 100vh;
 }
 
 .section {
-  height: 100vh;
+  height: 89vh;
   margin-top: 20px;
   padding: 16px;
   background: #fff;
@@ -99,9 +96,9 @@ export default {
   background: #fc7542;
   width: 352px;
   position: absolute;
-  bottom: 16px;
   right: 0;
   left: 0;
+  bottom: 16px;
   margin: 0 auto;
   border-radius: 32px;
   border: none;

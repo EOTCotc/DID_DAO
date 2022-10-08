@@ -1,6 +1,6 @@
 <template>
-  <div class="meun">
-    <header>
+  <div class="meun" ref="meun">
+    <header ref="headerHeight">
       <div class="nav_an_box">
         <van-nav-bar
           fixed
@@ -14,7 +14,7 @@
         </van-nav-bar>
       </div>
     </header>
-    <main class="box">
+    <main class="box" ref="box">
       <div class="one_an">
         <div>{{ List.title }}</div>
         <div class="piao">
@@ -42,7 +42,7 @@
           投票进度
           <span class="hui"
             ><span>{{ text }}</span
-            >{{ createDate | dateFormat("yyyy-MM-dd") }}</span
+            >{{ $dayjs(createDate).format("YYYY年MM月DD ") }}</span
           >
         </div>
         <div>共{{ peopleNum }}人参与</div>
@@ -56,7 +56,7 @@
         />
         <div class="num" v-if="isVote1">
           <span style="color: #00b87a">{{ peopleNum }}</span
-          >
+          >/99
         </div>
         <div class="num vote" v-if="isVote == false" style="font-size: 14px">
           <div v-if="favorVotes == 0 && opposeVotes == 0">
@@ -69,30 +69,37 @@
           </div>
         </div>
 
-        <div class="num vote"
-             v-if="isVote == false">
-          <div> <span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票</div>
-          <div v-if="peopleNum < 99">
-            该提案需要99人投票才能取得进展，作者可以随时终止
+        <div class="num vote" v-if="isVote == false">
+          <div>
+            <span style="color: #00b87a">{{ favorVotes }}票</span
+            >{{ opposeVotes }}票
           </div>
-          <div v-if="peopleNum == 99">该提案已99人投票参与,投票已完成</div>
         </div>
+        <div v-if="peopleNum < 99">
+          该提案需要99人投票才能取得进展，作者可以随时终止
+        </div>
+        <div v-if="peopleNum == 99">该提案已99人投票参与,投票已完成</div>
+      </div>
+      <div class="jindu">
         <div class="xiang">
           <div class="tou">提案详情</div>
           <div class="wen">{{ List.summary }}</div>
         </div>
-        <div class="ti"
-             v-if="isVote || List.isVote == 1">
+      </div>
+      <div class="jindu" v-if="isVote">
+        <div class="ti">
           <div class="tou">
             对此提案
-            <van-button type="default"
-                        size="small"
-                        v-if="radio == '' && items<100"
-                        @click="NoVoting">投票</van-button>
-            <van-button type="info"
-                        size="small"
-                        @click="isDloag"
-                        v-else>投票</van-button>
+            <van-button type="default" size="small" v-if="radio == ''"
+              >投票</van-button
+            >
+            <van-button
+              type="info"
+              size="small"
+              @click="isDloag"
+              v-if="radio != ''"
+              >投票</van-button
+            >
           </div>
           <van-radio-group v-model="radio">
             <van-radio name="1">赞成</van-radio>
@@ -101,28 +108,28 @@
         </div>
       </div>
     </main>
-    <footer></footer>
+    <!-- <footer style="height:20px"></footer> -->
   </div>
 </template>
 
 <script>
-import 'vant/es/toast/style'
-import { cancelproposal, proposalvote, getproposal } from '@/api/Proposal'
-import { getuSereotc } from '@/api/earnings'
-import { Toast, Dialog, List } from 'vant'
+import "vant/es/toast/style";
+import { cancelproposal, proposalvote, getproposal } from "@/api/Proposal";
+import { getuSereotc } from "@/api/earnings";
+import { Toast, Dialog, List } from "vant";
 export default {
   data() {
     return {
-      text: '创建于',
-      trackColor: '#fff',
-      valueColor: '#00B87A',
-      rightText: '',
-      title: '详情',
-      radio: '',
-      items: 0,
+      text: "创建于",
+      trackColor: "#fff",
+      valueColor: "#00B87A",
+      rightText: "",
+      title: "详情",
+      radio: "",
+      items: undefined,
       proposalId: this.$route.query.proposalId,
       state: this.$route.query.state,
-      isProponent: this.$route.query.isProponent,
+      isProponent: this.$route.query.isProponent || 1,
       List: {},
       isVote: true,
       Votes: 1,
@@ -133,119 +140,148 @@ export default {
       favorVotes: 0,
       peopleNum: 0,
       opposeVotes: 0,
-      createDate: '',
-    }
+      createDate: "",
+      InitialpeopleNum: undefined,
+      InitialopposeVotes: undefined,
+      InitialfavorVotes: undefined,
+      dataList: {},
+      that: null,
+    };
+  },
+  beforeCreate() {
+    this.that = this;
+  },
+  mounted() {
+    console.log(this.$dayjs("2022-10-07T18:33:01.98Z").format("YYYY年MM月DD "));
   },
   created() {
     let data = {
       id: this.proposalId,
-    }
+    };
     getuSereotc().then((res) => {
-      this.items = res.data.items
-    })
-    getproposal(data).then((res) => {
-      res.data.items.walletAddress =
-        res.data.items.walletAddress.slice(0, 4) +
-        '...' +
-        res.data.items.walletAddress.slice(-4)
-      this.List = res.data.items
-      this.peopleNum = this.List.peopleNum
-      this.opposeVotes = this.List.opposeVotes
-      this.favorVotes = this.List.favorVotes
-      if (
-        Boolean(localStorage.getItem(`createDate+${this.proposalId}`)) == false
-      ) {
-        localStorage.setItem(
-          `createDate+${this.proposalId}`,
-          this.List.createDate
-        )
-        this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
-      }
-    })
-  },
-  filters: {
-    dateFormat(originVal, fmt) {
-      const dt = new Date(originVal)
-      const y = dt.getFullYear()
-      const m = (dt.getMonth() + 1 + '').padStart(2, '0')
-      const d = (dt.getDate() + '').padStart(2, '0')
-      const hh = (dt.getHours() + '').padStart(2, '0')
-      const mm = (dt.getMinutes() + '').padStart(2, '0')
-      const ss = (dt.getSeconds() + '').padStart(2, '0')
-      if (fmt === 'yyyy-MM-dd') {
-        return `${y}年${m}月${d}日`
-      }
-      return `${y}年${m}月${d}日 ${hh}时${mm}分${ss}秒`
-    },
+      this.items = res.data.items;
+    });
+    const loading = this.$toast.loading({
+      forbidClick: true,
+      message: "加载中…",
+    });
+    this.$nextTick(() => {
+      getproposal(data)
+        .then((res) => {
+          res.data.items.walletAddress =
+            res.data.items.walletAddress.slice(0, 4) +
+            "..." +
+            res.data.items.walletAddress.slice(-4);
+          this.List = res.data.items;
+          this.InitialpeopleNum = this.List.peopleNum;
+          this.InitialopposeVotes = this.List.opposeVotes;
+          this.InitialfavorVotes = this.List.favorVotes;
+          // this.InitialpeopleNum = 10
+          // this.InitialopposeVotes = 4
+          // this.InitialfavorVotes = 6
+          this.pre();
+          localStorage.setItem(
+            `InitialpeopleNum+${this.proposalId}`,
+            this.InitialpeopleNum
+          );
+          if (localStorage.getItem(`InitialpeopleNum+${this.proposalId}`)) {
+            localStorage.removeItem(`InitialpeopleNum+${this.proposalId}`);
+            localStorage.setItem(
+              `InitialpeopleNum+${this.proposalId}`,
+              this.InitialpeopleNum
+            );
+          }
+          if (
+            Boolean(localStorage.getItem(`createDate+${this.proposalId}`)) ==
+            false
+          ) {
+            localStorage.setItem(
+              `createDate+${this.proposalId}`,
+              this.List.createDate
+            );
+            this.createDate = localStorage.getItem(
+              `createDate+${this.proposalId}`
+            );
+          }
+        })
+        .catch(() => {
+          this.$toast.fail({
+            forbidClick: true,
+            message: "加载失败！",
+          });
+        })
+        .finally(() => {
+          loading.clear();
+        });
+    });
   },
 
-  mounted() {
-    setTimeout(() => {
-      console.log(this.List);
-      if (this.isProponent != 0) this.rightText = "取消";
+  watch: {
+    radio: function (val) {
+      this.radio = val;
+    },
+  },
+  methods: {
+    pre() {
+      console.log(this.isProponent, "1111111");
+      if (this.List.isVote == 1) {
+        this.isVote = false;
+        this.isVote1 = false;
+      } else {
+        this.isVote = true;
+        this.isVote1 = true;
+      }
+      if (this.isProponent == 1 && this.state != 3) this.rightText = "取消";
       this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
-      this.favorVotes = Number(
-        localStorage.getItem(`favorVotes+${this.proposalId}`)
-      )
-      ;(this.peopleNum =
+      this.favorVotes =
+        this.InitialfavorVotes +
+        Number(localStorage.getItem(`favorVotes+${this.proposalId}`));
+      (this.peopleNum =
+        this.InitialpeopleNum +
         Number(localStorage.getItem(`favorVotes+${this.proposalId}`)) +
         Number(localStorage.getItem(`opposeVotes+${this.proposalId}`))),
-        (this.opposeVotes = Number(
-          localStorage.getItem(`opposeVotes+${this.proposalId}`)
-        ))
+        (this.opposeVotes =
+          this.InitialopposeVotes +
+          Number(localStorage.getItem(`opposeVotes+${this.proposalId}`)));
       if (this.state == 0) {
         if (this.List.isVote != 0) {
-          this.isVote = false
-          this.isVote1 = false
-          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-          this.trackColor = '#FC7542'
+          this.isVote = false;
+          this.isVote1 = false;
+          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+          this.trackColor = "#FC7542";
         }
       }
       if (this.state != 2 && this.state != 0) {
-        this.isVote = false
-        this.isVote1 = false
-        this.text = '投票结束'
+        this.isVote = false;
+        this.isVote1 = false;
+        this.text = "投票结束";
         if (this.peopleNum == 0) {
-          this.percentageVotes = 0
+          this.percentageVotes = 0;
         } else {
-          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-          this.trackColor = '#FC7542'
+          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+          this.trackColor = "#FC7542";
         }
       }
 
       if (this.flag == false && this.state == 2) {
-        this.percentageVotes = this.peopleNum
+        this.percentageVotes = this.peopleNum;
       }
       if (this.peopleNum == 99) {
-        console.log('提案成功')
-        this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-        this.trackColor = '#FC7542'
-        this.isVote = false
-        this.isVote1 = false
+        console.log("提案成功");
+        this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+        this.trackColor = "#FC7542";
+        this.isVote = false;
+        this.isVote1 = false;
+        this.List.state = 1;
         if (localStorage.getItem(`createDate+${this.proposalId}`)) {
-          localStorage.removeItem(`createDate+${this.proposalId}`)
-          localStorage.setItem(`createDate+${this.proposalId}`, new Date())
+          localStorage.removeItem(`createDate+${this.proposalId}`);
+          localStorage.setItem(`createDate+${this.proposalId}`, new Date());
         }
-        this.List.state = 1
-        this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
+        this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
       }
-    }, 1000)
-  },
-  watch: {
-    radio: function (val) {
-      this.radio = val
-    },
-  },
-  methods: {
-    NoVoting() {
-      Dialog.alert({
-        message: '请选择你要投票的类型，同时当前账号需要有100 EOTC',
-      }).then(() => {
-        // on close
-      })
     },
     onClickLeft() {
-      history.go(-1)
+      history.go(-1);
     },
     onClickRight() {
       Dialog.confirm({
@@ -258,75 +294,94 @@ export default {
         .then(() => {
           let data = {
             id: this.proposalId,
-          }
-          this.rightText = ''
-          cancelproposal(data)
-          Toast('取消成功')
-          this.text = '投票结束'
+          };
+          this.rightText = "";
+          this.state = 3;
+          cancelproposal(data);
+          Toast("取消成功");
+          this.text = "投票结束";
+          this.isVote = false;
+          this.isVote1 = false;
           if (localStorage.getItem(`createDate+${this.proposalId}`)) {
-            localStorage.removeItem(`createDate+${this.proposalId}`)
-            localStorage.setItem(`createDate+${this.proposalId}`, new Date())
+            localStorage.removeItem(`createDate+${this.proposalId}`);
+            localStorage.setItem(`createDate+${this.proposalId}`, new Date());
           }
           this.createDate = localStorage.getItem(
             `createDate+${this.proposalId}`
-          )
+          );
         })
         .catch(() => {
           // on cancel
-        })
+        });
     },
     isDloag() {
-      this.flag = true
+      this.flag = true;
       let data = {
         proposalId: this.proposalId,
         radio: +this.radio,
-      }
-      this.peopleNum += 1
-      proposalvote(data).then(() => {
-        this.$refs.jindu.style.height = '241.5px'
-        if (this.peopleNum <= 99) {
-          if (this.radio == 1) {
-            Toast(`投出${this.Votes}赞成票`)
-            this.List.peopleNum++
-            this.List.favorVotes++
-            this.favorVotes = this.List.peopleNum
-            if (localStorage.getItem(`favorVotes+${this.proposalId}`)) {
-              this.favorVotes += Number(
-                localStorage.getItem(`favorVotes+${this.proposalId}`)
-              )
-              localStorage.removeItem(`favorVotes+${this.proposalId}`)
+      };
+      this.peopleNum += 1;
+      if (this.items >= 100) {
+        proposalvote(data).then(() => {
+          this.$refs.jindu.style.height = "270.5px";
+          if (this.peopleNum <= 99) {
+            if (this.radio == 1) {
+              Toast(`投出${this.Votes}赞成票`);
+              this.List.peopleNum++;
+              this.List.favorVotes++;
+              this.favorVotes = this.List.peopleNum;
+              if (localStorage.getItem(`favorVotes+${this.proposalId}`)) {
+                this.favorVotes += Number(
+                  localStorage.getItem(`favorVotes+${this.proposalId}`)
+                );
+                localStorage.removeItem(`favorVotes+${this.proposalId}`);
+              }
+              localStorage.setItem(
+                `favorVotes+${this.proposalId}`,
+                this.favorVotes
+              );
+              this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+              console.log(this.percentageVotes, "赞成票");
+            } else {
+              Toast(`投出${this.Votes}反对票`);
+              this.List.peopleNum++;
+              this.List.opposeVotes++;
+              this.opposeVotes = this.List.peopleNum;
+              if (localStorage.getItem(`opposeVotes+${this.proposalId}`)) {
+                this.opposeVotes += Number(
+                  localStorage.getItem(`opposeVotes+${this.proposalId}`)
+                );
+                localStorage.removeItem(`opposeVotes+${this.proposalId}`);
+              }
+              localStorage.setItem(
+                `opposeVotes+${this.proposalId}`,
+                this.opposeVotes
+              );
+              this.percentageVotes = (100 / this.peopleNum) * this.favorVotes;
+              console.log(this.percentageVotes, "反对票");
             }
-            localStorage.setItem(
-              `favorVotes+${this.proposalId}`,
-              this.favorVotes
-            )
-            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-            console.log(this.percentageVotes, '赞成票')
+            if (this.opposeVotes != 0) this.trackColor = "#FC7542";
+            if (this.favorVotes == 0) this.valueColor = "#FC7542";
+            this.isVote = false;
+            this.isVote1 = false;
+            this.List.isVote = 1;
           } else {
-            Toast(`投出${this.Votes}反对票`)
-            this.List.peopleNum++
-            this.List.opposeVotes++
-            this.opposeVotes = this.List.peopleNum
-            if (localStorage.getItem(`opposeVotes+${this.proposalId}`)) {
-              this.opposeVotes += Number(
-                localStorage.getItem(`opposeVotes+${this.proposalId}`)
-              )
-              localStorage.removeItem(`opposeVotes+${this.proposalId}`)
-            }
-            localStorage.setItem(
-              `opposeVotes+${this.proposalId}`,
-              this.opposeVotes
-            )
-            this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-            console.log(this.percentageVotes, '反对票')
+            Dialog.alert({
+              title: "提案投票",
+              message: "该提案已经有99人投票",
+            }).then(() => {
+              // on close
+            });
           }
-          if (this.opposeVotes != 0) this.trackColor = '#FC7542'
-          if (this.favorVotes == 0) this.valueColor = '#FC7542'
-          this.isVote = false
-          this.isVote1 = false
-          this.List.isVote = 1
-        }
-      })
+        });
+      } else {
+        Dialog.alert({
+          title: "提案投票",
+          message: "请选择你要投票的类型，同时当前账号需要有100 EOTC",
+        }).then(() => {
+          // on close
+        });
+      }
     },
   },
   computed: {
@@ -334,18 +389,18 @@ export default {
       return (
         parseInt(
           (this.opposeVotes / (this.favorVotes + this.opposeVotes)) * 100
-        ) + '%'
-      )
+        ) + "%"
+      );
     },
     TotalFavorVotes() {
       return (
         parseInt(
           (this.favorVotes / (this.favorVotes + this.opposeVotes)) * 100
-        ) + '%'
-      )
+        ) + "%"
+      );
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -364,7 +419,7 @@ export default {
 .box {
   background: #fff;
   box-sizing: border-box;
-  height: 92.7vh;
+  height: 93vh;
   color: #000;
   padding-bottom: 20px;
 }
@@ -413,11 +468,12 @@ export default {
   background: #f3f4f5;
   border-radius: 8px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 32px;
   font-size: 30px;
   color: #000;
   font-size: 29px;
   line-height: 45px;
+  margin-top: 30px;
   .hui {
     color: #999999;
     font-size: 18px;
@@ -449,26 +505,23 @@ export default {
 }
 .xiang {
   color: #000;
-  width: 92%;
   font-size: 28px;
+  width: 100%;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 30px auto;
   line-height: 48px;
-  padding: 16px;
   .wen {
+    word-wrap: break-word;
     color: #666666;
   }
 }
 .ti {
   font-size: 25px;
   color: #000;
-  width: 92%;
+  width: 100%;
   background: #f3f4f5;
   border-radius: 8px;
-  margin: 16px auto;
   font-size: 30px;
-  padding: 20px;
   .van-button {
     width: 80px;
     padding: 5px 24px;

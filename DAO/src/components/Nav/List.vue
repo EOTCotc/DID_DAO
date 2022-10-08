@@ -20,7 +20,8 @@
           </template> </van-cell
       ></van-col>
     </van-row>
-    <van-row class="row">
+
+    <van-row class="row" v-show="items >= 100">
       <van-col span="1"
         ><img
           src="../../assets/img/gong.png"
@@ -60,7 +61,8 @@
           </template> </van-cell
       ></van-col>
     </van-row>
-    <van-row class="row">
+
+    <van-row class="row" v-show="isExamine == 1">
       <van-col span="1"
         ><img
           src="../../assets/img/kong.png"
@@ -144,18 +146,27 @@
 </template>
 
 <script>
+import { getuSereotc } from "@/api/earnings";
 export default {
   data() {
-    return {}
+    return {
+      isExamine: localStorage.getItem("isExamine"),
+      items: 0,
+    };
   },
   mounted() {},
-  created() {},
+  created() {
+    getuSereotc().then((res) => {
+      console.log(res);
+      this.items = res.data.items;
+    });
+  },
   methods: {
     auditing(name) {
-      this.$router.push({ name: name })
+      this.$router.push({ name: name });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
