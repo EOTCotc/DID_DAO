@@ -110,21 +110,6 @@ export default {
     this.getHaveSite();
   },
   methods: {
-    // 获取当前位置
-    // getNowLocation() {
-    //   if ("geolocation" in navigator) {
-    //     navigator.geolocation.getCurrentPosition(
-    //       (res) => {
-    //         // console.log(res, "suc");
-    //       },
-    //       (err) => {
-    //         // console.log(err, "err");
-    //       }
-    //     );
-    //   } else {
-    //     this.$toast.fail("地理位置服务不可用");
-    //   }
-    // },
     // 获取已有的社区地址
     getHaveSite() {
       getcomaddr().then((res) => {
@@ -177,7 +162,7 @@ export default {
       // 请求参数和获取社区数量参数一样
       setcomselect(this.reqComNum).then((res) => {
         if (res.data.code == 0) {
-          this.$router.push({
+          this.$router.replace({
             name: "bindCommunity",
             params: JSON.stringify(this.objSite),
           });

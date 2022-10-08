@@ -19,18 +19,22 @@
       <!-- 认证按钮 -->
       <div
         class="btn"
-        :style="userInfo.authType == 2 ? 'background:#102E59;border:2px solid #237FF8;' : '' "
+        :style="
+          userInfo.authType == 2
+            ? 'background:#102E59;border:2px solid #237FF8;'
+            : ''
+        "
       >
-        <div class="btn-box" @click='identifyRouter'>
-          <template v-if='userInfo.authType === 0'>
+        <div class="btn-box" @click="identifyRouter">
+          <template v-if="userInfo.authType === 0">
             <span>开始认证</span>
             <div class="icon_down"><van-icon color="#fff" name="down" /></div>
           </template>
-          <template v-else-if='userInfo.authType === 1'>
+          <template v-else-if="userInfo.authType === 1">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>认证中</span>
           </template>
-          <template v-else-if='userInfo.authType === 2'>
+          <template v-else-if="userInfo.authType === 2">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>身份已认证</span>
           </template>
@@ -106,18 +110,18 @@
       @buttonClick="() => $router.push('/risk')"
     />
     <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
-      <img src="../../assets/imgs/jin.png" alt="" class="img">
+      <img src="../../assets/imgs/jin.png" alt="" class="img" />
       <div class="text">解除风控</div>
     </div>
   </div>
 </template>
 
 <script>
-import Notification from '@/components/notification'
-import headerIcon from "@/assets/imgs/jin.png"
+import Notification from "@/components/notification";
+import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import {risklevel} from '@/api/risk'
+import { risklevel } from "@/api/risk";
 export default {
   data() {
     return {
@@ -135,17 +139,17 @@ export default {
   },
   components: {
     TopBar,
-    Notification
+    Notification,
   },
   created() {
     risklevel().then((res) => {
-      const {code, items: level} = res.data
+      const { code, items: level } = res.data;
       if (code === 0) {
-        this.cookie.set('riskLevel', level)
+        this.cookie.set("riskLevel", level);
         if (level === 2) {
           this.$nextTick().then(() => {
-            this.$refs.notification.toggle(true)
-          })
+            this.$refs.notification.toggle(true);
+          });
         }
       }
     });
@@ -161,18 +165,20 @@ export default {
   methods: {
     // 关闭风险弹窗
     handleClosed() {
-      this.show = true
+      this.show = true;
     },
     // 身份信息跳转
     identifyRouter() {
-      if (this.userInfo.authType === 0) {
-        this.$router.push('/my/identity')
-      } else if (this.userInfo.authType === 2) {
-        this.$router.push('/my/identity/success')
-      } else if (this.userInfo.authType === 3) {
-        this.$router.push('/my/identity/fail')
-      } else {
-        console.log(this.userInfo.authType)
+      if (this.cookie.get("riskLevel") != 2) {
+        if (this.userInfo.authType === 0) {
+          this.$router.push("/my/identity");
+        } else if (this.userInfo.authType === 2) {
+          this.$router.push("/my/identity/success");
+        } else if (this.userInfo.authType === 3) {
+          this.$router.push("/my/identity/fail");
+        } else {
+          console.log(this.userInfo.authType);
+        }
       }
     },
     // 风控等级
@@ -197,7 +203,7 @@ export default {
             this.userInfo = res.data.items;
             // 用户信息存到cookie
             this.cookie.set("userInfo", JSON.stringify(this.userInfo));
-            this.cookie.set('country',this.userInfo.country)
+            this.cookie.set("country", this.userInfo.country);
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;
@@ -231,7 +237,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({name: "bindCommunity",});
+          this.$router.push({ name: "bindCommunity" });
         }
       });
     },
@@ -259,7 +265,7 @@ export default {
   .big_bg_logo {
     margin-top: -40px;
     img {
-      width:100%;
+      width: 100%;
       height: 100%;
     }
   }
@@ -398,7 +404,7 @@ export default {
   @include posi($p: fixed, $r: 0, $b: 20%);
   display: flex;
   align-items: center;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 20px;
   border-radius: 100px 0 0 100px;
   .img {
@@ -407,7 +413,7 @@ export default {
   }
   .text {
     flex: 1;
-    color: #F34747;
+    color: #f34747;
     margin-left: 20px;
     font-size: 28px;
   }
