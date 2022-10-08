@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Cookies from 'js-cookie'
+import { Form } from 'vant';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -81,14 +82,26 @@ router.beforeEach((to, from, next) => {
       next('/login')
     }
   } else {
-    if (Cookies.get('riskLevel') * 1 !== 2) {
+    // 判断是否被风控，被风控只能使用退出登录
+    if (from.path == '/') {
       next()
-    } else {
-      if (to.path === '/risk') {
-        next()
-      } else {
-        to.path === '/' ? next() : next('/')
-      }
+    } else if (from.path == '/my' && to.path == '/setup') {
+      // 去账号设置
+      next()
+    } else if (from.path == '/setup' && Cookies.get('riskLevel') != 2) {
+      // 在账号设置里面，并且没有被风控
+      next()
+    } else if (from.path == '/my' && Cookies.get('riskLevel') != 2) {
+      // 在my页面，并且没有被风控
+      next()
+    } else if (from.path == '/setup' && to.path == '/my') {
+      // 在账号设置页面，返回my页面
+      next()
+    } else if (from.path == '/my' && to.path == '/') {
+      // 在my页面，去首页
+      next()
+    } else if (Cookies.get('riskLevel') != 2) {
+      next()
     }
   }
 });

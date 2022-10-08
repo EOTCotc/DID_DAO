@@ -20,7 +20,7 @@
       <div class="menu">
         <div class="menu-every" v-for="item in list" :key="item.id">
           <a :href="item.link">{{ item.name }}</a>
-          <img src="@/assets/imgs/r_t_arrow.png" alt="" />
+          <img src="@/assets/imgs/r_t_arrow.png" />
         </div>
       </div>
     </van-popup>

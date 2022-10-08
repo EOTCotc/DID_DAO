@@ -76,6 +76,11 @@ export default {
       forbidClick: true,
       message: "加载中…",
     });
+    getmyprops().then((res) => {
+      this.IDList = res.data.items.map((item) => {
+        return item.proposalId;
+      });
+    });
     if (this.isProponent != 0) {
       getmyprops()
         .then((res) => {
@@ -142,10 +147,10 @@ export default {
     createAn() {
       this.$router.push("/Create");
     },
-    detail(id, state) {
+    detail(id, state, IDList) {
       this.$router.push({
         path: "/detail",
-        query: { proposalId: id, state: state },
+        query: { proposalId: id, state: state, IDList: IDList },
       });
     },
   },
@@ -158,6 +163,14 @@ export default {
   overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
+  overflow: auto;
+}
+footer {
+  min-height: 160px;
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 footer {
   height: 170px;
