@@ -122,7 +122,7 @@
           type="primary"
           :disabled="disable || form.loading"
           :loading="form.loading"
-          :loading-text="step.active < 3 ? '图片上传中…' : '审核信息提交中…'"
+          :loading-text="step.active < 3 ? '图片上传中…' : '信息提交中…'"
           @click="next"
         >
           {{ step.active < 3 ? "下一步" : "提交" }}
@@ -223,15 +223,9 @@ export default {
       submit(this.form.data)
         .then((res) => {
           if (!!res.data.code) {
-            const message = [
-              "手机号错误",
-              "证件号错误",
-              "请上传认证图片",
-              "请重复提交",
-            ];
             this.$toast.fail({
               forbidClick: false,
-              message: message[res.data.code - 1],
+              message: res.data.message
             });
           } else {
             this.$toast.success({
@@ -280,92 +274,128 @@ export default {
       padding-bottom: 120px;
       .upload_wrap {
         padding: 30px;
+
         .example_wrap {
           padding: 35px 25px;
           border-radius: 20px;
           border: 2px dashed #eee;
-          &::v-deep(.van-uploader) {
-            width: 100%;
-            .van-uploader__preview-image,
-            .van-uploader__wrapper,
-            .van-uploader__upload {
+
+          .title {
+            color: #666;
+            font-size: 23px;
+          }
+
+          .img {
+            display: block;
+            width: 60%;
+            margin: 0 auto;
+          }
+        }
+
+        .upload_main {
+          margin-top: 40px;
+
+          .title {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+          }
+
+          .upload {
+            border-radius: 20px;
+            border: 2px dashed #eee;
+
+            &::v-deep(.van-uploader) {
               width: 100%;
-              height: 100%;
-              margin: 0;
-            }
-            .van-uploader__upload {
-              padding: 60px 0;
+
+              .van-uploader__preview-image,
+              .van-uploader__wrapper,
+              .van-uploader__upload {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+              }
+
+              .van-uploader__upload {
+                padding: 60px 0;
+              }
             }
           }
         }
+
         .tip {
           color: #fc7542;
           font-size: 24px;
           margin-top: 50px;
         }
       }
-      .tip_wrap {
-        margin-top: 40px;
-        .title {
-          color: #333;
-          font-size: 28px;
-          margin-bottom: 20px;
-        }
-        .tip {
-          color: #fc7542;
-          padding: 25px;
-          margin: 30px 0 20px;
-          font-size: 26px;
-          background-color: #fffbe8;
-        }
-        .img_wrap {
-          display: flex;
-          justify-content: space-between;
-          .item {
-            flex: 0 0 48%;
-            &:nth-of-type(1) .img:after {
-              @include posi($t: 0, $l: 0);
+      .tip {
+        color: #fc7542;
+        font-size: 24px;
+        margin-top: 50px;
+      }
+    }
+    .tip_wrap {
+      margin-top: 40px;
+      .title {
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      .tip {
+        color: #fc7542;
+        padding: 25px;
+        margin: 30px 0 20px;
+        font-size: 26px;
+        background-color: #fffbe8;
+      }
+      .img_wrap {
+        display: flex;
+        justify-content: space-between;
+        .item {
+          flex: 0 0 48%;
+          &:nth-of-type(1) .img:after {
+            @include posi($t: 0, $l: 0);
+          }
+          &:nth-of-type(2) .img:after {
+            @include posi($t: 0, $r: 0);
+          }
+          .img {
+            position: relative;
+            padding: 25px 45px;
+            border-radius: 20px;
+            border: 2px dashed #eee;
+            &:after {
+              display: block;
+              content: "";
+              width: 60%;
+              height: 100%;
+              backdrop-filter: blur(10px);
             }
-            &:nth-of-type(2) .img:after {
-              @include posi($t: 0, $r: 0);
+            img {
+              display: block;
+              width: 100%;
             }
-            .img {
-              position: relative;
-              padding: 25px 45px;
-              border-radius: 20px;
-              border: 2px dashed #eee;
-              &:after {
-                display: block;
-                content: "";
-                width: 60%;
-                height: 100%;
-                backdrop-filter: blur(10px);
-              }
-              img {
-                display: block;
-                width: 100%;
-              }
-            }
-            .text {
-              color: #999;
-              font-size: 24px;
-              margin-top: 20px;
-              text-align: center;
-            }
+          }
+          .text {
+            color: #999;
+            font-size: 24px;
+            margin-top: 20px;
+            text-align: center;
           }
         }
       }
     }
-    .btns {
-      margin: -120px 30px 0;
-      display: flex;
-      .btn {
-        flex: 1;
-        &:nth-of-type(2) {
-          margin-left: 30px;
-        }
+  }
+  .btns {
+    margin: -120px 30px 0;
+    display: flex;
+    .btn {
+      flex: 1;
+      &:nth-of-type(2) {
+        margin-left: 30px;
       }
     }
   }
-}
+
 </style>

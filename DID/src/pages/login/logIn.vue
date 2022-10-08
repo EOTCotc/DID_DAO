@@ -80,6 +80,12 @@ export default {
     this.height = document.body.scrollHeight - 152;
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
+    if(localStorage.getItem('myaddress')){
+      this.show=true
+      this.form.walletAddress=localStorage.getItem('myaddress')
+      this.form.otype=localStorage.getItem('netType')
+      this.form.sign=localStorage.getItem('mysign')
+    }
   },
   methods: {
     // 去注册
@@ -91,6 +97,7 @@ export default {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
+
     getWallet(data) {
       const { oType, myaddress, sign } = data;
       if (oType && myaddress && sign) {

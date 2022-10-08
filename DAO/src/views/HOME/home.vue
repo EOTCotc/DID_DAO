@@ -14,8 +14,16 @@
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
-          <span>{{ $t("home.title") }}</span>
-          <span @click="$router.push('/Bill_list')">
+          <span class="home-proposal-title">{{ $t("home.title") }}</span>
+          <span
+            class="home-proposal-more"
+            @click="
+              $router.push({
+                path: '/Bill_list',
+                query: { isProponent: 0, home: 'home' },
+              })
+            "
+          >
             {{ $t("home.more") }}
             <van-icon name="arrow" color="#fff" />
           </span>
@@ -28,7 +36,12 @@
             @click="
               $router.push({
                 path: '/detail',
-                query: { proposalId: item.proposalId, isProponent: 0 },
+                query: {
+                  proposalId: item.proposalId,
+                  isProponent: 0,
+                  state: item.state,
+                  IDList2: IDList2,
+                },
               })
             "
           >
@@ -36,15 +49,15 @@
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
-                <template v-if="item.status === 0">
+                <template v-if="item.state === 0">
                   <span style="background-color: #237ff8"></span>
                   <span>{{ $t("home.status1") }}</span>
                 </template>
-                <template v-else-if="item.status === 1">
+                <template v-else-if="item.state === 1">
                   <span></span>
                   <span>{{ $t("home.status2") }}</span>
                 </template>
-                <template v-else-if="item.status === 2">
+                <template v-else-if="item.state === 2">
                   <span style="background-color: #00b87a"></span>
                   <span>{{ $t("home.status3") }}</span>
                 </template>
@@ -84,7 +97,7 @@
         </div>
       </van-popup>
     </div>
-    <div class="filed" v-show="tanShow" @click="Remove_risk">
+    <div class="filed" v-show="tanShow == true" @click="Remove_risk">
       <van-image
         width="30"
         height="30"
@@ -111,7 +124,7 @@ import TopBar from "@/components/topBar/topBar";
 import Notification from "@/components/notification";
 import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
 import { loadweb3 } from "@/utils/web3.js";
-
+import { getmyprops } from "@/api/Proposal";
 export default {
   components: { TopBar, Notification },
   name: "home",
@@ -124,6 +137,7 @@ export default {
         { id: 1, text: "English", lang: "en" },
       ],
       tanShow: false,
+      IDList2: [],
       proposalList: [], //提案列表
     };
   },
@@ -131,6 +145,13 @@ export default {
     loadweb3(this.handle);
   },
   methods: {
+    getmyList() {
+      getmyprops().then((res) => {
+        this.IDList2 = res.data.items.map((item) => {
+          return item.proposalId;
+        });
+      });
+    },
     handle() {
       this.getuserrisklevel();
       this.getProposal();
@@ -141,12 +162,9 @@ export default {
         if (res.data.code == 0) {
           this.cookie.set("riskLevel", res.data.items);
           if (res.data.items == 2) {
-            this.tanShow = true;
-            !this.cookie.get("riskShow") &&
-              this.$nextTick().then(() => {
-                this.$refs.notification.toggle(true);
-                this.cookie.set("riskShow", "true");
-              });
+            this.$nextTick().then(() => {
+              this.$refs.notification.toggle(true);
+            });
           }
         }
       });
@@ -164,7 +182,7 @@ export default {
     },
     //跳转到解除风控
     Remove_risk() {
-      this.$router.push({ path: "/relieve" });
+      this.$router.push("/relieve");
     },
     // 选择语言
     handleTabLang() {

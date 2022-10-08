@@ -44,7 +44,9 @@ export default {
     // 获取用户信息
     getdaoinfo().then((res) => {
       this.user = res.data.items;
+      this.total = res.data.items.daoEOTC;
       localStorage.setItem("items", res.data.items.daoEOTC);
+      localStorage.setItem("uid", res.data.items.uid);
       localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
       localStorage.setItem("isExamine", res.data.items.isExamine);
       localStorage.setItem("authType", res.data.items.authType);

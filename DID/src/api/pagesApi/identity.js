@@ -13,3 +13,5 @@ export const list = (type, params) => {
 }
 // 批准
 export const approval = (data) => request.post('/api/userauth/auditinfo', data)
+// 获取水印图片
+export const getImg = (path) => request.get(`/api/user/getauthimage?path=${path}`, {responseType: 'blob'})

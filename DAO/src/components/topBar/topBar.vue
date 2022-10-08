@@ -19,7 +19,7 @@
     >
       <div class="menu">
         <div class="menu-every" v-for="item in list" :key="item.id">
-          <span>{{item.name}}</span>
+          <a :href="item.link">{{ item.name }}</a>
           <img src="@/assets/imgs/r_t_arrow.png" alt="" />
         </div>
       </div>
@@ -35,15 +35,15 @@ export default {
     return {
       showPopup: false,
       list: [
-        { id: 0, name: "EOTC官网" },
+        { id: 0, name: "EOTC官网", link: "https://eotc.im" },
         { id: 1, name: "去中心化OTC交易所" },
         { id: 2, name: "去中心化币币交易所" },
         { id: 3, name: "去中心化借贷交易所" },
         { id: 4, name: "去中心化合约交易所" },
-        { id: 5, name: "链上理财赚币" },
+        { id: 5, name: "链上理财赚币", link: "https://fi.eotc.im/" },
         { id: 6, name: "DID去中心化身份系统" },
         { id: 7, name: "去中心化应用系统" },
-        { id: 8, name: "EOTC NFT" },
+        { id: 8, name: "EOTC NFT", link: "https://nft.eotc.im/" },
         { id: 9, name: "EOTC 元宇宙" },
         { id: 10, name: "EOTC DAO" },
       ],
@@ -108,10 +108,13 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 120px;
     font-size: 28px;
-    color: #b4b7c2;
     border-bottom: 1px solid #2b374f;
+    a {
+      text-decoration: none;
+      color: #b4b7c2;
+    }
     img {
       margin-left: 50px;
       width: 40px;

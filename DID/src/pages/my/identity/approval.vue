@@ -1,3 +1,4 @@
+<script src='../../../../../../DID-main/DID后端/apevolo-web/src/utils/index.js'></script>
 <template>
   <van-pull-refresh v-model='list.uploading' @refresh='handleBottomRefresh'>
     <div class='certificationAudit_wrap bg-gray fullscreen'>
@@ -47,25 +48,25 @@
               <van-col span='24' class='name'>证件及手持证件照</van-col>
               <van-col span='24' class='value'>
                 <div class='imgs'>
-                  <img class='img' :src='item.portraitImage' alt='' @click='preview(item.portraitImage)'>
-                  <img class='img' :src='item.nationalImage' alt='' @click='preview(item.nationalImage)'>
+                  <img class='img' v-if='item.portraitImage.includes("blob:")' :src='item.portraitImage' alt='' @click='preview(item.portraitImage)'>
+                  <img class='img' v-if='item.portraitImage.includes("blob:")' :src='item.nationalImage' alt='' @click='preview(item.nationalImage)'>
                 </div>
               </van-col>
             </van-row>
             <!-- 流程 -->
             <van-steps
-              v-if='tab.active > 0'
+              v-if='tab.active > 0 && !!item.auths.length'
               :active='3'
               direction='vertical'
               active-color='#227AEE'
             >
               <van-step v-for='step in item.auths' :key='step.id'>
                 <template slot='active-icon'>
-                  <van-icon v-if='!!step.auditType' size='16px' name='checked' color='#227AEE' />
+                  <van-icon v-if='step.auditType === 1' size='16px' name='checked' color='#227AEE' />
                   <van-icon v-else name='clear' size='16px' color='#227AEE' />
                 </template>
                 <template slot='inactive-icon'>
-                  <van-icon v-if='!!step.auditType' size='16px' name='checked' color='#227AEE' />
+                  <van-icon v-if='step.auditType === 1' size='16px' name='checked' color='#227AEE' />
                   <van-icon v-else name='clear' size='16px' color='#227AEE' />
                 </template>
                 <van-row class='main'>
@@ -124,7 +125,13 @@
       />
     </div>
     <!-- 拒绝 -->
-    <reject ref='reject' title='打回原因' :types='["恶意提交", "信息有误"]' @handleReject='handleReject' />
+    <reject
+      showSwitch
+      ref='reject'
+      title='打回原因'
+      :types='["恶意提交", "信息有误"]'
+      @handleReject='handleReject'
+    />
     <!-- 通过 -->
     <!--  图片预览  -->
     <van-image-preview v-model='imgPreview.show' :images='imgPreview.images' />
@@ -135,7 +142,8 @@ import pageHeader from '@/components/topBar/pageHeader'
 import Reject from '@/components/reject'
 import {
   approval,
-  list
+  list,
+  getImg
 } from '@/api/pagesApi/identity';
 import {
   transformUTCDate,
@@ -197,17 +205,28 @@ export default {
       this.list.UpRefreshLoading = true
       this.getList()
     },
+    async getWatermarkImg(src) {
+      const res = await getImg(src)
+      const blob = new window.Blob([res.data], {type: res.type})
+      const url = window.URL.createObjectURL(blob)
+      return url
+    },
     // 获取列表
     getList() {
+      const userInfo = JSON.parse(this.cookie.get('userInfo'))
       this.$toast.loading('列表加载中…')
       list(this.tab.active, this.list.query).then(res => {
         if (!res.data.code) {
           const data = res.data.items.map(item => {
             const auths = [...item.auths]
-            item.portraitImage = this.spliceSrc(item.portraitImage)
-            item.nationalImage = this.spliceSrc(item.nationalImage)
+            this.getWatermarkImg(item.portraitImage).then(res => {
+              item.portraitImage = res
+              this.getWatermarkImg(item.nationalImage).then(res => {
+                item.nationalImage = res
+              })
+            })
             if (this.tab.active === 1) {
-              item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === this.userInfo.uid) + 1)
+              item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === userInfo.uid) + 1)
               item.status = item.auths[item.auths.length - 1].auditType
             }
             return item
@@ -217,7 +236,7 @@ export default {
           } else {
             this.list.data.push(...data)
           }
-          this.list.finished = !data.length
+          this.list.finished = data.length < 10
         } else {
           this.$toast.fail({
             forbidClick: true,
@@ -253,12 +272,11 @@ export default {
               if (res.data.code) {
                 this.$toast.fail('操作失败')
               } else {
-                this.$toast({
+                this.$toast.success({
                   type: 'success',
-                  message: res.data.message
+                  message: '操作成功',
+                  onClose: () => this.getList()
                 })
-                this.tab.active = 1
-                this.getList()
               }
             })
           } else {
@@ -299,7 +317,6 @@ export default {
     },
     // 转换时间格式
     transformUTCDate,
-    spliceSrc
   },
   created() {
     this.getList()

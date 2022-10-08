@@ -3,9 +3,9 @@
   <div ref="child" class="container-child" :style="`min-height:${height}px;`">
     <div class="title">{{ $t("logout.conf_info") }}</div>
     <div class="asset">
-      <span>{{ $t("logout.acc_property") }}</span>
-      <van-icon v-show="isIcon" name="warning-o" color="#FC7542" />
-      <van-icon v-show="!isIcon" name="passed" color="#1D9C3F" />
+      <span class="asset-title">{{ $t("logout.acc_property") }}</span>
+      <van-icon v-show="isIcon" name="warning-o" size="16" color="#FC7542" />
+      <van-icon v-show="!isIcon" name="passed" size="16" color="#1D9C3F" />
     </div>
     <p class="tips">{{ $t("logout.conf_tip") }}</p>
     <div class="conf" @click="handleDiscard" :style="`color:${color};`">
@@ -60,7 +60,7 @@ export default {
   methods: {
     // 下一步
     next() {
-      this.$router.push("remind");
+      this.$router.replace("remind");
     },
     // 是否放弃账号资产
     handleDiscard() {
@@ -97,8 +97,9 @@ export default {
     margin-top: 50px;
     display: flex;
     align-items: center;
-    span {
+    .asset-title {
       margin-right: 12px;
+      font-size: 32px;
     }
   }
   .tips {

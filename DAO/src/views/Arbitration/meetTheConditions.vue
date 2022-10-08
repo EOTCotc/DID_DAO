@@ -260,6 +260,7 @@ export default {
       show: false,
       showFraction: false,
       applynow: false,
+      // +localStorage.getItem('authType')
       authType: +localStorage.getItem("authType"),
       items: +localStorage.getItem("qualifitems"),
       displayApplicationConditions: true,
@@ -307,14 +308,15 @@ export default {
   },
   created() {
     getuSereotc().then((res) => {
-      localStorage.setItem("qualifitems", res.data.items);
       if (res.data.items >= 5000) {
+        this.qualificationPassed2 = true;
         localStorage.setItem("qualificationPassed2", true);
       }
     });
   },
   mounted() {
     if (this.authType == 2) {
+      this.qualificationPassed1 = true;
       localStorage.setItem("qualificationPassed1", true);
     }
     this.isArbitrate == 0

@@ -130,6 +130,8 @@ export default {
       proposalId: this.$route.query.proposalId,
       state: this.$route.query.state,
       isProponent: this.$route.query.isProponent || 1,
+      IDList: this.$route.query.IDList || [],
+      IDList2: this.$route.query.IDList2 || [],
       List: {},
       isVote: true,
       Votes: 1,
@@ -148,11 +150,8 @@ export default {
       that: null,
     };
   },
-  beforeCreate() {
-    this.that = this;
-  },
   mounted() {
-    console.log(this.$dayjs("2022-10-07T18:33:01.98Z").format("YYYY年MM月DD "));
+    // console.log(this.$dayjs('2022-10-07T18:33:01.98Z').format('YYYY年MM月DD '))
   },
   created() {
     let data = {
@@ -231,7 +230,16 @@ export default {
         this.isVote = true;
         this.isVote1 = true;
       }
-      if (this.isProponent == 1 && this.state != 3) this.rightText = "取消";
+      if (
+        this.state != 3 &&
+        this.IDList.some((item) => this.proposalId == item)
+      )
+        this.rightText = "取消";
+      if (
+        this.IDList2.some((item) => this.proposalId == item) &&
+        this.state != 3
+      )
+        this.rightText = "取消";
       this.createDate = localStorage.getItem(`createDate+${this.proposalId}`);
       this.favorVotes =
         this.InitialfavorVotes +

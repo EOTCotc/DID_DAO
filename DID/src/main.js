@@ -7,7 +7,9 @@ import jsCookie from 'js-cookie'
 import md5 from 'md5'
 import i18n from '@/lang/index'
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc"
 import "@/assets/font/style.css"
+import "lib-flexible"
 
 import {
   Area, Picker, Search, Toast, Button, Form, Field, Icon, Checkbox, NavBar,
@@ -57,6 +59,8 @@ Vue.use(Switch)
 Vue.use(PasswordInput)
 Vue.use(CountDown)
 Vue.use(ActionSheet)
+
+dayjs.extend(utc)
 
 new Vue({
   render: h => h(App),
