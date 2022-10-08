@@ -145,7 +145,6 @@ export default {
   },
   mounted() {
     loadweb3(this.handle);
-    this.getmyList();
   },
   methods: {
     getLocal() {
