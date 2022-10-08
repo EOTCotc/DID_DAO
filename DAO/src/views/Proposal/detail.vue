@@ -145,6 +145,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.proposalId)
     // console.log(this.$dayjs('2022-10-07T18:33:01.98Z').format('YYYY年MM月DD '))
   },
   created() {
