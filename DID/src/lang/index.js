@@ -14,7 +14,8 @@ var lang = lang.slice(0, 2);//获取浏览器配置语言前两位
 
 const i18n = new VueI18n({
   // 获取用户选择的语言，没有就用游览器默认的语言
-  locale: localStorage.getItem('lang') || lang,
+  // locale: localStorage.getItem('lang') || lang,
+  locale:'zh',
   messages: {
     zh: {
       ...zh

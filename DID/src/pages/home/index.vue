@@ -6,20 +6,44 @@
     <div class="content">
       <!-- 名称 -->
       <div class="project_name">
-        <img src="../../assets/imgs/project_name.png" />
+        <img src="@/assets/imgs/project_name.png" />
       </div>
       <!-- 背景图 -->
       <div class="big_bg_logo">
-        <img src="../../assets/imgs/big_bg_logo.png" />
+        <img src="@/assets/imgs/big_bg_logo.png" />
       </div>
       <!-- 身份证图片 -->
       <div class="identity_card">
-        <img src="../../assets/imgs/identity_card.png" alt="" />
+        <img src="@/assets/imgs/identity_card.png" alt="" />
       </div>
       <!-- 认证按钮 -->
-      <div class="btn">
-        <span>开始认证</span>
-        <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+      <div
+        class="btn"
+        :style="
+          userInfo.authType == 2
+            ? 'background:#102E59;border:2px solid #237FF8;'
+            : ''
+        "
+      >
+        <div class="btn-box" @click="identifyRouter">
+          <template v-if="userInfo.authType === 0">
+            <span>开始认证</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
+          <template v-else-if="userInfo.authType === 1">
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>认证中</span>
+          </template>
+          <template v-else-if="userInfo.authType === 2">
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份已认证</span>
+          </template>
+          <template v-else>
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>身份认证失败</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
+        </div>
       </div>
       <!-- 系统简介 -->
       <div class="title-summarize">
@@ -27,16 +51,15 @@
       </div>
       <!-- 简介 -->
       <p class="text-p">
-        DID属于统一资源标识符URI的一种，是一个永久不可变的字符串，它存在的意义有两点，第一，标记任何目标对象(DID
-        Subject)，可以是一个人、一件商品、一台机器或者一只动物等等；第二，DID是通过DID
-        URL关联到描述目标对象的文件（DID Document,简称DID
-        Doc）唯一标识符，即通过DID能够在数据库中搜索到具体的DID Doc。
+        EOTC
+        DID是去中心化身份体系，是独立运行、分布式存储的去中心化身份存储、授权调用的身份系统。EOTC
+        DID采用强关系链方式注册、由EOTC DAO配合审核和治理。 EOTC
+        DID可以链接所有公链，可以为所有公链上的任意地址提供去中心化身份的强关系链注册、去中心化审核、应用绑定、敏感信息加密存储、脱敏标签商业转化、信息授权调用等服务。
       </p>
       <p class="text-p">
-        创建一个DID Document的过程是Production,而将创建的这条Document引用至该DID
-        Subject其他DID创建过程则是Consumption。在验证过程中，每个DID对应的DID
-        Document是独立的，相当于对每个DID做了信息隔离。在验证过程中，DID持有人可以根据需要对不同DID授权，验证人只能阅读到被授权的DID
-        Doc，而无法获得更多信息，从而达到DID Subject的信息保护目的。
+        EOTC
+        DID的出现将在高度保护用户隐私同时弥补区块链无法识别公链地址持有人身份、无法给地址持有人打商业标签的空白，EOTC
+        DID将为区块链世界注入强大的基础应用支持，开启更加高效更加安全更加科学的区块链商业应用。
       </p>
     </div>
     <!-- 底部 -->
@@ -57,8 +80,8 @@
       position="right"
     >
       <div class="menu">
-        <div class="menu-every" v-for="(item, index) in 5" :key="index">
-          <span>的雷克萨就到了</span>
+        <div class="menu-every" v-for="item in lang" :key="item.id">
+          <span>{{ item.text }}</span>
         </div>
       </div>
     </van-popup>
@@ -66,54 +89,133 @@
     <van-overlay :show="showOverlay" @click="showOverlay = false">
       <div class="wrapper" @click.stop>
         <div class="block">
-          <img src="../../assets/imgs/lingdang.png">
+          <img src="../../assets/imgs/lingdang.png" />
           <div class="tips">检测到您暂无推荐关系，为了账户</div>
           <div class="tips">安全性请前往绑定推荐关系</div>
           <div class="block-bot">
-            <div @click="showOverlay=false">取消</div>
+            <div @click="showOverlay = false">取消</div>
             <div @click="toSite">确定</div>
           </div>
         </div>
       </div>
     </van-overlay>
+    <notification
+      ref="notification"
+      title="系统检测您的账号存在异常"
+      message="暂无法使用该系统，请根据提示解除风控"
+      button-text="解除风控"
+      button-color="#F65F5F"
+      :header-icon="headerIcon"
+      @closed="handleClosed"
+      @buttonClick="() => $router.push('/risk')"
+    />
+    <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
+      <img src="../../assets/imgs/jin.png" alt="" class="img" />
+      <div class="text">解除风控</div>
+    </div>
   </div>
 </template>
 
 <script>
+import Notification from "@/components/notification";
+import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
-import { getuserinfo } from "@/api/pagesApi/home";
+import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
+import {risklevel} from '@/api/risk'
 export default {
   data() {
     return {
+      headerIcon,
+      show: false,
       iconLang: "arrow-down", //语言的箭头
       showPopup2: false, //选择语言
       showOverlay: false, //遮罩层
+      userInfo: "", //用户信息
+      lang: [
+        { id: 1, text: "简体中文", lang: "zh" },
+        { id: 2, text: "English", lang: "en" },
+      ],
     };
   },
   components: {
     TopBar,
+    Notification,
+  },
+  created() {
+    risklevel().then((res) => {
+      const { code, items: level } = res.data;
+      if (code === 0) {
+        this.cookie.set('riskLevel', level)
+        if (level === 2) {
+          this.$nextTick().then(() => {
+            this.$refs.notification.toggle(true);
+          });
+        }
+      }
+    });
   },
   mounted() {
-    this.getInfo();//获取用户信息
+    // 当前的语言
+    if (localStorage.getItem("textLang")) {
+      this.textLang = localStorage.getItem("textLang");
+    }
+    this.getrisklevel(); //风控等级
+    this.getInfo(); //获取用户信息
   },
   methods: {
+    // 关闭风险弹窗
+    handleClosed() {
+      this.show = true;
+    },
+    // 身份信息跳转
+    identifyRouter() {
+      if (this.cookie.get("riskLevel") != 2) {
+        if (this.userInfo.authType === 0) {
+          this.$router.push("/my/identity");
+        } else if (this.userInfo.authType === 2) {
+          this.$router.push("/my/identity/success");
+        } else if (this.userInfo.authType === 3) {
+          this.$router.push("/my/identity/fail");
+        } else {
+          console.log(this.userInfo.authType);
+        }
+      }
+    },
+    // 风控等级
+    getrisklevel() {
+      risklevel().then((res) => {
+        const { code, items: level } = res.data;
+        if (code === 0) {
+          if (level === 2) {
+            this.cookie.set("riskLevel", level);
+            this.$nextTick().then(() => {
+              this.$refs.notification.toggle(true);
+            });
+          }
+        }
+      });
+    },
     // 获取用户信息
     getInfo() {
       getuserinfo()
         .then((res) => {
-          console.log(res, "userinfo");
           if (res.data.code == 0) {
-            this.cookie.set("userInfo", res.data.items);
+            this.userInfo = res.data.items;
+            // 用户信息存到cookie
+            this.cookie.set("userInfo", JSON.stringify(this.userInfo));
+            this.cookie.set("country", this.userInfo.country);
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;
             }
+          } else {
+            this.$toast.fail(res.data.message);
           }
         })
         .catch((err) => {
           if (err.response.status == 401) {
             //未登录
-            this.$router.push("/login");
+            this.$router.replace("/login");
           }
         });
     },
@@ -127,10 +229,18 @@ export default {
       }
     },
     // 前往选择所在地
-    toSite(){
-      this.showOverlay=false
-      this.$router.push('/site')
-    }
+    toSite() {
+      // 判断有没有选位置，有就直接调到社区
+      // 没有就跳到选择已有的社区页面
+      getcomselect().then((res) => {
+        if (!res.data.items.country) {
+          this.showOverlay = false;
+          this.$router.push("/bindRelation");
+        } else {
+          this.$router.push({ name: "bindCommunity" });
+        }
+      });
+    },
   },
 };
 </script>
@@ -155,8 +265,8 @@ export default {
   .big_bg_logo {
     margin-top: -40px;
     img {
-      width: 882px;
-      height: 858px;
+      width:100%;
+      height: 100%;
     }
   }
   // 身份证背景图
@@ -177,22 +287,33 @@ export default {
     transform: translateX(-50%);
     width: 468px;
     height: 88px;
-    line-height: 88px;
-    text-align: center;
     border-radius: 16px;
     background: #237ff8;
-    span {
-      color: #fff;
-    }
-    .icon_down {
-      position: absolute;
-      top: 33px;
-      right: 14%;
-      display: inline-block;
-      width: 30px;
-      height: 24px;
-      line-height: 88px;
-      transform: rotate(-90deg);
+    .btn-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        font-size: 32px;
+        color: #fff;
+      }
+      .dunpai {
+        margin-right: 20px;
+        width: 32px;
+        height: 38px;
+      }
+      .icon_down {
+        position: absolute;
+        top: 33px;
+        right: 14%;
+        display: inline-block;
+        width: 30px;
+        height: 24px;
+        line-height: 88px;
+        transform: rotate(-90deg);
+      }
     }
   }
   // 简介
@@ -279,14 +400,31 @@ export default {
   justify-content: center;
   height: 100%;
 }
-
+.risk_mask_wrap {
+  @include posi($p: fixed, $r: 0, $b: 20%);
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 100px 0 0 100px;
+  .img {
+    display: block;
+    width: 60px;
+  }
+  .text {
+    flex: 1;
+    color: #f34747;
+    margin-left: 20px;
+    font-size: 28px;
+  }
+}
 .block {
   position: relative;
   width: 590px;
   height: 354px;
   background-color: #fff;
   border-radius: 20px;
-  img{
+  img {
     position: absolute;
     top: -100px;
     left: 50%;
@@ -294,33 +432,33 @@ export default {
     width: 200px;
     height: 200px;
   }
-  .tips{
+  .tips {
     padding: 0 40px;
     line-height: 50px;
     text-align: center;
     font-size: 32px;
   }
-  .tips:first-of-type{
+  .tips:first-of-type {
     margin-top: 110px;
   }
-  .block-bot{
+  .block-bot {
     margin-top: 30px;
-    border-top: 1px solid #F0F0F0;
+    border-top: 1px solid #f0f0f0;
     display: flex;
     justify-content: flex-start;
-    div{
+    div {
       width: 50%;
       height: 112px;
       font-size: 32px;
       line-height: 112px;
       text-align: center;
     }
-    div:first-of-type{
+    div:first-of-type {
       color: #666;
-      border-right: 1px solid #F0F0F0;
+      border-right: 1px solid #f0f0f0;
     }
-    div:last-of-type{
-      color: #1B2945;
+    div:last-of-type {
+      color: #1b2945;
     }
   }
 }

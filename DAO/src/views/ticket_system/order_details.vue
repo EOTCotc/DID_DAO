@@ -1,0 +1,220 @@
+<template>
+  <div class="order">
+    <header>
+      <white :title="title"></white>
+    </header>
+    <main>
+      <van-cell-group inset>
+        <van-cell title="类型" title-style="color:#999;" value="功能建议" />
+        <van-cell
+          title="提交时间"
+          title-style="color:#999;"
+          :value="order.createDate"
+        />
+        <van-cell
+          title="提交人"
+          title-style="color:#999;"
+          :value="order.submitter"
+        />
+        <van-cell
+          title="联系方式"
+          title-style="color:#999;"
+          :value="order.phone"
+        />
+      </van-cell-group>
+      <van-cell-group inset class="group">
+        <van-cell title="问题描述" title-style="color:#999;" :border="false" />
+        <van-cell :title="order.describe" />
+      </van-cell-group>
+      <van-cell-group inset class="tu">
+        <van-image
+          width="55"
+          height="55"
+          v-for="(item, index) in order.images"
+          :key="index"
+          :src="spliceSrc(item)"
+        />
+      </van-cell-group>
+      <van-cell-group inset class="group" v-show="order.status == 1">
+        <van-cell title="处理记录" style="color: #999" :border="false" />
+        <van-field
+          v-model="message"
+          rows="5"
+          type="textarea"
+          placeholder="工单处理记录..."
+        />
+      </van-cell-group>
+      <van-cell-group inset class="group" v-show="order.status == 2">
+        <van-cell title="处理记录" style="color: #999" :border="false" />
+        <van-cell :title="order.record"></van-cell>
+      </van-cell-group>
+      <van-button
+        round
+        type="info"
+        @click="update(order.status)"
+        class="one_btn"
+        v-show="order.status == 0"
+        >更进处理</van-button
+      >
+      <div class="two_btn" v-show="order.status == 1">
+        <van-button round type="info" color="#E52A2A" plain @click="cancel()"
+          >取消处理</van-button
+        >
+        <van-button round type="info" @click="update(order.status)"
+          >处理完成</van-button
+        >
+      </div>
+    </main>
+  </div>
+</template>
+
+<script>
+import { spliceSrc } from "@/utils/utils";
+import white from "../../components/Nav/white.vue";
+import { getworkorder, updateWork } from "@/api/workOrder";
+import { Dialog } from "vant";
+export default {
+  components: { white },
+  data() {
+    return {
+      title: "工单详情",
+      order: {},
+      message: "",
+      workOrderId: "",
+      fileList: [],
+      type: "wordOrder",
+    };
+  },
+  created() {
+    this.workOrderId = this.$route.query.workOrderId;
+    getworkorder({ workOrderId: this.workOrderId }).then((res) => {
+      res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
+        "YYYY-MM-DD hh:mm:ss"
+      );
+      res.data.items.images = res.data.items.images.split(",");
+      this.order = res.data.items;
+      console.log(this.order);
+    });
+  },
+  methods: {
+    spliceSrc,
+    onClickLeft() {
+      history.go(-1);
+    },
+
+    cancel() {
+      Dialog.confirm({
+        title: "取消提示",
+        confirmButtonColor: "#000",
+        message: "确定取消处理该订单吗？",
+        getContainer: ".order",
+      })
+        .then(() => {
+          updateWork({
+            workOrderId: this.workOrderId,
+            workOrderStatus: 0,
+            record: this.message,
+          }).then((res) => {
+            console.log(res);
+            this.$router.push({
+              path: "/pending",
+            });
+          });
+        })
+        .catch(() => {});
+    },
+    update(status) {
+      console.log(status);
+      if (status == 0) {
+        updateWork({
+          workOrderId: this.workOrderId,
+          workOrderStatus: status + 1,
+          record: this.message,
+        }).then((res) => {
+          console.log(res);
+          this.$router.push({
+            path: "/pending",
+            query: { status: status + 1 },
+          });
+        });
+      } else {
+        Dialog.confirm({
+          title: "处理完成",
+          confirmButtonColor: "#000",
+          message: "请确定该工单问题已处理完成,点击确定完成",
+        })
+          .then(() => {
+            updateWork({
+              workOrderId: this.workOrderId,
+              workOrderStatus: status + 1,
+              record: this.message,
+            }).then((res) => {
+              console.log(res);
+              this.$router.push({
+                path: "/pending",
+                query: { status: status + 1 },
+              });
+            });
+          })
+          .catch(() => {});
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.order {
+  position: relative;
+  background: #f3f4f5;
+  height: 100vh;
+}
+
+.van-cell-group {
+  margin-top: 16px;
+  color: #999;
+  padding: 5px 3.2px;
+  .van-cell {
+    font-size: 16px;
+  }
+  .van-cell__value {
+    color: #333;
+  }
+}
+.group {
+  .van-cell {
+    font-size: 16px;
+    line-height: 15px;
+  }
+}
+.tu {
+  .van-image {
+    margin: 0 10px;
+  }
+  .van-uploader {
+    margin: 0 10px;
+  }
+}
+
+.one_btn {
+  width: 90%;
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+}
+
+.two_btn {
+  display: flex;
+  justify-content: space-around;
+
+  .van-button {
+    width: 176px;
+    margin-top: 16px;
+  }
+}
+.order ::v-deep .van-dialog__message--has-title {
+  color: #f37a4c !important;
+}
+</style>

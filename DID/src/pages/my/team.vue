@@ -20,65 +20,73 @@
       <van-tabs 
         v-model="tab.active" 
         swipeable
+        color='#237DF4'
         @click="handleTabClick"
       >
-        <van-tab 
-          title="标签 1"
+        <van-tab
           v-for="item in tab.data"
-          :key="item.id"
-          :title="item.text"
-          :name="item.name"
+          :key="item"
+          :title="item"
         >
         </van-tab>
       </van-tabs>
-      <ul class="list" v-if="!!list.data.length">
-        <li 
-          class="item"
-          v-for="tabItem in list.data"
-          :key="tabItem.uid"
-        >
-          <div class="user_wrap">
-            <div class="avatar">
-              <van-image
-                round
-                width="30"
-                height="30"
-                src="https://img01.yzcdn.cn/vant/cat.jpeg"
-              />
-              <span class="name">{{tabItem.name}}（{{tabItem.uid}}）</span>
+      <van-list
+        class="list_wrap"
+        v-if="!!list.data.length"
+        v-model="list.UpRefreshLoading"
+        :finished="!!list.data.length && list.finished"
+        finished-text="没有更多了"
+        @load="handleUpRefresh"
+      >
+        <ul class="list">
+          <li
+            class="item"
+            v-for="item in list.data"
+            :key="item.uid"
+          >
+            <div class="user_wrap">
+              <div class="avatar">
+                <span class="name" v-if="item.name">{{item.name}}（{{item.uid}}）</span>
+                <span class="name" v-else><span class="link">未认证</span>（{{item.uid}}）</span>
+              </div>
+              <div class="button_wrap">
+                <van-tag
+                  round
+                  plain
+                  color="#247FF6"
+                  text-color="#247FF6"
+                >
+                  {{getLevel(item.userNode)}}
+                </van-tag>
+              </div>
             </div>
-            <div class="button_wrap">
-              <van-button 
-                plain 
-                hairline 
-                round
-                size="mini"
-                type="primary"
-                color="#247FF6"
-              >
-                交易用户
-              </van-button>
-            </div>
-          </div>
-          <div class="wrap" v-if="!!tabItem.phone">
-            手机号码<span class="value">{{tabItem.phone}} <i class="icon-copy icon"></i></span>
-          </div>
-          <div class="wrap">
-            邮箱地址<span class="value">{{tabItem.email}}</span>
-          </div>
-          <div class="wrap">
-            注册日期<span class="value">{{tabItem.regDate}}</span>
-          </div>
-        </li>
-        <van-button
-          class="more"
-          color="#1B2945"
-          type="primary"
-          @click="getMore"
-        >
-          更多团队成员
-        </van-button>
-      </ul>
+            <van-row class="wrap">
+              <van-col :span="6">手机号码</van-col>
+              <van-col :span="18" v-if="item.phone">{{item.phone}} <i class="icon-copy icon" @click="copy(item.phone)"></i></van-col>
+            </van-row>
+            <van-row class="wrap">
+              <van-col :span="6">邮箱地址</van-col>
+              <van-col :span="18">{{item.mail}} </van-col>
+            </van-row>
+            <van-row class="wrap">
+              <van-col :span="6">注册日期</van-col>
+              <van-col :span="18">{{transformUTCDate(item.regDate)}}</van-col>
+            </van-row>
+          </li>
+          <van-button
+            block
+            class='more'
+            color="#1B2945"
+            type="primary"
+            :loading="moreLoading"
+            :disabled="moreLoading"
+            loading-text="申请提交中…"
+            @click="getMore"
+          >
+            更多团队成员
+          </van-button>
+        </ul>
+      </van-list>
       <van-empty
         v-else
         class="custom-image"
@@ -93,57 +101,94 @@
 
 <script>
 import { Dialog } from 'vant'
-import {list} from "@/api/pagesApi/team"
+import {list, morePersonnel} from "@/api/pagesApi/team"
+import {transformUTCDate, copy} from "@/utils/utils";
+
 export default {
-  name: "team",
+  name: 'team',
   data() {
     return {
       loading: false,
       teamNumber: 0,
       pushNumber: 0,
+      moreLoading: false,
       tab: {
-        data: [
-          {name: 1, text: '全部'},
-          {name: 2, text: '已认证'},
-          {name: 3, text: '未认证'}
-        ],
-        active: 1
+        data: ['全部', '已认证', '未认证'],
+        active: 0
       },
       list: {
         loading: false,
         status: '',
+        UpRefreshLoading: false,
+        finished: false,
         data: [],
+        query: {
+          page: 1,
+          itemsPerPage: 10
+        }
       }
     }
   },
   methods: {
+    copy,
+    transformUTCDate,
     onRefresh() {
       this.loading = true
+      this.list.query.page = 1
+      this.list.data = []
       this.getList()
     },
     // Tab切换
-    handleTabClick(name) {
+    handleTabClick(tab) {
       const handle = {
-        1: '',
-        2: true,
-        3: false
+        0: '',
+        1: true,
+        2: false
       }
-      this.list.status = handle[name]
+      this.list.status = handle[tab]
+      this.getList()
+    },
+    // 滚动到底翻页
+    handleUpRefresh() {
+      this.list.query.page++
+      this.list.UpRefreshLoading = true
       this.getList()
     },
     // 获取团队成员
     getList() {
+      const query = {...this.list.query}
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: "加载中…"
+      })
+      if (this.tab.active > 0) {
+        query.isAuth = this.list.status
+      }
       this.list.loading = true
-      list({isAuth: this.list.status}).then(res => {
-        const {teamNumber, users, pushNumber} = res.data.items
-        this.teamNumber = teamNumber
-        this.pushNumber = pushNumber
-        this.list.data = users || []
+      list(query).then(res => {
+        if (!res.data.code) {
+          const {teamNumber, users, pushNumber} = res.data.items
+          this.teamNumber = teamNumber
+          this.pushNumber = pushNumber
+          if (query.page > 1) {
+            this.list.data.push(...users)
+          } else {
+            this.list.data = users || []
+          }
+          this.list.finished = !users.length
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message
+          })
+        }
       }).catch(err => {
         console.log(err)
       }).finally(() => {
-        this.list.loading = false
         this.loading = false
+        this.list.loading = false
+        this.list.UpRefreshLoading = false
+        loading.clear()
       })
     },
     // 查看更多团队人员
@@ -155,13 +200,24 @@ export default {
         cancelButtonText: "稍后联系",
         beforeClose: (action, done) => {
           if (action === "confirm") {
-            this.$toast.success('申请成功！');
+            this.moreLoading = true
+            morePersonnel().then(res => {
+              if (res.data.code) {
+                this.$toast.fail('申请失败');
+              } else {
+                this.$toast.success('申请已提交');
+              }
+            }).finally(() => this.moreLoading = false)
             done()
           } else {
             done()
           }
         }
       })
+    },
+    getLevel(level) {
+      const arr = ['普通用户', '交易用户', '信用节点', '实时节点', '中级节点', '高级节点']
+      return arr[level]
     }
   },
   created() {
@@ -204,53 +260,56 @@ export default {
   &::v-deep(.van-tabs__nav) {
     background: none;
   }
-  .list {
+  .list_wrap {
     flex: 1;
-    box-sizing: border-box;
     min-height: 0;
-    overflow: auto;
     margin-top: 25px;
-    .item {
-      background: #FFFFFF;
-      border-radius: 20px;
-      padding: 30px;
-      margin: 25px;
-      border-radius: 20px;
-      overflow: hidden;
-      &:first-of-type {
-        margin-top: 0;
-      }
-      .user_wrap {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 30px;
-        border-bottom: 1px solid #F3F4F5;
-        .avatar {
+    overflow: auto;
+    padding-bottom: 44PX;
+    box-sizing: border-box;
+    .list {
+      .item {
+        background: #FFFFFF;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 25px;
+        border-radius: 20px;
+        overflow: hidden;
+        &:first-of-type {
+          margin-top: 0;
+        }
+        .user_wrap {
           display: flex;
           align-items: center;
-          .name {
-            flex: 1;
-            font-size: 36px;
-            color: #333;
-            margin: 0 15px;
+          justify-content: space-between;
+          padding-bottom: 30px;
+          border-bottom: 1px solid #F3F4F5;
+          .avatar {
+            display: flex;
+            align-items: center;
+            .name {
+              flex: 1;
+              font-size: 36px;
+              color: #333;
+              margin: 0 15px;
+            }
           }
         }
-      }
-      .wrap {
-        display: flex;
-        align-items: center;
-        margin-top: 30px;
-        font-size: 32px;
-        color: #999999;
-        .value {
-          flex: 1;
-          margin-left: 24px;
-          color: #333333;
-          .icon {
-            color: #999;
-            font-size: 19px;
-            margin-left: 10px;
+        .wrap {
+          display: flex;
+          align-items: center;
+          margin-top: 30px;
+          font-size: 32px;
+          color: #999999;
+          .value {
+            flex: 1;
+            margin-left: 24px;
+            color: #333333;
+            .icon {
+              color: #999;
+              font-size: 19px;
+              margin-left: 10px;
+            }
           }
         }
       }
@@ -261,10 +320,8 @@ export default {
     font-size: 32px;
     color: #247FF6;
   }
-  &::v-deep(.more) {
-    display: block;
-    width: 100%;
-    height: 96px;
+  .more {
+    @include posi($p: fixed, $b: 0, $l: 0, $r: 0);
   }
 }
 </style>

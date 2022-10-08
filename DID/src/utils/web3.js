@@ -50,6 +50,7 @@ function distsmes1(message) {
   console.log(message);
 }
 
+
 export const UserInfo = function () {
   //注册邮箱   邮箱和uid 一一对应 是唯一的
   const email = localStorage.getItem('email');
@@ -239,7 +240,7 @@ export const SendUSDT = async function (val, ads, ctype) {
   });
 };
 
-export const loadweb3 = async function (func) {
+export const loadweb3 = function (func) {
   //bsg为true强制签名
   if (window.tronWeb) {
     // console.log('Loading web3');
@@ -249,15 +250,15 @@ export const loadweb3 = async function (func) {
         clearInterval(obj);
         try {
           address = window.tronWeb.defaultAddress.base58;
-          console.log('地址', address);
-          localStorage.setItem('address', address)
           // ethereum.chainId   xxx->测试链  netType 网络类型
           localStorage.setItem('netType', 'xxx');
           // localStorage.setItem("netType", "trx");
-          mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
-          mytron = await window.tronWeb.contract().at(contractAddress);
-          myUsdtAmount();
-          myEOTCAmount();
+
+          // mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
+          // mytron = await window.tronWeb.contract().at(contractAddress);
+          // myUsdtAmount();
+          // myEOTCAmount();
+
           if (address != localStorage.getItem('myaddress')) {
             localStorage.removeItem('myaddress');
             localStorage.removeItem('mysign');
@@ -266,10 +267,7 @@ export const loadweb3 = async function (func) {
             return false;
           }
           func();
-          // console.log('func');
         } catch (error) {
-          // console.warn(error);
-          // console.log(localStorage.getItem('myaddress'));
           if (address != localStorage.getItem('myaddress')) clearmymes();
         }
       } else {
@@ -277,6 +275,9 @@ export const loadweb3 = async function (func) {
       }
     }, 17);
   } else {
+    if (func != null) {//没有获取钱包的软件让他跳登录页 通过传入的参数
+      func();
+    }
     setTimeout(() => {
       if (!window.tronWeb) {
         //	Vue.$toast.error('请在支持 TRON 网络的 DAPP 浏览器中访问');
@@ -311,7 +312,7 @@ export const userSign = async (mes, func) => {
           }
           localStorage.setItem('myaddress', tronweb.defaultAddress.base58);
           localStorage.setItem('mysign', md5(signedStr));
-          console.log(md5(signedStr));
+          // console.log(md5(signedStr));
           if (func != null) {
             func();
           }
@@ -322,6 +323,9 @@ export const userSign = async (mes, func) => {
           clearmymes();
           reject('拒绝签名');
           console.warn(err);
+          if (func != null) {//拒绝签名，通过传入的参数跳登录页
+            func();
+          }
         });
     } catch (err) {
       console.warn(err);

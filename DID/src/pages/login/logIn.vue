@@ -1,7 +1,7 @@
 <template>
-  <div class="log-in">
+  <div :style="`min-height:${height}px;`" class="signin">
     <van-form ref="form">
-      <div class="first-item">
+      <div class="from-item" v-if="show">
         <p>选择网络</p>
         <van-field
           class="input-border"
@@ -10,7 +10,7 @@
           :disabled="true"
         />
       </div>
-      <div class="from-item">
+      <div class="from-item" v-if="show">
         <p>钱包地址</p>
         <van-field
           class="input-border"
@@ -18,28 +18,28 @@
           placeholder="钱包地址"
           :disabled="true"
         />
-        <div class="from-item">
-          <p>邮箱地址</p>
-          <van-field
-            class="input-border"
-            v-model="form.mail"
-            placeholder="邮箱地址"
-            :rules="[
-              { required: true, message: '请填写邮箱地址' },
-              { validator: mailRule, message: '请输入正确的邮箱' },
-            ]"
-          />
-        </div>
-        <div class="from-item">
-          <p>登录密码</p>
-          <van-field
-            class="input-border"
-            v-model="form.password"
-            type="password"
-            placeholder="登录密码"
-            :rules="[{ required: true, message: '请填写登录密码' }]"
-          />
-        </div>
+      </div>
+      <div class="from-item">
+        <p>邮箱地址</p>
+        <van-field
+          class="input-border"
+          v-model="form.mail"
+          placeholder="邮箱地址"
+          :rules="[
+            { required: true, message: '请填写邮箱地址' },
+            { validator: mailRule, message: '请输入正确的邮箱' },
+          ]"
+        />
+      </div>
+      <div class="from-item">
+        <p>登录密码</p>
+        <van-field
+          class="input-border"
+          v-model="pwd"
+          type="password"
+          placeholder="登录密码"
+          :rules="[{ required: true, message: '请填写登录密码' }]"
+        />
       </div>
     </van-form>
     <div class="btn">
@@ -55,27 +55,37 @@
 
 <script>
 import { login } from "@/api/pagesApi/login";
-import { loadweb3 } from "@/utils/web3";
 export default {
   name: "logIn",
-  props: {},
+  props: {
+    wallet: { type: Object, default: () => ({}) },
+  },
   data() {
     return {
+      show: false,
+      pwd: "",
+      height: 0,
       form: {
         otype: "",
         walletAddress: "",
         sign: "",
         refUserId: "",
-        mail: "591041326@qq.com",
+        mail: "",
         code: "",
-        password: "jianglin1997",
+        password: "",
       },
     };
   },
   mounted() {
-    loadweb3();
-    this.form.walletAddress = localStorage.getItem("address"); //获取钱包地址
-    this.form.otype = localStorage.getItem("netType");
+    this.height = document.body.scrollHeight - 152;
+    // 如果没有钱包地址输入邮箱和密码
+    this.show = !!this.form.walletAddress;
+    if(localStorage.getItem('myaddress')){
+      this.show=true
+      this.form.walletAddress=localStorage.getItem('myaddress')
+      this.form.otype=localStorage.getItem('netType')
+      this.form.sign=localStorage.getItem('mysign')
+    }
   },
   methods: {
     // 去注册
@@ -84,27 +94,42 @@ export default {
     },
     // 邮箱验证规则
     mailRule() {
-      const regMail =
-        /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+      const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
+    },
+
+    getWallet(data) {
+      const { oType, myaddress, sign } = data;
+      if (oType && myaddress && sign) {
+        this.form.otype = oType;
+        this.form.walletAddress = myaddress;
+        this.form.sign = sign;
+        this.show = true;
+      }
     },
     // 登录
     login() {
       this.$refs.form
         .validate()
         .then(() => {
+          if (this.pwd) {
+            this.form.password = this.$md5(this.pwd);
+          }
           login(this.form).then((res) => {
-            if(res.data.code==0){
-              this.cookie.set('token',res.data.items,60)
-              this.$toast.success('登录成功')
-              setTimeout(() => {//跳到首页
-                this.$router.push('/')
-              }, 800);
+            if (res.data.code == 0) {
+              this.cookie.set("token", res.data.items, { expires: 30 });
+              this.$toast.success({
+                forbidClick: true,
+                message: "登录成功",
+                onClose: () => this.$router.push("/"),
+              });
+            } else {
+              this.$toast.fail(res.data.message);
             }
           });
         })
         .catch(() => {
-          this.$toast.fail('请输入正确的邮箱或密码')
+          this.$toast.fail("请输入正确的邮箱或密码");
         });
     },
   },
@@ -112,15 +137,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.log-in {
+.signin {
   position: relative;
   margin-top: 89px;
-  padding: 0 38px 60px 38px;
-  min-height: 1140px;
+  padding: 89px 38px 300px 38px;
   overflow: hidden;
-}
-.first-item {
-  margin-top: 96px;
 }
 .from-item {
   margin-top: 30px;
@@ -138,9 +159,6 @@ p {
   color: #666;
   border: 1px solid #c8cfde;
   border-radius: 16px;
-}
-:deep(.van-field__error-message) {
-  margin-top: 20px;
 }
 .btn {
   position: absolute;

@@ -1,12 +1,12 @@
 <template>
   <div class="community_wrap fullscreen bg-gray">
-    <page-header title="申请创建社区" />
+    <page-header title="申请创建社区" :hasLeftArrow='false' />
     <div class="success_wrap">
       <van-icon class="icon" name="passed" />
       <div class="title">申请提交成功</div>
       <div class="message">结果将在7个工作日内进行反馈</div>
       <div style="margin: 25px 15px 0;">
-        <van-button round block type="info">知道了</van-button>
+        <van-button round block type="info" @click="$router.replace('/my/community')">知道了</van-button>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@ export default {
   name: "communityCreateSuccess",
   components: {
     PageHeader
-  },
+  }
 }
 </script>
 

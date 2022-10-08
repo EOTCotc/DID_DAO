@@ -1,0 +1,18 @@
+$theme: #1b2945;
+.bg-gray {
+  background-color: #F3F4F5;
+}
+.blue {  
+  background-color: $theme;
+}
+
+.centered {
+  @include posi($t: 50%, $l: 50%);
+  transform: translate(-50%, -50%);
+}
+
+.fullscreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
