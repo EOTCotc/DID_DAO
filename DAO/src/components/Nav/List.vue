@@ -175,9 +175,10 @@ export default {
   .van-row {
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 16px;
     line-height: 45px;
   }
+
   .van-cell {
     color: #fff;
     background: none;

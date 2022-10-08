@@ -31,7 +31,7 @@
                 size="small"
                 :color="emailBtnColor"
                 type="primary"
-                native-type='button'
+                native-type="button"
                 @click="handleCode"
               >
                 <span v-show="showCode" style="font-size: 12px">
@@ -129,7 +129,7 @@ export default {
         this.showCode = false;
         // 更改按钮颜色
         this.emailBtnColor = "#fff";
-        getCode({ mail: this.form.mail }).then((res) => {});
+        getCode({ mail: this.form.mail, type: 1 }).then((res) => {});
         if (0 < this.seconds) {
           //重新发送验证码倒计时
           let timer = setInterval(() => {
@@ -158,13 +158,13 @@ export default {
               this.$toast.success({
                 message: "修改成功",
                 forbidClick: true,
-                onClose: () => this.$router.replace("/login")
+                onClose: () => this.$router.replace("/login"),
               });
               this.cookie.remove("token");
             } else {
               this.$toast.fail({
                 message: "修改失败",
-                forbidClick: true
+                forbidClick: true,
               });
             }
           });
@@ -172,7 +172,7 @@ export default {
         .catch(() => {
           this.$toast.fail({
             message: "修改失败",
-            forbidClick: true
+            forbidClick: true,
           });
         });
     },

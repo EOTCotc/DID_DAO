@@ -92,6 +92,7 @@ import jsCookie from "js-cookie";
 import PageHeader from "@/components/topBar/pageHeader.vue";
 import { create, oldData } from "@/api/pagesApi/community";
 
+
 export default {
   name: "communityCreate",
   components: {

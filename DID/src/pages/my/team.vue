@@ -31,12 +31,12 @@
         </van-tab>
       </van-tabs>
       <van-list
-          class="list_wrap"
-          v-if="!!list.data.length"
-          v-model="list.UpRefreshLoading"
-          :finished="!!list.data.length && list.finished"
-          finished-text="没有更多了"
-          @load="handleUpRefresh"
+        class="list_wrap"
+        v-if="!!list.data.length"
+        v-model="list.UpRefreshLoading"
+        :finished="!!list.data.length && list.finished"
+        finished-text="没有更多了"
+        @load="handleUpRefresh"
       >
         <ul class="list">
           <li
@@ -46,12 +46,6 @@
           >
             <div class="user_wrap">
               <div class="avatar">
-                <van-image
-                  round
-                  width="30"
-                  height="30"
-                  src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                />
                 <span class="name" v-if="item.name">{{item.name}}（{{item.uid}}）</span>
                 <span class="name" v-else><span class="link">未认证</span>（{{item.uid}}）</span>
               </div>
@@ -62,7 +56,7 @@
                   color="#247FF6"
                   text-color="#247FF6"
                 >
-                  {{getLevel(item.grade)}}
+                  {{getLevel(item.userNode)}}
                 </van-tag>
               </div>
             </div>
@@ -80,13 +74,14 @@
             </van-row>
           </li>
           <van-button
-              class="more"
-              color="#1B2945"
-              type="primary"
-              :loading="moreLoading"
-              :disabled="moreLoading"
-              loading-text="申请提交中…"
-              @click="getMore"
+            block
+            class='more'
+            color="#1B2945"
+            type="primary"
+            :loading="moreLoading"
+            :disabled="moreLoading"
+            loading-text="申请提交中…"
+            @click="getMore"
           >
             更多团队成员
           </van-button>
@@ -221,7 +216,7 @@ export default {
       })
     },
     getLevel(level) {
-      const arr = ['交易用户', '信用节点', '实时节点', '中级节点', '高级节点']
+      const arr = ['普通用户', '交易用户', '信用节点', '实时节点', '中级节点', '高级节点']
       return arr[level]
     }
   },

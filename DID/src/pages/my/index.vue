@@ -54,7 +54,7 @@
           <template #title>
             <span>
               {{ $t("my.certification_audit") }}
-              <span v-show="userInfo.hasAuth" class="badge"></span>
+              <span v-show="show.identity" class="badge"></span>
             </span>
           </template>
         </van-cell>
@@ -71,7 +71,7 @@
           <template #title>
             <span>
               {{ $t("my.community_approval") }}
-              <span v-show="userInfo.hasAuth" class="badge"></span>
+              <span v-show="show.communityApproval" class="badge"></span>
             </span>
           </template>
         </van-cell>
@@ -79,7 +79,6 @@
         <van-cell
           is-link
           :border="false"
-          v-if="!!userInfo.authType"
           :to="identifyRouter"
         >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
@@ -213,6 +212,7 @@ export default {
       userInfo: {},
       form: {},
       headerIcon: require('@/assets/imgs/jin.png'),
+      isShow: false,
       show: {
         communityApproval: false,
         identity: false,
@@ -263,16 +263,16 @@ export default {
             this.userInfo.comAuditType === 2 &&
             !this.userInfo.isImprove
           ) {
-            this.$dialog
-              .confirm({
+            if (!this.isShow) {
+              this.$dialog.confirm({
                 message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
                 confirmButtonText: "确定前往",
                 cancelButtonText: "稍后前往",
-              })
-              .then(() => {
+              }).then(() => {
                 this.$router.push("/my/community/setting");
-              })
-              .catch(() => {});
+              }).catch(() => {});
+              this.isShow = true
+            }
           }
         })
         .finally(() => loading.clear());
@@ -395,12 +395,12 @@ export default {
           }
 
           div:first-of-type {
-            font-size: 46px;
+            font-size: 36px;
           }
 
           div:last-of-type {
             margin-top: 8px;
-            font-size: 38px;
+            font-size: 32px;
           }
         }
       }
@@ -441,12 +441,12 @@ export default {
         }
 
         span:first-of-type {
-          font-size: 28px;
+          font-size: 32px;
         }
 
         span:last-of-type {
           margin-left: 16px;
-          font-size: 36px;
+          font-size: 32px;
           font-weight: bold;
         }
       }
@@ -470,7 +470,7 @@ export default {
       position: relative;
       margin-left: 20px;
       color: #fff;
-      font-size: 42px;
+      font-size: 32px;
       .badge {
         position: absolute;
         top: -8px;

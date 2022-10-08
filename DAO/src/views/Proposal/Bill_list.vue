@@ -7,7 +7,7 @@
       <div>
         <div
           class="one_an"
-          @click="detail(item.proposalId, item.state)"
+          @click="detail(item.proposalId, item.state, IDList)"
           v-for="(item, index) in List"
           :key="index"
         >
@@ -60,11 +60,16 @@ export default {
       title: "我的提案",
       name: "personage",
       List: [],
-      isProponent: this.$route.query.isProponent,
+      IDList: [],
+      isProponent: this.$route.query.isProponent || 1,
     };
   },
   mounted() {
     this.isProponent == 0 ? (this.title = "提案") : (this.title = "我的提案");
+    // 判断是否从home页面跳过来
+    if (this.$route.query.home) {
+      this.name = "home";
+    }
   },
   created() {
     const loading = this.$toast.loading({
@@ -84,7 +89,10 @@ export default {
             this.List = items.map((item) => {
               item.total =
                 Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
+                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
+                Number(
+                  localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
+                );
               return item;
             });
           }
@@ -111,7 +119,10 @@ export default {
             this.List = items.map((item) => {
               item.total =
                 Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`));
+                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
+                Number(
+                  localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
+                );
               return item;
             });
           }
@@ -144,8 +155,16 @@ export default {
 .box {
   background: #fff;
   height: 100vh;
+  overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
+}
+footer {
+  height: 170px;
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 .one_an {
   color: #000;

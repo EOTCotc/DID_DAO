@@ -209,7 +209,7 @@ export default {
 }
 .content {
   background: #fff;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 .feedbackTitle {
   font-size: 30px;

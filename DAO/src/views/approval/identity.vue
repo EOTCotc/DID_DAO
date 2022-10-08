@@ -135,8 +135,8 @@
 <script>
 import pageHeader from "@/components/topBar/pageHeader"
 import Reject from '@/components/reject'
-import {approval, list} from "@/api/approval/identity";
-import {transformUTCDate, spliceSrc, getAuditStep} from "@/utils/utils";
+import {approval, list, getImg} from "@/api/approval/identity";
+import {transformUTCDate, getAuditStep} from "@/utils/utils";
 
 export default {
   name: "authenticationApproval",
@@ -186,16 +186,33 @@ export default {
       this.list.UpRefreshLoading = true
       this.getList()
     },
+    async getWatermarkImg(src) {
+      const res = await getImg(src)
+      const blob = new window.Blob([res.data], {type: res.type})
+      const url = window.URL.createObjectURL(blob)
+      return url
+    },
     // 获取列表
     getList() {
+      const uid = localStorage.getItem('uid')
       this.$toast.loading('列表加载中…')
       list(this.tab.active, this.list.query).then(res => {
         if (!res.data.code) {
-          const data = res.data.items.map(item => ({
-            ...item,
-            portraitImage: this.spliceSrc(item.portraitImage),
-            nationalImage: this.spliceSrc(item.nationalImage)
-          }))
+          const data = res.data.items.map(item => {
+            const auths = [...item.auths]
+            this.getWatermarkImg(item.portraitImage).then(res => {
+              item.portraitImage = res
+            }).then(() => {
+              this.getWatermarkImg(item.nationalImage).then(res => {
+                item.nationalImage = res
+              })
+            })
+            if (this.tab.active === 1) {
+              item.auths = auths.slice(0, auths.findIndex(auth => auth.uId === uid) + 1)
+              item.status = item.auths[item.auths.length - 1].auditType
+            }
+            return item
+          })
           if (this.list.query.page === 1) {
             this.list.data = data
           } else {
@@ -277,8 +294,7 @@ export default {
       this.$set(this.imgPreview.images, 0, src)
     },
     // 转换时间格式
-    transformUTCDate,
-    spliceSrc
+    transformUTCDate
   },
   created() {
     this.getList()

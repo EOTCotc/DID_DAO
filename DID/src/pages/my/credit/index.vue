@@ -17,7 +17,7 @@
             :duration="duration"
           ></countTo>
         </p>
-        <p>信用评分低</p>
+        <p>信用评分总计</p>
       </div>
       <div class="svgbox">
         <svg class="svg" viewBox="0 0 300 300">
@@ -96,7 +96,7 @@
               <div class="every" v-for="(item2, index2) in list" :key="index2">
                 <div>
                   <p>{{ item2.remarks }}</p>
-                  <p>{{ transformUTCDate(item2.createDate) }}</p>
+                  <p>{{ transformUTCDate(item2.createTime) }}</p>
                 </div>
                 <div style="color: #fc7542">-{{ item2.fraction }}</div>
               </div>
@@ -166,7 +166,7 @@ export default {
           let data = res.data.items;
           this.endVal = data.creditScore;
           if (data.items.length != 0) {
-            this.list = [...this.list, data.items[0]];
+            this.list = [...this.list, ...data.items];
           }
           // 加载状态结束
           this.loading = false;

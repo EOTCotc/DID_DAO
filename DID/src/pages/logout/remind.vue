@@ -1,7 +1,7 @@
 <template>
   <!-- 确定信息 -->
   <div ref="child" class="container-child" :style="`min-height:${height}px;`">
-    <div class="tille">{{ $t("logout.imp_reminder") }}</div>
+    <div class="title">{{ $t("logout.imp_reminder") }}</div>
     <p class="parag">
       {{ $t("logout.parag1") }}
     </p>
@@ -15,8 +15,8 @@
     <p class="parag">{{ $t("logout.parag7") }}</p>
 
     <div class="btn">
-      <button @click="$router.push('reason')">{{ $t("logout.have_read") }}</button>
-      <button @click="$router.go(-2)">{{ $t("logout.think_again") }}</button>
+      <button @click="$router.replace('reason')">{{ $t("logout.have_read") }}</button>
+      <button @click="$router.go(-1)">{{ $t("logout.think_again") }}</button>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
     // 动态获取高度
     this.height = document.body.clientHeight - 235;
     this.changeStepNum(1); //修改步骤
-    this.changeBackNum(-2); //修改路由返回级数
+    this.changeBackNum(-1); //修改路由返回级数
   },
   methods: {
     ...mapMutations(["changeStepNum", "changeBackNum"]),

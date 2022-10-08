@@ -214,7 +214,6 @@ export default {
 }
 .popup {
   width: 670px;
-  height: 372px;
   border-radius: 20px;
   p {
     margin-top: 26px;
