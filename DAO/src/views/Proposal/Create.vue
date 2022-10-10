@@ -37,44 +37,44 @@
 </template>
 
 <script>
-import white from "@/components/Nav/white.vue";
-import { putproposal } from "@/api/Proposal";
-import { getuSereotc } from "@/api/earnings";
-import { Toast } from "vant";
+import white from '@/components/Nav/white.vue'
+import { putproposal } from '@/api/Proposal'
+import { getuSereotc } from '@/api/earnings'
+import { Toast } from 'vant'
 export default {
   components: { white },
   data() {
     return {
-      title: "创建提案",
-      value: "",
-      message: "",
+      title: '创建提案',
+      value: '',
+      message: '',
       items: undefined,
-    };
+    }
   },
   created() {
     getuSereotc().then((res) => {
-      console.log(res);
-      this.items = res.data.items;
-    });
+      console.log(res)
+      this.items = res.data.items
+    })
   },
   methods: {
     onClickLeft() {
-      history.go(-1);
+      history.go(-1)
     },
     submit() {
       putproposal({
         title: this.value,
         summary: this.message,
       }).then((res) => {
-        console.log(res);
+        console.log(res)
         if (res.status == 200) {
           Toast.success("提交成功!");
           this.$router.push("/Bill_list");
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
