@@ -5,13 +5,7 @@
       <ul v-if="list.length != 0">
         <li
           v-for="(item, index) in list"
-          @click="
-            toArbitrationMsg(
-              item.messageType,
-              item.associatedId,
-              item.isArbitrate
-            )
-          "
+          @click="toArbitrationMsg(item)"
           :key="index"
         >
           <img :src="item.messageType == 0 ? shen_qing : tong_zhi" />
@@ -54,7 +48,7 @@ export default {
   methods: {
     // 获取仲裁消息列表
     getMsgList() {
-      getarbitratemessage().then((res) => {
+      getarbitratemessage({ isArbitrate: 1 }).then((res) => {
         console.log(res.data.items);
         if (res.data.code == 0) {
           this.list = res.data.items;
@@ -114,10 +108,11 @@ export default {
       return fomatd;
     },
     // 去消息详情
-    toArbitrationMsg(messageType, associatedId, arbitrateId) {
+    toArbitrationMsg(data) {
+      const {messageType, arbitrateMessageId, associatedId, arbitrateId} = data
       this.$router.push({
         path: "/arbitrationMsg",
-        query: { messageType, associatedId, arbitrateId },
+        query: { messageType, arbitrateMessageId, associatedId, arbitrateId },
       });
     },
   },

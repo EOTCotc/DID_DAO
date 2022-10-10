@@ -267,7 +267,7 @@ export default {
     this.isArbitrate = this.$route.query.arbitrateId;
     this.messageType = this.$route.query.messageType;
     this.paramsRoute = this.$route.query;
-    this.setmessageisopen(this.$route.query.associatedId)
+    this.setmessageisopen()
     if (this.messageType == 0 && this.isArbitrate == 0) {
       this.getarbitratedelay(); // 获取申请延期消息
     } else if (this.messageType == 1) {
@@ -390,9 +390,9 @@ export default {
       });
     },
     // 设置消息为已读 小红点的显示隐藏
-    setmessageisopen(associatedId) {
+    setmessageisopen() {
       setmessageisopen({
-        id: associatedId,
+        id: this.$route.query.arbitrateMessageId,
       }).then(res=>{
         console.log(res.data,'设置消息为已读');
       })

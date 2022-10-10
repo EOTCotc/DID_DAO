@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-
 // 0 0 0 trx
 function initFormData (data) {
   const formData = new FormData()
@@ -44,7 +42,17 @@ export function copy (text) {
 }
 // 日期格式转换
 export function transformUTCDate (str) {
-  return dayjs(str).format('YYYY-MM-DD hh:mm:ss')
+  if (str) {
+    const now = new Date(str)
+    const year = now.getUTCFullYear().toString().padStart(2, '0')
+    const month = (now.getUTCMonth() + 1).toString().padStart(2, '0')
+    const date = now.getUTCDate().toString().padStart(2, '0')
+    const hour = now.getUTCHours().toString().padStart(2, '0')
+    const minute = now.getUTCMinutes().toString().padStart(2, '0')
+    const second = now.getUTCSeconds().toString().padStart(2, '0')
+    return `${year}-${month}-${date} ${hour}:${minute}:${second}`
+  }
+  return ''
 }
 // 浏览远程图片
 export function spliceSrc (src) {
