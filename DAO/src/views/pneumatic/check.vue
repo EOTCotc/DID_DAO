@@ -14,19 +14,19 @@
             <div class="title">身份证</div>
 
             <div class="example_wrap">
-              <img class="img" :src="spliceSrc(user.portraitImage)" alt="" />
-              <img class="img" :src="spliceSrc(user.nationalImage)" alt="" />
+              <img class="img" :src="user.portraitImage" alt="" />
+              <img class="img" :src="user.nationalImage" alt="" />
             </div>
           </div>
           <div class="upload_wrap step-2">
             <div class="title">手持证件照</div>
             <div class="example_zheng">
-              <img class="img" :src="spliceSrc(user.handHeldImage)" alt="" />
+              <img class="img" :src="user.handHeldImage" alt="" />
             </div>
           </div>
           <div
             class="upload_wrap step-2"
-            v-show="authStatus == 0 || authStatus == 1"
+            v-if="authStatus == 0 || authStatus == 1"
           >
             <div class="title">
               核对记录<span>(对方真实手持证件照及核对部分过程)</span>
@@ -41,20 +41,20 @@
               />
             </div>
           </div>
-          <div v-show="authStatus == 2" class="upload_wrap step-2">
+          <div v-if="authStatus == 2" class="upload_wrap step-2">
             <div class="title">
               核对记录<span>(对方真实手持证件照及核对部分过程)</span>
             </div>
             <van-image
               width="60"
               height="60"
-              v-for="(item, index) in user.image"
+              v-for="(item, index) in imagesZu"
               :key="index"
               :src="spliceSrc(item)"
             />
           </div>
         </div>
-        <div class="btns" v-show="authStatus == 0">
+        <div class="btns" v-if="authStatus == 0">
           <van-button
             round
             size="small"
@@ -67,7 +67,7 @@
             >身份核对成功</van-button
           >
         </div>
-        <div class="btns" v-show="authStatus == 2 && remedyMax == true">
+        <div class="btns" v-if="authStatus == 2 && remedyMax == true">
           <van-button
             round
             size="small"
@@ -79,8 +79,10 @@
             >解除异常</van-button
           >
         </div>
-        <div class="btns" v-show="remedyShow == true">
-          <van-button round color="#E8F2FF" class="frist">取消解除</van-button>
+        <div class="btns" v-if="remedyShow == true">
+          <van-button round color="#E8F2FF" class="frist" @click="quxiao()"
+            >取消解除</van-button
+          >
           <van-button round size="small" color="#237FF8" @click="subRemedy()"
             >确定解除</van-button
           >
@@ -92,8 +94,13 @@
 
 <script>
 import White from "@/components/Nav/white.vue";
+import {
+  getuserinfo,
+  userriskstatus,
+  uploadimage,
+  getImg,
+} from "@/api/pneumatic";
 import { spliceSrc } from "@/utils/utils";
-import { getuserinfo, userriskstatus, uploadimage } from "@/api/pneumatic";
 import { Dialog } from "vant";
 import { Toast } from "vant";
 export default {
@@ -111,7 +118,7 @@ export default {
       authStatus: 0,
       over_show: false,
       user: {},
-
+      imagesZu: [],
       imagesArr: [],
       remedyShow: false,
       remedyMax: true,
@@ -126,6 +133,12 @@ export default {
   mounted() {},
   methods: {
     spliceSrc,
+    async getWatermarkImg(src) {
+      const res = await getImg(src);
+      const blob = new window.Blob([res.data], { type: res.type });
+      const url = window.URL.createObjectURL(blob);
+      return url;
+    },
     afterRead(fileObj) {
       // 声明form表单数据
       const formData = new FormData();
@@ -149,15 +162,33 @@ export default {
         }
       });
     },
+    //取消解除
+    quxiao() {
+      this.remedyShow = false;
+      this.remedyMax = true;
+    },
 
     userInfo() {
       getuserinfo({
         userRiskId: this.id,
       }).then((res) => {
-        res.data.items.image = res.data.items.image.split(",");
-
-        console.log(res);
+        this.imagesZu =
+          res.data.items.image == null ? "[]" : res.data.items.image.split(",");
         this.user = res.data.items;
+        this.getWatermarkImg(this.user.portraitImage)
+          .then((res) => {
+            this.user.portraitImage = res;
+          })
+          .then(() => {
+            this.getWatermarkImg(this.user.nationalImage).then((res) => {
+              this.user.nationalImage = res;
+            });
+          })
+          .then(() => {
+            this.getWatermarkImg(this.user.handHeldImage).then((res) => {
+              this.user.handHeldImage = res;
+            });
+          });
       });
     },
     //核对信息异常

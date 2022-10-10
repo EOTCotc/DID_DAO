@@ -225,7 +225,7 @@ export default {
           if (!!res.data.code) {
             this.$toast.fail({
               forbidClick: false,
-              message: res.data.message
+              message: res.data.message,
             });
           } else {
             this.$toast.success({

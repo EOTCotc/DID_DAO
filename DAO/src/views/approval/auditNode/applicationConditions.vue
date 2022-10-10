@@ -18,133 +18,136 @@
         <p>维护安全稳定信任的交易环境</p>
       </div>
     </div>
-    <div class="applicationConditions"
-         v-if="displayApplicationConditions">
-      <h4>申请条件</h4>
-      <div class="conditionsList">
-        <div class="list list1">
-          <div class="left">
-            <van-image width="21px"
-                       height="19px"
-                       fit="contain"
-                       :src="require('../../../assets/img/zshen.png')" />
-            <p>DID身份认证</p>
-          </div>
-          <div class="right"
-               @click="didNot"
-               v-if="examinequalificationPassed1 == false">
-            去认证
-            <van-icon name="arrow" />
-          </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F "
-                      size="20" />
-          </div>
-        </div>
-        <div class="list">
-          <div class="left">
-            <van-image width="21px"
-                       height="19px"
-                       fit="contain"
-                       :src="require('../../../assets/img/zya.png')" />
-            <p>质押5000 EOTC以上</p>
-          </div>
-          <div class="right"
-               v-if="examinequalificationPassed2 == false"
-               @click="pledge">
-            去质押
-            <van-icon name="arrow" />
-          </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F "
-                      size="20" />
-          </div>
-        </div>
-        <div class="list">
-          <div class="left">
-            <van-image width="21px"
-                       height="19px"
-                       fit="contain"
-                       :src="require('../../../assets/img/stay.png')" />
-            <p>了解学习审核规则</p>
-          </div>
-          <div class="right"
-               @click="auditing('examineUnderstandLearningRules')"
-               v-if="examinequalificationPassed3 == false">
-            去学习
-            <van-icon name="arrow" />
-          </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F "
-                      size="20" />
-          </div>
-        </div>
-        <div class="list listn">
-          <div class="left">
-            <van-image width="21px"
-                       height="19px"
-                       fit="contain"
-                       :src="require('../../../assets/img/kao.png')" />
-            <div class="examinationColumn">
-              <span>通过考试</span><span style="color: #999999; font-size: 13px; margin-top: 3px">考试成绩达到90分以上</span>
+    <div v-if="displayApplicationConditions">
+      <div class="applicationConditions">
+        <h4>申请条件</h4>
+        <div class="conditionsList">
+          <div class="list list1">
+            <div class="left">
+              <van-image width="22px"
+                         height="20px"
+                         fit="contain"
+                         :src="require('../../../assets/img/zshen.png')" />
+              <p>DID身份认证</p>
+            </div>
+            <div class="right"
+                 @click="didNot"
+                 v-if="examinequalificationPassed1 == false">
+              去认证
+              <van-icon name="arrow" />
+            </div>
+            <div class="right"
+                 v-else>
+              <van-icon name="success"
+                        color="#1D9C3F "
+                        size="20" />
             </div>
           </div>
-          <div class="right"
-               @click="ExamTips"
-               v-if="examinequalificationPassed4 == false">
-            去考试
-            <van-icon name="arrow" />
+          <div class="list">
+            <div class="left">
+              <van-image width="22px"
+                         height="22px"
+                         fit="contain"
+                         :src="require('../../../assets/img/zya.png')" />
+              <p>质押5000 EOTC以上</p>
+            </div>
+            <div class="right"
+                 v-if="examinequalificationPassed2 == false"
+                 @click="pledge">
+              去质押
+              <van-icon name="arrow" />
+            </div>
+            <div class="right"
+                 v-else>
+              <van-icon name="success"
+                        color="#1D9C3F "
+                        size="20" />
+            </div>
           </div>
-          <div class="right"
-               v-else>
-            <van-icon name="success"
-                      color="#1D9C3F "
-                      size="20" />
+          <div class="list">
+            <div class="left">
+              <van-image width="21px"
+                         height="20px"
+                         fit="contain"
+                         :src="require('../../../assets/img/stay.png')" />
+              <p>了解学习审核规则</p>
+            </div>
+            <div class="right"
+                 @click="auditing('examineUnderstandLearningRules')"
+                 v-if="examinequalificationPassed3 == false">
+              去学习
+              <van-icon name="arrow" />
+            </div>
+            <div class="right"
+                 v-else>
+              <van-icon name="success"
+                        color="#1D9C3F "
+                        size="20" />
+            </div>
+          </div>
+          <div class="list listn">
+            <div class="left">
+              <van-image width="21px"
+                         height="20px"
+                         fit="contain"
+                         :src="require('../../../assets/img/kao.png')" />
+              <div class="examinationColumn">
+                <span>通过考试</span><span style="color: #999999; font-size: 13px; margin-top: 3px">考试成绩达到90分以上</span>
+              </div>
+            </div>
+            <div class="right"
+                 @click="ExamTips"
+                 v-if="examinequalificationPassed4 == false">
+              去考试
+              <van-icon name="arrow" />
+            </div>
+            <div class="right"
+                 v-else>
+              <van-icon name="success"
+                        color="#1D9C3F "
+                        size="20" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-if="displayApplicationConditions == false"
-         class="identityCard">
-      <div class="top">
-        <div>
-          <div class="first">
-            <van-image width="40"
-                       height="30"
-                       :src="require('./IMG/组 490@2x.png')" />
-            <span>审核节点</span>
-          </div>
-          <div>{{ ArbitratorsIdentityInformation.name }}</div>
-        </div>
-        <div>
-          <div>身份编号</div>
-          <div>{{ ArbitratorsIdentityInformation.number }}</div>
-        </div>
-        <div>
-          <div>申请时间</div>
+    <div v-if="displayApplicationConditions == false">
+      <div class="identityCard">
+        <div class="top">
           <div>
-            {{
-              ArbitratorsIdentityInformation.createDate
-                | dateFormat("yyyy-MM-dd-hh-mm-ss")
-            }}
+            <div class="first">
+              <van-image width="40"
+                         height="30"
+                         :src="require('./IMG/组 490@2x.png')" />
+              <span>审核节点</span>
+            </div>
+            <div>{{ ArbitratorsIdentityInformation.name }}</div>
+          </div>
+          <div>
+            <div>身份编号</div>
+            <div>{{ ArbitratorsIdentityInformation.number }}</div>
+          </div>
+          <div>
+            <div>申请时间</div>
+            <div>
+              {{
+                $dayjs(ArbitratorsIdentityInformation.createDate)
+                  .utc()
+                  .format("YYYY-MM-DD hh:mm:ss")
+              }}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="bottom">
-        <div>
-          <div>处理审核(个)</div>
-          <div>{{ArbitratorsIdentityInformation.examineNum}}</div>
-        </div>
-        <div class="line"></div>
-        <div>
-          <div>收益(EOTC)</div>
-          <div>{{ ArbitratorsIdentityInformation.eotc }}</div>
+        <div class="bottom">
+          <div>
+            <div>处理审核(个)</div>
+            <div>{{ ArbitratorsIdentityInformation.examineNum }}</div>
+          </div>
+          <div class="line"></div>
+          <div>
+            <div>收益(EOTC)</div>
+            <div>{{ ArbitratorsIdentityInformation.eotc }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -245,8 +248,8 @@ export default {
       show: false,
       showFraction: false,
       applynow: false,
+      // +localStorage.getItem('authType')
       authType: +localStorage.getItem('authType'),
-      items: 0,
       displayApplicationConditions: false,
       examinequalificationPassed: Boolean(
         localStorage.getItem('examinequalificationPassed')
@@ -277,17 +280,18 @@ export default {
       closeOnClick2: true,
     }
   },
-  mounted() {
+  created() {
     getuSereotc().then((res) => {
-      this.items = res.data.items
+      if (res.data.items >= 5000) {
+        this.examinequalificationPassed2 = true
+        localStorage.setItem('examinequalificationPassed2', true)
+      }
     })
-    if (this.items >= 5000) this.examinequalificationPassed2 = true
+  },
+  mounted() {
     if (this.authType == 2) {
       this.examinequalificationPassed1 = true
-      localStorage.setItem(
-        'examinequalificationPassed1',
-        this.examinequalificationPassed1
-      )
+      localStorage.setItem('examinequalificationPassed1', true)
     }
     this.isExamine == 0
       ? (this.displayApplicationConditions = true)
@@ -333,21 +337,6 @@ export default {
       localStorage.setItem('examinequalificationPassed', true)
     }
   },
-  filters: {
-    dateFormat(originVal, fmt) {
-      const dt = new Date(originVal)
-      const y = dt.getFullYear()
-      const m = (dt.getMonth() + 1 + '').padStart(2, '0')
-      const d = (dt.getDate() + '').padStart(2, '0')
-      const hh = (dt.getHours() + '').padStart(2, '0')
-      const mm = (dt.getMinutes() + '').padStart(2, '0')
-      const ss = (dt.getSeconds() + '').padStart(2, '0')
-      if (fmt === 'yyyy-MM-dd') {
-        return `${y}-${m}-${d}`
-      }
-      return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-    },
-  },
   methods: {
     didNot() {
       Dialog.alert({
@@ -370,22 +359,16 @@ export default {
         name: name,
       })
     },
-    btnClick2() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false)
-      })
-    },
-    btnClick() {
-      this.$nextTick().then(() => {
-        this.$refs.notification.toggle(false)
-      })
-    },
     buttonClick() {
-      becomeAnAuditor().then((res) => {
+      this.displayApplicationConditions = false
+      this.isExamine = 1
+      becomeAnAuditor().then(() => {
         getUnapprovedInformation().then((res) => {
+          localStorage.setItem('isExamine', 1)
           this.ArbitratorsIdentityInformation = res.data.items
         })
         this.displayApplicationConditions = false
+        this.isExamine = 1
       })
     },
     ExamTips() {
@@ -424,12 +407,14 @@ export default {
             getContainer: '.box',
           })
             .then(() => {
-              this.displayApplicationConditions = true
-              localStorage.removeItem('examinequalificationPassed1')
-              localStorage.removeItem('examinequalificationPassed2')
-              localStorage.removeItem('examinequalificationPassed3')
-              localStorage.removeItem('examinequalificationPassed4')
-              localStorage.removeItem('examinequalificationPassed')
+              this.displayApplicationConditions = true;
+              this.isExamine = 0;
+              localStorage.setItem("isExamine", 0);
+              localStorage.removeItem("examinequalificationPassed1");
+              localStorage.removeItem("examinequalificationPassed2");
+              localStorage.removeItem("examinequalificationPassed3");
+              localStorage.removeItem("examinequalificationPassed4");
+              localStorage.removeItem("examinequalificationPassed");
               this.examinequalificationPassed1 = Boolean(
                 localStorage.getItem('examinequalificationPassed1')
               )
@@ -683,6 +668,7 @@ export default {
         p {
           font-size: 29px;
           margin-left: 20px;
+          margin-top: 4px;
         }
         .examinationColumn {
           font-size: 29px;

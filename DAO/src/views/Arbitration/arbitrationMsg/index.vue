@@ -49,7 +49,7 @@ export default {
     // 获取仲裁消息列表
     getMsgList() {
       getarbitratemessage({ isArbitrate: 1 }).then((res) => {
-        console.log(res.data.items);
+      console.log(res.data.items);
         if (res.data.code == 0) {
           this.list = res.data.items;
           this.list.forEach((item) => {

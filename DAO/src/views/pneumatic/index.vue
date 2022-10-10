@@ -14,7 +14,7 @@
           >
             <van-cell :title="item.name" :value="item.createDate" />
             <van-cell :title="item.reason" :border="false" />
-            <div class="btn" v-show="item.authStatus == 0">
+            <div class="btn" v-if="item.authStatus == 0">
               <van-button
                 round
                 size="small"
@@ -31,7 +31,7 @@
                 >解除风控</van-button
               >
             </div>
-            <div class="btn" v-show="item.authStatus == 1">
+            <div class="btn" v-if="item.authStatus == 1">
               <van-button round size="small" color="#00B87A" plain
                 ><van-icon
                   name="passed"
@@ -46,7 +46,7 @@
                 >解除风控</van-button
               >
             </div>
-            <div class="btn" v-show="item.authStatus == 2">
+            <div class="btn" v-if="item.authStatus == 2">
               <van-button
                 round
                 size="small"
@@ -164,9 +164,8 @@ export default {
         userRiskId: id,
       }).then((res) => {
         console.log(res);
-
-        Toast("解除风控");
         this.getUser();
+        Toast("解除风控");
       });
     },
   },
@@ -241,6 +240,10 @@ export default {
   }
 }
 .custom-image {
-  margin-top: 25%;
+  margin-top: 10%;
+}
+.contatiner::-webkit-scrollbar {
+  display: none; //去掉滚动条，不能滚动了；
+  width: 0; //可以滚动，且滚动条不显示；
 }
 </style>

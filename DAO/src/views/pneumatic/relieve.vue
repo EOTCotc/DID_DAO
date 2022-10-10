@@ -11,7 +11,11 @@
     </header>
     <main class="section">
       <van-cell-group inset v-for="(item, index) in riskList" :key="index">
-        <van-cell title="解除风控联系">
+        <van-cell>
+          <template #title class="title">
+            <span class="custom-title">解除风控联系</span>
+            <span class="num">{{ index + 1 }}</span>
+          </template>
           <template #right-icon>
             <van-image
               width="25"
@@ -120,9 +124,17 @@ export default {
     }
   }
 }
+
+.num {
+  padding: 0px 8px;
+  margin-left: 5px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
 .wen {
   font-size: 26px;
-  /* maring: ; */
   padding: 10px 30px;
   line-height: 48px;
 }

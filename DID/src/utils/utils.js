@@ -1,5 +1,6 @@
+
 // 0 0 0 trx
-function initFormData (data) {
+function initFormData(data) {
   const formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
     formData.append(key, value);
@@ -24,7 +25,7 @@ export const paytype = (value) => {
   }
 };
 
-export function copy (text) {
+export function copy(text) {
   const input = document.createElement("input");
   input.style.position = "absolute";
   input.style.zIndex = -1;
@@ -56,11 +57,11 @@ export function transformUTCDate(str) {
 
 }
 // 浏览远程图片
-export function spliceSrc (src) {
+export function spliceSrc(src) {
   return `${process.env.VUE_APP_LOCATION}${src}`;
 }
 // 获取审核步骤
-export function getAuditStep (step) {
-  const arr = ['初审', '二审', '抽审']
-  return arr[step]
+export function getAuditStep(step) {
+  const arr = ["初审", "二审", "抽审"];
+  return arr[step];
 }

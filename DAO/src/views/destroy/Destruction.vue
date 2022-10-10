@@ -4,90 +4,101 @@
       <white :title="title"></white>
     </header>
     <main class="dest">
-      <van-search
-        v-model="value"
-        show-action
-        shape="round"
-        @input="showInput"
-        placeholder="输入关键词查询"
-      >
-        <template #action>
-          <div @click="showPopup">筛选</div>
-        </template>
-      </van-search>
-      <van-cell-group
-        v-show="destroyList.length > 0"
-        inset
-        v-for="(item, index) in destroyList"
-        :key="index"
-      >
-        <van-cell title="游戏消耗" value="2022年7月27日" />
-        <van-cell :title="item.memo" :border="false" />
-        <van-cell title="销毁查询地址:" :border="false" />
-        <van-cell>
-          <!-- 使用 title 插槽来自定义标题 -->
-          <template #title>
-            <span
-              class="custom-title"
-              id="destId"
-              @click="copy()"
-              :data-clipboard-text="item.destructionId"
-              >{{ item.destructionId }}</span
-            >
+      <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
+        <van-search
+          v-model="value"
+          show-action
+          shape="round"
+          @input="showInput"
+          placeholder="输入关键词查询"
+        >
+          <template #action>
+            <div @click="showPopup">筛选</div>
           </template>
-        </van-cell>
-      </van-cell-group>
+        </van-search>
+        <van-cell-group
+          v-show="destroyList.length > 0"
+          inset
+          v-for="(item, index) in destroyList"
+          :key="index"
+        >
+          <van-cell :title="item.memo" :value="item.createDate" />
+          <van-cell :title="item.eotc" :border="false" />
+          <van-cell title="销毁查询地址:" :border="false" />
+          <van-cell>
+            <!-- 使用 title 插槽来自定义标题 -->
+            <template #title>
+              <span
+                class="custom-title"
+                id="destId"
+                @click="copy()"
+                :data-clipboard-text="item.destructionId"
+                >{{ item.destructionId }}</span
+              >
+            </template>
+          </van-cell>
+        </van-cell-group>
+        <van-list
+          class="list_wrap"
+          v-show="!!destroyList.length"
+          v-model="list.UpRefreshLoading"
+          :finished="!!destroyList.length"
+          finished-text="没有更多了"
+          @load="handleUpRefresh"
+        />
+        <van-empty
+          v-show="!destroyList.length"
+          class="custom-image"
+          :image="require('./../../assets/img/empty.png')"
+          description="暂无任何数据"
+        />
 
-      <van-empty
-        v-show="!destroyList.length"
-        class="custom-image"
-        :image="require('./../../assets/img/empty.png')"
-        description="暂无任何数据"
-      />
-
-      <van-popup
-        v-model="show"
-        position="right"
-        :style="{ height: '730px', width: '80%' }"
-      >
-        <div style="padding: 20px 0 0 20px">筛选时间</div>
-        <div class="tag">
-          <div
-            v-for="(ite, index) in tags"
-            :key="index"
-            :class="active == index ? 'active' : 'noActive'"
-            @click="changeZi(index)"
-          >
-            {{ ite.title }}
+        <van-popup
+          v-model="show"
+          position="right"
+          :style="{ height: '730px', width: '80%' }"
+        >
+          <div style="padding: 20px 0 0 20px">筛选时间</div>
+          <div class="tag">
+            <div
+              v-for="(ite, index) in tags"
+              :key="index"
+              :class="active == index ? 'active' : 'noActive'"
+              @click="changeZi(index)"
+            >
+              {{ ite.title }}
+            </div>
           </div>
-        </div>
-        <div class="date">
-          <van-button round type="default"
-            ><span v-if="start == ''">起始时间</span
-            ><span>{{ start }}</span></van-button
-          >
-          <p style="width: 10px; height: 1px; background: #ccc"></p>
-          <van-button round type="default"
-            ><span v-if="end == ''">截至时间</span
-            ><span>{{ end }}</span></van-button
-          >
-        </div>
+          <div class="date">
+            <van-button round type="default"
+              ><span v-if="start == ''">起始时间</span
+              ><span>{{ start }}</span></van-button
+            >
+            <p style="width: 10px; height: 1px; background: #ccc"></p>
+            <van-button round type="default"
+              ><span v-if="end == ''">截至时间</span
+              ><span>{{ end }}</span></van-button
+            >
+          </div>
 
-        <div class="btn">
-          <van-button round type="default" @click="chongzhi()">重置</van-button>
-          <van-button round type="info" @click="que" :disabled="disabled"
-            >确定</van-button
-          >
-        </div>
-      </van-popup>
-      <van-calendar
-        title="日期选择"
-        v-model="showDate"
-        :show-subtitle="true"
-        type="range"
-        color="#227AEE"
-        @confirm="onConfirm"
-      />
+          <div class="btn">
+            <van-button round type="default" @click="chongzhi()"
+              >重置</van-button
+            >
+            <van-button round type="info" @click="que" :disabled="disabled"
+              >确定</van-button
+            >
+          </div>
+        </van-popup>
+        <van-calendar
+          title="日期选择"
+          v-model="showDate"
+          :show-subtitle="true"
+          type="range"
+          color="#227AEE"
+          @confirm="onConfirm"
+        />
+      </van-pull-refresh>
     </main>
     <footer></footer>
   </div>
@@ -127,12 +138,27 @@ export default {
       start: "",
       end: "",
       destroyList: [],
+      list: {
+        uploading: false,
+        UpRefreshLoading: false,
+        finished: false,
+      },
     };
   },
   created() {
     this.inquiry();
   },
   methods: {
+    // 下拉刷新
+    onRefresh() {
+      this.list.uploading = true;
+      this.inquiry();
+    },
+    // 滚动到底翻页
+    handleUpRefresh() {
+      this.list.UpRefreshLoading = true;
+      this.inquiry();
+    },
     //筛选、取消按钮
     showPopup() {
       if (this.value == "") {
@@ -141,6 +167,7 @@ export default {
         this.value = "";
       }
     },
+    //重置
     chongzhi() {
       this.end = "";
       this.start = "";
@@ -151,11 +178,11 @@ export default {
     //复制
     copy() {
       let clipboard = new Clipboard("#destId");
-      clipboard.on("success", (e) => {
+      clipboard.on("success", () => {
         this.$toast.success("复制成功");
         clipboard.destroy();
       });
-      clipboard.on("error", (e) => {
+      clipboard.on("error", () => {
         this.$toast.fail("复制失败");
         clipboard.destroy();
       });
@@ -239,6 +266,11 @@ export default {
         endDate: endDate || undefined,
       })
         .then((res) => {
+          res.data.items.map((item) => {
+            item.createDate = this.$dayjs(item.createDate).format(
+              "YYYY年MM月DD日"
+            );
+          });
           const { code, items } = res.data;
           if (code) {
             this.$toast.fail({
@@ -352,6 +384,10 @@ export default {
   color: #f37a4c !important;
 }
 .custom-image {
-  margin-top: 25%;
+  margin-top: 10%;
+}
+.dest::-webkit-scrollbar {
+  display: none; //去掉滚动条，不能滚动了；
+  width: 0; //可以滚动，且滚动条不显示；
 }
 </style>

@@ -118,7 +118,6 @@ export default {
 }
 .box {
   background: #fff;
-  height: 100vh;
   color: #666666;
   text-align: center;
   .van-row {
@@ -139,6 +138,6 @@ export default {
   align-items: center;
 }
 .custom-image {
-  margin-top: 25%;
+  margin-top: 10%;
 }
 </style>
