@@ -424,6 +424,7 @@ export default {
             .then(() => {
               this.displayApplicationConditions = true;
               this.isExamine = 0;
+              localStorage.setItem("isExamine", 0);
               localStorage.removeItem("examinequalificationPassed1");
               localStorage.removeItem("examinequalificationPassed2");
               localStorage.removeItem("examinequalificationPassed3");

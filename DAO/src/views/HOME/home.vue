@@ -199,6 +199,7 @@ export default {
         }
       });
     },
+    //弹框点击事件
     buttonClick() {
       this.tanShow = true;
     },

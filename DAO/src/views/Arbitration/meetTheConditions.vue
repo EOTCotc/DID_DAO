@@ -421,6 +421,7 @@ export default {
             getContainer: ".box",
           })
             .then(() => {
+              localStorage.setItem("isArbitrate", 0);
               localStorage.removeItem("qualificationPassed1");
               localStorage.removeItem("qualificationPassed2");
               localStorage.removeItem("qualificationPassed3");

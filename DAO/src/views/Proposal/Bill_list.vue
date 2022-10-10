@@ -7,7 +7,7 @@
       <div>
         <div
           class="one_an"
-          @click="detail(item.proposalId, item.state, IDList)"
+          @click="detail(item.proposalId, item.state)"
           v-for="(item, index) in List"
           :key="index"
         >
@@ -60,7 +60,6 @@ export default {
       title: "我的提案",
       name: "personage",
       List: [],
-      IDList: [],
       isProponent: this.$route.query.isProponent || 1,
     };
   },
@@ -145,7 +144,7 @@ export default {
     detail(id, state) {
       this.$router.push({
         path: "/detail",
-        query: { proposalId: id, state: state, IDList: IDList },
+        query: { proposalId: id, state: state },
       });
     },
   },
