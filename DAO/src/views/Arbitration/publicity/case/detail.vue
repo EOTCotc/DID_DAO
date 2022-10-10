@@ -32,7 +32,7 @@
         <div class="border"></div>
         <div class="rt chunk"></div>
       </div>
-      <div class="type">卖家发起仲裁，仲裁事件为账户冻结</div>
+      <div class="remark">卖家发起仲裁，仲裁事件为{{ getArbitrateInType(info.arbitrateInType) }}</div>
       <div class="row">
         <div class="title">仲裁结果</div>
         <div class="message">
@@ -64,7 +64,7 @@
 <script>
 import pageHeader from "@/components/topBar/pageHeader";
 import {caseDetail} from "@/api/publicity"
-import {transformUTCDate} from '@/utils/utils'
+import {transformUTCDate, getArbitrateInType} from '@/utils/utils'
 
 export default {
   name: "arbitrationCaseDetail",
@@ -77,6 +77,7 @@ export default {
     }
   },
   methods: {
+    getArbitrateInType,
     transformUTCDate,
     // 跳转页面
     go(path, query) {

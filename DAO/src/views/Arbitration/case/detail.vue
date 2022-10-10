@@ -3,54 +3,18 @@
     <page-header title="仲裁案详情"></page-header>
     <div class="content">
       <div class="main">
-        <!-- 举证中 -->
+        <!-- 仲裁已取消 -->
         <van-row
-          v-if="info.status === 0"
+          v-if='info.isCancel'
           class="header"
           type="flex"
           align="center"
         >
-          <van-col :span="12">
-            <van-row type="flex" align="center">
-              <van-icon class="icon" style="margin-right: 5px;" name="underway-o" />
-              <div class="text">双方举证中</div>
-            </van-row>
-          </van-col>
-          <van-col :span="12" class="date">{{ transformUTCDate(info.adduceDate) }}</van-col>
-        </van-row>
-        <!-- 投票中 -->
-        <van-row
-          class="header"
-          type="flex"
-          align="center"
-          justify='space-between'
-          v-else-if="info.status === 1"
-        >
-          <van-col :span="12">
-            <van-row>
-              <van-row type="flex" align="center">
-                <van-icon class="icon" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
-                <van-count-down class='time' :time="info.time" style="color: #237DF4;" format="DD天HH时mm分" />
-              </van-row>
-            </van-row>
-          </van-col>
-          <van-col :span="6" class="date" v-if='!info.hasDelay'>
-            <van-button
-              round
-              plain
-              block
-              size='small'
-              type="primary"
-              color="#237FF8"
-              @click="$router.push({path:'/user/arbitration/case/initiateNewProof', query: { id: info.arbitrateInfoId }})"
-            >
-              重新举证
-            </van-button>
-          </van-col>
+          <van-col :span="24" class="text" style="color: #999;">仲裁已取消</van-col>
         </van-row>
         <!-- 未投票 -->
         <van-row
-          v-else-if="info.voteStatus === 0"
+          v-else-if="info.time < 0 && !info.voteStatus"
           class="header"
           type="flex"
           align="center"
@@ -72,45 +36,83 @@
             -{{ info.eotc }} EOTC
           </van-col>
         </van-row>
-        <!-- 是否胜诉 -->
-        <van-row
-          class="header"
-          type="flex"
-          align="center"
-          v-else
-        >
-          <van-col :span="12">
-            <van-row>
-              <van-col :span="3">
-                <img :src="info.isVictory ? icon1 : icon2" alt="" class="img">
-              </van-col>
-              <van-col
-                class="text"
-                :span="21"
-              >
-                {{ info.isVictory ? '胜诉' : '败诉' }}
-              </van-col>
-            </van-row>
-          </van-col>
-          <van-col
-            v-if="info.isVictory"
-            :span="12"
-            class="date"
-            style="color: #00B87A;">
-            +{{ info.eotc }} EOTC
-          </van-col>
-          <van-col
-            v-else
-            :span="12"
-            class="date"
-            style="color: #FC7542;"
+        <template v-else>
+          <!-- 举证中 -->
+          <van-row
+            v-if="info.status === 0"
+            class="header"
+            type="flex"
+            align="center"
           >
-            -{{ info.eotc }} EOTC
-          </van-col>
-        </van-row>
+            <van-col :span="12">
+              <van-row type="flex" align="center">
+                <van-icon class="icon" style="margin-right: 5px;" name="underway-o" />
+                <div class="text">双方举证中</div>
+              </van-row>
+            </van-col>
+            <van-col :span="12" class="date">{{ transformUTCDate(info.adduceDate) }}</van-col>
+          </van-row>
+          <!-- 投票中 -->
+          <van-row
+            class="header"
+            type="flex"
+            align="center"
+            justify='space-between'
+            v-else-if="info.status === 1"
+          >
+            <van-col :span="12">
+              <van-row>
+                <van-row type="flex" align="center">
+                  <van-icon class="icon" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
+                  <van-count-down class='time' :time="info.time || 0" style="color: #237DF4;" format="DD天HH时mm分" />
+                </van-row>
+              </van-row>
+            </van-col>
+            <van-col :span="6" class="date" v-if='!info.hasDelay && info.voteStatus === 0'>
+              <van-button
+                round
+                plain
+                block
+                size='small'
+                type="primary"
+                color="#237FF8"
+                @click="$router.push({path:'/user/arbitration/case/initiateNewProof', query: { id: info.arbitrateInfoId }})"
+              >
+                重新举证
+              </van-button>
+            </van-col>
+          </van-row>
+          <!-- 是否胜诉 -->
+          <van-row
+            class="header"
+            type="flex"
+            align="center"
+            v-else-if='info.status > 1 && info.voteStatus'
+          >
+            <van-col :span="12">
+              <van-row>
+                <van-col :span="3">
+                  <img :src="info.isVictory ? icon1 : icon2" alt="" class="img">
+                </van-col>
+                <van-col
+                  class="text"
+                  :span="21"
+                >
+                  {{ info.isVictory ? '胜诉' : '败诉' }}
+                </van-col>
+              </van-row>
+            </van-col>
+            <van-col
+              :span="12"
+              class="date"
+              :style="{'color': info.isVictory ? '#00B87A' : '#FC7542'}">
+              {{ info.isVictory ? '+' : '-' }}{{ info.eotc }} EOTC
+            </van-col>
+          </van-row>
+        </template>
         <van-row class="row">
           <van-col :span="12" class="title" style="color: #333">仲裁发起时间</van-col>
-          <van-col :span="12" class="value date">2022.05.26 12:54</van-col>
+          <van-col :span="12" class="value date">{{ transformUTCDate(info.createDate) }}</van-col>
         </van-row>
         <!-- 原被告信息 -->
         <div class="personnel_wrap">
@@ -133,9 +135,9 @@
         <!-- 仲裁结果 -->
         <div class="result_wrap" v-if="info.status > 1">
           <div class="h3">仲裁结果</div>
-          <div class="text">本次参与仲裁判决的仲裁员共计{{ info.total }}人，通过双方提交举证，{{ info.userVote.voteStatus === 1 ? info.plaintiffNum : info.defendantNum }}位仲裁员判定{{ info.userVote.voteStatus === 1 ? '原告' : '被告'}}胜诉</div>
+          <div class="text">本次参与仲裁判决的仲裁员共计{{ info.total }}人，通过双方提交举证，{{ info.plaintiffNum }}位仲裁员判定原告胜诉</div>
           <div class="h3">结案时间</div>
-          <div class="text">{{ transformUTCDate(info.voteDate) }}</div>
+          <div class="text" v-if='info.voteDate'>{{ transformUTCDate(info.voteDate) }}</div>
         </div>
         <!-- 原被告举证 -->
         <div class="evidence_wrap">
@@ -158,9 +160,9 @@
           </ul>
         </div>
         <!-- 订单信息 -->
-        <div class="order_wrap" v-if='false'>
+        <div class="order_wrap">
           <van-collapse v-model="show">
-            <van-collapse-item title="订单详情" name="1">
+            <van-collapse-item title="订单详情" name="1" v-if='false'>
               <van-row class="row">
                 <van-col class="title" :span="6">订单号</van-col>
                 <van-col class="value" :span="18">7777781205789</van-col>
@@ -203,10 +205,9 @@
                   <van-row>
                     <van-col :span="6" class="text name">{{ item.name }}</van-col>
                     <van-col :span="12" class="text phone">{{ item.phone }}</van-col>
-                    <van-col v-if="item.voteStatus === 1" :span="6" class="winner icon icon-court plaintiff"> 原告胜</van-col>
-                    <van-col v-if="item.voteStatus === 2" :span="6" class="winner icon icon-court defendant"> 被告胜</van-col>
+                    <van-col :span="6" class="winner icon icon-court" :class='item.voteStatus === 1 ? "plaintiff" : "defendant"'> {{ item.voteStatus === 1 ? '原告胜' : '被告胜' }}</van-col>
                   </van-row>
-                  <div class="remark">{{item.reason}}</div>
+                  <div class="remark" v-if='item.reason'>{{item.reason}}</div>
                 </li>
               </ul>
             </van-collapse-item>
@@ -214,7 +215,7 @@
         </div>
       </div>
     </div>
-    <van-row class="btn" :gutter="15" v-if='info.status === 1'>
+    <van-row class="btn" :gutter="15" v-if='info.status === 1 && !info.voteStatus && info.time > 0'>
       <van-col :span="12">
         <van-button
           block
@@ -293,8 +294,8 @@ import pageHeader from "@/components/topBar/pageHeader";
 import Popup from "@/components/popup";
 import { detail, sentence as submit } from '@/api/case'
 import {
-  transformUTCDate,
   spliceSrc,
+  transformUTCDate,
   getArbitrateInType
 } from '@/utils/utils'
 import icon1 from '@/assets/imgs/victory.png'
@@ -340,9 +341,14 @@ export default {
             message: "加载失败！"
           })
         } else {
+          if (items.status > 1) {
+            // 判断是否胜诉
+            items.isVictory = (items.status === 2 && items.voteStatus === 1) || (items.status === 3 && items.voteStatus === 2)
+          }
           items.total = items.plaintiffNum + items.defendantNum
           items.adduce = items.adduce.map(item => ({...item, images: item.images.split(',')}))
-          items.time = this.$dayjs(items.status === 0 ? items.adduceDate : items.voteDate).diff(this.$dayjs(), 'millisecond')
+          items.time = this.$dayjs(items.status === 0 ? items.adduceDate : items.voteDate).add('-8', 'hour').diff(this.$dayjs(), 'millisecond')
+          console.log(items.time)
           this.info = items
         }
       }).catch(() => {
@@ -356,8 +362,15 @@ export default {
     },
     // 判决
     sentence(type) {
-      this.status = type;
-      this.$refs.sentence.toggle(true);
+      if (this.$dayjs(this.info.status === 0 ? this.info.adduceDate : this.info.voteDate).add('-8', 'hour').diff(this.$dayjs(), 'millisecond') > 0) {
+        this.status = type;
+        this.$refs.sentence.toggle(true);
+      } else {
+        this.$toast.fail({
+          forbidClick: true,
+          message: "已超过投票时间"
+        })
+      }
     },
     // 隐藏
     hidePopup() {
