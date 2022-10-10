@@ -176,9 +176,6 @@
         <p>
           该仲裁案已结案，如有异议可在结案后七日内进入详情申请再仲裁，注意逾期将无法队此案进行再仲裁
         </p>
-        <!-- <button :disabled="isBtn" :style="isBtn ? 'opacity: 0.5;' : ''">
-          申请再次仲裁
-        </button> -->
       </div>
     </div>
   </div>
@@ -194,7 +191,7 @@ import {
   getclosure,
   setmessageisopen,
 } from "@/api/viewsApi/arbitrationMsg";
-// import { transformUTCDate } from "@/utils/utils";
+
 export default {
   name: "arbitrationMsg",
   data() {
@@ -204,7 +201,6 @@ export default {
       plaintiff: "", //原告
       defendant: "", //被告
       isArbitrate: 0, //是否为仲裁员0是，1是
-      paramsRoute: {}, //路由传的值
       // 有多种情况，所以需要单独拎出来
       arbitrateInType: "", //其他消息
       // 有多种情况，所以需要单独拎出来
@@ -226,8 +222,7 @@ export default {
   mounted() {
     this.isArbitrate = this.$route.query.arbitrateId;
     this.messageType = this.$route.query.messageType;
-    this.paramsRoute = this.$route.query;
-    this.setmessageisopen(this.$route.query.associatedId);
+    this.setmessageisopen();
     if (this.messageType == 0 && this.isArbitrate == 0) {
       this.title = "申请延期";
       this.getarbitratedelay(); // 获取申请延期消息
@@ -249,8 +244,8 @@ export default {
     // 获取申请延期消息
     getarbitratedelay() {
       getarbitratedelay({
-        id: this.paramsRoute.associatedId,
-        isArbitrate: this.paramsRoute.arbitrateId,
+        id: this.$route.query.associatedId,
+        isArbitrate: this.$route.query.arbitrateId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
@@ -294,7 +289,7 @@ export default {
     // 取消仲裁
     getcancelarbitrate() {
       getcancelarbitrate({
-        id: this.paramsRoute.associatedId,
+        id: this.$route.query.associatedId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
@@ -310,7 +305,7 @@ export default {
     // 追加举证
     getadducelist() {
       getadducelist({
-        id: this.paramsRoute.associatedId,
+        id: this.$route.query.associatedId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
@@ -327,8 +322,8 @@ export default {
     // 发起重新举证
     anewPostpone() {
       getarbitratedelay({
-        id: this.paramsRoute.associatedId,
-        isArbitrate: this.paramsRoute.arbitrateId,
+        id: this.$route.query.associatedId,
+        isArbitrate: this.$route.query.arbitrateId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
@@ -344,7 +339,7 @@ export default {
     // 结案通知
     getclosure() {
       getclosure({
-        id: this.paramsRoute.associatedId,
+        id: this.$route.query.associatedId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
@@ -356,18 +351,13 @@ export default {
           this.arbitrateInfoId = data.arbitrateInfoId;
           this.headcount = data.plaintiffNum + data.defendantNum;
           this.plaintiffNum = data.plaintiffNum;
-          // 再次申请仲裁按钮，先注释
-          // let nowTimestamp = new Date().getTime();
-          // let voteDateTimestamp =
-          //   new Date(transformUTCDate(data.voteDate)).getTime() + 604800000;
-          // this.isBtn = nowTimestamp > voteDateTimestamp ? true : false;
         }
       });
     },
     // 设置消息为已读 小红点的显示隐藏
-    setmessageisopen(associatedId) {
+    setmessageisopen() {
       setmessageisopen({
-        id: associatedId,
+        id: this.$route.query.arbitrateMessageId,
       }).then((res) => {
         console.log(res.data, "设置消息为已读");
       });
@@ -705,18 +695,6 @@ export default {
     margin-top: 20px;
     font-size: 28px;
     line-height: 46px;
-  }
-  button {
-    position: absolute;
-    bottom: 60px;
-    left: 5%;
-    width: 90%;
-    height: 96px;
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 48px;
-    background: #1b2945;
   }
 }
 </style>
