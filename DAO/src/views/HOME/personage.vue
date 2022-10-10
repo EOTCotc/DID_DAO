@@ -7,7 +7,7 @@
       <div class="identity-card">
         <div class="card-top">
           <div class="card-top-left">
-            <img src="../../assets/img/logo_two.png" alt="" />
+            <img src="@/assets/img/logo_two.png" />
             <div>
               <div>{{ user.mail }}</div>
               <div>UID:{{ user.uid }}</div>
@@ -17,8 +17,8 @@
         <div class="eotc">
           <div class="sum">总收益(EOTC)</div>
           <div class="ming">
-            <span style="font-size: 28px">{{ user.daoEOTC }}</span
-            ><span @click="detail">收益明细</span>
+            <span style="font-size: 28px">{{ user.daoEOTC }}</span>
+            <span @click="detail">收益明细</span>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
 
 <script>
 import TopBar from "@/components/topBar/topBar";
-import List from "../../components/Nav/List.vue";
+import List from "@/components/Nav/List.vue";
 
 export default {
   components: { TopBar, List },
@@ -40,7 +40,6 @@ export default {
       user: JSON.parse(localStorage.getItem("user")),
     };
   },
-  created() {},
   methods: {
     // 去往详情页
     detail() {

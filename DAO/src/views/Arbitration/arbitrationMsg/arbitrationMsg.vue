@@ -1,13 +1,6 @@
 <template>
   <div class="container">
-    <PageHeader v-if="messageType == 0 && isArbitrate == 0" title="申请延期" />
-    <PageHeader v-else-if="messageType == 1" title="追加举证" />
-    <PageHeader
-      v-else-if="messageType == 0 && isArbitrate == 1"
-      title="发起重新举证"
-    />
-    <PageHeader v-else-if="messageType == 2" title="取消仲裁" />
-    <PageHeader v-else-if="messageType == 3" title="结案通知" />
+    <PageHeader :title="title" />
     <div class="top-line"></div>
 
     <!-- 内容 -->
@@ -30,25 +23,7 @@
             </div>
             <div class="left-via-name">
               <!-- 申请延期 -->
-              <span v-if="messageType == 0 && isArbitrate == 0">
-                {{ postponeObj.plaintiff }}
-              </span>
-              <!-- 追加举证 -->
-              <span v-else-if="messageType == 1">
-                {{ addObj.plaintiff }}
-              </span>
-              <!-- 发起重新举证 -->
-              <span v-else-if="messageType == 0 && isArbitrate == 1">
-                {{ anewObj.plaintiff }}
-              </span>
-              <!-- 取消仲裁 -->
-              <span v-else-if="messageType == 2">
-                {{ cancelObj.plaintiff }}
-              </span>
-              <!-- 结案通知 -->
-              <span v-else-if="messageType == 3">
-                {{ closureObj.plaintiff }}
-              </span>
+              <span> {{ plaintiff }}</span>
               <span class="seller">(卖家)</span>
             </div>
             <div class="left-ticket" v-if="messageType == 3">
@@ -68,25 +43,7 @@
             <div class="right-via-name">
               <span class="purchaser">(买家)</span>
               <!-- 申请延期 -->
-              <span v-if="messageType == 0 && isArbitrate == 0">
-                {{ postponeObj.defendant }}
-              </span>
-              <!-- 追加举证 -->
-              <span v-else-if="messageType == 1">
-                {{ addObj.defendant }}
-              </span>
-              <!-- 发起重新举证 -->
-              <span v-else-if="messageType == 0 && isArbitrate == 1">
-                {{ anewObj.defendant }}
-              </span>
-              <!-- 取消仲裁 -->
-              <span v-else-if="messageType == 2">
-                {{ cancelObj.defendant }}
-              </span>
-              <!-- 结案通知 -->
-              <span v-else-if="messageType == 3">
-                {{ closureObj.defendant }}
-              </span>
+              <span>{{ defendant }}</span>
             </div>
             <div class="right-ticket" v-if="messageType == 3">
               {{ closureObj.defendantNum }}票
@@ -242,7 +199,10 @@ export default {
   name: "arbitrationMsg",
   data() {
     return {
+      title: "", //导航栏title
       messageType: 0, //消息类型0 申请延期 1 追加举证 2 仲裁取消 3 结案通知
+      plaintiff: "", //原告
+      defendant: "", //被告
       isArbitrate: 0, //是否为仲裁员0是，1是
       paramsRoute: {}, //路由传的值
       // 有多种情况，所以需要单独拎出来
@@ -267,16 +227,21 @@ export default {
     this.isArbitrate = this.$route.query.arbitrateId;
     this.messageType = this.$route.query.messageType;
     this.paramsRoute = this.$route.query;
-    this.setmessageisopen(this.$route.query.associatedId)
+    this.setmessageisopen(this.$route.query.associatedId);
     if (this.messageType == 0 && this.isArbitrate == 0) {
+      this.title = "申请延期";
       this.getarbitratedelay(); // 获取申请延期消息
     } else if (this.messageType == 1) {
+      this.title = "追加举证";
       this.getadducelist(); // 追加举证
     } else if (this.messageType == 0 && this.isArbitrate == 1) {
+      this.title = "发起重新举证";
       this.anewPostpone(); // 发起重新举证
     } else if (this.messageType == 2) {
+      this.title = "取消仲裁";
       this.getcancelarbitrate(); // 取消仲裁
     } else if (this.messageType == 3) {
+      this.title = "结案通知";
       this.getclosure(); // 结案通知
     }
   },
@@ -291,6 +256,8 @@ export default {
           let data = res.data.items;
           console.log(data, "申请延期");
           this.postponeObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -333,6 +300,8 @@ export default {
           let data = res.data.items;
           console.log(data, "取消仲裁");
           this.cancelObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -348,6 +317,8 @@ export default {
           data.images = data.images.split(",");
           console.log(data, "追加举证");
           this.addObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -363,6 +334,8 @@ export default {
           let data = res.data.items;
           console.log(data, "发起重新举证");
           this.anewObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -377,6 +350,8 @@ export default {
           let data = res.data.items;
           console.log(data, "结案通知");
           this.closureObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
           this.headcount = data.plaintiffNum + data.defendantNum;
@@ -393,9 +368,9 @@ export default {
     setmessageisopen(associatedId) {
       setmessageisopen({
         id: associatedId,
-      }).then(res=>{
-        console.log(res.data,'设置消息为已读');
-      })
+      }).then((res) => {
+        console.log(res.data, "设置消息为已读");
+      });
     },
     // 去往详情页
     toPages() {
