@@ -7,8 +7,7 @@
       <div class="identity-card">
         <div class="card-top">
           <div class="card-top-left">
-            <img src="../../assets/img/logo_two.png"
-                 alt="" />
+            <img src="@/assets/img/logo_two.png" />
             <div>
               <div>{{ user.mail }}</div>
               <div>UID:{{ user.uid }}</div>
@@ -75,7 +74,6 @@ export default {
       user: JSON.parse(localStorage.getItem('user')),
     }
   },
-  created() {},
   methods: {
     // 去往详情页
     detail() {

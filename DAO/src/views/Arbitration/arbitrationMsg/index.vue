@@ -5,13 +5,7 @@
       <ul v-if="list.length != 0">
         <li
           v-for="(item, index) in list"
-          @click="
-            toArbitrationMsg(
-              item.messageType,
-              item.associatedId,
-              item.isArbitrate
-            )
-          "
+          @click="toArbitrationMsg(item)"
           :key="index"
         >
           <img :src="item.messageType == 0 ? shen_qing : tong_zhi" />
@@ -114,10 +108,11 @@ export default {
       return fomatd;
     },
     // 去消息详情
-    toArbitrationMsg(messageType, associatedId, arbitrateId) {
+    toArbitrationMsg(item) {
+      let { messageType, arbitrateMessageId, associatedId, arbitrateId } = item;
       this.$router.push({
         path: "/arbitrationMsg",
-        query: { messageType, associatedId, arbitrateId },
+        query: { messageType, arbitrateMessageId, associatedId, arbitrateId },
       });
     },
   },
