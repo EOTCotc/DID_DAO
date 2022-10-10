@@ -7,7 +7,7 @@
     <main class="box">
       <div>
         <div class="one_an"
-             @click="detail(item.proposalId, item.state,IDList)"
+             @click="detail(item.proposalId, item.state)"
              v-for="(item, index) in List"
              :key="index">
           <div>{{ item.title }}</div>
@@ -58,7 +58,6 @@ export default {
       title: '我的提案',
       name: 'personage',
       List: [],
-      IDList: [],
       isProponent: this.$route.query.isProponent || 1,
     }
   },
@@ -84,15 +83,8 @@ export default {
               message: '加载失败！',
             })
           } else {
-            this.List = items.map((item) => {
-              item.total =
-                Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
-                Number(
-                  localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
-                )
-              return item
-            })
+            this.List = items
+            // console.log(this.List, '1111')
           }
         })
         .catch(() => {
@@ -114,15 +106,7 @@ export default {
               message: '加载失败！',
             })
           } else {
-            this.List = items.map((item) => {
-              item.total =
-                Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-                Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
-                Number(
-                  localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
-                )
-              return item
-            })
+            this.List = items
           }
         })
         .catch(() => {
@@ -156,6 +140,13 @@ export default {
   overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
+}
+footer {
+  height: 170px;
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 footer {
   height: 170px;

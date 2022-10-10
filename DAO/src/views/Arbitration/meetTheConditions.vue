@@ -131,8 +131,10 @@
             <div>申请时间</div>
             <div>
               {{
-                $dayjs( ArbitratorsIdentityInformation.createDate).utc().format("YYYY-MM-DD hh:mm:ss")
-            }}
+                $dayjs(ArbitratorsIdentityInformation.createDate)
+                  .utc()
+                  .format("YYYY-MM-DD hh:mm:ss")
+              }}
             </div>
           </div>
           <div>
@@ -426,6 +428,7 @@ export default {
                 localStorage.getItem('qualificationPassed')
               )
               this.displayApplicationConditions = true
+              localStorage.setItem('isArbitrate', 0)
               TerminationArbitrator()
               // on confirm
             })

@@ -24,12 +24,14 @@
                 path: '/Bill_list',
                 query: { isProponent: 0, home: 'home' },
               })
-            ">
+            "
+                v-if="proposalList.length != 0">
             {{ $t("home.more") }}
             <van-icon name="arrow"
                       color="#fff" />
           </span>
         </div>
+        <!-- 最新提案 -->
         <div class="list-box"
              v-if="proposalList.length != 0">
           <div class="list-every"
@@ -41,11 +43,13 @@
                 query: {
                   proposalId: item.proposalId,
                   isProponent: 0,
-                  state: item.state,
+                  state: item.state
                 },
               })
             ">
+            <!-- 提案标题 -->
             <div class="every-title">{{ item.title }}</div>
+            <!-- 提案状态 -->
             <div class="every-type">
               <span>{{ item.total }}{{ $t("home.company") }}</span>
               <div class="every-status">
@@ -123,6 +127,7 @@ import TopBar from '@/components/topBar/topBar'
 import Notification from '@/components/notification'
 import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
 import { loadweb3 } from '@/utils/web3.js'
+import { getdaoinfo } from '@/api/earnings'
 export default {
   components: { TopBar, Notification },
   name: 'home',
@@ -136,25 +141,49 @@ export default {
       ],
       tanShow: false,
       proposalList: [], //提案列表
+      riskShow: this.cookie.get('riskShow'),
     }
   },
   mounted() {
-    loadweb3(this.handle)
+    if (localStorage.getItem('myaddress')) {
+      //有钱包地址
+      this.handle
+    } else {
+      //没有钱包地址
+      loadweb3(this.handle)
+    }
   },
   methods: {
+    getLocal() {
+      // 获取用户信息
+      getdaoinfo().then((res) => {
+        this.user = res.data.items
+        localStorage.setItem('user', JSON.stringify(res.data.items))
+        localStorage.setItem('items', res.data.items.daoEOTC)
+        localStorage.setItem('uid', res.data.items.uid)
+        localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
+        localStorage.setItem('isExamine', res.data.items.isExamine)
+        localStorage.setItem('authType', res.data.items.authType)
+      })
+    },
     handle() {
       this.getuserrisklevel()
       this.getProposal()
+      this.getLocal()
     },
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
           this.cookie.set('riskLevel', res.data.items)
-          if (res.data.items == 2) {
+          this.cookie.set('riskShow', 'false')
+          if (res.data.items == 2 && !this.riskShow) {
             this.$nextTick().then(() => {
               this.$refs.notification.toggle(true)
             })
+          }
+          if (res.data.items == 2 && this.riskShow) {
+            this.tanShow = true
           }
         }
       })
@@ -167,15 +196,6 @@ export default {
       getproposallist({ page: 1, itemsPerPage: 10 }).then((res) => {
         if (res.data.code == 0) {
           this.proposalList = res.data.items
-          this.proposalList = this.proposalList.map((item) => {
-            item.total =
-              Number(localStorage.getItem(`favorVotes+${item.proposalId}`)) +
-              Number(localStorage.getItem(`opposeVotes+${item.proposalId}`)) +
-              Number(
-                localStorage.getItem(`InitialpeopleNum+${item.proposalId}`)
-              )
-            return item
-          })
         }
       })
     },

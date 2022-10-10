@@ -41,9 +41,9 @@
            ref="jindu">
         <div class="tou">
           投票进度
-          <span class="hui"><span>{{ text }}</span>{{ $dayjs(createDate).utc().format("YYYY年MM月DD ") }}</span>
+          <span class="hui"><span>{{ text }}</span>{{createDate}}</span>
         </div>
-        <div>共{{ peopleNum }}人参与</div>
+        <div>共{{ InitialpeopleNum }}人参与</div>
         <van-progress :track-color="trackColor"
                       :percentage="percentageVotes"
                       v-if="!isNaN(parseInt(percentageVotes))"
@@ -52,13 +52,13 @@
                       stroke-width="12" />
         <div class="num"
              v-if="isVote1">
-          <span style="color: #00b87a">{{ peopleNum }}</span>/99
+          <span style="color: #00b87a">{{ InitialpeopleNum }}</span>/99
         </div>
         <div class="num vote"
              v-if="isVote == false"
              style="font-size: 14px">
-          <div v-if="favorVotes == 0 && opposeVotes == 0">
-            <span>赞成票{{ favorVotes + "%" }}</span>反对票{{ opposeVotes + "%" }}
+          <div v-if="InitialopposeVotes == 0 && InitialfavorVotes == 0">
+            <span>赞成票{{ InitialfavorVotes + "%" }}</span>反对票{{ InitialopposeVotes + "%" }}
           </div>
           <div v-else>
             <span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}
@@ -68,13 +68,13 @@
         <div class="num vote"
              v-if="isVote == false">
           <div>
-            <span style="color: #00b87a">{{ favorVotes }}票</span>{{ opposeVotes }}票
+            <span style="color: #00b87a">{{ InitialfavorVotes }}票</span>{{ InitialopposeVotes}}票
           </div>
         </div>
-        <div v-if="peopleNum < 99">
+        <div v-if="InitialpeopleNum < 99">
           该提案需要99人投票才能取得进展，作者可以随时终止
         </div>
-        <div v-if="peopleNum == 99">该提案已99人投票参与,投票已完成</div>
+        <div v-if="InitialpeopleNum == 99">该提案已99人投票参与,投票已完成</div>
       </div>
       <div class="jindu">
         <div class="xiang">
@@ -125,18 +125,16 @@ export default {
       isProponent: this.$route.query.isProponent || 1,
       List: {},
       isVote: true,
-      Votes: 1,
+      Votes: 0,
       isVOTE: null,
       isVote1: true,
       percentageVotes: 0,
       flag: false,
-      favorVotes: 0,
       peopleNum: 0,
-      opposeVotes: 0,
       createDate: '',
-      InitialpeopleNum: undefined,
-      InitialopposeVotes: undefined,
-      InitialfavorVotes: undefined,
+      InitialpeopleNum: 0,
+      InitialopposeVotes: 0,
+      InitialfavorVotes: 0,
       dataList: {},
       that: null,
     }
@@ -156,37 +154,18 @@ export default {
       getproposal(data)
         .then((res) => {
           console.log(res.data.items, 'res.data.items')
+          res.data.items.createDate = this.$dayjs(res.data.items.createDate)
+            .utc()
+            .format('YYYY年MM月DD')
           this.List = res.data.items
           this.InitialpeopleNum = this.List.peopleNum
           this.InitialopposeVotes = this.List.opposeVotes
           this.InitialfavorVotes = this.List.favorVotes
-          // this.InitialpeopleNum = 10
-          // this.InitialopposeVotes = 4
-          // this.InitialfavorVotes = 6
           this.pre()
           localStorage.setItem(
             `InitialpeopleNum+${this.proposalId}`,
             this.InitialpeopleNum
           )
-          if (localStorage.getItem(`InitialpeopleNum+${this.proposalId}`)) {
-            localStorage.removeItem(`InitialpeopleNum+${this.proposalId}`)
-            localStorage.setItem(
-              `InitialpeopleNum+${this.proposalId}`,
-              this.InitialpeopleNum
-            )
-          }
-          if (
-            Boolean(localStorage.getItem(`createDate+${this.proposalId}`)) ==
-            false
-          ) {
-            localStorage.setItem(
-              `createDate+${this.proposalId}`,
-              this.List.createDate
-            )
-            this.createDate = localStorage.getItem(
-              `createDate+${this.proposalId}`
-            )
-          }
         })
         .catch(() => {
           this.$toast.fail({
@@ -225,60 +204,65 @@ export default {
         this.List.walletAddress.slice(0, 4) +
         '...' +
         this.List.walletAddress.slice(-4)
-      this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
-      this.favorVotes =
-        this.InitialfavorVotes +
-        Number(localStorage.getItem(`favorVotes+${this.proposalId}`))
-      ;(this.peopleNum =
-        this.InitialpeopleNum +
-        Number(localStorage.getItem(`favorVotes+${this.proposalId}`)) +
-        Number(localStorage.getItem(`opposeVotes+${this.proposalId}`))),
-        (this.opposeVotes =
-          this.InitialopposeVotes +
-          Number(localStorage.getItem(`opposeVotes+${this.proposalId}`)))
-      console.log(
-        this.opposeVotes,
-        this.peopleNum,
-        this.percentageVotes,
-        this.InitialopposeVotes,
-        this.List.opposeVotes,
-        'this.opposeVotes'
-      )
+      this.createDate =
+        localStorage.getItem(`createDate+${this.proposalId}`) ||
+        this.List.createDate
       if (this.state == 0) {
         if (this.List.isVote != 0) {
           this.isVote = false
           this.isVote1 = false
-          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+          this.percentageVotes =
+            (this.InitialfavorVotes /
+              (this.InitialfavorVotes + this.InitialopposeVotes)) *
+            100
+          this.valueColor = '#00B87A'
           this.trackColor = '#FC7542'
         } else {
-          this.percentageVotes = this.peopleNum
+          this.percentageVotes = this.InitialpeopleNum
         }
       }
       if (this.state != 2 && this.state != 0) {
         this.isVote = false
         this.isVote1 = false
         this.text = '投票结束'
-        if (this.peopleNum == 0) {
+        if (this.InitialpeopleNum == 0) {
           this.percentageVotes = 0
         } else {
-          this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+          this.percentageVotes =
+            (this.InitialfavorVotes /
+              (this.InitialfavorVotes + this.InitialopposeVotes)) *
+            100
           this.trackColor = '#FC7542'
         }
       }
 
       if (this.flag == false && this.state == 2) {
-        this.percentageVotes = this.peopleNum
+        this.percentageVotes = this.InitialpeopleNum
       }
-      if (this.peopleNum == 99) {
+      if (this.InitialpeopleNum == 99) {
         console.log('提案成功')
-        this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
+        this.text = '投票结束'
+        this.percentageVotes =
+          (this.InitialfavorVotes /
+            (this.InitialfavorVotes + this.InitialopposeVotes)) *
+          100
         this.trackColor = '#FC7542'
         this.isVote = false
         this.isVote1 = false
         this.List.state = 1
+        if (this.InitialfavorVotes > this.InitialopposeVotes) {
+          this.List.state = 2
+          this.state = 2
+        } else {
+          this.List.state = 1
+          this.state = 1
+        }
         if (localStorage.getItem(`createDate+${this.proposalId}`)) {
           localStorage.removeItem(`createDate+${this.proposalId}`)
-          localStorage.setItem(`createDate+${this.proposalId}`, new Date())
+          localStorage.setItem(
+            `createDate+${this.proposalId}`,
+            this.$dayjs(new Date()).format('YYYY年MM月DD')
+          )
         }
         this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
       }
@@ -304,11 +288,10 @@ export default {
           Toast('取消成功')
           this.text = '投票结束'
           this.isVote = false
-          this.isVote1 = false
-          if (localStorage.getItem(`createDate+${this.proposalId}`)) {
-            localStorage.removeItem(`createDate+${this.proposalId}`)
-            localStorage.setItem(`createDate+${this.proposalId}`, new Date())
-          }
+          localStorage.setItem(
+            `createDate+${this.proposalId}`,
+            this.$dayjs(new Date()).format('YYYY年MM月DD')
+          )
           this.createDate = localStorage.getItem(
             `createDate+${this.proposalId}`
           )
@@ -321,68 +304,39 @@ export default {
       this.flag = true
       let data = {
         proposalId: this.proposalId,
-        radio: +this.radio,
+        vote: +this.radio,
       }
-      this.peopleNum += 1
+      this.InitialpeopleNum += 1
       if (this.items >= 100) {
         proposalvote(data).then(() => {
           this.$refs.jindu.style.height = '270.5px'
-          if (this.peopleNum <= 99) {
+          if (this.InitialpeopleNum < 99) {
             if (this.radio == 1) {
+              this.Votes = this.items / 100
               Toast(`投出${this.Votes}赞成票`)
               this.List.peopleNum++
-              this.List.favorVotes++
-              this.favorVotes = this.List.peopleNum
-              if (localStorage.getItem(`favorVotes+${this.proposalId}`)) {
-                this.favorVotes += Number(
-                  localStorage.getItem(`favorVotes+${this.proposalId}`)
-                )
-                localStorage.removeItem(`favorVotes+${this.proposalId}`)
-              }
-              localStorage.setItem(
-                `favorVotes+${this.proposalId}`,
-                this.favorVotes
-              )
-              this.percentageVotes = (100 / this.peopleNum) * this.favorVotes
-              console.log(
-                this.favorVotes,
-                this.peopleNum,
-                this.List.peopleNum,
-                this.List.favorVotes,
-                this.percentageVotes,
-                this.InitialopposeVotes,
-                '赞成票'
-              )
+              this.List.favorVotes += this.Votes
+              this.InitialfavorVotes = this.Votes
+              this.percentageVotes =
+                ((this.InitialfavorVotes + this.InitialopposeVotes) /
+                  this.InitialfavorVotes) *
+                100
             } else {
+              this.Votes = this.items / 100
               Toast(`投出${this.Votes}反对票`)
               this.List.peopleNum++
-              this.List.opposeVotes++
-              this.opposeVotes = this.List.peopleNum
-              if (localStorage.getItem(`opposeVotes+${this.proposalId}`)) {
-                this.opposeVotes += Number(
-                  localStorage.getItem(`opposeVotes+${this.proposalId}`)
-                )
-                localStorage.removeItem(`opposeVotes+${this.proposalId}`)
-              }
-              localStorage.setItem(
-                `opposeVotes+${this.proposalId}`,
-                this.opposeVotes
-              )
-              this.percentageVotes = (100 / this.peopleNum) * this.opposeVotes
-              console.log(this.percentageVotes, '反对票')
+              this.List.opposeVotes += this.Votes
+              this.InitialopposeVotes = this.Votes
+              this.percentageVotes =
+                ((this.InitialfavorVotes + this.InitialopposeVotes) /
+                  this.InitialopposeVotes) *
+                100
             }
-            if (this.opposeVotes != 0) this.trackColor = '#FC7542'
-            if (this.favorVotes == 0) this.valueColor = '#FC7542'
+            if (this.InitialopposeVotes != 0) this.trackColor = '#FC7542'
+            if (this.InitialfavorVotes == 0) this.valueColor = '#FC7542'
             this.isVote = false
             this.isVote1 = false
             this.List.isVote = 1
-          } else {
-            Dialog.alert({
-              title: '提案投票',
-              message: '该提案已经有99人投票',
-            }).then(() => {
-              // on close
-            })
           }
         })
       } else {
@@ -399,14 +353,18 @@ export default {
     TotalOpposeVotes() {
       return (
         parseInt(
-          (this.opposeVotes / (this.favorVotes + this.opposeVotes)) * 100
+          (this.InitialopposeVotes /
+            (this.InitialfavorVotes + this.InitialopposeVotes)) *
+            100
         ) + '%'
       )
     },
     TotalFavorVotes() {
       return (
         parseInt(
-          (this.favorVotes / (this.favorVotes + this.opposeVotes)) * 100
+          (this.InitialfavorVotes /
+            (this.InitialfavorVotes + this.InitialopposeVotes)) *
+            100
         ) + '%'
       )
     },

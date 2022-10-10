@@ -121,7 +121,7 @@ import Notification from "@/components/notification";
 import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import { risklevel } from "@/api/risk";
+import {risklevel} from '@/api/risk'
 export default {
   data() {
     return {
@@ -145,7 +145,7 @@ export default {
     risklevel().then((res) => {
       const { code, items: level } = res.data;
       if (code === 0) {
-        this.cookie.set("riskLevel", level);
+        this.cookie.set('riskLevel', level)
         if (level === 2) {
           this.$nextTick().then(() => {
             this.$refs.notification.toggle(true);
@@ -265,7 +265,7 @@ export default {
   .big_bg_logo {
     margin-top: -40px;
     img {
-      width: 100%;
+      width:100%;
       height: 100%;
     }
   }

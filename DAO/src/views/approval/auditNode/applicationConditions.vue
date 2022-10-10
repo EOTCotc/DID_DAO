@@ -131,15 +131,17 @@
             <div>申请时间</div>
             <div>
               {{
-                 $dayjs( ArbitratorsIdentityInformation.createDate).utc().format("YYYY-MM-DD hh:mm:ss")
-            }}
+                $dayjs(ArbitratorsIdentityInformation.createDate)
+                  .utc()
+                  .format("YYYY-MM-DD hh:mm:ss")
+              }}
             </div>
           </div>
         </div>
         <div class="bottom">
           <div>
             <div>处理审核(个)</div>
-            <div>{{ArbitratorsIdentityInformation.examineNum}}</div>
+            <div>{{ ArbitratorsIdentityInformation.examineNum }}</div>
           </div>
           <div class="line"></div>
           <div>
@@ -407,6 +409,7 @@ export default {
             .then(() => {
               this.displayApplicationConditions = true
               this.isExamine = 0
+              localStorage.setItem('isExamine', 0)
               localStorage.removeItem('examinequalificationPassed1')
               localStorage.removeItem('examinequalificationPassed2')
               localStorage.removeItem('examinequalificationPassed3')

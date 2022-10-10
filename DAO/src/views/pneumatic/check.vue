@@ -26,7 +26,7 @@
           </div>
           <div
             class="upload_wrap step-2"
-            v-show="authStatus == 0 || authStatus == 1"
+            v-if="authStatus == 0 || authStatus == 1"
           >
             <div class="title">
               核对记录<span>(对方真实手持证件照及核对部分过程)</span>
@@ -41,20 +41,20 @@
               />
             </div>
           </div>
-          <div v-show="authStatus == 2" class="upload_wrap step-2">
+          <div v-if="authStatus == 2" class="upload_wrap step-2">
             <div class="title">
               核对记录<span>(对方真实手持证件照及核对部分过程)</span>
             </div>
             <van-image
               width="60"
               height="60"
-              v-for="(item, index) in user.image"
+              v-for="(item, index) in imagesZu"
               :key="index"
               :src="spliceSrc(item)"
             />
           </div>
         </div>
-        <div class="btns" v-show="authStatus == 0">
+        <div class="btns" v-if="authStatus == 0">
           <van-button
             round
             size="small"
@@ -67,7 +67,7 @@
             >身份核对成功</van-button
           >
         </div>
-        <div class="btns" v-show="authStatus == 2 && remedyMax == true">
+        <div class="btns" v-if="authStatus == 2 && remedyMax == true">
           <van-button
             round
             size="small"
@@ -79,7 +79,7 @@
             >解除异常</van-button
           >
         </div>
-        <div class="btns" v-show="remedyShow == true">
+        <div class="btns" v-if="remedyShow == true">
           <van-button round color="#E8F2FF" class="frist">取消解除</van-button>
           <van-button round size="small" color="#237FF8" @click="subRemedy()"
             >确定解除</van-button
@@ -116,7 +116,7 @@ export default {
       authStatus: 0,
       over_show: false,
       user: {},
-
+      imagesZu: [],
       imagesArr: [],
       remedyShow: false,
       remedyMax: true,
@@ -165,10 +165,8 @@ export default {
       getuserinfo({
         userRiskId: this.id,
       }).then((res) => {
-        if (res.data.items.images != null) {
-          res.data.items.image = res.data.items.image.split(",");
-        }
-        console.log((res.data.items.image = res.data.items.image.split(",")));
+        this.imagesZu =
+          res.data.items.image == null ? "[]" : res.data.items.image.split(",");
         this.user = res.data.items;
         this.getWatermarkImg(this.user.portraitImage)
           .then((res) => {

@@ -19,10 +19,10 @@
       <van-col class="value" :span="24">
         <van-row :gutter="20">
           <van-col :span="12">
-            <img :src="spliceSrc(info.portraitImage)" alt="" class="img">
+            <img :src="info.portraitImage" alt="" class="img">
           </van-col>
           <van-col :span="12">
-            <img :src="spliceSrc(info.nationalImage)" alt="" class="img">
+            <img :src="info.nationalImage" alt="" class="img">
           </van-col>
         </van-row>
       </van-col>
@@ -30,7 +30,7 @@
     <van-row class="row">
       <van-col class="title" :span="24">手持证件照</van-col>
       <van-col class="value" :span="24">
-        <img :src="spliceSrc(info.handHeldImage)" alt="" class="img">
+        <img :src="info.handHeldImage" alt="" class="img">
       </van-col>
     </van-row>
   </div>
@@ -40,7 +40,7 @@
 <script>
 import PageHeader from "@/components/topBar/pageHeader";
 import {personnelInfo} from "@/api/case"
-import {spliceSrc} from '@/utils/utils'
+import {getImg} from '@/api/approval/identity'
 
 export default {
   name: "plaintiff",
@@ -52,7 +52,12 @@ export default {
     }
   },
   methods: {
-    spliceSrc,
+    async getWatermarkImg(src) {
+      const res = await getImg(src)
+      const blob = new window.Blob([res.data], {type: res.type})
+      const url = window.URL.createObjectURL(blob)
+      return url
+    },
     getPersonnelInfo() {
       const loading = this.$toast.loading('加载中…')
       personnelInfo(this.$route.query.id).then(res => {
@@ -60,9 +65,19 @@ export default {
         if (code) {
           this.$toast.fail('获取失败')
         } else {
+          this.getWatermarkImg(items.portraitImage).then(res => {
+            items.portraitImage = res
+          }).then(() => {
+            this.getWatermarkImg(items.nationalImage).then(res => {
+              items.nationalImage = res
+            })
+          }).then(() => {
+            this.getWatermarkImg(items.handHeldImage).then(res => {
+              items.handHeldImage = res
+            })
+          })
           this.info = items
           this.pageHeaderTitle = `${this.$route.query.type === 1 ? '原告' : '被告'} ${items.name}`
-          console.log(items)
         }
       }).catch(() => {
         this.$toast.fail('获取失败')
