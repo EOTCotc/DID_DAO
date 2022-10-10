@@ -407,14 +407,14 @@ export default {
             getContainer: '.box',
           })
             .then(() => {
-              this.displayApplicationConditions = true
-              this.isExamine = 0
-              localStorage.setItem('isExamine', 0)
-              localStorage.removeItem('examinequalificationPassed1')
-              localStorage.removeItem('examinequalificationPassed2')
-              localStorage.removeItem('examinequalificationPassed3')
-              localStorage.removeItem('examinequalificationPassed4')
-              localStorage.removeItem('examinequalificationPassed')
+              this.displayApplicationConditions = true;
+              this.isExamine = 0;
+              localStorage.setItem("isExamine", 0);
+              localStorage.removeItem("examinequalificationPassed1");
+              localStorage.removeItem("examinequalificationPassed2");
+              localStorage.removeItem("examinequalificationPassed3");
+              localStorage.removeItem("examinequalificationPassed4");
+              localStorage.removeItem("examinequalificationPassed");
               this.examinequalificationPassed1 = Boolean(
                 localStorage.getItem('examinequalificationPassed1')
               )

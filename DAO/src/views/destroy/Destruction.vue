@@ -167,6 +167,7 @@ export default {
         this.value = "";
       }
     },
+    //重置
     chongzhi() {
       this.end = "";
       this.start = "";
@@ -177,11 +178,11 @@ export default {
     //复制
     copy() {
       let clipboard = new Clipboard("#destId");
-      clipboard.on("success", (e) => {
+      clipboard.on("success", () => {
         this.$toast.success("复制成功");
         clipboard.destroy();
       });
-      clipboard.on("error", (e) => {
+      clipboard.on("error", () => {
         this.$toast.fail("复制失败");
         clipboard.destroy();
       });

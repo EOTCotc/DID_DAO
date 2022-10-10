@@ -14,7 +14,7 @@
           >
             <van-cell :title="item.name" :value="item.createDate" />
             <van-cell :title="item.reason" :border="false" />
-            <div class="btn" v-show="item.authStatus == 0">
+            <div class="btn" v-if="item.authStatus == 0">
               <van-button
                 round
                 size="small"
@@ -31,7 +31,7 @@
                 >解除风控</van-button
               >
             </div>
-            <div class="btn" v-show="item.authStatus == 1">
+            <div class="btn" v-if="item.authStatus == 1">
               <van-button round size="small" color="#00B87A" plain
                 ><van-icon
                   name="passed"
@@ -46,7 +46,7 @@
                 >解除风控</van-button
               >
             </div>
-            <div class="btn" v-show="item.authStatus == 2">
+            <div class="btn" v-if="item.authStatus == 2">
               <van-button
                 round
                 size="small"

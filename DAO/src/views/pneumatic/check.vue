@@ -80,7 +80,9 @@
           >
         </div>
         <div class="btns" v-if="remedyShow == true">
-          <van-button round color="#E8F2FF" class="frist">取消解除</van-button>
+          <van-button round color="#E8F2FF" class="frist" @click="quxiao()"
+            >取消解除</van-button
+          >
           <van-button round size="small" color="#237FF8" @click="subRemedy()"
             >确定解除</van-button
           >
@@ -159,6 +161,11 @@ export default {
           history.go(-1);
         }
       });
+    },
+    //取消解除
+    quxiao() {
+      this.remedyShow = false;
+      this.remedyMax = true;
     },
 
     userInfo() {

@@ -407,11 +407,12 @@ export default {
             getContainer: '.box',
           })
             .then(() => {
-              localStorage.removeItem('qualificationPassed1')
-              localStorage.removeItem('qualificationPassed2')
-              localStorage.removeItem('qualificationPassed3')
-              localStorage.removeItem('qualificationPassed4')
-              localStorage.removeItem('qualificationPassed')
+              localStorage.setItem("isArbitrate", 0);
+              localStorage.removeItem("qualificationPassed1");
+              localStorage.removeItem("qualificationPassed2");
+              localStorage.removeItem("qualificationPassed3");
+              localStorage.removeItem("qualificationPassed4");
+              localStorage.removeItem("qualificationPassed");
               this.qualificationPassed1 = Boolean(
                 localStorage.getItem('qualificationPassed1')
               )
