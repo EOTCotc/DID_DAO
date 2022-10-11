@@ -1,5 +1,5 @@
 <template>
-  <div class="meun"
+  <div class="fullscreen bg-gray"
        ref="meun">
     <header ref="headerHeight">
       <div class="nav_an_box">
@@ -20,30 +20,30 @@
         <div class="piao">
           <span v-if="state == 0">
             <div class="ion"></div>
-            进行中
+            {{$t("home.status1")}}
           </span>
           <span v-if="state == 1">
             <div class="ion two"></div>
-            未通过
+            {{$t("home.status2")}}
           </span>
           <span v-if="state == 2">
             <div class="ion three"></div>
-            已通过
+            {{$t("home.status3")}}
           </span>
           <span v-if="state == 3">
             <div class="ion fhire"></div>
-            已终止
+            {{$t("home.status4")}}
           </span>
-          <span>{{ List.walletAddress }}提议</span>
+          <span>{{ List.walletAddress }}{{$t("Detailsofproposal.propose")}}</span>
         </div>
       </div>
       <div class="jindu"
            ref="jindu">
         <div class="tou">
-          投票进度
+          {{$t("Detailsofproposal.schedule")}}
           <span class="hui"><span>{{ text }}</span>{{ createDate }}</span>
         </div>
-        <div>共{{ InitialpeopleNum }}人参与</div>
+        <div>{{$t("Detailsofproposal.inall1")}}{{ InitialpeopleNum }}{{$t("Detailsofproposal.inall2")}}</div>
         <van-progress :track-color="trackColor"
                       :percentage="percentageVotes"
                       v-if="!isNaN(parseInt(percentageVotes))"
@@ -58,27 +58,27 @@
              v-if="isVote == false"
              style="font-size: 14px">
           <div v-if="InitialopposeVotes == 0 && InitialfavorVotes == 0">
-            <span>赞成票{{ InitialfavorVotes + "%" }}</span>反对票{{ InitialopposeVotes + "%" }}
+            <span> {{$t("Detailsofproposal.favorVotes")}}{{ InitialfavorVotes + "%" }}</span>{{$t("Detailsofproposal.opposeVotes")}}{{ InitialopposeVotes + "%" }}
           </div>
           <div v-else>
-            <span>赞成票{{ TotalFavorVotes }}</span>反对票{{ TotalOpposeVotes }}
+            <span>{{$t("Detailsofproposal.favorVotes")}}{{ TotalFavorVotes }}</span>{{$t("Detailsofproposal.opposeVotes")}}{{ TotalOpposeVotes }}
           </div>
         </div>
 
         <div class="num vote"
              v-if="isVote == false">
           <div>
-            <span style="color: #00b87a">{{ InitialfavorVotes }}票</span>{{ InitialopposeVotes }}票
+            <span style="color: #00b87a">{{ InitialfavorVotes }}{{$t("Detailsofproposal.ticket")}}</span>{{ InitialopposeVotes }}{{$t("Detailsofproposal.ticket")}}
           </div>
         </div>
         <div v-if="InitialpeopleNum < 99">
-          该提案需要99人投票才能取得进展，作者可以随时终止
+          {{$t("Detailsofproposal.introduce1")}}
         </div>
-        <div v-if="InitialpeopleNum == 99">该提案已99人投票参与,投票已完成</div>
+        <div v-if="InitialpeopleNum == 99"> {{$t("Detailsofproposal.introduce2")}}</div>
       </div>
       <div class="jindu">
         <div class="xiang">
-          <div class="tou">提案详情</div>
+          <div class="tou">{{$t("Detailsofproposal.detail")}}</div>
           <div class="wen">{{ List.summary }}</div>
         </div>
       </div>
@@ -86,18 +86,18 @@
            v-if="isVote">
         <div class="ti">
           <div class="tou">
-            对此提案
+            {{$t("Detailsofproposal.withal")}}
             <van-button type="default"
                         size="small"
-                        v-if="radio == ''">投票</van-button>
+                        v-if="radio == ''"> {{$t("Detailsofproposal.vote")}}</van-button>
             <van-button type="info"
                         size="small"
                         @click="isDloag"
-                        v-if="radio != ''">投票</van-button>
+                        v-if="radio != ''">{{$t("Detailsofproposal.vote")}}</van-button>
           </div>
           <van-radio-group v-model="radio">
-            <van-radio name="1">赞成</van-radio>
-            <van-radio name="2">反对</van-radio>
+            <van-radio name="1">{{$t("Detailsofproposal.endorse")}}</van-radio>
+            <van-radio name="2">{{$t("Detailsofproposal.oppose")}}</van-radio>
           </van-radio-group>
         </div>
       </div>
@@ -113,11 +113,11 @@ import { Toast, Dialog, List } from 'vant'
 export default {
   data() {
     return {
-      text: '创建于',
+      text: this.$t('Detailsofproposal.text'),
       trackColor: '#fff',
       valueColor: '#00B87A',
       rightText: '',
-      title: '详情',
+      title: this.$t('Detailsofproposal.title'),
       radio: '',
       items: undefined,
       proposalId: this.$route.query.proposalId,
@@ -130,13 +130,10 @@ export default {
       isVote1: true,
       percentageVotes: 0,
       flag: false,
-      peopleNum: 0,
       createDate: '',
       InitialpeopleNum: 0,
       InitialopposeVotes: 0,
       InitialfavorVotes: 0,
-      dataList: {},
-      that: null,
     }
   },
   created() {
@@ -148,7 +145,7 @@ export default {
     })
     const loading = this.$toast.loading({
       forbidClick: true,
-      message: '加载中…',
+      message: this.$t('Detailsofproposal.message1'),
     })
     this.$nextTick(() => {
       getproposal(data)
@@ -170,7 +167,7 @@ export default {
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: '加载失败！',
+            message: this.$t('Detailsofproposal.message2'),
           })
         })
         .finally(() => {
@@ -178,13 +175,7 @@ export default {
         })
     })
   },
-  mounted() {
-    this.$nextTick(() => {
-      const headerHeight = this.$refs.headerHeight.offsetHeight
-      const height = window.innerHeight - 15
-      this.$refs.box.style.height = `calc(${height}px  - ${headerHeight}px )`
-    })
-  },
+
   watch: {
     radio: function (val) {
       this.radio = val
@@ -204,7 +195,7 @@ export default {
         this.state != 3 &&
         this.List.walletAddress == localStorage.getItem('myaddress')
       )
-        this.rightText = '取消'
+        this.rightText = this.$t('Detailsofproposal.cancle')
 
       this.List.walletAddress =
         this.List.walletAddress.slice(0, 4) +
@@ -229,7 +220,7 @@ export default {
       if (this.state != 2 && this.state != 0) {
         this.isVote = false
         this.isVote1 = false
-        this.text = '投票结束'
+        this.text = this.$t('Detailsofproposal.finish')
         if (this.InitialpeopleNum == 0) {
           this.percentageVotes = 0
         } else {
@@ -246,7 +237,7 @@ export default {
       }
       if (this.InitialpeopleNum == 99) {
         console.log('提案成功')
-        this.text = '投票结束'
+        this.text = this.$t('Detailsofproposal.finish')
         this.percentageVotes =
           (this.InitialfavorVotes /
             (this.InitialfavorVotes + this.InitialopposeVotes)) *
@@ -277,8 +268,8 @@ export default {
     },
     onClickRight() {
       Dialog.confirm({
-        title: '取消提示',
-        message: '确认取消该提案？',
+        title: this.$t('Detailsofproposal.cancletitle'),
+        message: this.$t('Detailsofproposal.canclemessage'),
         confirmButtonColor: '#1B2945 ',
         cancelButtonColor: '#666666 ',
         getContainer: '.meun',
@@ -290,8 +281,8 @@ export default {
           this.rightText = ''
           this.state = 3
           cancelproposal(data)
-          Toast('取消成功')
-          this.text = '投票结束'
+          Toast(this.$t('Detailsofproposal.cancelsuccessful'))
+          this.text = this.$t('Detailsofproposal.finish')
           this.isVote = false
           localStorage.setItem(
             `createDate+${this.proposalId}`,
@@ -318,7 +309,11 @@ export default {
           if (this.InitialpeopleNum < 99) {
             if (this.radio == 1) {
               this.Votes = this.items / 100
-              Toast(`投出${this.Votes}赞成票`)
+              Toast(
+                this.$t('Detailsofproposal.launch') +
+                  this.Votes +
+                  this.$t('Detailsofproposal.favorVotes')
+              )
               this.List.peopleNum++
               this.List.favorVotes += this.Votes
               this.InitialfavorVotes = this.Votes
@@ -328,7 +323,11 @@ export default {
                 100
             } else {
               this.Votes = this.items / 100
-              Toast(`投出${this.Votes}反对票`)
+              Toast(
+                this.$t('Detailsofproposal.launch') +
+                  this.Votes +
+                  this.$t('Detailsofproposal.opposeVotes')
+              )
               this.List.peopleNum++
               this.List.opposeVotes += this.Votes
               this.InitialopposeVotes = this.Votes
@@ -346,8 +345,9 @@ export default {
         })
       } else {
         Dialog.alert({
-          title: '提案投票',
-          message: '请选择你要投票的类型，同时当前账号需要有100 EOTC',
+          title: this.$t('Detailsofproposal.votefor'),
+          message: this.$t('Detailsofproposal.votemessage'),
+          confirmButtonText: this.$t('Detailsofproposal.know'),
         }).then(() => {
           // on close
         })
@@ -392,6 +392,9 @@ export default {
   }
 }
 .box {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
   background: #fff;
   box-sizing: border-box;
   // height: 93vh;

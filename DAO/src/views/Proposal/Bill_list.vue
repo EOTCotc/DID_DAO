@@ -66,8 +66,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      const footerHeight = this.$refs.footer.offsetHeight
-      const height = window.innerHeight - 45
+      let footerHeight =
+        this.isProponent != 0 ? this.$refs.footer.offsetHeight : 0
+      let height = window.innerHeight - 45
       this.$refs.box.style.height = `calc(${height}px  - ${footerHeight}px )`
     })
 

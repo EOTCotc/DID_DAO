@@ -10,17 +10,17 @@
                  :src="require('./IMG/bg.png')" />
       <div class="text"
            v-if="displayApplicationConditions">
-        <p>成为审核节点</p>
-        <p>维护安全稳定信任的交易环境</p>
+        <p>{{$t("becomeAnArbitrator.text3")}}</p>
+        <p>{{$t("becomeAnArbitrator.text2")}}</p>
       </div>
       <div class="text2"
            v-else>
-        <p>维护安全稳定信任的交易环境</p>
+        <p>{{$t("becomeAnArbitrator.text2")}}</p>
       </div>
     </div>
     <div v-if="displayApplicationConditions">
       <div class="applicationConditions">
-        <h4>申请条件</h4>
+        <h4>{{$t("becomeAnArbitrator.title2")}}</h4>
         <div class="conditionsList">
           <div class="list list1">
             <div class="left">
@@ -28,12 +28,12 @@
                          height="20px"
                          fit="contain"
                          :src="require('../../../assets/img/zshen.png')" />
-              <p>DID身份认证</p>
+              <p>{{$t("becomeAnArbitrator.list1")}}</p>
             </div>
             <div class="right"
                  @click="didNot"
                  v-if="examinequalificationPassed1 == false">
-              去认证
+              {{$t("becomeAnArbitrator.right1")}}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -49,12 +49,12 @@
                          height="22px"
                          fit="contain"
                          :src="require('../../../assets/img/zya.png')" />
-              <p>质押5000 EOTC以上</p>
+              <p>{{$t("becomeAnArbitrator.list2")}}</p>
             </div>
             <div class="right"
                  v-if="examinequalificationPassed2 == false"
                  @click="pledge">
-              去质押
+              {{$t("becomeAnArbitrator.right2")}}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -70,12 +70,12 @@
                          height="20px"
                          fit="contain"
                          :src="require('../../../assets/img/stay.png')" />
-              <p>了解学习审核规则</p>
+              <p>{{$t("becomeAnArbitrator._list3")}}</p>
             </div>
             <div class="right"
                  @click="auditing('examineUnderstandLearningRules')"
                  v-if="examinequalificationPassed3 == false">
-              去学习
+              {{$t("becomeAnArbitrator.right3")}}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -92,13 +92,13 @@
                          fit="contain"
                          :src="require('../../../assets/img/kao.png')" />
               <div class="examinationColumn">
-                <span>通过考试</span><span style="color: #999999; font-size: 13px; margin-top: 3px">考试成绩达到90分以上</span>
+                <span>{{$t("becomeAnArbitrator.list4text1")}}</span><span style="color: #999999; font-size: 13px; margin-top: 3px">{{$t("becomeAnArbitrator.list4text2")}}</span>
               </div>
             </div>
             <div class="right"
                  @click="ExamTips"
                  v-if="examinequalificationPassed4 == false">
-              去考试
+              {{$t("becomeAnArbitrator.right4")}}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -119,16 +119,16 @@
               <van-image width="40"
                          height="30"
                          :src="require('./IMG/组 490@2x.png')" />
-              <span>审核节点</span>
+              <span> {{$t("becomeAnArbitrator.title4")}}</span>
             </div>
             <div>{{ ArbitratorsIdentityInformation.name }}</div>
           </div>
           <div>
-            <div>身份编号</div>
+            <div>{{$t("becomeAnArbitrator.identifNumber")}}</div>
             <div>{{ ArbitratorsIdentityInformation.number }}</div>
           </div>
           <div>
-            <div>申请时间</div>
+            <div>{{$t("becomeAnArbitrator.identityTtime")}}</div>
             <div>
               {{
                 $dayjs(ArbitratorsIdentityInformation.createDate)
@@ -140,12 +140,12 @@
         </div>
         <div class="bottom">
           <div>
-            <div>处理审核(个)</div>
+            <div>{{$t("becomeAnArbitrator._processaudit")}}</div>
             <div>{{ ArbitratorsIdentityInformation.examineNum }}</div>
           </div>
           <div class="line"></div>
           <div>
-            <div>收益(EOTC)</div>
+            <div>{{$t("becomeAnArbitrator.eotc")}}</div>
             <div>{{ ArbitratorsIdentityInformation.eotc }}</div>
           </div>
         </div>
@@ -158,24 +158,24 @@
         <div class="block">
           <van-button color="linear-gradient(to right, #3EBDFF, #006BF8)"
                       size="large ">
-            考试说明
+            {{$t("becomeAnArbitrator.explain")}}
           </van-button>
           <van-button color="#F3F4F5 "
-                      style="color: #333333">90分即通过</van-button>
+                      style="color: #333333"> {{$t("becomeAnArbitrator.ruls")}}</van-button>
           <div class="middle">
             <div class="middleTitle">
-              <p>题目数量</p>
-              <p class="p2"><span>12</span>题</p>
+              <p>{{$t("becomeAnArbitrator.titleNumber")}}</p>
+              <p class="p2"><span>{{$t("becomeAnArbitrator.titleNumbertext1")}}</span>{{$t("becomeAnArbitrator.titleNumbertext2")}}</p>
             </div>
             <div class="line"></div>
             <div class="middleTitle">
-              <p>考试时长</p>
-              <p class="p2"><span>30</span>分钟</p>
+              <p>{{$t("becomeAnArbitrator.testTime")}}</p>
+              <p class="p2"><span>{{$t("becomeAnArbitrator.testTimetext1")}}</span>{{$t("becomeAnArbitrator.testTimetext2")}}</p>
             </div>
           </div>
           <van-button color="#237FF8"
                       class="startBtn"
-                      @click="auditing('auditNodeExamination')">开始答题</van-button>
+                      @click="auditing('auditNodeExamination')">{{$t("becomeAnArbitrator.start")}}</van-button>
           <van-icon name="close"
                     color="#fff"
                     size="29"
@@ -188,7 +188,7 @@
                    :buttonText="buttonText1"
                    :buttonColor="buttonColor1"
                    :headerIcon="headerIcon1"
-                   :title="title1 + '分'"
+                   :title="title1 + $t('becomeAnArbitrator.point')"
                    :message="message1"
                    :closeOnClick="closeOnClick"></notification1>
     <notification2 ref="notification2"
@@ -206,21 +206,20 @@
                   color="#1B2945"
                   :disabled="!examinequalificationPassed"
                   @click="applyNow"
-                  v-if="displayApplicationConditions">立即申请</van-button>
+                  v-if="displayApplicationConditions">{{$t("becomeAnArbitrator.applyimmediately")}}</van-button>
       <van-button round
                   block
                   type="info"
                   color="#fff"
                   @click="dismissal"
                   v-if="displayApplicationConditions == false"
-                  class="vanbtn">解除身份</van-button>
+                  class="vanbtn">{{$t("becomeAnArbitrator.relieve")}}</van-button>
     </footer>
   </div>
 </template>
 <script>
 import white from '@/components/Nav/white.vue'
 import { getuSereotc } from '@/api/earnings'
-import Notification from '@/components/notification.vue'
 import notification1 from '@/components/notification.vue'
 import notification2 from '@/components/notification.vue'
 import {
@@ -237,18 +236,16 @@ export default {
     white,
     notification1,
     notification2,
-    Notification,
   },
   data() {
     return {
-      title: '审核节点',
+      title: this.$t('becomeAnArbitrator.title4'),
       name: 'approval',
       isExamine: +localStorage.getItem('isExamine'),
       ArbitratorsIdentityInformation: {},
       show: false,
       showFraction: false,
       applynow: false,
-      // +localStorage.getItem('authType')
       authType: +localStorage.getItem('authType'),
       displayApplicationConditions: false,
       examinequalificationPassed: Boolean(
@@ -269,13 +266,13 @@ export default {
       title1: null,
       message1: '',
       buttonColor1: '#237FF8',
-      buttonText1: '知道了',
+      buttonText1: this.$t('becomeAnArbitrator.know'),
       headerIcon1: '',
       closeOnClick: true,
       title2: null,
       message2: '',
       buttonColor2: '#237FF8',
-      buttonText2: '知道了',
+      buttonText2: this.$t('becomeAnArbitrator.know'),
       headerIcon2: '',
       closeOnClick2: true,
     }
@@ -310,13 +307,13 @@ export default {
     if (this.title1 >= 90) {
       this.title1 = this.title1
       this.headerIcon1 = icon1
-      this.message1 = '恭喜通过审核节点考试'
+      this.message1 = this.$t('becomeAnArbitrator._message1')
       this.examinequalificationPassed4 = true
       localStorage.setItem('examinequalificationPassed4', true)
     } else {
       this.title1 = this.title1
       this.headerIcon1 = icon2
-      this.message1 = '很遗憾未通过审核节点考试'
+      this.message1 = this.$t('becomeAnArbitrator._message2')
     }
     if (this.$route.params.examinequalificationPassed3 != undefined) {
       localStorage.setItem(
@@ -340,16 +337,18 @@ export default {
   methods: {
     didNot() {
       Dialog.alert({
-        title: '身份认证',
-        message: '您还未身份认证，请到DID进行身份认证',
+        title: this.$t('becomeAnArbitrator.idcardtitle'),
+        message: this.$t('becomeAnArbitrator.idcardmessage'),
+        confirmButtonText: this.$t('becomeAnArbitrator.know'),
       }).then(() => {
         // on close
       })
     },
     pledge() {
       Dialog.alert({
-        title: '质押',
-        message: '质押未达到条件，请前往OTC交易所进行质押',
+        title: this.$t('becomeAnArbitrator.pledgetitle'),
+        message: this.$t('becomeAnArbitrator.pledgemessage'),
+        confirmButtonText: this.$t('becomeAnArbitrator.know'),
       }).then(() => {
         // on close
       })
@@ -377,21 +376,20 @@ export default {
     applyNow() {
       this.$refs.notification2.toggle(true)
       this.headerIcon2 = icon3
-      this.title2 = '申请成功'
-      this.message2 = '成为审核节点后平台会给您分配审核'
+      this.title2 = this.$t('becomeAnArbitrator.approved')
+      this.message2 = this.$t('becomeAnArbitrator._approvedmsg')
       this.buttonColor2 = '#237FF8'
-      this.buttonText2 = '好的'
+      this.buttonText2 = this.$t('becomeAnArbitrator.approvedbText2')
       this.closeOnClick = true
     },
 
     dismissal() {
       Dialog.confirm({
-        title: '温馨提示',
-        message:
-          '解除身份后平台将不会分配任何审核，再申请审核节点身份需要重新学习和考试',
-        confirmButtonText: '知道了',
+        title: this.$t('becomeAnArbitrator.relievetitle3'),
+        message: this.$t('becomeAnArbitrator._relievemsg'),
+        confirmButtonText: this.$t('becomeAnArbitrator.know'),
         confirmButtonColor: '#1B2945',
-        cancelButtonText: '我再想想',
+        cancelButtonText: this.$t('becomeAnArbitrator.think'),
         cancelButtonColor: '#666666 ',
         className: 'dismissalDialog',
         getContainer: '.box',
@@ -399,8 +397,8 @@ export default {
         .then(() => {
           // on confirm
           Dialog.confirm({
-            title: '解除提示',
-            message: '确定解除审核节点身份？',
+            title: this.$t('becomeAnArbitrator.relievetitle4'),
+            message: this.$t('becomeAnArbitrator._relievemssg'),
             confirmButtonColor: '#1B2945',
             cancelButtonColor: '#666666 ',
             className: 'dismissalDialog',
