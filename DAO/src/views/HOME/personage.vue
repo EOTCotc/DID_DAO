@@ -56,7 +56,7 @@
 
 <script>
 import TopBar from '@/components/topBar/topBar'
-import List from '../../components/Nav/List.vue'
+import List from '@/components/Nav/List.vue'
 
 export default {
   components: { TopBar, List },
@@ -75,7 +75,6 @@ export default {
       user: JSON.parse(localStorage.getItem('user')),
     }
   },
-  created() {},
   methods: {
     // 去往详情页
     detail() {

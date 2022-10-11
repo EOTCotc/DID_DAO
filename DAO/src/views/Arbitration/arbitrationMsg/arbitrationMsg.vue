@@ -1,13 +1,6 @@
 <template>
   <div class="container">
-    <PageHeader v-if="messageType == 0 && isArbitrate == 0" title="申请延期" />
-    <PageHeader v-else-if="messageType == 1" title="追加举证" />
-    <PageHeader
-      v-else-if="messageType == 0 && isArbitrate == 1"
-      title="发起重新举证"
-    />
-    <PageHeader v-else-if="messageType == 2" title="取消仲裁" />
-    <PageHeader v-else-if="messageType == 3" title="结案通知" />
+    <PageHeader :title="title" />
     <div class="top-line"></div>
 
     <!-- 内容 -->
@@ -30,25 +23,7 @@
             </div>
             <div class="left-via-name">
               <!-- 申请延期 -->
-              <span v-if="messageType == 0 && isArbitrate == 0">
-                {{ postponeObj.plaintiff }}
-              </span>
-              <!-- 追加举证 -->
-              <span v-else-if="messageType == 1">
-                {{ addObj.plaintiff }}
-              </span>
-              <!-- 发起重新举证 -->
-              <span v-else-if="messageType == 0 && isArbitrate == 1">
-                {{ anewObj.plaintiff }}
-              </span>
-              <!-- 取消仲裁 -->
-              <span v-else-if="messageType == 2">
-                {{ cancelObj.plaintiff }}
-              </span>
-              <!-- 结案通知 -->
-              <span v-else-if="messageType == 3">
-                {{ closureObj.plaintiff }}
-              </span>
+              <span> {{ plaintiff }}</span>
               <span class="seller">(卖家)</span>
             </div>
             <div class="left-ticket" v-if="messageType == 3">
@@ -68,25 +43,7 @@
             <div class="right-via-name">
               <span class="purchaser">(买家)</span>
               <!-- 申请延期 -->
-              <span v-if="messageType == 0 && isArbitrate == 0">
-                {{ postponeObj.defendant }}
-              </span>
-              <!-- 追加举证 -->
-              <span v-else-if="messageType == 1">
-                {{ addObj.defendant }}
-              </span>
-              <!-- 发起重新举证 -->
-              <span v-else-if="messageType == 0 && isArbitrate == 1">
-                {{ anewObj.defendant }}
-              </span>
-              <!-- 取消仲裁 -->
-              <span v-else-if="messageType == 2">
-                {{ cancelObj.defendant }}
-              </span>
-              <!-- 结案通知 -->
-              <span v-else-if="messageType == 3">
-                {{ closureObj.defendant }}
-              </span>
+              <span>{{ defendant }}</span>
             </div>
             <div class="right-ticket" v-if="messageType == 3">
               {{ closureObj.defendantNum }}票
@@ -219,9 +176,6 @@
         <p>
           该仲裁案已结案，如有异议可在结案后七日内进入详情申请再仲裁，注意逾期将无法队此案进行再仲裁
         </p>
-        <!-- <button :disabled="isBtn" :style="isBtn ? 'opacity: 0.5;' : ''">
-          申请再次仲裁
-        </button> -->
       </div>
     </div>
   </div>
@@ -237,14 +191,16 @@ import {
   getclosure,
   setmessageisopen,
 } from "@/api/viewsApi/arbitrationMsg";
-// import { transformUTCDate } from "@/utils/utils";
+
 export default {
   name: "arbitrationMsg",
   data() {
     return {
+      title: "", //导航栏title
       messageType: 0, //消息类型0 申请延期 1 追加举证 2 仲裁取消 3 结案通知
+      plaintiff: "", //原告
+      defendant: "", //被告
       isArbitrate: 0, //是否为仲裁员0是，1是
-      paramsRoute: {}, //路由传的值
       // 有多种情况，所以需要单独拎出来
       arbitrateInType: "", //其他消息
       // 有多种情况，所以需要单独拎出来
@@ -266,17 +222,21 @@ export default {
   mounted() {
     this.isArbitrate = this.$route.query.arbitrateId;
     this.messageType = this.$route.query.messageType;
-    this.paramsRoute = this.$route.query;
-    this.setmessageisopen(this.$route.query.associatedId)
+    this.setmessageisopen();
     if (this.messageType == 0 && this.isArbitrate == 0) {
+      this.title = "申请延期";
       this.getarbitratedelay(); // 获取申请延期消息
     } else if (this.messageType == 1) {
+      this.title = "追加举证";
       this.getadducelist(); // 追加举证
     } else if (this.messageType == 0 && this.isArbitrate == 1) {
+      this.title = "发起重新举证";
       this.anewPostpone(); // 发起重新举证
     } else if (this.messageType == 2) {
+      this.title = "取消仲裁";
       this.getcancelarbitrate(); // 取消仲裁
     } else if (this.messageType == 3) {
+      this.title = "结案通知";
       this.getclosure(); // 结案通知
     }
   },
@@ -284,13 +244,15 @@ export default {
     // 获取申请延期消息
     getarbitratedelay() {
       getarbitratedelay({
-        id: this.paramsRoute.associatedId,
-        isArbitrate: this.paramsRoute.arbitrateId,
+        id: this.$route.query.associatedId,
+        isArbitrate: this.$route.query.arbitrateId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
           console.log(data, "申请延期");
           this.postponeObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -327,12 +289,14 @@ export default {
     // 取消仲裁
     getcancelarbitrate() {
       getcancelarbitrate({
-        id: this.paramsRoute.associatedId,
+        id: this.$route.query.associatedId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
           console.log(data, "取消仲裁");
           this.cancelObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -341,13 +305,15 @@ export default {
     // 追加举证
     getadducelist() {
       getadducelist({
-        id: this.paramsRoute.associatedId,
+        id: this.$route.query.associatedId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
           data.images = data.images.split(",");
           console.log(data, "追加举证");
           this.addObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -356,13 +322,15 @@ export default {
     // 发起重新举证
     anewPostpone() {
       getarbitratedelay({
-        id: this.paramsRoute.associatedId,
-        isArbitrate: this.paramsRoute.arbitrateId,
+        id: this.$route.query.associatedId,
+        isArbitrate: this.$route.query.arbitrateId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
           console.log(data, "发起重新举证");
           this.anewObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
         }
@@ -371,31 +339,28 @@ export default {
     // 结案通知
     getclosure() {
       getclosure({
-        id: this.paramsRoute.associatedId,
+        id: this.$route.query.associatedId,
       }).then((res) => {
         if (res.data.code == 0) {
           let data = res.data.items;
           console.log(data, "结案通知");
           this.closureObj = data;
+          this.plaintiff = data.plaintiff;
+          this.defendant = data.defendant;
           this.arbitrateInType = data.arbitrateInType;
           this.arbitrateInfoId = data.arbitrateInfoId;
           this.headcount = data.plaintiffNum + data.defendantNum;
           this.plaintiffNum = data.plaintiffNum;
-          // 再次申请仲裁按钮，先注释
-          // let nowTimestamp = new Date().getTime();
-          // let voteDateTimestamp =
-          //   new Date(transformUTCDate(data.voteDate)).getTime() + 604800000;
-          // this.isBtn = nowTimestamp > voteDateTimestamp ? true : false;
         }
       });
     },
     // 设置消息为已读 小红点的显示隐藏
-    setmessageisopen(associatedId) {
+    setmessageisopen() {
       setmessageisopen({
-        id: associatedId,
-      }).then(res=>{
-        console.log(res.data,'设置消息为已读');
-      })
+        id: this.$route.query.arbitrateMessageId,
+      }).then((res) => {
+        console.log(res.data, "设置消息为已读");
+      });
     },
     // 去往详情页
     toPages() {
@@ -730,18 +695,6 @@ export default {
     margin-top: 20px;
     font-size: 28px;
     line-height: 46px;
-  }
-  button {
-    position: absolute;
-    bottom: 60px;
-    left: 5%;
-    width: 90%;
-    height: 96px;
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 48px;
-    background: #1b2945;
   }
 }
 </style>
