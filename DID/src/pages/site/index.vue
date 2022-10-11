@@ -2,7 +2,7 @@
   <div class="container">
     <van-nav-bar
       :border="false"
-      title="选择所在地"
+      :title="$t('bindRelation.select_site')"
       left-arrow
       @click-left="onClickLeft"
     />
@@ -15,13 +15,13 @@
       /> -->
       <van-cell
         class="now"
-        title="国家"
+        :title="$t('bindRelation.country')"
         :value="country"
         is-link
         to="/nation"
       />
       <van-cell
-        title="省市"
+        :title="$t('bindRelation.p_c_area')"
         :value="region"
         is-link
         @click="showPopup = true"
@@ -35,7 +35,7 @@
         @confirm="tabConfirm"
         @cancel="showPopup = false"
         show-toolbar
-        title="选择当前所在地区"
+        :title="$t('bindRelation.select_site')"
         :columns="columns"
       />
     </van-popup>
@@ -49,7 +49,7 @@
         $router.replace({ name: $route.query.form, params: { code: selected } })
       "
     >
-      确认
+      {{$t('public.confirm')}}
     </van-button>
   </div>
 </template>
@@ -145,39 +145,41 @@ export default {
     },
     // 确定选择的位置
     tabConfirm(e, i) {
-      // 判断省市区是否有,this.region展示给用户看
-      if (e[0] == "") {
-        //只有国家
-        this.region = "";
-      } else if (e[0] != "" && e[1] == "") {
-        //只有省
-        this.region = `${e[0]}`;
-      } else if (e[0] != "" && e[1] != "" && e[2] == "") {
-        //只有省市
-        this.region = `${e[0]} - ${e[1]}`;
-      } else if (e[0] != "" && e[1] != "" && e[2] != "") {
-        this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
+      if (this.country) {
+        // 判断省市区是否有,this.region展示给用户看
+        if (e[0] == "") {
+          //只有国家
+          this.region = "";
+        } else if (e[0] != "" && e[1] == "") {
+          //只有省
+          this.region = `${e[0]}`;
+        } else if (e[0] != "" && e[1] != "" && e[2] == "") {
+          //只有省市
+          this.region = `${e[0]} - ${e[1]}`;
+        } else if (e[0] != "" && e[1] != "" && e[2] != "") {
+          this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
+        }
+        // 省市区的code，传给后端
+        this.req.province = this.columns[i[0]].eng;
+        this.req.city = this.columns[i[0]].children[i[1]].eng;
+        this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
+
+        this.selected = {
+          province: [this.columns[i[0]].eng, this.columns[i[0]].text],
+          city: [
+            this.columns[i[0]].children[i[1]].eng,
+            this.columns[i[0]].children[i[1]].text,
+          ],
+          area: [
+            this.columns[i[0]].children[i[1]].children[i[2]].eng,
+            this.columns[i[0]].children[i[1]].children[i[2]].text,
+          ],
+        };
+      } else {
+        this.$toast.fail(this.$t('public.toast1'));
       }
-      // 省市区的code，传给后端
-      // this.columns[i[0]].eng,
-      // this.columns[i[0]].children[i[1]].eng,
-      // this.columns[i[0]].children[i[1]].children[i[2]].eng
-      this.req.province = this.columns[i[0]].eng;
-      this.req.city = this.columns[i[0]].children[i[1]].eng;
-      this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
       // 选择省市区的显示隐藏
       this.showPopup = false;
-      this.selected = {
-        province: [this.columns[i[0]].eng, this.columns[i[0]].text],
-        city: [
-          this.columns[i[0]].children[i[1]].eng,
-          this.columns[i[0]].children[i[1]].text,
-        ],
-        area: [
-          this.columns[i[0]].children[i[1]].children[i[2]].eng,
-          this.columns[i[0]].children[i[1]].children[i[2]].text,
-        ],
-      };
     },
     // 导航栏返回
     onClickLeft() {

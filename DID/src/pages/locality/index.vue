@@ -154,26 +154,27 @@ export default {
     },
     // 确定选择的位置
     tabConfirm(e, i) {
-      // 判断省市区是否有,this.region展示给用户看
-      if (e[0] == "") {
-        //只有国家
-        this.region = "";
-      } else if (e[0] != "" && e[1] == "") {
-        //只有省
-        this.region = `${e[0]}`;
-      } else if (e[0] != "" && e[1] != "" && e[2] == "") {
-        //只有省市
-        this.region = `${e[0]} - ${e[1]}`;
-      } else if (e[0] != "" && e[1] != "" && e[2] != "") {
-        this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
+      if (this.country) {
+        // 判断省市区是否有,this.region展示给用户看
+        if (e[0] == "") {
+          //只有国家
+          this.region = "";
+        } else if (e[0] != "" && e[1] == "") {
+          //只有省
+          this.region = `${e[0]}`;
+        } else if (e[0] != "" && e[1] != "" && e[2] == "") {
+          //只有省市
+          this.region = `${e[0]} - ${e[1]}`;
+        } else if (e[0] != "" && e[1] != "" && e[2] != "") {
+          this.region = `${e[0]} - ${e[1]} - ${e[2]}`;
+        }
+        // 省市区的code，传给后端
+        this.req.province = this.columns[i[0]].eng;
+        this.req.city = this.columns[i[0]].children[i[1]].eng;
+        this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
+      } else {
+        this.$toast.fail("请先选择国家");
       }
-      // 省市区的code，传给后端
-      // this.columns[i[0]].eng,
-      // this.columns[i[0]].children[i[1]].eng,
-      // this.columns[i[0]].children[i[1]].children[i[2]].eng
-      this.req.province = this.columns[i[0]].eng;
-      this.req.city = this.columns[i[0]].children[i[1]].eng;
-      this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
       // 选择省市区的显示隐藏
       this.showPopup = false;
     },

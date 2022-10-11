@@ -156,11 +156,11 @@ export default {
     copyUid() {
       let clipboard = new Clipboard("#uid");
       clipboard.on("success", (e) => {
-        this.$toast.success("复制成功");
+        this.$toast.success(this.$t("setup.setup_toast1"));
         clipboard.destroy();
       });
       clipboard.on("error", (e) => {
-        this.$toast.fail("复制失败");
+        this.$toast.fail(this.$t("setup.setup_toast2"));
         clipboard.destroy();
       });
     },
@@ -168,11 +168,11 @@ export default {
     setTelegram() {
       setuserinfo({ telegram: this.telegram }).then((res) => {
         if (res.data.code == 0) {
-          this.$toast.success("设置成功");
+          this.$toast.success(this.$t("setup.setup_toast3"));
           this.getUserInfo();
           this.showPopup = false;
         } else {
-          this.$toast.fail("设置失败");
+          this.$toast.fail(this.$t("setup.setup_toast4"));
         }
       });
     },
@@ -180,7 +180,7 @@ export default {
     logout() {
       this.cookie.remove("token");
       localStorage.clear();
-      this.$toast.success("退出登录成功");
+      this.$toast.success(this.$t("setup.setup_toast5"));
       setTimeout(() => {
         this.$router.replace("/login");
       }, 600);
