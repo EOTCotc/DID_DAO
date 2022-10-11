@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <footer>
+    <footer ref="footer">
       <van-button round
                   block
                   color="#1B2945"
@@ -65,6 +65,11 @@ export default {
   },
   // 滚动监听
   mounted() {
+    this.$nextTick(() => {
+      const footerHeight = this.$refs.footer.offsetHeight
+      const height = window.innerHeight - 30
+      this.$refs.rulesBox.style.height = `calc(${height}px  - ${footerHeight}px )`
+    })
     this.$refs.rulesBox.addEventListener('scroll', this.rulesScroll) // 监听页面滚动
   },
   methods: {
@@ -91,7 +96,7 @@ export default {
   color: #333333;
   background-color: #fff;
   padding: 0 25px;
-  height: 82vh;
+  // height: 82vh;
   overflow: auto;
   .BasicRules,
   .DeductionRules {

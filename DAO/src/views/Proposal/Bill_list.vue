@@ -1,10 +1,12 @@
 <template>
   <div class="fullscreen bg-gray">
-    <header class="me">
+    <header class="me"
+            ref="header">
       <white :title="title"
              :name="name"></white>
     </header>
-    <main class="box">
+    <main class="box"
+          ref="box">
       <div>
         <div class="one_an"
              @click="detail(item.proposalId, item.state)"
@@ -37,7 +39,8 @@
                    description="暂无任何数据" />
       </div>
     </main>
-    <footer v-if="isProponent != 0">
+    <footer v-if="isProponent != 0"
+            ref="footer">
       <van-button icon="plus"
                   block
                   type="info"
@@ -62,6 +65,12 @@ export default {
     }
   },
   mounted() {
+    this.$nextTick(() => {
+      const footerHeight = this.$refs.footer.offsetHeight
+      const height = window.innerHeight - 45
+      this.$refs.box.style.height = `calc(${height}px  - ${footerHeight}px )`
+    })
+
     this.isProponent == 0 ? (this.title = '提案') : (this.title = '我的提案')
     // 判断是否从home页面跳过来
     if (this.$route.query.home) {
@@ -136,13 +145,13 @@ export default {
 <style lang="scss" scoped>
 .box {
   background: #fff;
-  height: 100vh;
+  // height: 83.2vh;
   overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
 }
 footer {
-  height: 170px;
+  max-height: 170px;
   background-color: #fff;
   width: 100%;
   position: fixed;

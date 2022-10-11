@@ -222,7 +222,8 @@ export default {
   mounted() {
     this.isArbitrate = this.$route.query.arbitrateId;
     this.messageType = this.$route.query.messageType;
-    this.setmessageisopen();
+    this.paramsRoute = this.$route.query;
+    this.setmessageisopen()
     if (this.messageType == 0 && this.isArbitrate == 0) {
       this.title = "申请延期";
       this.getarbitratedelay(); // 获取申请延期消息
@@ -358,9 +359,9 @@ export default {
     setmessageisopen() {
       setmessageisopen({
         id: this.$route.query.arbitrateMessageId,
-      }).then((res) => {
-        console.log(res.data, "设置消息为已读");
-      });
+      }).then(res=>{
+        console.log(res.data,'设置消息为已读');
+      })
     },
     // 去往详情页
     toPages() {

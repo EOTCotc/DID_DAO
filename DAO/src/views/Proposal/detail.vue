@@ -41,7 +41,7 @@
            ref="jindu">
         <div class="tou">
           投票进度
-          <span class="hui"><span>{{ text }}</span>{{createDate}}</span>
+          <span class="hui"><span>{{ text }}</span>{{ createDate }}</span>
         </div>
         <div>共{{ InitialpeopleNum }}人参与</div>
         <van-progress :track-color="trackColor"
@@ -68,7 +68,7 @@
         <div class="num vote"
              v-if="isVote == false">
           <div>
-            <span style="color: #00b87a">{{ InitialfavorVotes }}票</span>{{ InitialopposeVotes}}票
+            <span style="color: #00b87a">{{ InitialfavorVotes }}票</span>{{ InitialopposeVotes }}票
           </div>
         </div>
         <div v-if="InitialpeopleNum < 99">
@@ -178,7 +178,13 @@ export default {
         })
     })
   },
-
+  mounted() {
+    this.$nextTick(() => {
+      const headerHeight = this.$refs.headerHeight.offsetHeight
+      const height = window.innerHeight - 15
+      this.$refs.box.style.height = `calc(${height}px  - ${headerHeight}px )`
+    })
+  },
   watch: {
     radio: function (val) {
       this.radio = val
@@ -215,7 +221,6 @@ export default {
             (this.InitialfavorVotes /
               (this.InitialfavorVotes + this.InitialopposeVotes)) *
             100
-          this.valueColor = '#00B87A'
           this.trackColor = '#FC7542'
         } else {
           this.percentageVotes = this.InitialpeopleNum
@@ -250,7 +255,7 @@ export default {
         this.isVote = false
         this.isVote1 = false
         this.List.state = 1
-        if (this.InitialfavorVotes > this.InitialopposeVotes) {
+        if (this.InitialfavorVotes >= this.InitialopposeVotes) {
           this.List.state = 2
           this.state = 2
         } else {
@@ -376,6 +381,7 @@ export default {
 .meun {
   background: #f3f4f5;
   height: 100vh;
+  overflow: auto;
 }
 .meun {
   ::v-deep .van-dialog__message--has-title {
@@ -388,7 +394,7 @@ export default {
 .box {
   background: #fff;
   box-sizing: border-box;
-  height: 93vh;
+  // height: 93vh;
   color: #000;
   padding-bottom: 20px;
 }

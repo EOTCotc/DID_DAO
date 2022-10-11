@@ -428,6 +428,7 @@ export default {
                 localStorage.getItem('qualificationPassed')
               )
               this.displayApplicationConditions = true
+              this.isArbitrate = 0
               localStorage.setItem('isArbitrate', 0)
               TerminationArbitrator()
               // on confirm

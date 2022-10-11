@@ -1,6 +1,6 @@
 import request from "../utils/request";
 //获取Dao用户信息
-export function getdaoinfo (data) {
+export function getdaoinfo(data) {
   return request({
     url: "api/daouser/getdaoinfo",
     method: "post",
@@ -8,7 +8,7 @@ export function getdaoinfo (data) {
   });
 }
 //收益详情
-export function getincome (data) {
+export function getincome(data) {
   return request({
     url: "api/incomedetails/getincomedetails",
     method: "post",
@@ -28,6 +28,14 @@ export const getuserinfo = (params) => {
 export const getuSereotc = (data) => {
   return request({
     url: "api/daouser/getusereotc",
+    method: "post",
+    data,
+  });
+};
+//是否启用Dao审核仲裁权限
+export const setDaoenable = (data) => {
+  return request({
+    url: "api/daouser/setdaoenable",
     method: "post",
     data,
   });

@@ -458,6 +458,7 @@ export default {
   background-color: #fff;
   height: 100vh;
 }
+
 .dti2 {
   ::v-deep .dialog-title {
     color: #999999;
