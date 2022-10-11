@@ -15,10 +15,10 @@
           </div>
         </div>
         <div class="eotc">
-          <div class="sum">总收益(EOTC)</div>
+          <div class="sum">{{ $t("user.total") }}</div>
           <div class="ming">
             <span style="font-size: 28px">{{ user.daoEOTC }}</span
-            ><span @click="detail">收益明细</span>
+            ><span @click="detail">{{ $t("user.detailed") }}</span>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <div class="div1">
           <div class="div2">
             <div class="parent">
-              <span>在线</span>
+              <span>{{ $t("user.parent") }}</span>
               <van-popover
                 v-model="showPopover"
                 :get-container="getContainer"
@@ -48,7 +48,7 @@
             <van-switch
               :value="checked"
               size="23px"
-              inactive-color="#484848 "
+              inactive-color="#484848"
               @input="onInput"
             />
           </div>
@@ -75,7 +75,7 @@ export default {
       showPopover: false,
       actions: [
         {
-          text: "在线开关，开启后审核及仲裁案将优先为您分配相应的处理事件/案件.",
+          text: this.$t("user.text"),
         },
       ],
       user: JSON.parse(localStorage.getItem("user")),

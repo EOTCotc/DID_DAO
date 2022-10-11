@@ -5,22 +5,23 @@
     </header>
     <main class="section">
       <van-form @submit="submit">
-        <div class="title">提案标题</div>
+        <div class="title">{{ $t("create.title") }}</div>
         <van-field v-model="value"
-                   placeholder="请输入提案标题…"
+                   :placeholder="$t('create.placeholder')"
                    :rules="[{ required: true }]" />
-        <div class="title">提案概述</div>
+        <div class="title">{{ $t("create.overview") }}</div>
         <van-field v-model="message"
                    rows="5"
                    autosize
                    type="textarea"
-                   placeholder="描述您的提案…"
+                   :placeholder="$t('create.describe')"
                    :rules="[{ required: true }]" />
+
         <div v-if="items < 10000">
           <van-button block
                       type="warning"
                       color="#fc7542">
-            您必须持有10000EOTC才能提交提案
+            {{ $t("create.btn_text") }}
           </van-button>
         </div>
         <div v-else>
@@ -28,7 +29,7 @@
                       type="warning"
                       color="#237ff8"
                       native-type="submit">
-            提交提案
+            {{ $t("create.btn_submit") }}
           </van-button>
         </div>
       </van-form>
@@ -45,7 +46,7 @@ export default {
   components: { white },
   data() {
     return {
-      title: '创建提案',
+      title: this.$t('create.nav_title'),
       value: '',
       message: '',
       items: undefined,
@@ -68,7 +69,7 @@ export default {
       }).then((res) => {
         console.log(res)
         if (res.status == 200) {
-          Toast.success('提交成功!')
+          Toast.success(this.$t('create.success'))
           this.$router.push('/Bill_list')
         }
       })

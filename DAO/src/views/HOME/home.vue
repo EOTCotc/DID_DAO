@@ -72,7 +72,7 @@
             </div>
           </div>
         </div>
-        <div v-else class="not-data">暂无任何提案信息</div>
+        <div v-else class="not-data">{{ $t("home.not_data") }}</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -107,7 +107,7 @@
         style="margin-right: 5px"
         :src="require('../../assets/img/jin.png')"
       />
-      <span>解除风控</span>
+      <span>{{ $t("home.remove_risk") }}</span>
     </div>
     <Notification
       ref="notification"
