@@ -6,12 +6,12 @@
       <van-form class="form_wrap">
         <div class="main steps_wrap">
           <div class="info_wrap step-1">
-            <van-field label="姓名" v-model="user.name" />
-            <van-field label="手机号" v-model="user.phoneNum" />
-            <van-field label="证件号" v-model="user.idCard" border />
+            <van-field :label="$t('check.name')" v-model="user.name" />
+            <van-field :label="$t('check.phone')" v-model="user.phoneNum" />
+            <van-field :label="$t('check.card')" v-model="user.idCard" border />
           </div>
           <div class="upload_wrap step-2">
-            <div class="title">身份证</div>
+            <div class="title">{{ $t("check.identity") }}</div>
 
             <div class="example_wrap">
               <img class="img" :src="user.portraitImage" alt="" />
@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="upload_wrap step-2">
-            <div class="title">手持证件照</div>
+            <div class="title">{{ $t("check.card_photo") }}</div>
             <div class="example_zheng">
               <img class="img" :src="user.handHeldImage" alt="" />
             </div>
@@ -29,7 +29,8 @@
             v-if="authStatus == 0 || authStatus == 1"
           >
             <div class="title">
-              核对记录<span>(对方真实手持证件照及核对部分过程)</span>
+              {{ $t("check.collate")
+              }}<span>{{ $t("check.collate_text") }}</span>
             </div>
             <div class="example_zheng">
               <van-uploader
@@ -43,7 +44,8 @@
           </div>
           <div v-if="authStatus == 2" class="upload_wrap step-2">
             <div class="title">
-              核对记录<span>(对方真实手持证件照及核对部分过程)</span>
+              {{ $t("check.collate")
+              }}<span>{{ $t("check.collate_text") }}</span>
             </div>
             <van-image
               width="60"
@@ -61,11 +63,11 @@
             color="#E8F2FF"
             class="frist"
             @click="abnormal()"
-            >核对身份异常</van-button
+            >{{ $t("check.btn_abnormal") }}</van-button
           >
-          <van-button round size="small" color="#237FF8" @click="success()"
-            >身份核对成功</van-button
-          >
+          <van-button round size="small" color="#237FF8" @click="success()">{{
+            $t("check.btn_success")
+          }}</van-button>
         </div>
         <div class="btns" v-if="authStatus == 2 && remedyMax == true">
           <van-button
@@ -76,16 +78,16 @@
             color="#237FF8"
             style="width: 100%; margin: 0 16px"
             @click="Remedy"
-            >解除异常</van-button
+            >{{ $t("check.btn_remedy") }}</van-button
           >
         </div>
         <div class="btns" v-if="remedyShow == true">
-          <van-button round color="#E8F2FF" class="frist" @click="quxiao()"
-            >取消解除</van-button
-          >
-          <van-button round size="small" color="#237FF8" @click="subRemedy()"
-            >确定解除</van-button
-          >
+          <van-button round color="#E8F2FF" class="frist" @click="quxiao()">{{
+            $t("check.btn_cancel")
+          }}</van-button>
+          <van-button round size="small" color="#237FF8" @click="subRemedy()">{{
+            $t("check.btn_make")
+          }}</van-button>
         </div>
       </van-form>
     </div>
@@ -110,10 +112,7 @@ export default {
   data() {
     return {
       fileList: [],
-      title: "核对身份信息",
-      name: "吴敏",
-      phoneNum: "1344569****",
-      idCard: "43589615524****",
+      title: this.$t("check.nav_title"),
       id: "",
       authStatus: 0,
       over_show: false,
@@ -194,9 +193,9 @@ export default {
     //核对信息异常
     abnormal() {
       Dialog.confirm({
-        title: "核对信息",
+        title: this.$t("check.dialog_title"),
         confirmButtonColor: "#000",
-        message: "请确保已进行视频身份核对，身份信息不一致，处理为异常!",
+        message: this.$t("check.dialog_message"),
         getContainer: ".meun",
       })
         .then(() => {
@@ -208,7 +207,7 @@ export default {
             console.log(res);
             if (res.status == 200) {
               history.go(-1);
-              Toast("处理成功");
+              Toast(this.$t("check.handle_success"));
             }
           });
         })
@@ -217,9 +216,9 @@ export default {
     //核对信息无误
     success() {
       Dialog.confirm({
-        title: "核对信息",
+        title: this.$t("check.dialog_title"),
         confirmButtonColor: "#000",
-        message: "请确保已进行视频身份核对，身份信息确认无误!",
+        message: this.$t("check.dialog_message_error"),
         getContainer: ".meun",
       })
         .then(() => {
@@ -243,9 +242,9 @@ export default {
     //解除异常
     Remedy() {
       Dialog.confirm({
-        title: "解除异常",
+        title: this.$t("check.btn_remedy"),
         confirmButtonColor: "#000",
-        message: "请确保已再次进行视频身份核对，身份信息无误，解除异常",
+        message: this.$t("check.dialog_message_remedy"),
         getContainer: ".meun",
       })
         .then(() => {
