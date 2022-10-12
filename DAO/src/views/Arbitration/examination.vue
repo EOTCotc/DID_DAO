@@ -110,6 +110,8 @@ export default {
       Dialog.confirm({
         title: this.$t('exam.quittitle'),
         message: this.$t('exam.quitmessage'),
+        confirmButtonText: this.$t('exam.Text1'),
+        cancelButtonText: this.$t('exam.Text2'),
       })
         .then(() => {
           this.$router.push({

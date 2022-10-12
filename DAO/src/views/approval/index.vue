@@ -51,6 +51,7 @@ export default {
             title: this.$t('audit.dialogtitle'),
             message: this.$t('audit.dialogmessage'),
             confirmButtonText: this.$t('audit.dialogtext'),
+            cancelButtonText: this.$t('exam.Text2'),
           })
           .then(() => {
             this.$router.push('/user/approval/auditNode/applicationConditions')

@@ -9,6 +9,13 @@ if (lang) {
   lang = lang.lang;
 }
 
+Vue.use(vueI18n)
+
+let browserLang = navigator.language.split('-')[0]
+let lang = JSON.parse(localStorage.getItem('lang'))
+if (lang) {
+  lang = lang.lang
+}
 const i18n = new vueI18n({
   locale: lang || browserLang,
   messages: {
