@@ -34,7 +34,7 @@
             autosize
             type="textarea"
             maxlength="300"
-            placeholder="请详细说明，以便于我们为您解决问题"
+            :placeholder="$t('feedback.placeholder')"
             show-word-limit
           />
         </div>
@@ -42,7 +42,7 @@
           <van-cell class="feedbackTitle" :border="false">
             <template #title>
               <span class="custom-title">{{ titleList[2] }}</span>
-              <span class="custom-msg">(选填，添加问题截图)</span>
+              <span class="custom-msg">{{ $t("feedback.custom_msg") }}</span>
             </template>
           </van-cell>
           <van-uploader
@@ -62,7 +62,7 @@
           <van-field
             v-model="phone"
             name="phone"
-            placeholder="请输入手机号码"
+            :placeholder="$t('feedback.placeholder_phone')"
             @focus="focusFun()"
             @blur="show = false"
             class="phone"
@@ -72,7 +72,7 @@
                     {
                       pattern:
                         /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
-                      message: '输入的手机号码有误！',
+                      message: this.$t('feedback.phone_message'),
                     },
                   ]
                 : [
@@ -95,7 +95,7 @@
             block
             native-type="submit"
             :disabled="btnSwitch"
-            >提交</van-button
+            >{{ $t("feedback.submit") }}</van-button
           >
         </div>
       </van-form>
@@ -115,10 +115,15 @@ export default {
 
   data() {
     return {
-      title: "反馈&建议",
+      title: this.$t("feedback.nav_title"),
       //分类标签选中的下标
       active: 0,
-      titleList: ["分类标签", "反馈及建议描述", "添加图片", "联系方式"],
+      titleList: [
+        this.$t("feedback.type"),
+        this.$t("feedback.describe"),
+        this.$t("feedback.add_photo"),
+        this.$t("feedback.relation"),
+      ],
       feedbackText: "",
       phone: "",
       image: [],
@@ -130,11 +135,11 @@ export default {
         /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
       feedbackTypeList: [
         {
-          title: "BUG反馈",
+          title: this.$t("feedback.type_feed"),
           index: 0,
         },
         {
-          title: "功能建议",
+          title: this.$t("feedback.type_function"),
           index: 1,
         },
       ],
@@ -175,7 +180,7 @@ export default {
 
     onOversize(file) {
       console.log(file);
-      Toast("文件大小不能超过 500kb");
+      Toast(this.$t("feedback.file_text"));
     },
     feedbackTypeChange(index) {
       this.active = index;
@@ -194,7 +199,7 @@ export default {
         }).then((res) => {
           if (res.data.code == 0) {
             this.$router.push({ name: "personage" });
-            Toast("提交成功");
+            Toast(this.$t("feedback.submit_text"));
           }
         });
       }

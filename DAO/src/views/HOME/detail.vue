@@ -7,16 +7,16 @@
       <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
         <div v-if="personageArr.length > 0">
           <van-row class="title">
-            <van-col span="8">收益数量</van-col>
-            <van-col span="7">收益来源</van-col>
-            <van-col span="8">收益时间</van-col>
+            <van-col span="8">{{ $t("detail.num") }}</van-col>
+            <van-col span="7">{{ $t("detail.earnings") }}</van-col>
+            <van-col span="8">{{ $t("detail.time") }}</van-col>
           </van-row>
           <van-row v-for="(item, index) in personageArr" :key="index">
-            <van-col span="8">{{ item.eotc }} EOTC</van-col>
+            <van-col span="8">{{ item.eotc }} {{ $t("detail.eotc") }}</van-col>
             <van-col span="7">
-              <span v-if="item.type == 0">处理工单</span>
-              <span v-if="item.type == 1">处理仲裁</span>
-              <span v-if="item.type == 2">处理审核</span>
+              <span v-if="item.type == 0">{{ $t("detail.type_zoer") }}</span>
+              <span v-if="item.type == 1">{{ $t("detail.type_one") }}</span>
+              <span v-if="item.type == 2">{{ $t("detail.type_two") }}</span>
             </van-col>
             <van-col span="8">{{ item.createDate }}</van-col>
           </van-row>
@@ -25,7 +25,7 @@
             v-show="!!personageArr.length"
             v-model="list.UpRefreshLoading"
             :finished="!!personageArr.length && list.finished"
-            finished-text="没有更多记录了"
+            :finished-text="$t('detail.finished_text')"
             @load="handleUpRefresh"
           />
         </div>
@@ -33,7 +33,7 @@
           <van-empty
             class="custom-image"
             :image="require('./../../assets/img/空态-02.png')"
-            description="暂无任何数据"
+            :description="$t('detail.description')"
           />
         </div>
       </van-pull-refresh>
@@ -49,7 +49,7 @@ export default {
   components: { white },
   data() {
     return {
-      title: "收益详情",
+      title: this.$t("detail.nav_title"),
       page: 1,
       itemsPerPage: 10,
       personageArr: [],
@@ -80,7 +80,7 @@ export default {
       this.getCome();
     },
     getCome() {
-      this.$toast.loading("列表加载中…");
+      this.$toast.loading(this.$t("detail.load_text"));
       getincome({
         page: this.list.query.page,
         itemsPerPage: this.list.query.itemsPerPage,

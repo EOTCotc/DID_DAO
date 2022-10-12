@@ -42,10 +42,11 @@
                 query: {
                   proposalId: item.proposalId,
                   isProponent: 0,
-                  state: item.state
+                  state: item.state,
                 },
               })
-            ">
+            "
+          >
             <!-- 提案标题 -->
             <div class='every-title'>{{ item.title }}</div>
             <!-- 提案状态 -->
@@ -72,9 +73,7 @@
             </div>
           </div>
         </div>
-        <div v-else
-             class='not-data'>暂无任何提案信息
-        </div>
+        <div v-else class="not-data">{{ $t("home.not_data") }}</div>
       </div>
       <!-- 条件 -->
       <div class='condition'>{{ $t('home.tip') }}</div>
@@ -140,10 +139,7 @@ import {
 } from '@/api/viewsApi/home'
 import {loadweb3} from '@/utils/web3.js'
 import {getdaoinfo} from '@/api/earnings'
-import {
-  getmessageopen,
-  list
-} from '@/api/case'
+import {getmessageopen,} from '@/api/case'
 
 export default {
   components: {
@@ -153,7 +149,7 @@ export default {
   name: 'home',
   data() {
     return {
-      iconLang: 'arrow-down',
+      iconLang: "arrow-down",
       showPopup: false,
       lang: [
         {
@@ -174,26 +170,28 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.getItem('myaddress')) {
+    if (localStorage.getItem("myaddress")) {
       //有钱包地址
       this.handle()
     } else {
       //没有钱包地址
-      loadweb3(this.handle)
+      loadweb3(this.handle);
     }
   },
   methods: {
     getLocal() {
       // 获取用户信息
       getdaoinfo().then((res) => {
-        this.user = res.data.items
-        localStorage.setItem('user', JSON.stringify(res.data.items))
-        localStorage.setItem('items', res.data.items.daoEOTC)
-        localStorage.setItem('uid', res.data.items.uid)
-        localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
-        localStorage.setItem('isExamine', res.data.items.isExamine)
-        localStorage.setItem('authType', res.data.items.authType)
-      })
+        console.log(res);
+        this.user = res.data.items;
+        localStorage.setItem("user", JSON.stringify(res.data.items));
+        localStorage.setItem("items", res.data.items.daoEOTC);
+        localStorage.setItem("uid", res.data.items.uid);
+        localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
+        localStorage.setItem("isExamine", res.data.items.isExamine);
+        localStorage.setItem("authType", res.data.items.authType);
+        localStorage.setItem("isEnable", res.data.items.isEnable);
+      });
     },
     handle() {
       this.getuserrisklevel()
@@ -205,18 +203,18 @@ export default {
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
-          this.cookie.set('riskLevel', res.data.items)
-          this.cookie.set('riskShow', 'false')
+          this.cookie.set("riskLevel", res.data.items);
+          this.cookie.set("riskShow", "false");
           if (res.data.items == 2 && !this.riskShow) {
             this.$nextTick().then(() => {
-              this.$refs.notification.toggle(true)
-            })
+              this.$refs.notification.toggle(true);
+            });
           }
           if (res.data.items == 2 && this.riskShow) {
-            this.tanShow = true
+            this.tanShow = true;
           }
         }
-      })
+      });
     },
     // 获取是否有仲裁未处理
     getUnhandledArbitrationMsg() {
@@ -233,7 +231,7 @@ export default {
     },
     //弹框点击事件
     buttonClick() {
-      this.tanShow = true
+      this.tanShow = true;
     },
     // 获取最新的十个提案
     getProposal() {
@@ -242,20 +240,20 @@ export default {
         itemsPerPage: 10
       }).then((res) => {
         if (res.data.code == 0) {
-          this.proposalList = res.data.items
+          this.proposalList = res.data.items;
         }
-      })
+      });
     },
     //跳转到解除风控
     Remove_risk() {
-      this.$router.push('/relieve')
+      this.$router.push("/relieve");
     },
     // 选择语言
     handleTabLang() {
       if (this.showPopup) {
-        this.iconLang = 'arrow-down'
+        this.iconLang = "arrow-down";
       } else {
-        this.iconLang = 'arrow-up'
+        this.iconLang = "arrow-up";
       }
       this.showPopup = !this.showPopup
     }

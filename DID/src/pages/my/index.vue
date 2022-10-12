@@ -241,7 +241,7 @@ export default {
     handleRefresh() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…",
+        message: this.$t("public.loading"),
       });
       getuserinfo()
         .then((res) => {
@@ -255,9 +255,9 @@ export default {
             if (!this.isShow) {
               this.$dialog
                 .confirm({
-                  message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
-                  confirmButtonText: "确定前往",
-                  cancelButtonText: "稍后前往",
+                  message: this.$t("my.my_dialog1_msg"),
+                  confirmButtonText: this.$t("my.my_dialog1_text1"),
+                  cancelButtonText: this.$t("my.my_dialog1_text2"),
                 })
                 .then(() => {
                   this.$router.push("/my/community/setting");
@@ -290,20 +290,20 @@ export default {
             switch (this.userInfo.authType) {
               case 0:
                 options.type = "confirm";
-                options.title = "身份认证";
-                options.message = "身份未认证，请立即认证";
+                options.title = this.$t("my.my_index_title1");
+                options.message = this.$t("my.my_index_msg1");
                 options.cb = () => this.$router.push({ path: "/my/identity" });
                 break;
               case 1:
                 options.type = "alert";
-                options.title = "身份认证";
-                options.message = "身份认证审核中，请耐心等待";
+                options.title = this.$t("my.my_index_title1");
+                options.message = this.$t("my.my_index_msg2");
                 options.cb = null;
                 break;
               case 3:
                 options.type = "confirm";
-                options.title = "身份认证";
-                options.message = "身份认证审核未通过，请重新认证";
+                options.title = this.$t("my.my_index_title1");
+                options.message = this.$t("my.my_index_msg3");
                 options.cb = this.$router.push({
                   name: "identity",
                   params: { name, phoneNum, idCard },
@@ -314,7 +314,9 @@ export default {
               title: options.title,
               message: options.message,
               confirmButtonText:
-                options.type === "confirm" ? "前往认证" : "确定",
+                options.type === "confirm"
+                  ? this.$t("my.my_index_text1")
+                  : this.$t("public.confirm"),
               confirmButtonColor: "#F65F5F",
               beforeClose: (action, done) => {
                 if (action === "confirm") {
@@ -332,9 +334,9 @@ export default {
       } else {
         this.$dialog
           .confirm({
-            title: "推荐关系",
-            message: "暂未绑定推荐关系，请立即绑定",
-            confirmButtonText: "立即绑定",
+            title: this.$t("my.my_index_title2"),
+            message: this.$t("my.my_index_msg4"),
+            confirmButtonText: this.$t("my.my_index_text2"),
             confirmButtonColor: "#F65F5F",
             beforeClose: (action, done) => {
               if (action === "confirm") {

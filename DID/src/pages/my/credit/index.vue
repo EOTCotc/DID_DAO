@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <van-nav-bar
-      title="信用评分"
+      :title="$t('credit.tags1')"
       fixed
       placeholder
       left-arrow
@@ -17,7 +17,7 @@
             :duration="duration"
           ></countTo>
         </p>
-        <p>信用评分总计</p>
+        <p>{{ $t("credit.tags2") }}</p>
       </div>
       <div class="svgbox">
         <svg class="svg" viewBox="0 0 300 300">
@@ -58,12 +58,12 @@
       v-model="active"
       @change="activeNum"
     >
-      <van-tab title="加分记录">
+      <van-tab :title="$t('credit.tags3')">
         <div class="center">
           <van-list
             v-model="loading"
             :finished="finished"
-            :finished-text="!!list.length ? '没有更多了' : ''"
+            :finished-text="!!list.length ? $t('bindRelation.not_more') : ''"
             @load="onLoad"
           >
             <div v-if="!!list.length">
@@ -79,17 +79,17 @@
               v-else
               class="custom-image"
               :image="require('@/assets/imgs/empty.png')"
-              description="暂无任何数据"
+              :description="$t('public.not_data')"
             />
           </van-list>
         </div>
       </van-tab>
-      <van-tab title="扣分记录">
+      <van-tab :title="$t('credit.tags4')">
         <div class="center">
           <van-list
             v-model="loading"
             :finished="finished"
-            :finished-text="!!list.length ? '没有更多了' : ''"
+            :finished-text="!!list.length ? $t('bindRelation.not_more') : ''"
             @load="onLoad"
           >
             <div v-if="!!list.length">
@@ -105,7 +105,7 @@
               v-else
               class="custom-image"
               :image="require('@/assets/imgs/empty.png')"
-              description="暂无任何数据"
+              :description="$t('public.not_data')"
             />
           </van-list>
         </div>

@@ -14,37 +14,43 @@
             </div>
           </div>
         </div>
-        <div class='eotc'>
-          <div class='sum'>总收益(EOTC)</div>
-          <div class='ming'>
-            <span style='font-size: 28px'>{{ user.daoEOTC }}</span><span @click='detail'>收益明细</span>
+        <div class="eotc">
+          <div class="sum">{{ $t("user.total") }}</div>
+          <div class="ming">
+            <span style="font-size: 28px">{{ user.daoEOTC }}</span
+            ><span @click="detail">{{ $t("user.detailed") }}</span>
           </div>
         </div>
       </div>
-      <div class='Onlineswitch'
-           v-if='isArbitrate==1 && isExamine==1'>
-        <div class='div1'>
-          <div class='div2'>
-            <div class='parent'><span>在线</span>
+
+      <div class="Onlineswitch" v-if="isArbitrate == 1 && isExamine == 1">
+        <div class="div1">
+          <div class="div2">
+            <div class="parent">
+              <span>{{ $t("user.parent") }}</span>
               <van-popover
-                v-model='showPopover'
-                :get-container='getContainer'
-                :offset='[0,4]'
-                :actions='actions'
-                trigger='click'
-                @click='showPopover = !showPopover'>
+                v-model="showPopover"
+                :get-container="getContainer"
+                trigger="click"
+                :actions="actions"
+                @click="showPopover = !showPopover"
+              >
                 <template #reference>
                   <van-image
-                    width='19'
-                    height='19'
-                    :src="require('./assets/image/sw.png')" />
+                    width="19"
+                    height="19"
+                    :src="require('./assets/image/sw.png')"
+                  />
                 </template>
               </van-popover>
             </div>
+
             <van-switch
-              v-model='checked'
-              size='23px'
-              inactive-color='#484848 ' />
+              :value="checked"
+              size="23px"
+              inactive-color="#484848"
+              @input="onInput"
+            />
           </div>
         </div>
       </div>
@@ -54,9 +60,9 @@
   </div>
 </template>
 <script>
-import TopBar from '@/components/topBar/topBar'
-import List from '../../components/Nav/List.vue'
-
+import TopBar from "@/components/topBar/topBar";
+import List from "../../components/Nav/List.vue";
+import { setDaoenable } from "@/api/earnings";
 export default {
   components: {
     TopBar,
@@ -64,29 +70,43 @@ export default {
   },
   data() {
     return {
-      checked: true,
+      checked: localStorage.getItem("isEnable") == 0 ? false : true,
       total: 0,
-      isArbitrate: +localStorage.getItem('isArbitrate'),
-      isExamine: +localStorage.getItem('isExamine'),
+      isArbitrate: +localStorage.getItem("isArbitrate"),
+      isExamine: +localStorage.getItem("isExamine"),
       showPopover: false,
       actions: [
         {
-          text: '在线开关，开启后审核及仲裁案将优先为您分配相应的处理事件/案件.'
-        }
+          text: this.$t("user.text"),
+        },
       ],
-      user: JSON.parse(localStorage.getItem('user'))
-    }
+      user: JSON.parse(localStorage.getItem("user")),
+    };
   },
   methods: {
     // 去往详情页
     detail() {
-      this.$router.push('/Home_detail')
+      this.$router.push("/Home_detail");
     },
     getContainer() {
-      return document.querySelector('.parent')
-    }
-  }
-}
+      return document.querySelector(".parent");
+    },
+    //是否启用Dao审核仲裁权限
+    onInput(checked) {
+      this.checked = checked;
+      let enable = undefined;
+      if (this.checked == false) {
+        enable = 0;
+      } else {
+        enable = 1;
+      }
+      localStorage.setItem("isEnable", enable);
+      setDaoenable({ isEnable: enable }).then((res) => {
+        console.log(res);
+      });
+    },
+  },
+};
 </script>
 <style lang='scss' scoped>
 .personage {
