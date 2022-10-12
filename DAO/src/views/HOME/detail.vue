@@ -12,7 +12,7 @@
             <van-col span="8">{{ $t("detail.time") }}</van-col>
           </van-row>
           <van-row v-for="(item, index) in personageArr" :key="index">
-            <van-col span="8">{{ item.eotc }} {{ $t("detail.eotc") }}</van-col>
+            <van-col span="8">{{ item.eotc }} EOTC</van-col>
             <van-col span="7">
               <span v-if="item.type == 0">{{ $t("detail.type_zoer") }}</span>
               <span v-if="item.type == 1">{{ $t("detail.type_one") }}</span>

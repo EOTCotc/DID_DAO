@@ -116,22 +116,21 @@ export default {
   color: #000;
 }
 .parent ::v-deep .van-popover__action {
-  width: 345px !important;
-  height: 80px;
   font-size: 16px;
-  line-height: 28px;
+  width: 345px !important;
+  margin: 10px 0;
 }
-.parent ::v-deep .van-popover {
+.parent ::v-deep .van-popup {
+  width: 345px !important;
+  border-radius: 8px;
   position: absolute !important;
   top: 65px !important;
   left: 15px !important;
 }
-.parent
-  ::v-deep
-  .van-popover[data-popper-placement="bottom"]
-  .van-popover__arrow {
-  left: 13% !important;
+.parent ::v-deep .van-popover__arrow {
+  left: 13% ;
 }
+
 .Onlineswitch {
   padding: 0 25px 0 30px;
   border-radius: 15px;
