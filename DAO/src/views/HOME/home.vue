@@ -83,7 +83,7 @@
           <span> {{ $t("home.copyright") }}</span>
         </div>
         <div @click="handleTabLang">
-          <span class="tab-lang">{{ $t("home.language") }}</span>
+          <span class="tab-lang">{{langText}}</span>
           <van-icon :name="iconLang" />
         </div>
       </div>
@@ -94,7 +94,7 @@
         position="right"
       >
         <div class="menu">
-          <div class="menu-every" v-for="item in lang" :key="item.id">
+          <div class="menu-every" v-for="item in lang" @click="tabLang(item)" :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>
@@ -142,9 +142,13 @@ export default {
       tanShow: false,
       proposalList: [], //提案列表
       riskShow: this.cookie.get("riskShow"),
+      langText:'简体中文'
     };
   },
   mounted() {
+    if(localStorage.getItem('lang')){
+      this.langText=JSON.parse(localStorage.getItem('lang')).text
+    }
     if (localStorage.getItem("myaddress")) {
       //有钱包地址
       this.handle();
@@ -215,6 +219,10 @@ export default {
       }
       this.showPopup = !this.showPopup;
     },
+    tabLang(item){
+      console.log(item);
+      localStorage.setItem('lang',JSON.stringify(item))
+    }
   },
 };
 </script>
