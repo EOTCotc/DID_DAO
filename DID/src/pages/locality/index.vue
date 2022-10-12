@@ -173,7 +173,7 @@ export default {
         this.req.city = this.columns[i[0]].children[i[1]].eng;
         this.req.area = this.columns[i[0]].children[i[1]].children[i[2]].eng;
       } else {
-        this.$toast.fail("请先选择国家");
+        this.$toast.fail(this.$t('public.toast1'));
       }
       // 选择省市区的显示隐藏
       this.showPopup = false;
@@ -184,7 +184,7 @@ export default {
         if (this.req.province) {
           setuserinfo(this.req).then((res) => {
             if (res.data.code == 0) {
-              this.$toast.success("保存成功");
+              this.$toast.success(this.$t('public.suc'));
               setTimeout(() => {
                 this.$router.back();
               }, 600);
@@ -194,12 +194,12 @@ export default {
             }
           });
         } else {
-          this.$toast("请选择省份");
+          this.$toast(this.$t('bindRelation.msg1'));
         }
       } else {
         setuserinfo(this.req).then((res) => {
           if (res.data.code == 0) {
-            this.$toast.success("保存成功");
+            this.$toast.success(this.$t('public.suc'));
             setTimeout(() => {
               this.$router.back();
             }, 600);
