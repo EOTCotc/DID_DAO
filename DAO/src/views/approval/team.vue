@@ -1,108 +1,104 @@
 <template>
-  <van-pull-refresh v-model="list.uploading" @refresh="handleBottomRefresh">
+  <van-pull-refresh v-model="list.uploading"
+                    @refresh="handleBottomRefresh">
     <div class="certificationAudit_wrap bg-gray fullscreen">
-      <page-header title="团队成员名单申请" />
-      <van-tabs
-        v-model="tab.active"
-        swipeable
-        title-inactive-color="#8D94A2"
-        @change="handleChangeTab"
-      >
-        <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
+      <page-header :title="$t('Teammember.title')" />
+      <van-tabs v-model="tab.active"
+                swipeable
+                title-inactive-color="#8D94A2"
+                @change="handleChangeTab">
+        <van-tab v-for="item in tab.data"
+                 :key="item"
+                 :title="item"> </van-tab>
       </van-tabs>
-      <van-list
-        class="list_wrap"
-        v-show="!!list.data.length"
-        v-model="list.UpRefreshLoading"
-        :finished="!!list.data.length && list.finished"
-        finished-text="没有更多了"
-        @load="handleUpRefresh"
-      >
+      <van-list class="list_wrap"
+                v-show="!!list.data.length"
+                v-model="list.UpRefreshLoading"
+                :finished="!!list.data.length && list.finished"
+                :finished-text="$t('cApproval.nomore')"
+                @load="handleUpRefresh">
         <ul class="list">
-          <li class="item" v-for="item in list.data" :key="item.id">
-            <img
-              class="status"
-              v-if="tab.active === 1"
-              :src="
+          <li class="item"
+              v-for="item in list.data"
+              :key="item.id">
+            <img class="status"
+                 v-if="tab.active === 1"
+                 :src="
                 require(`../../assets/imgs/status_${
                   item.auditType === 1 ? 'confirm' : 'cancel'
                 }.png`)
               "
-              alt=""
-            />
+                 alt="" />
             <van-row class="item-row user">
-              <van-cell
-                :title="item.user"
-                :value="transformUTCDate(item.createDate)"
-              ></van-cell>
+              <van-cell :title="item.user"
+                        :value="transformUTCDate(item.createDate)"></van-cell>
             </van-row>
             <van-row class="item-row">
-              <van-col span="8" class="name">团队人数</van-col>
-              <van-col span="16" class="value">{{ item.teanNum }}</van-col>
+              <van-col span="8"
+                       class="name">{{$t('Teammember.teanNum')}}</van-col>
+              <van-col span="16"
+                       class="value">{{ item.teanNum }}</van-col>
             </van-row>
             <van-row class="item-row">
-              <van-col span="8" class="name">推荐人</van-col>
-              <van-col span="16" class="value">
+              <van-col span="8"
+                       class="name">{{$t('cApproval.referrer')}}</van-col>
+              <van-col span="16"
+                       class="value">
                 {{ item.refUser }}
-                <i class="icon-service icon" @click="showReferrer(item)"></i>
+                <i class="icon-service icon"
+                   @click="showReferrer(item)"></i>
               </van-col>
             </van-row>
-            <van-row class="item-row" gutter="20" v-if="tab.active === 0">
+            <van-row class="item-row"
+                     gutter="20"
+                     v-if="tab.active === 0">
               <van-col span="12">
-                <van-button
-                  class="more"
-                  color="#237FF8"
-                  round
-                  plain
-                  block
-                  type="primary"
-                  @click="cancel(item)"
-                >
-                  驳回
+                <van-button class="more"
+                            color="#237FF8"
+                            round
+                            plain
+                            block
+                            type="primary"
+                            @click="cancel(item)">
+                  {{$t('cApproval.cancel')}}
                 </van-button>
               </van-col>
               <van-col span="12">
-                <van-button
-                  class="more"
-                  round
-                  block
-                  color="#237FF8"
-                  type="primary"
-                  @click="confirm(item)"
-                >
-                  批准
+                <van-button class="more"
+                            round
+                            block
+                            color="#237FF8"
+                            type="primary"
+                            @click="confirm(item)">
+                  {{$t('cApproval.ratify')}}
                 </van-button>
               </van-col>
             </van-row>
           </li>
         </ul>
       </van-list>
-      <van-empty
-        v-show="!list.data.length"
-        class="custom-image"
-        :image="require('../../assets/imgs/empty.png')"
-        description="暂无任何数据"
-      />
+      <van-empty v-show="!list.data.length"
+                 class="custom-image"
+                 :image="require('../../assets/imgs/empty.png')"
+                 :description="$t('cApproval.Nodata')" />
     </div>
     <referrer ref="referrer" />
-    <reject
-      ref="reject"
-      title="驳回原因"
-      :types="['未实名认证', '其他']"
-      @handleReject="handleReject"
-    />
+    <reject ref="reject"
+            :title="$t('cApproval.cause')"
+            :types="$t('Teammember.FailCause')"
+            @handleReject="handleReject" />
   </van-pull-refresh>
 </template>
 
 <script>
-import pageHeader from "@/components/topBar/pageHeader.vue";
-import Reject from "@/components/reject";
-import Referrer from "./referrer";
-import { list, approvalConfirm } from "@/api/approval/team";
-import { transformUTCDate } from "@/utils/utils";
+import pageHeader from '@/components/topBar/pageHeader.vue'
+import Reject from '@/components/reject'
+import Referrer from './referrer'
+import { list, approvalConfirm } from '@/api/approval/team'
+import { transformUTCDate } from '@/utils/utils'
 
 export default {
-  name: "approvalCommunity",
+  name: 'approvalCommunity',
   components: {
     pageHeader,
     Referrer,
@@ -113,7 +109,7 @@ export default {
       // 当前选择的列表项的id
       id: null,
       tab: {
-        data: ["待处理", "已处理"],
+        data: this.$t('Teammember.data'),
         active: 0,
       },
       list: {
@@ -126,68 +122,68 @@ export default {
         },
         data: [],
       },
-    };
+    }
   },
   methods: {
     handleChangeTab() {
-      this.list.query.page = 1;
-      this.list.finished = false;
-      this.list.data = [];
-      this.getList();
+      this.list.query.page = 1
+      this.list.finished = false
+      this.list.data = []
+      this.getList()
     },
     // 下拉刷新
     handleBottomRefresh() {
-      this.list.uploading = true;
-      this.getList();
+      this.list.uploading = true
+      this.getList()
     },
     // 滚动到底翻页
     handleUpRefresh() {
-      this.list.query.page++;
-      this.list.UpRefreshLoading = true;
-      this.getList();
+      this.list.query.page++
+      this.list.UpRefreshLoading = true
+      this.getList()
     },
     // 获取列表
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "'列表加载中…'",
-      });
+        message: this.$t('cApproval.load'),
+      })
       list({ ...this.list.query, type: this.tab.active })
         .then((res) => {
           if (!res.data.code) {
-            const data = res.data.items;
+            const data = res.data.items
             if (this.list.query.page === 1) {
-              this.list.data = data;
+              this.list.data = data
             } else {
-              this.list.data.push(...data);
+              this.list.data.push(...data)
             }
-            this.list.finished = !data.length;
-            console.log(this.list.finished);
+            this.list.finished = !data.length
+            console.log(this.list.finished)
           }
         })
         .finally(() => {
-          loading.clear();
-          this.list.uploading = false;
-          this.list.UpRefreshLoading = false;
-        });
+          loading.clear()
+          this.list.uploading = false
+          this.list.UpRefreshLoading = false
+        })
     },
     showReferrer(data) {
-      let dom = this.$refs.referrer;
-      dom.toggle(true);
-      dom.getInfo(data);
-      dom = null;
+      let dom = this.$refs.referrer
+      dom.toggle(true)
+      dom.getInfo(data)
+      dom = null
     },
     // 批准
     confirm(data) {
       this.handleSubmit(
-        "批准提示",
-        "请确保申请人填写信息无误，确定批准申请？",
+        this.$t('cApproval.Approvalprompt'),
+        this.$t('cApproval.Approvalmesg'),
         {
           teamAuthId: data.teamAuthId,
           auditType: 1,
-          remark: "",
+          remark: '',
         }
-      );
+      )
     },
     // 提交信息
     handleSubmit(title, message, params) {
@@ -195,58 +191,62 @@ export default {
         .confirm({
           title,
           message,
-          className: "referrerConfirmDialog",
-          cancelButtonColor: "#666",
-          confirmButtonColor: "#1B2945",
+          className: 'referrerConfirmDialog',
+          cancelButtonColor: '#666',
+          confirmButtonColor: '#1B2945',
           beforeClose: (action, done) => {
-            if (action === "confirm") {
+            if (action === 'confirm') {
               approvalConfirm(params).then((res) => {
-                done();
+                done()
                 if (res.data.code) {
                   this.$toast({
-                    type: "fail",
-                    message: "操作失败",
-                  });
+                    type: 'fail',
+                    message: this.$t('cApproval.failure'),
+                  })
                 } else {
                   this.$toast({
-                    type: "success",
+                    type: 'success',
                     message: res.data.message,
-                  });
-                  this.getList();
+                  })
+                  this.getList()
                 }
-              });
+              })
             } else {
-              done();
+              done()
             }
           },
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     // 驳回
     cancel(data) {
-      this.$refs.reject.toggle(true);
-      this.id = data.teamAuthId;
+      this.$refs.reject.toggle(true)
+      this.id = data.teamAuthId
     },
     // 驳回信息提交
     handleReject(data) {
-      const { type, remark } = data;
-      this.handleSubmit("驳回提示", "确定驳回申请？", {
-        teamAuthId: this.id,
-        auditType: this.getAuditType(type),
-        remark,
-      });
+      const { type, remark } = data
+      this.handleSubmit(
+        this.$t('cApproval.Dismiss'),
+        this.$t('cApproval.Dismissmesg'),
+        {
+          teamAuthId: this.id,
+          auditType: this.getAuditType(type),
+          remark,
+        }
+      )
     },
     // 获取审核状态
     getAuditType(type) {
-      return ["未审核", "审核通过", "未实名认证", "其他"].indexOf(type);
+      return this.$t('Teammember.statusdata').indexOf(type)
     },
     // 转换时间格式
     transformUTCDate,
   },
   created() {
-    this.getList();
+    this.getList()
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
