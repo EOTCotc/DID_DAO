@@ -38,10 +38,6 @@
         <div class="label">
           <span class="text">{{ $t("reject.tags3") }}</span>
         </div>
-        <!--        <div class="switch" @click="handleSwitch">-->
-        <!--          <span class="text">{{isInput ? '选择' : '输入'}}</span>-->
-        <!--          <i class="icon icon-refresh"></i>-->
-        <!--        </div>-->
       </div>
       <div class="item" v-show="isInput">
         <van-field
@@ -70,35 +66,29 @@
 </template>
 
 <script>
+function arr() {
+  return this.$t("reject.data");
+}
 export default {
   props: {
     title: { required: true, type: String },
     types: {
       type: Array,
-      default: () => [
-        this.$t("reject.data1"),
-        this.$t("reject.data2"),
-        this.$t("reject.data3"),
-        this.$t("reject.data4"),
-      ],
+      default: arr,
     },
   },
   data() {
     return {
       show: false,
       showPopover: false,
-      reason: [
-        this.$t("reject.data1"),
-        this.$t("reject.data2"),
-        this.$t("reject.data3"),
-        this.$t("reject.data4"),
-      ],
+      reason: this.$t("reject.data"),
       isInput: true,
       type: "",
       remark: "",
     };
   },
   methods: {
+    arr,
     toggle(show) {
       this.show = show;
     },

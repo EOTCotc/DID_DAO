@@ -431,7 +431,7 @@ module.exports = {
     nav_title: "Work order system",
     status_one: "Pending",
     status2_two: "Processing",
-    status3_three: "Processing",
+    status3_three: "Processed",
     title_one: "BUG feedback",
     title_two: "Function suggestions",
     text: "submitter",
@@ -503,7 +503,7 @@ module.exports = {
   check: {
     nav_title: "Check identity information",
     name: "full name",
-    phone: "cell-phone number",
+    phone: "phone number",
     card: "Certificate No",
     identity: "ID",
     card_photo: "ID Photo",
@@ -815,5 +815,22 @@ module.exports = {
     btn_text: "You must hold 10000EOTC to submit a proposal",
     btn_submit: "Submit proposal",
     success: "Submitted successfully!",
+  },
+  reject: {
+    tags1: "type",
+    tags2:
+      "The malicious user and the passing recommender node will be deducted the corresponding credit score",
+    tags3: "specific reason",
+    tags4: "Please enter the specific reason",
+    data: [
+      "incomplete information",
+      "wrong information",
+      "The ID photo is wrong",
+      "The ID photo is not clear",
+    ],
+  },
+  public: {
+    cancel: "cancel",
+    confirm: "confirm",
   },
 };
