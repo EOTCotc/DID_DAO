@@ -7,15 +7,15 @@ module.exports = {
     },
   },
   topBar: {
-    name1: 'EOTC官网',
-    name2: '去中心化OTC交易所',
-    name3: '去中心化币币交易所',
-    name4: '去中心化借贷交易所',
-    name5: '去中心化合约交易所',
-    name6: '链上理财赚币',
-    name7: 'DID去中心化身份系统',
-    name8: '去中心化应用系统',
-    name9: 'EOTC 元宇宙',
+    name1: "EOTC官网",
+    name2: "去中心化OTC交易所",
+    name3: "去中心化币币交易所",
+    name4: "去中心化借贷交易所",
+    name5: "去中心化合约交易所",
+    name6: "链上理财赚币",
+    name7: "DID去中心化身份系统",
+    name8: "去中心化应用系统",
+    name9: "EOTC 元宇宙",
   },
   home: {
     text1: "围绕EOTC所有去中去化业务建立的团队",
@@ -579,7 +579,7 @@ module.exports = {
     title7: "仲裁消息",
     dialogtitle: "提示",
     dialogmessage: "暂未成为仲裁员",
-    dialogtext: "前往申请"
+    dialogtext: "前往申请",
   },
   audit: {
     title1: "审核",
@@ -590,7 +590,7 @@ module.exports = {
     title6: "团队成员名单申请",
     dialogtitle: "提示",
     dialogmessage: "暂未成为审核节点",
-    dialogtext: "前往申请"
+    dialogtext: "前往申请",
   },
   cApproval: {
     title: "申请社区审批",
@@ -614,7 +614,7 @@ module.exports = {
     Approvalmesg: "请确保申请人填写信息无误，确定批准申请？",
     failure: "操作失败",
     Dismiss: "驳回提示",
-    Dismissmesg: "确定驳回申请？"
+    Dismissmesg: "确定驳回申请？",
   },
   Autionaudit: {
     title: "身份认证审核",
@@ -624,20 +624,20 @@ module.exports = {
     cancel: "打回",
     ratify: "通过",
     arr: [
-      '未审核',
-      '审核通过',
-      '信息不全',
-      '信息有误',
-      '证件照片有误',
-      '证件照片不清晰',
-    ]
+      "未审核",
+      "审核通过",
+      "信息不全",
+      "信息有误",
+      "证件照片有误",
+      "证件照片不清晰",
+    ],
   },
   Teammember: {
     title: "团队成员名单申请",
     teanNum: "团队人数",
-    FailCause: ['未实名认证', '其他'],
-    data: ['待处理', '已处理'],
-    statusdata: ['未审核', '审核通过', '未实名认证', '其他']
+    FailCause: ["未实名认证", "其他"],
+    data: ["待处理", "已处理"],
+    statusdata: ["未审核", "审核通过", "未实名认证", "其他"],
   },
   arbitrationcase: {
     Toprooftl: "发起重新举证",
