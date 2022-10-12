@@ -1,95 +1,87 @@
 <template>
   <div class="publicity_wrap fullscreen">
-    <white :title="title1" :name="name"></white>
+    <white :title="title1"
+           :name="name"></white>
     <div class="content">
       <div class="main">
-        <van-cell
-          title="仲裁员公示"
-          title-class="row-title"
-          is-link
-          to="/user/arbitration/publicity/personnel"
-        />
-        <van-cell
-          title="仲裁案公示"
-          title-class="row-title"
-          is-link
-          to="/user/arbitration/publicity/case"
-        />
-        <van-cell
-          :title="title"
-          title-class="row-title"
-          is-link
-          to="/user/meetTheConditions"
-        />
-        <van-cell
-          title="仲裁案件"
-          title-class="row-title"
-          is-link
-          @click="auth('/user/arbitration/case')"
-        />
+        <van-cell :title="$t('arbitrate.title4')"
+                  title-class="row-title"
+                  is-link
+                  to="/user/arbitration/publicity/personnel" />
+        <van-cell :title="$t('arbitrate.title5')"
+                  title-class="row-title"
+                  is-link
+                  to="/user/arbitration/publicity/case" />
+        <van-cell :title="title"
+                  title-class="row-title"
+                  is-link
+                  to="/user/meetTheConditions" />
+        <van-cell :title="$t('arbitrate.title6')"
+                  title-class="row-title"
+                  is-link
+                  @click="auth('/user/arbitration/case')" />
         <div class="msg">
-          <van-cell
-            title="仲裁消息"
-            title-class="row-title"
-            is-link
-            to="/arbitrationList"
-          />
-          <div class="dot" v-show="isDot"></div>
+          <van-cell :title="$t('arbitrate.title7')"
+                    title-class="row-title"
+                    is-link
+                    to="/arbitrationList" />
+          <div class="dot"
+               v-show="isDot"></div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import white from "@/components/Nav/white.vue";
-import { getmessageisopen } from "@/api/viewsApi/Arbitration.js";
+import white from '@/components/Nav/white.vue'
+import { getmessageisopen } from '@/api/viewsApi/Arbitration.js'
 
 export default {
-  name: "arbitration",
+  name: 'arbitration',
   components: { white },
   data() {
     return {
-      isArbitrate: +localStorage.getItem("isArbitrate"),
-      title: "",
-      title1: "仲裁",
-      name: "personage",
+      isArbitrate: +localStorage.getItem('isArbitrate'),
+      title: '',
+      title1: this.$t('arbitrate.title1'),
+      name: 'personage',
       isDot: false,
       user: {},
-    };
+    }
   },
   mounted() {
     this.isArbitrate == 0
-      ? (this.title = "成为仲裁员")
-      : (this.title = "仲裁员身份");
-    this.getmessageisopen();
+      ? (this.title = this.$t('arbitrate.title2'))
+      : (this.title = this.$t('arbitrate.title3'))
+    this.getmessageisopen()
   },
   methods: {
     // 获取仲裁员是否有未读消息
     getmessageisopen() {
       getmessageisopen().then((res) => {
         if (res.data.code == 0) {
-          this.isDot = res.data.items;
+          this.isDot = res.data.items
         }
-      });
+      })
     },
     auth(path) {
       if (this.isArbitrate) {
-        this.$router.push(path);
+        this.$router.push(path)
       } else {
         this.$dialog
           .confirm({
-            title: "提示",
-            message: "暂未成为仲裁员",
-            confirmButtonText: "前往申请",
+            title: this.$t('arbitrate.dialogtitle'),
+            message: this.$t('arbitrate.dialogmessage'),
+            confirmButtonText: this.$t('arbitrate.dialogtext'),
           })
           .then(() => {
-            this.$router.push("/user/meetTheConditions");
+            this.$router.push('/user/meetTheConditions')
           })
-          .catch(() => {});
+          .catch(() => {})
       }
     },
   },
-};
+}
 </script>
 <style scoped lang='scss'>
 .publicity_wrap {

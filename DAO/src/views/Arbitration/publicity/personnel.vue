@@ -1,12 +1,12 @@
 <template>
   <van-pull-refresh v-model="list.uploading" @refresh="refresh">
     <div class="personnel_wrap fullscreen bg-gray">
-      <page-header title="仲裁员公示"></page-header>
+      <page-header :title="$t('personnel.nav_title')"></page-header>
       <div class="content">
         <van-list
           v-model="list.btloading"
           :finished="!!list.data.length && list.finished"
-          finished-text="没有更多了"
+          :finished-text="$t('personnel.finished_text')"
           @load="onLoad"
         >
           <ul class="list">
@@ -21,14 +21,14 @@
               <van-cell
                 title-class="title"
                 value-class="value"
-                title="申请时间"
+                :title="$t('personnel.Application_time')"
                 :border="false"
                 :value="item.date"
               />
               <van-cell
                 title-class="title"
                 value-class="value"
-                title="仲裁次数"
+                :title="$t('personnel.arbitrations')"
                 :border="false"
                 :value="item.count"
               />
