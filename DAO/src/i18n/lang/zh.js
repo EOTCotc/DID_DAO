@@ -776,4 +776,5 @@ module.exports = {
       data5: '取消仲裁',
       data6: '结案通知',
     }
-  };
+  }
+}
