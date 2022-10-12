@@ -816,4 +816,18 @@ module.exports = {
     btn_submit: "Submit proposal",
     success: "Submitted successfully!",
   },
+  reject: {
+    tags1: 'type',
+    tags2: 'The malicious user and the passing recommender node will be deducted the corresponding credit score',
+    tags3: 'specific reason',
+    tags4: 'Please enter the specific reason',
+    data1: 'incomplete information',
+    data2: 'wrong information',
+    data3: 'The ID photo is wrong',
+    data4: 'The ID photo is not clear',
+  },
+  public: {
+    cancel: 'cancel',
+    confirm: 'confirm',
+  },
 };
