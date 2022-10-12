@@ -10,6 +10,7 @@ export default {
     toast1: '请先选择国家',
     loading: '加载中…',
     not_data: '暂无任何数据',
+    suc: '保存成功'
   },
   rulesMsg: {
     email: '请填写邮箱地址',
@@ -20,6 +21,27 @@ export default {
     confirm_pass: '请确认密码',
     different_pass: '密码不相同',
     invited_address: '请输入邀请地址',
+  },
+  topBar: {
+    name1: 'EOTC官网',
+    name2: '去中心化OTC交易所',
+    name3: '去中心化币币交易所',
+    name4: '去中心化借贷交易所',
+    name5: '去中心化合约交易所',
+    name6: '链上理财赚币',
+    name7: 'DID去中心化身份系统',
+    name8: '去中心化应用系统',
+    name9: 'EOTC 元宇宙',
+  },
+  reject: {
+    tags1: '类型',
+    tags2: '恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分',
+    tags3: '具体原因',
+    tags4: '请输入具体原因',
+    data1: '信息不全',
+    data2: '信息有误',
+    data3: '证件照片有误',
+    data4: '证件照片不清晰',
   },
   // 登录注册页
   content: {
@@ -42,6 +64,11 @@ export default {
     registration: '确定注册',
     have_account: '已有账户',
     to_login: '去登录',
+    login_suc: '登录成功',
+    msg1: '请输入正确的邮箱或密码',
+    msg2: '注册成功',
+    msg3: '注册失败',
+    msg4: '请勾选协议'
   },
   // 首页
   home: {
@@ -49,6 +76,19 @@ export default {
     start_attestation: '开始认证',
     system_introduction: '系统简介',
     not_bound: '检测到您暂无推荐关系，为了账户安全性请前往绑定推荐关系',
+    tags1: '认证中',
+    tags2: '身份认证失败',
+    tags3: `EOTC DID是去中心化身份体系，是独立运行、分布式存储的去中心化身份存储、授权调用的身份系统。EOTC
+    DID采用强关系链方式注册、由EOTC DAO配合审核和治理。 EOTC
+    DID可以链接所有公链，可以为所有公链上的任意地址提供去中心化身份的强关系链注册、去中心化审核、应用绑定、敏感信息加密存储、脱敏标签商业转化、信息授权调用等服务。`,
+    tags4: `EOTC DID的出现将在高度保护用户隐私同时弥补区块链无法识别公链地址持有人身份、无法给地址持有人打商业标签的空白，EOTC
+    DID将为区块链世界注入强大的基础应用支持，开启更加高效更加安全更加科学的区块链商业应用。`,
+    tags5: '2022年EOTC版权所有。',
+    tags6: '检测到您暂无推荐关系，为了账户',
+    tags7: '安全性请前往绑定推荐关系',
+    title1: '系统检测您的账号存在异常',
+    title2: '暂无法使用该系统，请根据提示解除风控',
+    title3: '解除风控'
   },
   // 账号设置
   setup: {
@@ -120,6 +160,7 @@ export default {
     comm_tip: '为了您的账户安全，请加入所在地的电报群联系管理进行线下建立推荐关系',
     not_more: '没有更多了',
     adbout: '社区简介',
+    msg1: '请选择省份',
   },
   // 账号注销(logout文件)
   logout: {
@@ -329,12 +370,16 @@ export default {
     tags3: '通过',
     tags4: '恶意提交',
     tags5: '信息有误',
+    tags6: '电话号码',
+    tags7: '质押数量',
+    tags8: '批准',
+    tags9: '驳回原因',
     data1: '待审批',
     data2: '已审批',
     data3: '驳回',
     data4: '列表加载中…',
     data5: '批准提示',
-    data6: '请确保申请人填写信息无误\n确定批准申请？',
+    data6: '请确保申请人填写信息无误，确定批准申请？',
     msg1: '操作成功',
     data7: '驳回提示',
     data8: '确定驳回申请？',
@@ -350,6 +395,7 @@ export default {
     tags3: '加分记录',
     tags4: '扣分记录',
   },
+  // 社区（index,create）
   community: {
     tags1: '简介',
     tags2: 'QQ群',
@@ -372,6 +418,36 @@ export default {
     tags18: '是否建群',
     tags19: '是',
     tags20: '否',
-    
+    msg2: '请确定提交信息无误，提交批准后将不可更改',
+  },
+  // process
+  process: {
+    tags1: '审批进程',
+    tags2: '很抱歉，您的创建社区申请本次申请被驳回',
+    tags3: '驳回原因如下',
+    tags4: '重新提交申请',
+  },
+  setting: {
+    title1: '社区信息',
+    title2: '请输入…',
+    title3: '填写电报群地址',
+    title4: '填写QQ群号',
+    title5: '填写Discord账号',
+    title6: '申请提交成功',
+    title7: '结果将在7个工作日内进行反馈',
+    tags1: '展示图片',
+    tags2: '不传则显示默认图片',
+    tags3: '知道了',
+    data1: '上传中',
+    data2: '正在提交…',
+  },
+  // 风控
+  risk: {
+    tags1: '为了正常使用账户，请及时与以下5位联系人进行视频身份核对',
+    tags2: '3位及以上联系人解除即生效',
+    tags3: '解除风控联系',
+    tags4: '联系人',
+    data1: '呼叫',
+    data2: '复制号码'
   }
 }

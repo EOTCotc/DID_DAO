@@ -311,7 +311,7 @@ export default {
   justify-content: space-around;
   .van-tag {
     display: inline-block;
-    padding: 6.4px 24px;
+    padding: 6.4px 18px;
   }
   .after {
     background: #e8f2ff;

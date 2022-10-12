@@ -40,10 +40,6 @@
         <div class="label">
           <span class="text">{{ $t("reject.tags3") }}</span>
         </div>
-        <!--        <div class="switch" @click="handleSwitch">-->
-        <!--          <span class="text">{{isInput ? '选择' : '输入'}}</span>-->
-        <!--          <i class="icon icon-refresh"></i>-->
-        <!--        </div>-->
       </div>
       <div class="item"
            v-show="isInput">

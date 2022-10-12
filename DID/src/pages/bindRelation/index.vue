@@ -142,7 +142,7 @@ export default {
         }
         this.getComNum();
       } else {
-        this.$toast.fail("请先选择国家");
+        this.$toast.fail(this.$t('public.toast1'));
       }
       this.showPopup = false;
     },
