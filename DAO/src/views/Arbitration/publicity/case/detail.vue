@@ -28,9 +28,13 @@
         </van-col>
       </van-row>
       <div class="process_wrap">
-        <div class="lt chunk" :style="{'flex': `0 0 ${info.plaintiffNum / info.total * 100}%`}"></div>
-        <div class="border"></div>
-        <div class="rt chunk"></div>
+        <van-progress
+          stroke-width="12"
+          :percentage="info.plaintiffNum / info.total * 100 || 0"
+          :show-pivot="false"
+          color="#4EA0F5"
+          track-color="#EC6F66"
+        />
       </div>
       <div class="remark">卖家发起仲裁，仲裁事件为{{ getArbitrateInType(info.arbitrateInType) }}</div>
       <div class="row">
@@ -187,29 +191,7 @@ export default {
       background-color: #F3F4F5;
     }
     .process_wrap {
-      display: flex;
-      align-items: center;
       margin-top: 20px;
-      background-color: #4EA0F5;
-      border-radius: 24px;
-      overflow: hidden;
-      .border {
-        width: 20px;
-        height: 24px;
-        background-color: #FFF;
-        border-radius: 15px 0 0 15px;
-      }
-      .chunk {
-        height: 24px;
-        &.rt {
-          display: flex;
-          align-items: center;
-          flex: 1;
-          background-color: #EC6F66;
-          border-radius: 24px 0 0 24px;
-          margin-left: -13px;
-        }
-      }
     }
     .row {
       margin-top: 30px;
