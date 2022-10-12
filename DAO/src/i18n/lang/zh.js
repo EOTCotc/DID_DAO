@@ -6,6 +6,7 @@ module.exports = {
       btn: "解除风控",
     },
   },
+
   topBar: {
     name1: 'EOTC官网',
     name2: '去中心化OTC交易所',
@@ -776,5 +777,19 @@ module.exports = {
       data5: '取消仲裁',
       data6: '结案通知',
     }
-  }
+  },
+  reject: {
+    tags1: '类型',
+    tags2: '恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分',
+    tags3: '具体原因',
+    tags4: '请输入具体原因',
+    data1: '信息不全',
+    data2: '信息有误',
+    data3: '证件照片有误',
+    data4: '证件照片不清晰',
+  },
+  public: {
+    cancel: '取消',
+    confirm: '确定',
+  },
 };
