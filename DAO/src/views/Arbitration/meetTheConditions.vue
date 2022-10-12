@@ -389,7 +389,7 @@ export default {
       Dialog.confirm({
         title: this.$t('becomeAnArbitrator.relievetitle3'),
         message: this.$t('becomeAnArbitrator.relievemsg'),
-        confirmButtonText: '知道了',
+        confirmButtonText: this.$t('becomeAnArbitrator.know'),
         confirmButtonColor: '#1B2945',
         cancelButtonText: this.$t('becomeAnArbitrator.think'),
         cancelButtonColor: '#666666 ',
@@ -400,6 +400,8 @@ export default {
           Dialog.confirm({
             title: this.$t('becomeAnArbitrator.relievetitle4'),
             message: this.$t('becomeAnArbitrator.relievemssg'),
+            confirmButtonText: this.$t('exam.Text1'),
+            cancelButtonText: this.$t('exam.Text2'),
             confirmButtonColor: '#1B2945',
             cancelButtonColor: '#666666 ',
             className: 'dismissalDialog',
@@ -613,6 +615,7 @@ export default {
   position: relative;
   .text {
     color: #fff;
+    width: 100%;
     position: absolute;
     line-height: 55px;
     top: 0;

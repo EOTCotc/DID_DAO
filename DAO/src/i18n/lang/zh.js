@@ -33,6 +33,17 @@ module.exports = {
     not_data: "暂无任何提案信息",
     remove_risk: "解除风控",
   },
+  reject: {
+    tags1: '类型',
+    tags2: '恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分',
+    tags3: '具体原因',
+    tags4: '请输入具体原因',
+    data: ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰',],
+  },
+  public: {
+    cancel: '取消',
+    confirm: '确定',
+  },
   user: {
     total: "总收益(EOTC)",
     detailed: "收益明细",
@@ -133,12 +144,15 @@ module.exports = {
     _title: "审核考试",
     quittitle: "退出考试",
     quitmessage: "您确定要终止这次考试吗",
+    Text1: "确认",
+    Text2: "取消",
     timeoverT: "考试时间结束",
     timeoverMsg: "很遗憾，考试时间已经结束了，请重新考试",
     blank: "在横线输入您的答案",
     next: "下一题",
     pre: "上一题",
     submit: "提交",
+
     testQuestionData: [
       {
         id: 1,
@@ -777,5 +791,4 @@ module.exports = {
     data5: '取消仲裁',
     data6: '结案通知',
   }
-
-}
+};

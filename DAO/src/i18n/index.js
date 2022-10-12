@@ -2,8 +2,13 @@ import Vue from "vue"
 import vueI18n from 'vue-i18n'
 
 Vue.use(vueI18n)
-let lang = JSON.parse(localStorage.getItem('lang')).lang
-let browserLang = navigator.language.split('-')
+
+let browserLang = navigator.language.split('-')[0]
+let lang = JSON.parse(localStorage.getItem('lang'))
+if (lang) {
+  lang = lang.lang
+}
+
 const i18n = new vueI18n({
   locale: lang || browserLang,
   messages: {
@@ -12,4 +17,4 @@ const i18n = new vueI18n({
   },
 })
 
-export default i18n
+export default i18n;
