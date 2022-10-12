@@ -134,9 +134,6 @@
               </van-col>
             </van-row>
             <div class="process_wrap" v-if="item.status > 0">
-<!--              <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffNum / item.total * 100}%`}"></div>-->
-<!--              <div class="border" v-if="item.plaintiffNum && !!item.defendantNum"></div>-->
-<!--              <div class="rt chunk"></div>-->
               <van-progress
                 v-if="item.status > 1"
                 stroke-width="12"
@@ -167,11 +164,11 @@
               </div>
             </div>
             <van-row
-              v-if="tab.active === 0 && item.status === 1"
+              v-if="tab.active === 0 && item.status === 1 && !item.hasDelay"
               class="row"
-              :gutter="item.hasDelay ? 0 : 20"
+              :gutter="15"
             >
-              <van-col span="12" v-if="item.status === 1 && !item.hasDelay">
+              <van-col span="12">
                 <van-button
                   class="more"
                   color="#237FF8"
@@ -184,7 +181,7 @@
                   重新举证
                 </van-button>
               </van-col>
-              <van-col :span="item.hasDelay ? 24 : 12">
+              <van-col :span="12">
                 <van-button
                   class="more"
                   round
@@ -266,7 +263,8 @@ export default {
               item.isVictory = (item.status === 2 && item.voteStatus === 1) || (item.status === 3 && item.voteStatus === 2)
             }
             item.total = item.defendantNum + item.plaintiffNum
-            item.time = this.$dayjs(item.status === 0 ? item.adduceDate : item.voteDate).add('-8', 'hour').diff(now, 'millisecond')
+            item.time = this.$dayjs(item.status === 0 ? item.adduceDate : item.voteDate).add(-8, 'hour').diff(now, 'millisecond')
+            console.log(item.time)
             return item
           })
           this.list.data = data
@@ -276,10 +274,10 @@ export default {
             message: res.data.message
           })
         }
-      }).catch(err => {
+      }).catch(() => {
         this.$toast.fail({
           forbidClick: true,
-          message: err.data.message
+          message: '请求失败'
         })
       }).finally(() => {
         loading.clear()
@@ -290,6 +288,7 @@ export default {
   },
   created() {
     this.getList()
+    this.cookie.set('unhandledArbitration', '')
   }
 }
 </script>

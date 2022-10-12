@@ -17,3 +17,11 @@ export const getuserrisklevel=(data)=>{
     data
   })
 }
+
+// 是否有仲裁未处理
+export const unhandledArbitrationMsg=()=>{
+  return request({
+    url:'/api/arbitrate/getmessageisopen',
+    method:'POST'
+  })
+}

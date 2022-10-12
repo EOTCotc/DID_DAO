@@ -10,3 +10,6 @@ export const sentence = (data) => request.post('/api/arbitrate/arbitratevote', d
 export const personnelInfo = (id) => request.post('/api/arbitrate/getuserinfo', {id})
 // 发起重新举证
 export const delay = (data) => request.post('/api/arbitrate/arbitratedelay', data)
+
+// 获取仲裁消息列表
+export const getmessageopen = (data) => request.post('/api/arbitrate/getmessageisopen', {isArbitrate: 1})

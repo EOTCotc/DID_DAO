@@ -215,7 +215,7 @@
         </div>
       </div>
     </div>
-    <van-row class="btn" :gutter="15" v-if='info.status === 1 && !info.voteStatus && info.time > 0'>
+    <van-row class="btn" :gutter="15" v-if='info.status === 1 && !info.voteStatus && info.time > 0 && !info.hasDelay'>
       <van-col :span="12">
         <van-button
           block
