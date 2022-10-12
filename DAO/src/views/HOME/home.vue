@@ -166,6 +166,7 @@ export default {
       tanShow: false,
       proposalList: [], //提案列表
       riskShow: this.cookie.get("riskShow"),
+      unhandledArbitration:0,
       langText:'简体中文'
     };
   },
@@ -263,6 +264,7 @@ export default {
     tabLang(item){
       console.log(item);
       localStorage.setItem('lang',JSON.stringify(item))
+      this.$router.go(0)
     }
   },
 };

@@ -1,17 +1,16 @@
 <template>
   <div class="fullscreen bg-gray">
-    <header class="me"
-            ref="header">
-      <white :title="title"
-             :name="name"></white>
+    <header class="me" ref="header">
+      <white :title="title" :name="name"></white>
     </header>
-    <main class="box"
-          ref="box">
+    <main class="box" ref="box">
       <div>
-        <div class="one_an"
-             @click="detail(item.proposalId, item.state)"
-             v-for="(item, index) in List"
-             :key="index">
+        <div
+          class="one_an"
+          @click="detail(item.proposalId, item.state)"
+          v-for="(item, index) in List"
+          :key="index"
+        >
           <div>{{ item.title }}</div>
           <div class="piao">
             <span>{{ item.total }}{{ $t("proposal.ticket") }}</span>
@@ -131,9 +130,9 @@ export default {
     },
     detail(id, state) {
       this.$router.push({
-        path: '/detail',
+        path: "/detail",
         query: { proposalId: id, state: state },
-      })
+      });
     },
   },
 };
@@ -141,7 +140,7 @@ export default {
 <style lang="scss" scoped>
 .box {
   background: #fff;
-  // height: 83.2vh;
+  flex: 1;
   overflow: auto;
   border-radius: 8px;
   margin-top: 20px;

@@ -2,8 +2,7 @@ module.exports = {
   notification: {
     risk: {
       title: "The system detects that your account is abnormal",
-      message:
-        "The system cannot be used temporarily, please remove the risk control according to the prompt",
+      message:"The system cannot be used temporarily, please remove the risk control according to the prompt",
       btn: "relieve",
     },
   },
@@ -32,6 +31,8 @@ module.exports = {
     status2: 'Failed',
     status3: 'Passed',
     status4: 'Terminated',
+    not_data: "No proposal information yet",
+    remove_risk: "De-risk control",
   },
   user: {
     total: "Total revenue (EOTC)",
@@ -535,5 +536,4 @@ module.exports = {
     data5: 'Cancellation of the arbitration',
     data6: 'Final notice',
   }
-}
-
+};

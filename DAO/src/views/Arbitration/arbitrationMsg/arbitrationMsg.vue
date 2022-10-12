@@ -99,20 +99,14 @@
       <!-- 发起重新举证 -->
       <div class="postpone" v-if="messageType == 0">
         <div class="postpone-every">
-<<<<<<< HEAD
           <div>{{ $t("arbitrationMsg.tags19") }}</div>
           <p>{{ $t("arbitrationMsg.tags5") }}:{{ postponeObj.plaintiff }}</p>
-=======
-          <div>发起人</div>
-          <p>{{ postponeObj.plaintiff }} 编号: {{ postponeObj.number }}</p>
->>>>>>> 7f3126bf7401c8e1c7502632515ef7a01a6c12fa
         </div>
         <div class="postpone-every">
           <div>{{ $t("arbitrationMsg.tags20") }}</div>
           <p>{{ postponeObj.reason }}</p>
         </div>
         <div class="postpone-every">
-<<<<<<< HEAD
           <div>{{ $t("arbitrationMsg.tags21") }}</div>
           <p>{{ postponeObj.explain }}</p>
         </div>
@@ -134,18 +128,6 @@
         <div>{{ $t("arbitrationMsg.tags26") }}</div>
         <p>{{ cancelObj.reason }}</p>
       </div>
-=======
-          <div>申请延期说明</div>
-          <p>{{ postponeObj.delayStatus !== 2 ? postponeObj.explain : '投票时间已过，延期申请已失效！' }}</p>
-        </div>
-        <div class="postpone-btn" v-if='!postponeObj.status && postponeObj.delayStatus === 0'>
-          <button @click="disagreePostpone(postponeObj.delayVoteId)">
-            不同意
-          </button>
-          <button @click="agreePostpone(postponeObj.delayVoteId)">同意</button>
-        </div>
-      </div>
->>>>>>> 7f3126bf7401c8e1c7502632515ef7a01a6c12fa
       <!-- 追加举证 -->
       <div class="add-to" v-else-if="messageType == 1">
         <div
@@ -161,7 +143,6 @@
           {{ $t("arbitrationMsg.tags228") }}
         </div>
         <div class="add-to-content">
-<<<<<<< HEAD
           <div>{{ $t("arbitrationMsg.tags29") }}</div>
           <img
             v-for="(item, index) in addObj.images"
@@ -196,35 +177,12 @@
             {{ $t("arbitrationMsg.tags25") }}
           </button>
         </div>
-=======
-          <div>追加举证</div>
-          <van-grid v-if='!!addObj.images' :column-num="1">
-            <van-grid-item v-for="img in addObj.images" :key="img">
-              <van-image
-                class="img"
-                :src="spliceSrc(img)"
-                fit="contain"
-              />
-            </van-grid-item>
-            <p>{{ addObj.memo }}</p>
-          </van-grid>
-        </div>
-      </div>
-      <!-- 取消原因 -->
-      <div class="cancel" v-if="messageType == 2">
-        <div>取消原因</div>
-        <p>{{ cancelObj.reason }}</p>
->>>>>>> 7f3126bf7401c8e1c7502632515ef7a01a6c12fa
       </div>
       <!-- 结案通知 -->
       <div class="close" v-if="messageType == 3">
         <div>{{ $t("arbitrationMsg.tags34") }}</div>
         <p>
-<<<<<<< HEAD
           {{ $t("arbitrationMsg.tags35") }}
-=======
-          该仲裁案已结案，如有异议可在结案后七日内进入详情申请再仲裁，注意逾期将无法对此案进行再仲裁
->>>>>>> 7f3126bf7401c8e1c7502632515ef7a01a6c12fa
         </p>
       </div>
     </div>
