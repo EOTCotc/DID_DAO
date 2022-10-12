@@ -1,5 +1,5 @@
 <template>
-  <div class="fullscreen bg-gray"
+  <div class="fullscreen bg-gray meun"
        ref="meun">
     <header ref="headerHeight">
       <div class="nav_an_box">
@@ -109,7 +109,7 @@
 import 'vant/es/toast/style'
 import { cancelproposal, proposalvote, getproposal } from '@/api/Proposal'
 import { getuSereotc } from '@/api/earnings'
-import { Toast, Dialog, List } from 'vant'
+import { Toast, Dialog } from 'vant'
 export default {
   data() {
     return {
@@ -196,7 +196,6 @@ export default {
         this.List.walletAddress == localStorage.getItem('myaddress')
       )
         this.rightText = this.$t('Detailsofproposal.cancle')
-
       this.List.walletAddress =
         this.List.walletAddress.slice(0, 4) +
         '...' +
@@ -267,34 +266,30 @@ export default {
       history.go(-1)
     },
     onClickRight() {
+      console.log(11111)
       Dialog.confirm({
         title: this.$t('Detailsofproposal.cancletitle'),
         message: this.$t('Detailsofproposal.canclemessage'),
         confirmButtonColor: '#1B2945 ',
         cancelButtonColor: '#666666 ',
         getContainer: '.meun',
+      }).then(() => {
+        let data = {
+          id: this.proposalId,
+        }
+        this.rightText = ''
+        this.state = 3
+        cancelproposal(data)
+        Toast(this.$t('Detailsofproposal.cancelsuccessful'))
+        this.text = this.$t('Detailsofproposal.finish')
+        this.isVote = false
+        localStorage.setItem(
+          `createDate+${this.proposalId}`,
+          this.$dayjs(new Date()).format('YYYY年MM月DD')
+        )
+        this.createDate = localStorage.getItem(`createDate+${this.proposalId}`)
+        // on close
       })
-        .then(() => {
-          let data = {
-            id: this.proposalId,
-          }
-          this.rightText = ''
-          this.state = 3
-          cancelproposal(data)
-          Toast(this.$t('Detailsofproposal.cancelsuccessful'))
-          this.text = this.$t('Detailsofproposal.finish')
-          this.isVote = false
-          localStorage.setItem(
-            `createDate+${this.proposalId}`,
-            this.$dayjs(new Date()).format('YYYY年MM月DD')
-          )
-          this.createDate = localStorage.getItem(
-            `createDate+${this.proposalId}`
-          )
-        })
-        .catch(() => {
-          // on cancel
-        })
     },
     isDloag() {
       this.flag = true
@@ -397,7 +392,6 @@ export default {
   overflow: auto;
   background: #fff;
   box-sizing: border-box;
-  // height: 93vh;
   color: #000;
   padding-bottom: 20px;
 }
