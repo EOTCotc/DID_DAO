@@ -112,6 +112,7 @@ export default {
 }
 
 .parent ::v-deep .van-popover__action {
+<<<<<<< HEAD
    font-size: 16px;
    width: 345px !important;
    margin: 10px 0;
@@ -125,8 +126,22 @@ export default {
 }
 .parent ::v-deep .van-popover__arrow {
   left: 13%;
+=======
+  font-size: 16px;
+  width: 345px !important;
+  margin: 10px 0;
 }
-
+.parent ::v-deep .van-popup {
+  width: 345px !important;
+  border-radius: 8px;
+  position: absolute !important;
+  top: 65px !important;
+  left: 15px !important;
+}
+.parent ::v-deep .van-popover__arrow {
+  left: 13% ;
+>>>>>>> 5aba572617d9eb2a09530d8dba8d4b5cbd4b5725
+}
 .Onlineswitch {
   padding: 0 25px 0 30px;
   border-radius: 15px;
