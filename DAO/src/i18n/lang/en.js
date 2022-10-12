@@ -56,15 +56,15 @@ module.exports = {
     text2: "Maintain a secure, stable and trusted trading environment",
     text3: "Become an audit node",
     title2: "application requirement",
-    list1: "DID Identity Authentication",
-    right1: "Go to the certification",
+    list1: "DID authentication",
+    right1: "De certification",
     list2: "Pledge over 5000 EOTC",
     right2: "To pledge",
-    list3: "Learn the rules of arbitration",
-    _list3: "Understand the rules of study review",
-    right3: "go to study",
+    list3: "Learn arbitration rules",
+    _list3: "Learn audit rules",
+    right3: "To learn",
     list4text1: "pass the exam",
-    list4text2: "Pass the exam with a score of 90 or above",
+    list4text2: "Test scores exceed 90",
     right4: "To test",
     identifNumber: "Identity number",
     identityTtime: "time of application",
@@ -73,7 +73,7 @@ module.exports = {
     _processaudit: "Processing audit (one)",
     eotc: "Earnings (EOTC)",
     explain: "Test Explanation",
-    ruls: "A score of 90 is a pass",
+    ruls: "Pass at 90",
     titleNumber: "The title number",
     titleNumbertext1: "twelve",
     titleNumbertext2: "Royale",
@@ -134,11 +134,24 @@ module.exports = {
       "① The user deducts 120 points and freezes all pledged EOTc tokens. After proper processing, the user can apply for arbitration to unseal them, and arbitration can confiscate part or all of the tokens, and the confiscated tokens are sent into the black hole. ③ Node, three generations above the recommender and six generations below the user: six points will be deducted (the deduction will be automatically adjusted according to the arbitration probability)",
     btnmsg: "I have finished my study",
   },
+  reject: {
+    tags1: 'type',
+    tags2: 'The malicious user and the passing recommender node will be deducted the corresponding credit score',
+    tags3: 'specific reason',
+    tags4: 'Please enter the specific reason',
+    data: ['incomplete information', 'wrong information', 'The ID photo is wrong', 'The ID photo is not clear'],
+  },
+  public: {
+    cancel: 'cancel',
+    confirm: 'confirm',
+  },
   exam: {
     title: "Arbitration test",
     _title: "Review the test",
     quittitle: "Quit the test",
     quitmessage: "Are you sure you want to stop this exam",
+    Text1: "confirm",
+    Text2: "cancel",
     timeoverT: "End of examination time",
     timeoverMsg:
       "Unfortunately, the examination time has come to an end. Please take the examination again",
@@ -431,7 +444,7 @@ module.exports = {
     nav_title: "Work order system",
     status_one: "Pending",
     status2_two: "Processing",
-    status3_three: "Processing",
+    status3_three: "Processed",
     title_one: "BUG feedback",
     title_two: "Function suggestions",
     text: "submitter",
@@ -503,7 +516,7 @@ module.exports = {
   check: {
     nav_title: "Check identity information",
     name: "full name",
-    phone: "cell-phone number",
+    phone: "phone number",
     card: "Certificate No",
     identity: "ID",
     card_photo: "ID Photo",
@@ -817,6 +830,7 @@ module.exports = {
     success: "Submitted successfully!",
   },
   reject: {
+<<<<<<< HEAD
     tags1: 'type',
     tags2: 'The malicious user and the passing recommender node will be deducted the corresponding credit score',
     tags3: 'specific reason',
@@ -829,5 +843,22 @@ module.exports = {
   public: {
     cancel: 'cancel',
     confirm: 'confirm',
+=======
+    tags1: "type",
+    tags2:
+      "The malicious user and the passing recommender node will be deducted the corresponding credit score",
+    tags3: "specific reason",
+    tags4: "Please enter the specific reason",
+    data: [
+      "incomplete information",
+      "wrong information",
+      "The ID photo is wrong",
+      "The ID photo is not clear",
+    ],
+  },
+  public: {
+    cancel: "cancel",
+    confirm: "confirm",
+>>>>>>> 2b5c2bfb07fe1943285e6811dec2b232b5955d52
   },
 };

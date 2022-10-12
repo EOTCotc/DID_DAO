@@ -227,7 +227,7 @@ export default {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  padding: 5px 20px;
   line-height: 50px;
   font-size: 14px;
   box-sizing: border-box;

@@ -6,19 +6,19 @@
     <main class="box">
       <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
         <div v-if="personageArr.length > 0">
-          <van-row class="title">
-            <van-col span="8">{{ $t("detail.num") }}</van-col>
-            <van-col span="7">{{ $t("detail.earnings") }}</van-col>
-            <van-col span="8">{{ $t("detail.time") }}</van-col>
-          </van-row>
+          <div class="title">
+            <p>{{ $t("detail.num") }}</p>
+            <pl>{{ $t("detail.earnings") }}</pl>
+            <p>{{ $t("detail.time") }}</p>
+          </div>
           <van-row v-for="(item, index) in personageArr" :key="index">
             <van-col span="8">{{ item.eotc }} EOTC</van-col>
-            <van-col span="7">
+            <van-col span="9">
               <span v-if="item.type == 0">{{ $t("detail.type_zoer") }}</span>
               <span v-if="item.type == 1">{{ $t("detail.type_one") }}</span>
               <span v-if="item.type == 2">{{ $t("detail.type_two") }}</span>
             </van-col>
-            <van-col span="8">{{ item.createDate }}</van-col>
+            <van-col span="7">{{ item.createDate }}</van-col>
           </van-row>
           <van-list
             class="list_wrap"
@@ -114,7 +114,11 @@ export default {
 }
 .title {
   background: #f3f4f5;
-  line-height: 48px;
+  line-height: 80px;
+  font-size: 27px;
+
+  display: flex;
+  justify-content: space-around;
 }
 .box {
   background: #fff;
@@ -122,7 +126,7 @@ export default {
   text-align: center;
   .van-row {
     line-height: 48px;
-    font-size: 14px;
+    font-size: 12px;
     border-bottom: 1px solid #f3f4f5;
   }
 }
