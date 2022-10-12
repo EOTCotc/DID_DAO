@@ -152,7 +152,6 @@ module.exports = {
     next: "下一题",
     pre: "上一题",
     submit: "提交",
-
     testQuestionData: [
       {
         id: 1,
