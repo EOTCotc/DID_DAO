@@ -234,29 +234,7 @@ export default {
           font-size: 24px;
         }
         .process_wrap {
-          display: flex;
-          align-items: center;
           margin-top: 30px;
-          background-color: #4ea0f5;
-          border-radius: 24px;
-          overflow: hidden;
-          .border {
-            width: 20px;
-            height: 24px;
-            background-color: #fff;
-            border-radius: 15px 0 0 15px;
-          }
-          .chunk {
-            height: 24px;
-            &.rt {
-              display: flex;
-              align-items: center;
-              flex: 1;
-              background-color: #ec6f66;
-              border-radius: 24px 0 0 24px;
-              margin-left: -13px;
-            }
-          }
         }
         .row {
           margin-top: 30px;

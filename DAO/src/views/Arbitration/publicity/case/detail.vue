@@ -60,12 +60,13 @@
         </van-col>
       </van-row>
       <div class="process_wrap">
-        <div
-          class="lt chunk"
-          :style="{ flex: `0 0 ${(info.plaintiffNum / info.total) * 100}%` }"
-        ></div>
-        <div class="border"></div>
-        <div class="rt chunk"></div>
+        <van-progress
+          stroke-width="12"
+          :percentage="info.plaintiffNum / info.total * 100 || 0"
+          :show-pivot="false"
+          color="#4EA0F5"
+          track-color="#EC6F66"
+        />
       </div>
       <div class="remark">
         {{ $t("publicity.launch")
@@ -250,29 +251,7 @@ export default {
       background-color: #f3f4f5;
     }
     .process_wrap {
-      display: flex;
-      align-items: center;
       margin-top: 20px;
-      background-color: #4ea0f5;
-      border-radius: 24px;
-      overflow: hidden;
-      .border {
-        width: 20px;
-        height: 24px;
-        background-color: #fff;
-        border-radius: 15px 0 0 15px;
-      }
-      .chunk {
-        height: 24px;
-        &.rt {
-          display: flex;
-          align-items: center;
-          flex: 1;
-          background-color: #ec6f66;
-          border-radius: 24px 0 0 24px;
-          margin-left: -13px;
-        }
-      }
     }
     .row {
       margin-top: 30px;

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <page-header title="仲裁案动态" />
+    <page-header :title="$t('arbitrationMsg.title1')" />
     <div class="content">
       <ul v-if="list.length != 0">
         <li
@@ -11,7 +11,11 @@
           <img :src="item.messageType == 0 ? shen_qing : tong_zhi" />
           <div class="details">
             <div>
-              <span>{{ item.messageType == 0 ? "申请" : "通知" }}</span>
+              <span>{{
+                item.messageType == 0
+                  ? $t("arbitrationMsg.tags1")
+                  : $t("arbitrationMsg.tags2")
+              }}</span>
               <span>{{ item.msgTime }}</span>
             </div>
             <p>{{ item.reason }}</p>
@@ -19,8 +23,8 @@
         </li>
       </ul>
       <div class="not-data" v-else>
-        <img src="@/assets/imgs/empty.png" alt="" />
-        <p>暂无任何数据</p>
+        <img src="@/assets/imgs/empty.png" />
+        <p>{{ $t("arbitrationMsg.tags3") }}</p>
       </div>
     </div>
   </div>
@@ -49,7 +53,7 @@ export default {
     // 获取仲裁消息列表
     getMsgList() {
       getarbitratemessage({ isArbitrate: 1 }).then((res) => {
-      console.log(res.data.items);
+        console.log(res.data.items);
         if (res.data.code == 0) {
           this.list = res.data.items;
           this.list.forEach((item) => {
@@ -61,7 +65,7 @@ export default {
     },
     // 消息列表的时间
     msgListTimes(val) {
-      let days = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      let days = this.$t('arbitrationMsg.data1');
       let now = new Date(),
         nowY = now.getFullYear(),
         nowM = now.getMonth() + 1,
@@ -109,7 +113,8 @@ export default {
     },
     // 去消息详情
     toArbitrationMsg(data) {
-      const {messageType, arbitrateMessageId, associatedId, arbitrateId} = data
+      const { messageType, arbitrateMessageId, associatedId, arbitrateId } =
+        data;
       this.$router.push({
         path: "/arbitrationMsg",
         query: { messageType, arbitrateMessageId, associatedId, arbitrateId },

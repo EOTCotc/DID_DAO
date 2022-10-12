@@ -172,9 +172,6 @@
               </van-col>
             </van-row>
             <div class="process_wrap" v-if="item.status > 0">
-              <!--              <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffNum / item.total * 100}%`}"></div>-->
-              <!--              <div class="border" v-if="item.plaintiffNum && !!item.defendantNum"></div>-->
-              <!--              <div class="rt chunk"></div>-->
               <van-progress
                 v-if="item.status > 1"
                 stroke-width="12"
@@ -216,11 +213,11 @@
               </div>
             </div>
             <van-row
-              v-if="tab.active === 0 && item.status === 1"
+              v-if="tab.active === 0 && item.status === 1 && !item.hasDelay"
               class="row"
-              :gutter="item.hasDelay ? 0 : 20"
+              :gutter="15"
             >
-              <van-col span="12" v-if="item.status === 1 && !item.hasDelay">
+              <van-col span="12">
                 <van-button
                   class="more"
                   color="#237FF8"
@@ -237,7 +234,7 @@
                   {{ $t("case.again") }}
                 </van-button>
               </van-col>
-              <van-col :span="item.hasDelay ? 24 : 12">
+              <van-col :span="12">
                 <van-button
                   class="more"
                   round
@@ -351,9 +348,10 @@ export default {
     },
   },
   created() {
-    this.getList();
-  },
-};
+    this.getList()
+    this.cookie.set('unhandledArbitration', '')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
