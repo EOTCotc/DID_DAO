@@ -32,11 +32,11 @@
           </template>
         </van-cell>
         <van-row class="wen">
-          <van-col span="4">{{ $t("relieve.contacts") }}</van-col>
+          <van-col span="7">{{ $t("relieve.contacts") }}</van-col>
           <van-col span="10" offset="4">{{ item.name }}</van-col>
         </van-row>
         <van-row class="wen">
-          <van-col span="4">{{ $t("relieve.phone") }}</van-col>
+          <van-col span="7">{{ $t("relieve.phone") }}</van-col>
           <van-col
             span="10"
             offset="4"
