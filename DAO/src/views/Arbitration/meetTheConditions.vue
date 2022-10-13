@@ -485,7 +485,7 @@ export default {
 .identityCard {
   padding: 0 35px;
   position: relative;
-  top: -165px;
+  top: -150px;
   left: 0;
   .top {
     background: linear-gradient(#fff1e9, #f3c9b0);

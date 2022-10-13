@@ -194,6 +194,8 @@ export default {
           className: 'referrerConfirmDialog',
           cancelButtonColor: '#666',
           confirmButtonColor: '#1B2945',
+          confirmButtonText: this.$t('exam.Text1'),
+          cancelButtonText: this.$t('exam.Text2'),
           beforeClose: (action, done) => {
             if (action === 'confirm') {
               approvalConfirm(params).then((res) => {

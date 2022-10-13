@@ -625,6 +625,12 @@ module.exports = {
     subfail: "Submit failed",
     subsuss: "Submitted successfully",
   },
+  personnel: {
+    nav_title: "Publicity of arbitrators",
+    finished_text: "No more",
+    Application_time: "Application time",
+    arbitrations: "Number of arbitrations",
+  },
   // 仲裁消息
   arbitrationMsg: {
     title1: "Progress of Arbitration Case",
@@ -830,20 +836,6 @@ module.exports = {
     success: "Submitted successfully!",
   },
   reject: {
-<<<<<<< HEAD
-    tags1: 'type',
-    tags2: 'The malicious user and the passing recommender node will be deducted the corresponding credit score',
-    tags3: 'specific reason',
-    tags4: 'Please enter the specific reason',
-    data1: 'incomplete information',
-    data2: 'wrong information',
-    data3: 'The ID photo is wrong',
-    data4: 'The ID photo is not clear',
-  },
-  public: {
-    cancel: 'cancel',
-    confirm: 'confirm',
-=======
     tags1: "type",
     tags2:
       "The malicious user and the passing recommender node will be deducted the corresponding credit score",
@@ -859,6 +851,5 @@ module.exports = {
   public: {
     cancel: "cancel",
     confirm: "confirm",
->>>>>>> 2b5c2bfb07fe1943285e6811dec2b232b5955d52
   },
 };

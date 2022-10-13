@@ -50,7 +50,7 @@ export default {
           .confirm({
             title: this.$t('audit.dialogtitle'),
             message: this.$t('audit.dialogmessage'),
-            confirmButtonText: this.$t('audit.dialogtext'),
+            confirmButtonText: this.$t('exam.Text1'),
             cancelButtonText: this.$t('exam.Text2'),
           })
           .then(() => {

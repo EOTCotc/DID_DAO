@@ -295,11 +295,12 @@ export default {
       this.flag = true
       let data = {
         proposalId: this.proposalId,
-        vote: +this.radio,
+        vote: +this.radio == 2 ? 0 : 1,
       }
       this.InitialpeopleNum += 1
       if (this.items >= 100) {
-        proposalvote(data).then(() => {
+        proposalvote(data).then((res) => {
+          console.log(res)
           this.$refs.jindu.style.height = '270.5px'
           if (this.InitialpeopleNum < 99) {
             if (this.radio == 1) {
@@ -311,10 +312,10 @@ export default {
               )
               this.List.peopleNum++
               this.List.favorVotes += this.Votes
-              this.InitialfavorVotes = this.Votes
+              this.InitialfavorVotes += this.Votes
               this.percentageVotes =
-                ((this.InitialfavorVotes + this.InitialopposeVotes) /
-                  this.InitialfavorVotes) *
+                (this.InitialfavorVotes /
+                  (this.InitialfavorVotes + this.InitialopposeVotes)) *
                 100
             } else {
               this.Votes = this.items / 100
@@ -325,10 +326,10 @@ export default {
               )
               this.List.peopleNum++
               this.List.opposeVotes += this.Votes
-              this.InitialopposeVotes = this.Votes
+              this.InitialopposeVotes += this.Votes
               this.percentageVotes =
-                ((this.InitialfavorVotes + this.InitialopposeVotes) /
-                  this.InitialopposeVotes) *
+                (this.InitialopposeVotes /
+                  (this.InitialfavorVotes + this.InitialopposeVotes)) *
                 100
             }
             if (this.InitialopposeVotes != 0) this.trackColor = '#FC7542'
