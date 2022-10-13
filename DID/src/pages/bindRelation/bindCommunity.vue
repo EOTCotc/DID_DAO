@@ -83,7 +83,7 @@ export default {
           this.country = data.country.name;
           // 如果是中国，则显示省市区；如果是国外，则显示国家-省
           if (data.country.code == "CHN") {
-            this.area = `${data.province.name}-${
+            this.area = `${data.province.name}${
               data.city.name ? "-" + data.city.name : ""
             }${data.county.name ? "-" + data.county.name : ""}`;
           } else {

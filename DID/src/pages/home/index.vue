@@ -64,7 +64,7 @@
         <span>{{ $t("home.tags5") }}</span>
       </div>
       <div @click="handleTabLang">
-        <span class="tab-lang">简体中文</span>
+        <span class="tab-lang">{{ textLang }}</span>
         <van-icon :name="iconLang" />
       </div>
     </div>
@@ -75,7 +75,12 @@
       position="right"
     >
       <div class="menu">
-        <div class="menu-every" v-for="item in lang" :key="item.id">
+        <div
+          class="menu-every"
+          v-for="item in lang"
+          @click="tabLang(item)"
+          :key="item.id"
+        >
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -130,6 +135,7 @@ export default {
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
       ],
+      textLang: "",
     };
   },
   components: {
@@ -151,8 +157,19 @@ export default {
   },
   mounted() {
     // 当前的语言
-    if (localStorage.getItem("textLang")) {
-      this.textLang = localStorage.getItem("textLang");
+    if (localStorage.getItem("lang")) {
+      this.textLang = JSON.parse(localStorage.getItem("lang")).text;
+    } else {
+      let browserLang = navigator.language;
+      let langText = browserLang.slice(0, 2);
+      switch (langText) {
+        case "zh":
+          this.textLang = "简体中文";
+          break;
+        case "en":
+          this.textLang = "English";
+          break;
+      }
     }
     this.getrisklevel(); //风控等级
     this.getInfo(); //获取用户信息
@@ -223,6 +240,11 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
+    tabLang(item) {
+      localStorage.setItem("lang", JSON.stringify(item));
+      this.textLang = item.text;
+      this.$router.go(0);
+    },
     // 前往选择所在地
     toSite() {
       // 判断有没有选位置，有就直接调到社区
@@ -232,7 +254,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({ name: "bindCommunity" });
+          this.$router.push("/bindRelation/bindCommunity");
         }
       });
     },
@@ -416,7 +438,6 @@ export default {
 .block {
   position: relative;
   width: 590px;
-  height: 354px;
   background-color: #fff;
   border-radius: 20px;
   img {

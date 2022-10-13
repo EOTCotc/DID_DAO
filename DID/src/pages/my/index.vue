@@ -190,6 +190,7 @@ import TopBar from "@/components/topBar/topBar";
 import { getuserinfo } from "@/api/pagesApi/home";
 import { list as communityList } from "@/api/pagesApi/approvalCommunity";
 import { list as identityList } from "@/api/pagesApi/identity";
+import { getcomselect } from "@/api/pagesApi/home";
 
 export default {
   name: "my",
@@ -318,6 +319,7 @@ export default {
                   ? this.$t("my.my_index_text1")
                   : this.$t("public.confirm"),
               confirmButtonColor: "#F65F5F",
+              cancelButtonText: this.$t("my.my_dialog1_text2"),
               beforeClose: (action, done) => {
                 if (action === "confirm") {
                   done();
@@ -338,10 +340,20 @@ export default {
             message: this.$t("my.my_index_msg4"),
             confirmButtonText: this.$t("my.my_index_text2"),
             confirmButtonColor: "#F65F5F",
+            cancelButtonText: this.$t("my.my_dialog1_text2"),
             beforeClose: (action, done) => {
               if (action === "confirm") {
                 done();
-                this.$router.push({ path: "/bindRelation" });
+                // 判断有没有选位置，有就直接调到社区
+                // 没有就跳到选择已有的社区页面
+                getcomselect().then((res) => {
+                  if (!res.data.items.country) {
+                    this.showOverlay = false;
+                    this.$router.push("/bindRelation");
+                  } else {
+                    this.$router.push("/bindRelation/bindCommunity");
+                  }
+                });
               } else {
                 done();
               }
