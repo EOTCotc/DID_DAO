@@ -33,7 +33,7 @@ module.exports = {
     status3: "Passed",
     status4: "Terminated",
     not_data: "No proposal information yet",
-    remove_risk: "De-risk control",
+    remove_risk: "Remove risk control",
   },
   user: {
     total: "Total revenue (EOTC)",
@@ -537,6 +537,12 @@ module.exports = {
       "Please ensure that the video identity has been checked again, the identity information is correct, and the exception is removed",
     handle_success: "Processing succeeded",
   },
+  personnel: {
+    nav_title: "Publicity of arbitrators",
+    finished_text: "No more",
+    Application_time: "Application time",
+    arbitrations: "Number of arbitrations",
+  },
   arbitrate: {
     title1: "arbitration",
     title2: "Become an arbitrator",
@@ -624,6 +630,12 @@ module.exports = {
     sub: "Submit",
     subfail: "Submit failed",
     subsuss: "Submitted successfully",
+  },
+  personnel: {
+    nav_title: "Publicity of arbitrators",
+    finished_text: "No more",
+    Application_time: "Application time",
+    arbitrations: "Number of arbitrations",
   },
   // 仲裁消息
   arbitrationMsg: {
@@ -771,7 +783,7 @@ module.exports = {
       "Remove the risk control In order to use the account normally, please check the video identity with the following five contacts in time (the removal of three or more contacts will take effect)",
     custom_title: "Release risk control contact",
     contacts: "contacts",
-    phone: "cell-phone number",
+    phone: "phone number",
     description: "No data",
     cancel_text: "cancel",
     call: "call",
