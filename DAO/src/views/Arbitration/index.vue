@@ -73,6 +73,7 @@ export default {
             title: this.$t('arbitrate.dialogtitle'),
             message: this.$t('arbitrate.dialogmessage'),
             confirmButtonText: this.$t('arbitrate.dialogtext'),
+            cancelButtonText: this.$t('exam.Text2'),
           })
           .then(() => {
             this.$router.push('/user/meetTheConditions')

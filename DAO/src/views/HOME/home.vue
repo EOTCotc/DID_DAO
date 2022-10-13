@@ -168,12 +168,22 @@ export default {
       proposalList: [], //提案列表
       riskShow: this.cookie.get("riskShow"),
       unhandledArbitration: 0,
-      langText: "简体中文",
+      langText: "",
     };
   },
   mounted() {
     if (localStorage.getItem("lang")) {
       this.langText = JSON.parse(localStorage.getItem("lang")).text;
+    } else {
+      let lang = navigator.language;
+      switch (lang) {
+        case "zh":
+          this.langText = "简体中文";
+          break;
+        case "en":
+          this.langText = "English";
+          break;
+      }
     }
     if (localStorage.getItem("myaddress")) {
       //有钱包地址
@@ -187,7 +197,6 @@ export default {
     getLocal() {
       // 获取用户信息
       getdaoinfo().then((res) => {
-        console.log(res);
         this.user = res.data.items;
         localStorage.setItem("user", JSON.stringify(res.data.items));
         localStorage.setItem("items", res.data.items.daoEOTC);

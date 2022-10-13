@@ -1,25 +1,34 @@
 <template>
-  <div class="risk_wrap bg-gray fullscreen"> 
+  <div class="risk_wrap bg-gray fullscreen">
     <page-header title="解除风控" />
-    <div class="tip">为了正常使用账户，请及时与以下5位联系人进行视频身份核对(3位及以上联系人解除即生效)</div>
+    <div class="tip">{{ $t("risk.tags1") }}({{ $t("risk.tags2") }})</div>
     <div class="content">
       <ul class="list" v-if="!!list.data.length">
         <li class="item" v-for="(item, index) in list.data" :key="index">
           <van-row class="header">
             <van-col :span="12">
-              <div class="title">解除风控联系<span class="index">{{index + 1}}</span></div>
+              <div class="title">
+                {{ $t("risk.tags3") }}<span class="index">{{ index + 1 }}</span>
+              </div>
             </van-col>
-            <van-col :span="12" style="text-align: right;">
-              <img :src="item.status ? img1 : img2" alt="" class="img">
+            <van-col :span="12" style="text-align: right">
+              <img :src="item.status ? img1 : img2" class="img" />
             </van-col>
           </van-row>
           <van-row class="row">
-            <van-col :span="6" class="title">联系人</van-col>
-            <van-col :span="18" class="value">{{item.name}}</van-col>
+            <van-col :span="6" class="title">{{ $t("risk.tags4") }}</van-col>
+            <van-col :span="18" class="value">{{ item.name }}</van-col>
           </van-row>
           <van-row class="row">
-            <van-col :span="6" class="title">手机号</van-col>
-            <van-col :span="18" class="value phone" @click="toggle(true, item.phone)">{{item.phone}}</van-col>
+            <van-col :span="6" class="title">{{
+              $t("setup.referrer_phone")
+            }}</van-col>
+            <van-col
+              :span="18"
+              class="value phone"
+              @click="toggle(true, item.phone)"
+              >{{ item.phone }}</van-col
+            >
           </van-row>
         </li>
       </ul>
@@ -27,95 +36,98 @@
         v-else
         class="custom-image"
         :image="require('@/assets/imgs/empty.png')"
-        description="暂无任何数据"
+        :description="$t('public.not_data')"
       />
     </div>
     <van-action-sheet
       v-model="show"
       :actions="actions"
-      cancel-text="取消"
+      :cancel-text="$t('public.cancel')"
       close-on-click-action
       @select="handleSelect"
     />
-    <a ref="tel" :href="`tel: ${phone};`" style="display: none;"></a>
+    <a ref="tel" :href="`tel: ${phone};`" style="display: none"></a>
   </div>
 </template>
 <script>
-import PageHeader from '@/components/topBar/pageHeader'
-import {list} from '@/api/risk'
-import img1 from "../assets/imgs/quan.png"
-import img2 from "../assets/imgs/quan.png"
-import {copy} from '@/utils/utils'
+import PageHeader from "@/components/topBar/pageHeader";
+import { list } from "@/api/risk";
+import img1 from "../assets/imgs/quan.png";
+import img2 from "../assets/imgs/quan.png";
+import { copy } from "@/utils/utils";
 
 export default {
-  name: 'risk',
-  components: {PageHeader},
+  name: "risk",
+  components: { PageHeader },
   data() {
     return {
       img1,
       img2,
       show: false,
-      phone: '',
+      phone: "",
       actions: [
-        {name: "呼叫"},
-        {name: "复制号码"}
+        { name: this.$t("risk.data1") },
+        { name: this.$t("risk.data2") },
       ],
       list: {
         loading: false,
-        data: []
-      }
-    }
+        data: [],
+      },
+    };
   },
   methods: {
     copy,
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…"
-      })
-      list().then(res => {
-        const {code, items} = res.data
-        if (code) {
+        message: this.$t("public.loading"),
+      });
+      list()
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: this.$t("payment.msg1"),
+            });
+          } else {
+            this.list.data = items;
+          }
+        })
+        .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: '未知错误'
-          })
-        } else {
-          this.list.data = items
-        }
-      }).catch(() => {
-        this.$toast.fail({
-          forbidClick: true,
-          message: '未知错误'
+            message: this.$t("payment.msg1"),
+          });
         })
-      }).finally(() => {
-        loading.clear()
-      })
+        .finally(() => {
+          loading.clear();
+        });
     },
     toggle(show, phone) {
-      this.show = show
-      this.phone = phone
+      this.show = show;
+      this.phone = phone;
     },
     handleSelect(data) {
-      if (data.name === '呼叫') {
-        this.$refs.tel.click()
-      } else if (data.name === '复制号码') {
-        this.copy(this.phone)
+      if (data.name === "呼叫") {
+        this.$refs.tel.click();
+      } else if (data.name === "复制号码") {
+        this.copy(this.phone);
       }
-    }
+    },
   },
   created() {
-    this.getList()
-  }
-}
+    this.getList();
+  },
+};
 </script>
 <style scoped lang="scss">
 .risk_wrap {
   .tip {
     padding: 30px;
-    color: #FC7542;
+    color: #fc7542;
     font-size: 28px;
-    background-color: #FFFBE8;
+    background-color: #fffbe8;
   }
   .content {
     margin-top: 30px;
@@ -125,7 +137,7 @@ export default {
         padding: 30px;
         font-size: 28px;
         margin-bottom: 30px;
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: 20px;
         &:last-of-type {
           margin-bottom: 0;
@@ -136,12 +148,12 @@ export default {
         .value {
           color: #333;
           &.phone {
-            color: #237FF8;
+            color: #237ff8;
           }
         }
         .header {
           padding-bottom: 30px;
-          border-bottom: 1px solid #EEE;
+          border-bottom: 1px solid #eee;
           .title {
             display: flex;
             align-items: center;

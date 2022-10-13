@@ -6,6 +6,7 @@ module.exports = {
       btn: "解除风控",
     },
   },
+
   topBar: {
     name1: "EOTC官网",
     name2: "去中心化OTC交易所",
@@ -32,6 +33,17 @@ module.exports = {
     status4: "已终止",
     not_data: "暂无任何提案信息",
     remove_risk: "解除风控",
+  },
+  reject: {
+    tags1: '类型',
+    tags2: '恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分',
+    tags3: '具体原因',
+    tags4: '请输入具体原因',
+    data: ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰',],
+  },
+  public: {
+    cancel: '取消',
+    confirm: '确定',
   },
   user: {
     total: "总收益(EOTC)",
@@ -133,12 +145,15 @@ module.exports = {
     _title: "审核考试",
     quittitle: "退出考试",
     quitmessage: "您确定要终止这次考试吗",
+    Text1: "确认",
+    Text2: "取消",
     timeoverT: "考试时间结束",
     timeoverMsg: "很遗憾，考试时间已经结束了，请重新考试",
     blank: "在横线输入您的答案",
     next: "下一题",
     pre: "上一题",
     submit: "提交",
+
     testQuestionData: [
       {
         id: 1,
@@ -780,14 +795,17 @@ module.exports = {
   },
 
   reject: {
-    tags1: "类型",
-    tags2: "恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分",
-    tags3: "具体原因",
-    tags4: "请输入具体原因",
-    data: ["信息不全", "信息有误", "证件照片有误", "证件照片不清晰"],
+    tags1: '类型',
+    tags2: '恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分',
+    tags3: '具体原因',
+    tags4: '请输入具体原因',
+    data1: '信息不全',
+    data2: '信息有误',
+    data3: '证件照片有误',
+    data4: '证件照片不清晰',
   },
   public: {
-    cancel: "取消",
-    confirm: "确定",
+    cancel: '取消',
+    confirm: '确定',
   },
 };

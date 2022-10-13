@@ -2,52 +2,55 @@
   <div :style="`min-height:${height}px;`" class="signin">
     <van-form ref="form">
       <div class="from-item" v-if="show">
-        <p>选择网络</p>
+        <p>{{ $t("content.select_network") }}</p>
         <van-field
           class="input-border"
           v-model="form.otype"
-          placeholder="选择网络"
+          :placeholder="$t('content.select_network')"
           :disabled="true"
         />
       </div>
       <div class="from-item" v-if="show">
-        <p>钱包地址</p>
+        <p>{{ $t("content.wallet_address") }}</p>
         <van-field
           class="input-border"
           v-model="form.walletAddress"
-          placeholder="钱包地址"
+          :placeholder="$t('content.wallet_address')"
           :disabled="true"
         />
       </div>
       <div class="from-item">
-        <p>邮箱地址</p>
+        <p>{{ $t("content.email") }}</p>
         <van-field
           class="input-border"
           v-model="form.mail"
-          placeholder="邮箱地址"
+          :placeholder="$t('content.email')"
           :rules="[
-            { required: true, message: '请填写邮箱地址' },
-            { validator: mailRule, message: '请输入正确的邮箱' },
+            { required: true, message: $t('rulesMsg.email') },
+            { validator: mailRule, message: $t('rulesMsg.correct_mail') },
           ]"
         />
       </div>
       <div class="from-item">
-        <p>登录密码</p>
+        <p>{{ $t("content.pwd") }}</p>
         <van-field
           class="input-border"
           v-model="pwd"
           type="password"
-          placeholder="登录密码"
-          :rules="[{ required: true, message: '请填写登录密码' }]"
+          :placeholder="$t('content.pwd')"
+          :rules="[{ required: true, message: $t('rulesMsg.pwd') }]"
         />
       </div>
     </van-form>
     <div class="btn">
-      <van-button class="btn-login" type="default" @click="login"
-        >登录</van-button
-      >
+      <van-button class="btn-login" type="default" @click="login">{{
+        $t("menu.login")
+      }}</van-button>
       <div class="tips">
-        还没有账户<span class="sign-in" @click="handleBtn">立即注册</span>
+        {{ $t("content.not_account") }}
+        <span class="sign-in" @click="handleBtn">
+          {{ $t("content.register") }}
+        </span>
       </div>
     </div>
   </div>
@@ -80,11 +83,11 @@ export default {
     this.height = document.body.scrollHeight - 152;
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
-    if(localStorage.getItem('myaddress')){
-      this.show=true
-      this.form.walletAddress=localStorage.getItem('myaddress')
-      this.form.otype=localStorage.getItem('netType')
-      this.form.sign=localStorage.getItem('mysign')
+    if (localStorage.getItem("myaddress")) {
+      this.show = true;
+      this.form.walletAddress = localStorage.getItem("myaddress");
+      this.form.otype = localStorage.getItem("netType");
+      this.form.sign = localStorage.getItem("mysign");
     }
   },
   methods: {
@@ -120,8 +123,8 @@ export default {
               this.cookie.set("token", res.data.items, { expires: 30 });
               this.$toast.success({
                 forbidClick: true,
-                message: "登录成功",
-                onClose: () => this.$router.push("/"),
+                message: this.$t("content.login_suc"),
+                onClose: () => this.$router.replace("/"),
               });
             } else {
               this.$toast.fail(res.data.message);
@@ -129,7 +132,7 @@ export default {
           });
         })
         .catch(() => {
-          this.$toast.fail("请输入正确的邮箱或密码");
+          this.$toast.fail(this.$t("content.msg1"));
         });
     },
   },
