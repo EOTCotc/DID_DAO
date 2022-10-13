@@ -111,15 +111,15 @@
         style="margin-right: 5px"
         :src="require('../../assets/img/jin.png')"
       />
-      <span>解除风控</span>
+      <span>{{ $t("home.remove_risk") }}</span>
     </div>
     <Notification
       ref="notification"
-      title="系统检测您的账号存在异常"
-      message="暂无法使用该系统，请根据提示解除风控"
+      :title="$t('notification.risk.title')"
+      :message="$t('notification.risk.message')"
       :headerIcon="require('../../assets/img/jin.png')"
       buttonColor="#F65F5F"
-      buttonText="解除风控"
+      :buttonText="$t('notification.risk.btn')"
       :closeOnClick="true"
       @buttonClick="buttonClick"
     />
@@ -459,10 +459,10 @@ export default {
 
 //固定
 .filed {
-  width: 200px;
   line-height: 90px;
   background: #fff;
   font-size: 28px;
+  padding: 0 10px;
   color: #f34747;
   display: flex;
   justify-content: center;
