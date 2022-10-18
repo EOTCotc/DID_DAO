@@ -268,17 +268,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.create_wrap {
-  .content {
-    flex: 1;
-    margin-top: 30px;
-    background-color: #fff;
-    .btn {
-      @include posi($b: 30px, $l: 30px, $r: 30px);
-      margin: 0;
+  .create_wrap {
+    .content {
+      flex: 1;
+      margin-top: 20px;
+      background-color: #FFF;
+      .btn {
+        @include posi($b: 30px, $l: 30px, $r: 30px);
+        margin: 0;
+      }
     }
   }
-}
+
 .tip {
   color: #fc7542;
   font-size: 28px;

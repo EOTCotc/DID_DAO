@@ -135,12 +135,15 @@
   </div>
 </template>
 <script>
-import TopBar from "@/components/topBar/topBar";
-import Notification from "@/components/notification";
-import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
-import { loadweb3 } from "@/utils/web3.js";
-import { getdaoinfo } from "@/api/earnings";
-import { getmessageopen } from "@/api/case";
+import TopBar from '@/components/topBar/topBar'
+import Notification from '@/components/notification'
+import {
+  getproposallist,
+  getuserrisklevel
+} from '@/api/viewsApi/home'
+import {loadweb3} from '@/utils/web3.js'
+import {getdaoinfo} from '@/api/earnings'
+import {getmessageopen} from '@/api/case'
 
 export default {
   components: {

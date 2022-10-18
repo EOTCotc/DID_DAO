@@ -100,7 +100,7 @@
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell is-link :border="false" @click="auth('/my/payment', false)">
+        <van-cell is-link :border="false" @click="auth('/my/payment', true)">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/fukuan.png" />
@@ -344,16 +344,7 @@ export default {
             beforeClose: (action, done) => {
               if (action === "confirm") {
                 done();
-                // 判断有没有选位置，有就直接调到社区
-                // 没有就跳到选择已有的社区页面
-                getcomselect().then((res) => {
-                  if (!res.data.items.country) {
-                    this.showOverlay = false;
-                    this.$router.push("/bindRelation");
-                  } else {
-                    this.$router.push("/bindRelation/bindCommunity");
-                  }
-                });
+                this.$router.push({ path: "/myReferrer" });
               } else {
                 done();
               }
