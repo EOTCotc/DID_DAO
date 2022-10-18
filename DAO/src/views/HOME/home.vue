@@ -140,10 +140,7 @@ import {
 } from '@/api/viewsApi/home'
 import {loadweb3} from '@/utils/web3.js'
 import {getdaoinfo} from '@/api/earnings'
-import {
-  getmessageopen,
-  list
-} from '@/api/case'
+import {getmessageopen} from '@/api/case'
 
 export default {
   components: {

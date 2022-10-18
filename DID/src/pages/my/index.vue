@@ -100,7 +100,7 @@
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell is-link :border="false" @click="auth('/my/payment', false)">
+        <van-cell is-link :border="false" @click="auth('/my/payment', true)">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/fukuan.png" />
@@ -339,7 +339,7 @@ export default {
             beforeClose: (action, done) => {
               if (action === "confirm") {
                 done();
-                this.$router.push({ path: "/bindRelation" });
+                this.$router.push({ path: "/myReferrer" });
               } else {
                 done();
               }

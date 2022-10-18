@@ -244,7 +244,7 @@
   .create_wrap {
     .content {
       flex: 1;
-      margin-top: 30px;
+      margin-top: 20px;
       background-color: #FFF;
       .btn {
         @include posi($b: 30px, $l: 30px, $r: 30px);
