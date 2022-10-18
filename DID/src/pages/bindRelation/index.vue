@@ -46,25 +46,25 @@
     </div>
 
     <div class="btn">
-      <div>{{$t('bindRelation.tip')}}</div>
+      <div>{{ $t("bindRelation.tip") }}</div>
       <button
         :style="showBtn ? 'background:#1B2945;' : 'background:#8c93a1;'"
         @click="toNext"
       >
-        {{$t('bindRelation.next')}}
+        {{ $t("bindRelation.next") }}
       </button>
     </div>
 
     <van-overlay :show="showOverlay" @click="showOverlay = false">
       <div class="wrapper" @click.stop>
         <div class="block">
-          <div class="tips">{{$t('bindRelation.conf_tip')}}</div>
+          <div class="tips">{{ $t("bindRelation.conf_tip") }}</div>
           <div class="msg">
-            {{$t('bindRelation.conf_cont')}}
+            {{ $t("bindRelation.conf_cont") }}
           </div>
           <div class="mask-btn">
-            <div @click="showOverlay = false">{{$t('public.cancel')}}</div>
-            <div @click="toCommunity">{{$t('public.confirm')}}</div>
+            <div @click="showOverlay = false">{{ $t("public.cancel") }}</div>
+            <div @click="toCommunity">{{ $t("public.confirm") }}</div>
           </div>
         </div>
       </div>
@@ -129,18 +129,22 @@ export default {
     },
     // 获取省市区
     confirm(e) {
-      this.objSite.area = JSON.stringify(e);
-      this.region = `${e[0].name}-${e[1].name}-${e[2].name}`;
-      this.reqComNum.province = e[0].code;
-      this.reqComNum.city = e[1].code;
-      this.reqComNum.area = e[2].code;
-      this.showPopup = false;
-      if (this.country && this.region) {
-        this.showBtn = true;
+      if (this.country[1]) {
+        this.objSite.area = JSON.stringify(e);
+        this.region = `${e[0].name}-${e[1].name}-${e[2].name}`;
+        this.reqComNum.province = e[0].code;
+        this.reqComNum.city = e[1].code;
+        this.reqComNum.area = e[2].code;
+        if (this.country && this.region) {
+          this.showBtn = true;
+        } else {
+          this.showBtn = false;
+        }
+        this.getComNum();
       } else {
-        this.showBtn = false;
+        this.$toast.fail("请先选择国家");
       }
-      this.getComNum();
+      this.showPopup = false;
     },
     // 获取社区数量
     getComNum() {
@@ -167,7 +171,7 @@ export default {
             params: JSON.stringify(this.objSite),
           });
         } else {
-          this.$toast.fail("设置失败");
+          this.$toast.fail(res.data.message);
         }
       });
     },

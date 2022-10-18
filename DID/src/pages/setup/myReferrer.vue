@@ -48,7 +48,7 @@ export default {
       if (this.refUserId != "") {
         setuserinfo({ refUserId: this.refUserId }).then((res) => {
           if (res.data.code == 0) {
-            this.$toast.success("绑定成功");
+            this.$toast.success(this.$t('setup.referrer_toast1'));
             setTimeout(() => {
               this.$router.back();
             }, 500);
@@ -57,7 +57,7 @@ export default {
           }
         });
       } else {
-        this.$toast.fail("请填写邀请码");
+        this.$toast.fail(this.$t('setup.referrer_toast2'));
       }
     },
     // 获取邀请码

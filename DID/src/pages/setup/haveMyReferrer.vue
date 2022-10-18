@@ -18,7 +18,7 @@
 
     <div class="content">
       <div>
-        <div>姓名</div>
+        <div>{{ $t("setup.referrer_name") }}</div>
         <div>{{ refInfo.name }}</div>
       </div>
       <div>
@@ -26,15 +26,15 @@
         <div>{{ refInfo.uid }}</div>
       </div>
       <div>
-        <div>邮箱</div>
+        <div>{{ $t("setup.email") }}</div>
         <div>{{ refInfo.mail }}</div>
       </div>
       <div>
-        <div>手机号</div>
+        <div>{{ $t("setup.referrer_phone") }}</div>
         <div>{{ refInfo.phoneNum }}</div>
       </div>
       <div>
-        <div>所在地</div>
+        <div>{{ $t("setup.locality") }}</div>
         <div>{{ site }}</div>
       </div>
     </div>

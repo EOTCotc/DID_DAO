@@ -1,10 +1,12 @@
 <template>
   <div class="payment_wrap fullscreen">
-    <page-header title="付款账方式" theme="dark"></page-header>
+    <page-header :title="$t('payment.title1')" theme="dark"></page-header>
     <div class="content">
       <van-row class="header_wrap">
         <van-col :span="12" class="currency">CNY</van-col>
-        <van-col :span="12" class="setting" @click="show = true">设置收付款账号</van-col>
+        <van-col :span="12" class="setting" @click="show = true">{{
+          $t("payment.tags1")
+        }}</van-col>
       </van-row>
       <template v-if="!!list.data.length">
         <ul class="list">
@@ -12,160 +14,203 @@
             <van-swipe-cell>
               <van-row type="flex" align="center">
                 <van-col :span="20">
-                  <van-row class="label" type="flex" align="center" :gutter="10">
-                    <van-col :span="4"><img class="img" :src="require(`../../../assets/imgs/pay-${item.type + 1}.png`)" alt=""></van-col>
+                  <van-row
+                    class="label"
+                    type="flex"
+                    align="center"
+                    :gutter="10"
+                  >
+                    <van-col :span="4"
+                      ><img
+                        class="img"
+                        :src="
+                          require(`../../../assets/imgs/pay-${
+                            item.type + 1
+                          }.png`)
+                        "
+                        alt=""
+                    /></van-col>
                     <van-col :span="20">
-                      <div class="title">{{getPaymentType(item.type)}}</div>
-                      <div class="text">{{item.cardNum}}</div>
+                      <div class="title">{{ getPaymentType(item.type) }}</div>
+                      <div class="text">{{ item.cardNum }}</div>
                     </van-col>
                   </van-row>
                 </van-col>
                 <van-col :span="4">
                   <van-switch
-                      v-model="item.isEnable"
-                      :disabled="item.loading"
-                      :loading="item.loading"
-                      size="25px"
-                      @click="handleSwitch(item)"
+                    v-model="item.isEnable"
+                    :disabled="item.loading"
+                    :loading="item.loading"
+                    size="25px"
+                    @click="handleSwitch(item)"
                   />
                 </van-col>
               </van-row>
               <template #right v-if="item.type !== 0">
-                <van-button square type="danger" text="删除" @click="remove(item)" />
+                <van-button
+                  square
+                  type="danger"
+                  :text="$t('payment.text1')"
+                  @click="remove(item)"
+                />
               </template>
             </van-swipe-cell>
           </li>
         </ul>
-        <div class="tip">向买家仅展示已开启的收款账户</div>
+        <div class="tip">{{ $t("payment.tags2") }}</div>
       </template>
       <van-empty
-          v-else
-          :image="require('../../../assets/imgs/empty.png')"
-          description="暂无任何数据"
+        v-else
+        :image="require('../../../assets/imgs/empty.png')"
+        :description="$t('public.not_data')"
       />
     </div>
     <van-popup position="bottom" v-model="show">
       <van-picker
-          show-toolbar
-          :columns="columns"
-          @confirm="handleConfirm"
-          @cancel="handleCancel"
+        show-toolbar
+        :columns="columns"
+        @confirm="handleConfirm"
+        @cancel="handleCancel"
       />
     </van-popup>
   </div>
 </template>
 
 <script>
-  import PageHeader from "@/components/topBar/pageHeader";
-  import {list, deletePayment, update, addPayment} from '@/api/pagesApi/payment'
+import PageHeader from "@/components/topBar/pageHeader";
+import {
+  list,
+  deletePayment,
+  update,
+  addPayment,
+} from "@/api/pagesApi/payment";
 
-  export default {
-    name: "payment",
-    components: {PageHeader},
-    data() {
-      return {
-        show: false,
-        list: {
-          UpRefreshLoading: false,
-          finished: false,
-          query: {
-            page: 1,
-            itemsPerPage: 10
-          },
-          data: []
+export default {
+  name: "payment",
+  components: { PageHeader },
+  data() {
+    return {
+      show: false,
+      list: {
+        UpRefreshLoading: false,
+        finished: false,
+        query: {
+          page: 1,
+          itemsPerPage: 10,
         },
-        columns: ['银行卡', '支付宝', '微信支付']
-      }
+        data: [],
+      },
+      columns: [
+        this.$t("payment.data1"),
+        this.$t("payment.data2"),
+        this.$t("payment.data3"),
+      ],
+    };
+  },
+  methods: {
+    handleUpRefresh() {
+      this.list.query.page++;
+      this.list.UpRefreshLoading = true;
+      this.getList();
     },
-    methods: {
-      handleUpRefresh() {
-        this.list.query.page++
-        this.list.UpRefreshLoading = true
-        this.getList()
-      },
-      getPaymentType(type) {
-        return type === 0 ? '现金支付' : this.columns[type - 1]
-      },
-      getList() {
-        const loading = this.$toast.loading({
-          forbidClick: true,
-          message: "加载中…"
-        })
-        list(this.list.query).then(res => {
+    getPaymentType(type) {
+      return type === 0 ? this.$t("payment.data4") : this.columns[type - 1];
+    },
+    getList() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: this.$t("public.loading"),
+      });
+      list(this.list.query)
+        .then((res) => {
           if (!res.data.code) {
-            const data = res.data.items.map(item => ({...item, loading: false, isEnable: !!item.isEnable}))
+            const data = res.data.items.map((item) => ({
+              ...item,
+              loading: false,
+              isEnable: !!item.isEnable,
+            }));
             if (this.list.query.page > 1) {
-              this.list.data.push(...data)
+              this.list.data.push(...data);
             } else {
-              this.list.data = data
+              this.list.data = data;
             }
-            this.list.finished = !data.length
+            this.list.finished = !data.length;
           } else {
             this.$toast.fail({
               forbidClick: false,
-              message: "未知错误"
-            })
-          }
-        }).finally(() => {
-          loading.clear()
-          this.list.uploading = false
-          this.list.UpRefreshLoading = false
-        })
-      },
-      remove(data) {
-        this.$dialog.confirm({
-          title: "删除提示",
-          message: '是否确定删除该收付款账号？',
-          beforeClose: (action, done) => {
-            if (action === 'confirm') {
-              deletePayment(data.paymentId).then(() => {
-                this.getList()
-                done()
-              }).catch(() => done())
-            }
+              message: this.$t("payment.msg1"),
+            });
           }
         })
-      },
-      handleSwitch(data) {
-        const isEnable = !!data.isEnable ? 0 : 1
-        data.loading = true
-        update({paymentId: data.paymentId, isEnable}).then(() => {
-          data.isEnable = !!isEnable
-        }).finally(() => data.loading = false)
-      },
-      handleConfirm(data) {
-        this.$router.push({path: '/my/payment/create', query: {type: this.columns.indexOf(data) + 1}})
-      },
-      handleSubmit() {
-        const loading = this.$toast.loading({
-          forbidClick: true,
+        .finally(() => {
+          loading.clear();
+          this.list.uploading = false;
+          this.list.UpRefreshLoading = false;
+        });
+    },
+    remove(data) {
+      this.$dialog.confirm({
+        title: this.$t("payment.title2"),
+        message: this.$t("payment.msg2"),
+        beforeClose: (action, done) => {
+          if (action === "confirm") {
+            deletePayment(data.paymentId)
+              .then(() => {
+                this.getList();
+                done();
+              })
+              .catch(() => done());
+          }
+        },
+      });
+    },
+    handleSwitch(data) {
+      const isEnable = !!data.isEnable ? 0 : 1;
+      data.loading = true;
+      update({ paymentId: data.paymentId, isEnable })
+        .then(() => {
+          data.isEnable = !!isEnable;
         })
-        addPayment({type: 0}).then(res => {
+        .finally(() => (data.loading = false));
+    },
+    handleConfirm(data) {
+      this.$router.push({
+        path: "/my/payment/create",
+        query: { type: this.columns.indexOf(data) + 1 },
+      });
+    },
+    handleSubmit() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+      });
+      addPayment({ type: 0 })
+        .then((res) => {
           if (res.data.code) {
             this.$toast.loading({
               forbidClick: true,
-              message: "失败成功"
-            })
+              message: this.$t("payment.msg3"),
+            });
           } else {
             this.$toast.success({
               forbidClick: true,
-              message: "创建成功",
+              message: this.$t("payment.msg4"),
               onClose: () => {
-                this.list.query.page = 1
-                this.getList()
-              }
-            })
+                this.list.query.page = 1;
+                this.getList();
+              },
+            });
           }
-        }).finally(() => loading.clear())
-      },
-      handleCancel() {
-        this.show = false
-      },
+        })
+        .finally(() => loading.clear());
     },
-    created() {
-      this.getList()
-    }
-  }
+    handleCancel() {
+      this.show = false;
+    },
+  },
+  created() {
+    this.getList();
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -178,7 +223,7 @@
         color: #333;
       }
       .setting {
-        color: #237FF8;
+        color: #237ff8;
         text-align: right;
       }
     }
@@ -200,7 +245,7 @@
           }
         }
         &::v-deep(.van-swipe-cell__right) {
-          transform: translate3d(101%,0,0);
+          transform: translate3d(101%, 0, 0);
         }
       }
     }

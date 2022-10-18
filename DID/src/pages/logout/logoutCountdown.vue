@@ -72,12 +72,12 @@ export default {
     waiveLogout() {
       cancellogout().then((res) => {
         if (res.data.code == 0) {
-          this.$toast.success("取消注销成功");
+          this.$toast.success(this.$t('logout.logout_toast1'));
           setTimeout(() => {
             this.$router.replace("/setup");
           }, 600);
         } else {
-          this.$toast.fail("取消注销失败");
+          this.$toast.fail(this.$t('logout.logout_toast2'));
         }
       });
     },

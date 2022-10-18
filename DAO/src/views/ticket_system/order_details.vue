@@ -5,25 +5,40 @@
     </header>
     <main>
       <van-cell-group inset>
-        <van-cell title="类型" title-style="color:#999;" value="功能建议" />
         <van-cell
-          title="提交时间"
+          v-if="type_title == 0"
+          :title="$t('order.type')"
+          title-style="color:#999;"
+          :value="$t('order.type_value_feed')"
+        />
+        <van-cell
+          v-if="type_title == 1"
+          :title="$t('order.type')"
+          title-style="color:#999;"
+          :value="$t('order.type_value')"
+        />
+        <van-cell
+          :title="$t('order.time')"
           title-style="color:#999;"
           :value="order.createDate"
         />
         <van-cell
-          title="提交人"
+          :title="$t('order.submitter')"
           title-style="color:#999;"
           :value="order.submitter"
         />
         <van-cell
-          title="联系方式"
+          :title="$t('order.information')"
           title-style="color:#999;"
           :value="order.phone"
         />
       </van-cell-group>
       <van-cell-group inset class="group">
-        <van-cell title="问题描述" title-style="color:#999;" :border="false" />
+        <van-cell
+          :title="$t('order.describe')"
+          title-style="color:#999;"
+          :border="false"
+        />
         <van-cell :title="order.describe" />
       </van-cell-group>
       <van-cell-group inset class="tu">
@@ -36,16 +51,24 @@
         />
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 1">
-        <van-cell title="处理记录" style="color: #999" :border="false" />
+        <van-cell
+          :title="$t('order.processing')"
+          style="color: #999"
+          :border="false"
+        />
         <van-field
           v-model="message"
           rows="5"
           type="textarea"
-          placeholder="工单处理记录..."
+          :placeholder="$t('order.placeholder')"
         />
       </van-cell-group>
       <van-cell-group inset class="group" v-show="order.status == 2">
-        <van-cell title="处理记录" style="color: #999" :border="false" />
+        <van-cell
+          :title="$t('order.processing')"
+          style="color: #999"
+          :border="false"
+        />
         <van-cell :title="order.record"></van-cell>
       </van-cell-group>
       <van-button
@@ -54,15 +77,15 @@
         @click="update(order.status)"
         class="one_btn"
         v-show="order.status == 0"
-        >更进处理</van-button
+        >{{ $t("order.further") }}</van-button
       >
       <div class="two_btn" v-show="order.status == 1">
-        <van-button round type="info" color="#E52A2A" plain @click="cancel()"
-          >取消处理</van-button
-        >
-        <van-button round type="info" @click="update(order.status)"
-          >处理完成</van-button
-        >
+        <van-button round type="info" color="#E52A2A" plain @click="cancel()">{{
+          $t("order.cancel")
+        }}</van-button>
+        <van-button round type="info" @click="update(order.status)">{{
+          $t("order.finish")
+        }}</van-button>
       </div>
     </main>
   </div>
@@ -77,15 +100,17 @@ export default {
   components: { white },
   data() {
     return {
-      title: "工单详情",
+      title: this.$t("order.nav_title"),
       order: {},
       message: "",
       workOrderId: "",
       fileList: [],
       type: "wordOrder",
+      type_title: undefined,
     };
   },
   created() {
+    this.type_title = this.$route.query.type;
     this.workOrderId = this.$route.query.workOrderId;
     getworkorder({ workOrderId: this.workOrderId }).then((res) => {
       res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
@@ -104,9 +129,9 @@ export default {
 
     cancel() {
       Dialog.confirm({
-        title: "取消提示",
+        title: this.$t("order.dialog_title"),
         confirmButtonColor: "#000",
-        message: "确定取消处理该订单吗？",
+        message: this.$t("order.dialog_message"),
         getContainer: ".order",
       })
         .then(() => {
@@ -139,9 +164,9 @@ export default {
         });
       } else {
         Dialog.confirm({
-          title: "处理完成",
+          title: this.$t("order.dialog_finish"),
           confirmButtonColor: "#000",
-          message: "请确定该工单问题已处理完成,点击确定完成",
+          message: this.$t("order.dialog_messfinish"),
         })
           .then(() => {
             updateWork({
@@ -185,6 +210,9 @@ export default {
   .van-cell {
     font-size: 16px;
     line-height: 15px;
+    .van-cell__title {
+      color: #000;
+    }
   }
 }
 .tu {

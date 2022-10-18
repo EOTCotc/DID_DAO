@@ -1,18 +1,18 @@
 <template>
   <div class="community_wrap fullscreen bg-gray">
-    <page-header title="申请创建社区" />
+    <page-header :title="$t('community.tags3')" />
     <div class="content">
       <van-form validate-first @submit="handleSubmit">
         <van-field
           class="row"
           v-model="form.data.name"
           name="name"
-          label="用户名"
-          placeholder="请输入申请人真实姓名"
+          :label="$t('community.tags6')"
+          :placeholder="$t('community.tags7')"
           :rules="[
             {
               validator: (val) => !!val.length,
-              message: '请输入申请人真实姓名',
+              message: $t('community.tags7'),
             },
           ]"
         />
@@ -20,10 +20,13 @@
           class="row"
           v-model="form.data.comName"
           name="comName"
-          label="社区名"
-          placeholder="请输入申请社区名"
+          :label="$t('community.tags8')"
+          :placeholder="$t('community.tags9')"
           :rules="[
-            { validator: (val) => !!val.length, message: '请输入申请社区名' },
+            {
+              validator: (val) => !!val.length,
+              message: $t('community.tags9'),
+            },
           ]"
         />
         <van-field
@@ -31,43 +34,43 @@
           :value="form.data.addressText"
           class="row selectAddress"
           name="address"
-          label="社区地址"
-          placeholder="请选择社区地址"
+          :label="$t('community.tags10')"
+          :placeholder="$t('community.tags11')"
           @click="selectAddress"
         ></van-field>
         <van-field
           class="row"
           v-model="form.data.phone"
           name="phone"
-          label="联系电话"
+          :label="$t('community.tags12')"
           type="tel"
-          placeholder="请输入您的联系电话"
+          :placeholder="$t('community.tags13')"
           :rules="[
             {
               validator: (val) => val.length >= 8,
-              message: '请输入正确联系电话',
+              message: $t('community.tags14'),
             },
           ]"
         />
-        <van-field class="row" name="hasOffice" label="有无办公室">
+        <van-field class="row" name="hasOffice" :label="$t('community.tags15')">
           <template #input>
             <van-radio-group
               v-model="form.data.hasOffice"
               direction="horizontal"
             >
-              <van-radio :name="1">有</van-radio>
-              <van-radio :name="0">无</van-radio>
+              <van-radio :name="1">{{ $t("community.tags16") }}</van-radio>
+              <van-radio :name="0">{{ $t("community.tags17") }}</van-radio>
             </van-radio-group>
           </template>
         </van-field>
-        <van-field class="row" name="hasGroup" label="是否建群">
+        <van-field class="row" name="hasGroup" :label="$t('community.tags18')">
           <template #input>
             <van-radio-group
               v-model="form.data.hasGroup"
               direction="horizontal"
             >
-              <van-radio :name="1">是</van-radio>
-              <van-radio :name="0">否</van-radio>
+              <van-radio :name="1">{{ $t("community.tags19") }}</van-radio>
+              <van-radio :name="0">{{ $t("community.tags20") }}</van-radio>
             </van-radio-group>
           </template>
         </van-field>
@@ -79,7 +82,7 @@
             native-type="submit"
             :disabled="submitDisable"
             color="#1B2945"
-            >提交
+            >{{ $t("logout.submit") }}
           </van-button>
         </div>
       </van-form>
@@ -91,7 +94,6 @@
 import jsCookie from "js-cookie";
 import PageHeader from "@/components/topBar/pageHeader.vue";
 import { create, oldData } from "@/api/pagesApi/community";
-
 
 export default {
   name: "communityCreate",
@@ -135,7 +137,7 @@ export default {
       const userInfo = JSON.parse(this.cookie.get("userInfo"));
       if (userInfo.authType === 3) {
         const loading = this.$toast.loading({
-          message: "加载中",
+          message: this.$t("public.loading"),
           forbidClick: true,
         });
         oldData(userInfo.applyCommunityId)
@@ -165,8 +167,8 @@ export default {
     handleSubmit() {
       this.$dialog
         .confirm({
-          title: "确认提示",
-          message: "请确定提交信息无误，提交批准后将不可更改",
+          title: this.$t("bindRelation.conf_tip"),
+          message: this.$t("community.msg2"),
           confirmButtonColor: "#1B2945",
           cancelButtonColor: "#666",
           beforeClose: (action, done) => {
@@ -182,7 +184,7 @@ export default {
                   } else {
                     this.$toast.success({
                       forbidClick: true,
-                      message: "创建成功",
+                      message: this.$t("payment.msg4"),
                       onClose: () => {
                         this.$router.replace("/my/community/create/success");
                       },
@@ -192,7 +194,7 @@ export default {
                 .catch(() => {
                   this.$toast.fail({
                     forbidClick: true,
-                    message: "创建失败",
+                    message: this.$t("payment.msg3"),
                   });
                 })
                 .finally(() => {

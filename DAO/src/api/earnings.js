@@ -32,3 +32,11 @@ export const getuSereotc = data => {
     data,
   });
 };
+//是否启用Dao审核仲裁权限
+export const setDaoenable = (data) => {
+  return request({
+    url: "api/daouser/setdaoenable",
+    method: "post",
+    data,
+  });
+};

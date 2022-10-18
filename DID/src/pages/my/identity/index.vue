@@ -1,41 +1,41 @@
 <template>
   <div class="container fullscreen">
-    <page-header title="身份认证" theme="dark" />
+    <page-header :title="$t('my.my_index_title1')" theme="dark" />
     <van-form class="form_wrap">
       <div class="main steps_wrap">
         <div class="info_wrap step-1" v-show="step.active === 0">
           <van-field
             v-model="form.data.name"
             name="name"
-            label="姓名"
+            :label="$t('create.tags4')"
             size="large"
-            placeholder="请输入真实姓名"
-            :rules="[{ required: true, message: '请输入真实姓名' }]"
+            :placeholder="$t('create.text2')"
+            :rules="[{ required: true, message: $t('create.text2') }]"
           />
           <van-field
             v-model="form.data.phoneNum"
             name="phoneNum"
-            label="手机号"
+            :label="$t('setup.referrer_phone')"
             size="large"
-            placeholder="请输入手机号码"
-            :rules="[{ required: true, message: '请输入手机号码' }]"
+            :placeholder="$t('identity.text1')"
+            :rules="[{ required: true, message: $t('identity.text1') }]"
           />
           <van-field
             v-model="form.data.idCard"
             name="code"
-            label="证件号"
+            :label="$t('identity.text2')"
             size="large"
-            placeholder="请输入证件号码"
-            :rules="[{ required: true, message: '请输入证件号码' }]"
+            :placeholder="$t('identity.text3')"
+            :rules="[{ required: true, message: $t('identity.text3') }]"
           />
         </div>
         <div class="upload_wrap step-2" v-show="step.active === 1">
           <div class="example_wrap">
-            <div class="title">示例图:</div>
+            <div class="title">{{ $t("identity.tags1") }}:</div>
             <img class="img" src="../../../assets/imgs/example-1.png" alt="" />
           </div>
           <div class="upload_main">
-            <div class="title">上传身份证人像面</div>
+            <div class="title">{{ $t("identity.tags2") }}</div>
             <div class="upload">
               <van-uploader
                 v-model="fileList.portraitImage"
@@ -43,36 +43,36 @@
                 :max-count="1"
               />
             </div>
-            <div class="tip">* 请按照示例图来上传身份证人像面照片</div>
+            <div class="tip">* {{ $t("identity.tags3") }}</div>
           </div>
           <div class="tip_wrap">
-            <div class="title">审核信息显示</div>
+            <div class="title">{{ $t("identity.tags4") }}</div>
             <div class="tip">
-              您上传的身份证照片进行局部模糊后，将由不同的节点审核
+              {{ $t("identity.tags5") }}
             </div>
             <div class="img_wrap">
               <div class="item">
                 <div class="img">
                   <img src="../../../assets/imgs/example-1.png" alt="" />
                 </div>
-                <div class="text">推荐人显示左边60%</div>
+                <div class="text">{{ $t("identity.tags6") }}</div>
               </div>
               <div class="item">
                 <div class="img">
                   <img src="../../../assets/imgs/example-2.png" alt="" />
                 </div>
-                <div class="text">审核节点显示右边60%</div>
+                <div class="text">{{ $t("identity.tags7") }}</div>
               </div>
             </div>
           </div>
         </div>
         <div class="upload_wrap step-3" v-show="step.active === 2">
           <div class="example_wrap">
-            <div class="title">示例图:</div>
+            <div class="title">{{ $t("identity.tags1") }}:</div>
             <img class="img" src="../../../assets/imgs/example-2.png" alt="" />
           </div>
           <div class="upload_main">
-            <div class="title">上传身份证国徽面</div>
+            <div class="title">{{ $t("identity.tags8") }}</div>
             <div class="upload">
               <van-uploader
                 v-model="fileList.nationalImage"
@@ -80,16 +80,16 @@
                 :max-count="1"
               />
             </div>
-            <div class="tip">* 请按照示例图来上传身份证国徽面</div>
+            <div class="tip">* {{ $t("identity.tags9") }}</div>
           </div>
         </div>
         <div class="upload_wrap step-4" v-show="step.active === 3">
           <div class="example_wrap">
-            <div class="title">示例图:</div>
+            <div class="title">{{ $t("identity.tags1") }}:</div>
             <img class="img" src="../../../assets/imgs/example-3.png" alt="" />
           </div>
           <div class="upload_main">
-            <div class="title">上传手持证件照</div>
+            <div class="title">{{ $t("identity.tags10") }}</div>
             <div class="upload">
               <van-uploader
                 v-model="fileList.handHeldImage"
@@ -97,7 +97,7 @@
                 :max-count="1"
               />
             </div>
-            <div class="tip">* 请按照示例图来上传手持证件照</div>
+            <div class="tip">* {{ $t("identity.tags11") }}</div>
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
           type="primary"
           @click="prev"
         >
-          上一步
+          {{ $t("identity.tags12") }}
         </van-button>
         <van-button
           block
@@ -122,10 +122,12 @@
           type="primary"
           :disabled="disable || form.loading"
           :loading="form.loading"
-          :loading-text="step.active < 3 ? '图片上传中…' : '信息提交中…'"
+          :loading-text="
+            step.active < 3 ? $t('identity.tags13') : $t('identity.tags14')
+          "
           @click="next"
         >
-          {{ step.active < 3 ? "下一步" : "提交" }}
+          {{ step.active < 3 ? $t("logout.next") : $t("logout.submit") }}
         </van-button>
       </div>
     </van-form>
@@ -185,7 +187,7 @@ export default {
         url: content,
         file,
         status: "",
-        message: "上传中",
+        message: this.$t("identity.data1"),
         deletable: true,
         imageFit: "contain",
         previewSize: "100%",
@@ -201,7 +203,10 @@ export default {
       uploadImage(formData)
         .then((res) => {
           if (!!res.data.code) {
-            const message = ["请上传文件", "文件类型错误"];
+            const message = [
+              this.$t("identity.data2"),
+              this.$t("identity.data3"),
+            ];
             this.$toast.fail({
               forbidClick: true,
               message: message[res.data.message],
@@ -230,7 +235,7 @@ export default {
           } else {
             this.$toast.success({
               forbidClick: true,
-              message: "提交成功",
+              message: this.$t("identity.data4"),
               onClose: () => {
                 this.$router.replace("/my");
               },

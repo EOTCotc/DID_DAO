@@ -7,7 +7,7 @@
       <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
         <van-tabs v-model="activeName" @change="tabs">
           <!-- 待处理 -->
-          <van-tab title="待处理" :name="0">
+          <van-tab :title="$t('pending.status_one')" :name="0">
             <div class="tag">
               <van-tag
                 round
@@ -27,34 +27,37 @@
             >
               <van-cell
                 v-if="item.type == 0"
-                title="BUG反馈"
+                :title="$t('pending.title_one')"
                 :value="item.createDate"
               />
               <van-cell
                 v-if="item.type == 1"
-                title="功能建议"
+                :title="$t('pending.title_two')"
                 :value="item.createDate"
               />
-              <van-cell :title="'提交人:' + item.submitter" :border="false" />
+              <van-cell
+                :title="$t('pending.text') + ':' + item.submitter"
+                :border="false"
+              />
               <van-cell :title="item.describe" :border="false" />
               <van-button
                 class="dai"
                 round
                 size="small"
                 type="info"
-                @click="chuli(item.workOrderId)"
-                >去处理</van-button
+                @click="chuli(item.workOrderId, item.type)"
+                >{{ $t("pending.btn_text") }}</van-button
               >
             </van-cell-group>
             <van-empty
               v-show="!pengList.length"
               class="custom-image"
               :image="require('./../../assets/img/空态-02.png')"
-              description="暂无任何数据"
+              :description="$t('pending.empty_text')"
             />
           </van-tab>
           <!-- 处理中 -->
-          <van-tab title="处理中" :name="1">
+          <van-tab :title="$t('pending.status2_two')" :name="1">
             <van-cell-group
               inset
               v-show="pengList.length > 0"
@@ -64,15 +67,18 @@
             >
               <van-cell
                 v-if="item.type == 0"
-                title="BUG反馈"
+                :title="$t('pending.title_one')"
                 :value="item.createDate"
               />
               <van-cell
                 v-if="item.type == 1"
-                title="功能建议"
+                :title="$t('pending.title_two')"
                 :value="item.createDate"
               />
-              <van-cell :title="'提交人:' + item.submitter" :border="false" />
+              <van-cell
+                :title="$t('pending.text') + ':' + item.submitter"
+                :border="false"
+              />
               <van-cell :title="item.describe" :border="false" />
               <div class="btn">
                 <van-button
@@ -81,14 +87,14 @@
                   color="#FDE9E9"
                   class="red"
                   @click="cancel(item.workOrderId)"
-                  >取消处理</van-button
+                  >{{ $t("pending.btn_cancel") }}</van-button
                 >
                 <van-button
                   round
                   size="small"
                   color="#E8F2FF"
-                  @click="chuli(item.workOrderId)"
-                  >更进处理中</van-button
+                  @click="chuli(item.workOrderId, item.type)"
+                  >{{ $t("pending.btn_once") }}</van-button
                 >
               </div>
             </van-cell-group>
@@ -96,11 +102,11 @@
               v-show="!pengList.length"
               class="custom-image"
               :image="require('./../../assets/img/空态-02.png')"
-              description="暂无任何数据"
+              :description="$t('pending.empty_text')"
             />
           </van-tab>
           <!-- 已处理 -->
-          <van-tab title="已处理" :name="2">
+          <van-tab :title="$t('pending.status3_three')" :name="2">
             <van-cell-group
               class="finish"
               inset
@@ -110,27 +116,30 @@
             >
               <van-cell
                 v-if="item.type == 0"
-                title="BUG反馈"
+                :title="$t('pending.title_one')"
                 :value="item.createDate"
               />
               <van-cell
                 v-if="item.type == 1"
-                title="功能建议"
+                :title="$t('pending.title_two')"
                 :value="item.createDate"
               />
-              <van-cell :title="'提交人:' + item.submitter" :border="false" />
+              <van-cell
+                :title="$t('pending.text') + ':' + item.submitter"
+                :border="false"
+              />
               <van-cell :title="item.describe" :border="false" />
               <van-cell
                 class="yi"
-                title="已完成处理"
-                @click="chuli(item.workOrderId)"
+                :title="$t('pending.text_finish')"
+                @click="chuli(item.workOrderId, item.type)"
               />
             </van-cell-group>
             <van-empty
               v-show="!pengList.length"
               class="custom-image"
               :image="require('./../../assets/img/空态-02.png')"
-              description="暂无任何数据"
+              :description="$t('pending.empty_text')"
             />
           </van-tab>
         </van-tabs>
@@ -139,7 +148,7 @@
           v-show="!!pengList.length"
           v-model="list.UpRefreshLoading"
           :finished="!!pengList.length && list.finished"
-          finished-text="没有更多了"
+          :finished-text="$t('pending.finished_text')"
           @load="handleUpRefresh"
         />
       </van-pull-refresh>
@@ -156,7 +165,7 @@ export default {
   components: { white },
   data() {
     return {
-      title: "工单系统",
+      title: this.$t("pending.nav_title"),
       name: "personage",
       activeName: 0,
       active: undefined,
@@ -172,15 +181,15 @@ export default {
       },
       type: [
         {
-          title: "全部",
+          title: this.$t("pending.type_all"),
           index: undefined,
         },
         {
-          title: "BUG反馈",
+          title: this.$t("pending.title_one"),
           index: 0,
         },
         {
-          title: "功能建议",
+          title: this.$t("pending.title_two"),
           index: 1,
         },
       ],
@@ -201,8 +210,14 @@ export default {
       this.list.UpRefreshLoading = true;
       this.getList();
     },
-    chuli(id) {
-      this.$router.push({ path: "/order_details", query: { workOrderId: id } });
+    chuli(id, type) {
+      if (type != undefined) {
+        console.log("type", type);
+        this.$router.push({
+          path: "/order_details",
+          query: { workOrderId: id, type: type },
+        });
+      }
     },
     changeType(index) {
       console.log(index);
@@ -220,7 +235,7 @@ export default {
     },
     //获取列表
     getList() {
-      this.$toast.loading("列表加载中…");
+      this.$toast.loading(this.$t("pending.load_text"));
       getworkorderlist({
         workOrderStatus: this.activeName,
         workOrderType: this.active,
@@ -251,9 +266,9 @@ export default {
     },
     cancel(id) {
       Dialog.confirm({
-        title: "取消提示",
+        title: this.$t("pending.dialog_title"),
         confirmButtonColor: "#000",
-        message: "确定取消处理该工单？",
+        message: this.$t("pending.dialog_message"),
         getContainer: ".home",
       })
         .then(() => {
