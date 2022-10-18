@@ -218,7 +218,7 @@ export default {
             // 注册请求
             register(newForm).then((res) => {
               if (res.data.code == 0) {
-                this.$toast.success("注册成功！");
+                this.$toast.success(this.$t("content.msg2"));
                 setTimeout(() => {
                   //延迟一点时间
                   this.$emit("btnNum", 1); //成功跳登录页
@@ -229,10 +229,10 @@ export default {
             });
           })
           .catch(() => {
-            this.$toast.fail("注册失败");
+            this.$toast.fail(this.$t("content.msg3"));
           });
       } else {
-        this.$toast.fail("请勾选协议");
+        this.$toast.fail(this.$t("content.msg4"));
       }
     },
   },

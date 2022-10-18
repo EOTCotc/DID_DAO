@@ -24,7 +24,7 @@
         <div v-show="index + 1 == count"
              v-for="(item, index) in testQuestionData"
              :key="item.id">
-          <div v-if="item.topicType != '(填空题)'">
+          <div v-if="item.topicType != '(填空题)' && item.topicType != '(Completion)'">
             <div class="questions">
               <h3>{{ item.questionContant }}</h3>
               <h4>{{ item.topicType }}</h4>
@@ -106,6 +106,8 @@ export default {
       Dialog.confirm({
         title: this.$t('exam.quittitle'),
         message: this.$t('exam.quitmessage'),
+        confirmButtonText: this.$t('exam.Text1'),
+        cancelButtonText: this.$t('exam.Text2'),
       })
         .then(() => {
           this.$router.push({
@@ -207,7 +209,7 @@ export default {
         return
       } else {
         this.testQuestionData.forEach((el) => {
-          if (el.topicType != '(填空题)' || el.topicType != '(Completion)') {
+          if (el.topicType != '(填空题)' && el.topicType != '(Completion)') {
             let a = []
             el.questionAnswer.forEach((item, idx) => {
               if (item.Check) {

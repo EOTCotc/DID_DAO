@@ -6,9 +6,22 @@
       <van-form class="form_wrap">
         <div class="main steps_wrap">
           <div class="info_wrap step-1">
-            <van-field :label="$t('check.name')" v-model="user.name" />
-            <van-field :label="$t('check.phone')" v-model="user.phoneNum" />
-            <van-field :label="$t('check.card')" v-model="user.idCard" border />
+            <van-field
+              :label="$t('check.name')"
+              label-width="100px"
+              v-model="user.name"
+            />
+            <van-field
+              :label="$t('check.phone')"
+              label-width="100px"
+              v-model="user.phoneNum"
+            />
+            <van-field
+              :label="$t('check.card')"
+              label-width="100px"
+              v-model="user.idCard"
+              border
+            />
           </div>
           <div class="upload_wrap step-2">
             <div class="title">{{ $t("check.identity") }}</div>

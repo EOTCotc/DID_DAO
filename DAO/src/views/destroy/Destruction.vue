@@ -326,15 +326,16 @@ export default {
 .tag {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 20px;
   margin: 20px 0;
 }
 .tag div {
-  width: 140px;
+  width: 160px;
   display: inline-block;
   text-align: center;
-  padding: 15px 25px;
-  margin: 16px 20px 0;
+  padding: 15px 15px;
+  margin: 16px 15px 0;
   border-radius: 25px;
 }
 .noActive {

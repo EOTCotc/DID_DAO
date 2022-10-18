@@ -1,42 +1,40 @@
 <template>
   <div>
     <TopBar />
-    <div class='content'>
-      <img class='home-logo'
-           src='@/assets/imgs/home_logo.png'
-           alt='首页logo' />
-      <div class='home-title'>
-        <p>{{ $t('home.text1') }}</p>
-        <p>{{ $t('home.text2') }}</p>
+    <div class="content">
+      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
+      <div class="home-title">
+        <p>{{ $t("home.text1") }}</p>
+        <p>{{ $t("home.text2") }}</p>
       </div>
-      <button class='home-btn'
-              @click="$router.push('/Create')">
-        {{ $t('home.btn') }}
+      <button class="home-btn" @click="$router.push('/Create')">
+        {{ $t("home.btn") }}
       </button>
       <!-- 最新提案 -->
-      <div class='proposal-list'>
-        <div class='proposal-title'>
-          <span class='home-proposal-title'>{{ $t('home.title') }}</span>
-          <span class='home-proposal-more'
-                @click="
+      <div class="proposal-list">
+        <div class="proposal-title">
+          <span class="home-proposal-title">{{ $t("home.title") }}</span>
+          <span
+            class="home-proposal-more"
+            @click="
               $router.push({
                 path: '/Bill_list',
                 query: { isProponent: 0, home: 'home' },
               })
             "
-                v-if='proposalList.length != 0'>
-            {{ $t('home.more') }}
-            <van-icon name='arrow'
-                      color='#fff' />
+            v-if="proposalList.length != 0"
+          >
+            {{ $t("home.more") }}
+            <van-icon name="arrow" color="#fff" />
           </span>
         </div>
         <!-- 最新提案 -->
-        <div class='list-box'
-             v-if='proposalList.length != 0'>
-          <div class='list-every'
-               v-for='(item, index) in proposalList'
-               :key='index'
-               @click="
+        <div class="list-box" v-if="proposalList.length != 0">
+          <div
+            class="list-every"
+            v-for="(item, index) in proposalList"
+            :key="index"
+            @click="
               $router.push({
                 path: '/detail',
                 query: {
@@ -48,26 +46,26 @@
             "
           >
             <!-- 提案标题 -->
-            <div class='every-title'>{{ item.title }}</div>
+            <div class="every-title">{{ item.title }}</div>
             <!-- 提案状态 -->
-            <div class='every-type'>
-              <span>{{ item.total }}{{ $t('home.company') }}</span>
-              <div class='every-status'>
-                <template v-if='item.state === 0'>
-                  <span style='background-color: #237ff8'></span>
-                  <span>{{ $t('home.status1') }}</span>
+            <div class="every-type">
+              <span>{{ item.total }}{{ $t("home.company") }}</span>
+              <div class="every-status">
+                <template v-if="item.state === 0">
+                  <span style="background-color: #237ff8"></span>
+                  <span>{{ $t("home.status1") }}</span>
                 </template>
-                <template v-else-if='item.state === 1'>
+                <template v-else-if="item.state === 1">
                   <span></span>
-                  <span>{{ $t('home.status2') }}</span>
+                  <span>{{ $t("home.status2") }}</span>
                 </template>
-                <template v-else-if='item.state === 2'>
-                  <span style='background-color: #00b87a'></span>
-                  <span>{{ $t('home.status3') }}</span>
+                <template v-else-if="item.state === 2">
+                  <span style="background-color: #00b87a"></span>
+                  <span>{{ $t("home.status3") }}</span>
                 </template>
                 <template v-else>
                   <span></span>
-                  <span>{{ $t('home.status4') }}</span>
+                  <span>{{ $t("home.status4") }}</span>
                 </template>
               </div>
             </div>
@@ -76,57 +74,63 @@
         <div v-else class="not-data">{{ $t("home.not_data") }}</div>
       </div>
       <!-- 条件 -->
-      <div class='condition'>{{ $t('home.tip') }}</div>
+      <div class="condition">{{ $t("home.tip") }}</div>
       <!-- 底部 -->
-      <div class='tail'>
+      <div class="tail">
         <div>
-          <img src='@/assets/imgs/c.png' />
-          <span> {{ $t('home.copyright') }}</span>
+          <img src="@/assets/imgs/c.png" />
+          <span> {{ $t("home.copyright") }}</span>
         </div>
-        <div @click='handleTabLang'>
-          <span class='tab-lang'>{{ $t('home.language') }}</span>
-          <van-icon :name='iconLang' />
+        <div @click="handleTabLang">
+          <span class="tab-lang">{{ langText }}</span>
+          <van-icon :name="iconLang" />
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup v-model='showPopup'
-                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-                 position='right'>
-        <div class='menu'>
-          <div class='menu-every'
-               v-for='item in lang'
-               :key='item.id'>
+      <van-popup
+        v-model="showPopup"
+        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+        position="right"
+      >
+        <div class="menu">
+          <div
+            class="menu-every"
+            v-for="item in lang"
+            @click="tabLang(item)"
+            :key="item.id"
+          >
             <span>{{ item.text }}</span>
           </div>
         </div>
       </van-popup>
     </div>
-    <div class='filed' v-show='tanShow' @click='Remove_risk'>
+    <div class="filed" v-show="tanShow" @click="Remove_risk">
       <van-image
-        width='30'
-        height='30'
-        style='margin-right: 5px'
-        :src="require('../../assets/img/jin.png')" />
-      <span>解除风控</span>
+        width="30"
+        height="30"
+        style="margin-right: 5px"
+        :src="require('../../assets/img/jin.png')"
+      />
+      <span>{{ $t("home.remove_risk") }}</span>
     </div>
     <Notification
-      ref='notification'
-      title='系统检测您的账号存在异常'
-      message='暂无法使用该系统，请根据提示解除风控'
+      ref="notification"
+      :title="$t('notification.risk.title')"
+      :message="$t('notification.risk.message')"
       :headerIcon="require('../../assets/img/jin.png')"
-      buttonColor='#F65F5F'
-      buttonText='解除风控'
-      :closeOnClick='true'
-      @buttonClick='buttonClick'
+      buttonColor="#F65F5F"
+      :buttonText="$t('notification.risk.btn')"
+      :closeOnClick="true"
+      @buttonClick="buttonClick"
     />
     <Notification
       closeOnClick
       :headerIcon="require('../../assets/imgs/tongzhi.png')"
-      :title='`最近有 ${unhandledArbitration} 件仲裁案待处理`'
-      ref='arbitration'
-      buttonColor='#237FF8'
-      buttonText='前往处理'
-      @buttonClick='buttonClickArbitration'
+      :title="`最近有 ${unhandledArbitration} 件仲裁案待处理`"
+      ref="arbitration"
+      buttonColor="#237FF8"
+      buttonText="前往处理"
+      @buttonClick="buttonClickArbitration"
     />
   </div>
 </template>
@@ -144,9 +148,9 @@ import {getmessageopen} from '@/api/case'
 export default {
   components: {
     TopBar,
-    Notification
+    Notification,
   },
-  name: 'home',
+  name: "home",
   data() {
     return {
       iconLang: "arrow-down",
@@ -154,25 +158,39 @@ export default {
       lang: [
         {
           id: 0,
-          text: '简体中文',
-          lang: 'zh'
+          text: "简体中文",
+          lang: "zh",
         },
         {
           id: 1,
-          text: 'English',
-          lang: 'en'
-        }
+          text: "English",
+          lang: "en",
+        },
       ],
       tanShow: false,
       proposalList: [], //提案列表
-      riskShow: this.cookie.get('riskShow'),
-      unhandledArbitration: 0 // 未处理仲裁数量
-    }
+      riskShow: this.cookie.get("riskShow"),
+      unhandledArbitration: 0,
+      langText: "",
+    };
   },
   mounted() {
+    if (localStorage.getItem("lang")) {
+      this.langText = JSON.parse(localStorage.getItem("lang")).text;
+    } else {
+      let lang = navigator.language;
+      switch (lang) {
+        case "zh":
+          this.langText = "简体中文";
+          break;
+        case "en":
+          this.langText = "English";
+          break;
+      }
+    }
     if (localStorage.getItem("myaddress")) {
       //有钱包地址
-      this.handle()
+      this.handle();
     } else {
       //没有钱包地址
       loadweb3(this.handle);
@@ -182,7 +200,6 @@ export default {
     getLocal() {
       // 获取用户信息
       getdaoinfo().then((res) => {
-        console.log(res);
         this.user = res.data.items;
         localStorage.setItem("user", JSON.stringify(res.data.items));
         localStorage.setItem("items", res.data.items.daoEOTC);
@@ -194,10 +211,10 @@ export default {
       });
     },
     handle() {
-      this.getuserrisklevel()
-      this.getProposal()
-      this.getLocal()
-      this.getUnhandledArbitrationMsg()
+      this.getuserrisklevel();
+      this.getProposal();
+      this.getLocal();
+      this.getUnhandledArbitrationMsg();
     },
     // 获取风险等级
     getuserrisklevel() {
@@ -218,16 +235,20 @@ export default {
     },
     // 获取是否有仲裁未处理
     getUnhandledArbitrationMsg() {
-      getmessageopen(0).then(res => {
-        this.unhandledArbitration = res.data.items.length
-        if (this.unhandledArbitration && Number(this.cookie.get('unhandledArbitration')) !== this.unhandledArbitration) {
-          this.cookie.set('unhandledArbitration', this.unhandledArbitration)
-          this.$nextTick(() => this.$refs.arbitration.toggle(true))
+      getmessageopen(0).then((res) => {
+        this.unhandledArbitration = res.data.items.length;
+        if (
+          this.unhandledArbitration &&
+          Number(this.cookie.get("unhandledArbitration")) !==
+            this.unhandledArbitration
+        ) {
+          this.cookie.set("unhandledArbitration", this.unhandledArbitration);
+          this.$nextTick(() => this.$refs.arbitration.toggle(true));
         }
-      })
+      });
     },
     buttonClickArbitration() {
-      this.$router.push('/user/arbitration/case')
+      this.$router.push("/user/arbitration/case");
     },
     //弹框点击事件
     buttonClick() {
@@ -237,7 +258,7 @@ export default {
     getProposal() {
       getproposallist({
         page: 1,
-        itemsPerPage: 10
+        itemsPerPage: 10,
       }).then((res) => {
         if (res.data.code == 0) {
           this.proposalList = res.data.items;
@@ -255,10 +276,15 @@ export default {
       } else {
         this.iconLang = "arrow-up";
       }
-      this.showPopup = !this.showPopup
-    }
-  }
-}
+      this.showPopup = !this.showPopup;
+    },
+    tabLang(item) {
+      console.log(item);
+      localStorage.setItem("lang", JSON.stringify(item));
+      this.$router.go(0);
+    },
+  },
+};
 </script>
 <style lang='scss' scoped>
 .content {
@@ -436,10 +462,10 @@ export default {
 
 //固定
 .filed {
-  width: 200px;
   line-height: 90px;
   background: #fff;
   font-size: 28px;
+  padding: 0 10px;
   color: #f34747;
   display: flex;
   justify-content: center;

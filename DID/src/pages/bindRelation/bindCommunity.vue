@@ -10,7 +10,7 @@
     </van-nav-bar>
 
     <div class="tips" v-show="show">
-      <p>{{$t('bindRelation.comm_tip')}}</p>
+      <p>{{ $t("bindRelation.comm_tip") }}</p>
       <van-icon @click="show = false" name="cross" color="#333" />
     </div>
 
@@ -20,14 +20,18 @@
         <span>{{ area }}</span>
       </div>
 
-      <van-list :finished="finished" :finished-text="$t('bindRelation.not_more')" @load="onLoad">
+      <van-list
+        :finished="finished"
+        :finished-text="$t('bindRelation.not_more')"
+        @load="onLoad"
+      >
         <div v-for="(item, index) in list" :key="index">
           <div class="info">
             <p>{{ item.name }}</p>
             <img :src="item.image || ''" />
-            <p>{{$t('bindRelation.adbout')}}</p>
+            <p>{{ $t("bindRelation.adbout") }}</p>
             <p>{{ item.describe }}</p>
-            <p>{{$t('setup.telegram')}}</p>
+            <p>{{ $t("setup.telegram") }}</p>
             <a :href="item.telegram">{{ item.telegram }}</a>
           </div>
         </div>
@@ -79,7 +83,7 @@ export default {
           this.country = data.country.name;
           // 如果是中国，则显示省市区；如果是国外，则显示国家-省
           if (data.country.code == "CHN") {
-            this.area = `${data.province.name}-${
+            this.area = `${data.province.name}${
               data.city.name ? "-" + data.city.name : ""
             }${data.county.name ? "-" + data.county.name : ""}`;
           } else {

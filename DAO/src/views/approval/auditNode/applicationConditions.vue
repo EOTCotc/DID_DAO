@@ -10,17 +10,17 @@
                  :src="require('./IMG/bg.png')" />
       <div class="text"
            v-if="displayApplicationConditions">
-        <p>{{$t("becomeAnArbitrator.text3")}}</p>
-        <p>{{$t("becomeAnArbitrator.text2")}}</p>
+        <p>{{ $t("becomeAnArbitrator.text3") }}</p>
+        <p>{{ $t("becomeAnArbitrator.text2") }}</p>
       </div>
       <div class="text2"
            v-else>
-        <p>{{$t("becomeAnArbitrator.text2")}}</p>
+        <p>{{ $t("becomeAnArbitrator.text2") }}</p>
       </div>
     </div>
     <div v-if="displayApplicationConditions">
       <div class="applicationConditions">
-        <h4>{{$t("becomeAnArbitrator.title2")}}</h4>
+        <h4>{{ $t("becomeAnArbitrator.title2") }}</h4>
         <div class="conditionsList">
           <div class="list list1">
             <div class="left">
@@ -28,12 +28,12 @@
                          height="20px"
                          fit="contain"
                          :src="require('../../../assets/img/zshen.png')" />
-              <p>{{$t("becomeAnArbitrator.list1")}}</p>
+              <p>{{ $t("becomeAnArbitrator.list1") }}</p>
             </div>
             <div class="right"
                  @click="didNot"
                  v-if="examinequalificationPassed1 == false">
-              {{$t("becomeAnArbitrator.right1")}}
+              {{ $t("becomeAnArbitrator.right1") }}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -49,12 +49,12 @@
                          height="22px"
                          fit="contain"
                          :src="require('../../../assets/img/zya.png')" />
-              <p>{{$t("becomeAnArbitrator.list2")}}</p>
+              <p>{{ $t("becomeAnArbitrator.list2") }}</p>
             </div>
             <div class="right"
                  v-if="examinequalificationPassed2 == false"
                  @click="pledge">
-              {{$t("becomeAnArbitrator.right2")}}
+              {{ $t("becomeAnArbitrator.right2") }}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -70,12 +70,12 @@
                          height="20px"
                          fit="contain"
                          :src="require('../../../assets/img/stay.png')" />
-              <p>{{$t("becomeAnArbitrator._list3")}}</p>
+              <p>{{ $t("becomeAnArbitrator._list3") }}</p>
             </div>
             <div class="right"
                  @click="auditing('examineUnderstandLearningRules')"
                  v-if="examinequalificationPassed3 == false">
-              {{$t("becomeAnArbitrator.right3")}}
+              {{ $t("becomeAnArbitrator.right3") }}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -92,13 +92,13 @@
                          fit="contain"
                          :src="require('../../../assets/img/kao.png')" />
               <div class="examinationColumn">
-                <span>{{$t("becomeAnArbitrator.list4text1")}}</span><span style="color: #999999; font-size: 13px; margin-top: 3px">{{$t("becomeAnArbitrator.list4text2")}}</span>
+                <span>{{ $t("becomeAnArbitrator.list4text1") }}</span><span style="color: #999999; font-size: 13px; margin-top: 3px">{{ $t("becomeAnArbitrator.list4text2") }}</span>
               </div>
             </div>
             <div class="right"
                  @click="ExamTips"
                  v-if="examinequalificationPassed4 == false">
-              {{$t("becomeAnArbitrator.right4")}}
+              {{ $t("becomeAnArbitrator.right4") }}
               <van-icon name="arrow" />
             </div>
             <div class="right"
@@ -119,16 +119,16 @@
               <van-image width="40"
                          height="30"
                          :src="require('./IMG/组 490@2x.png')" />
-              <span> {{$t("becomeAnArbitrator.title4")}}</span>
+              <span> {{ $t("becomeAnArbitrator.title4") }}</span>
             </div>
             <div>{{ ArbitratorsIdentityInformation.name }}</div>
           </div>
           <div>
-            <div>{{$t("becomeAnArbitrator.identifNumber")}}</div>
+            <div>{{ $t("becomeAnArbitrator.identifNumber") }}</div>
             <div>{{ ArbitratorsIdentityInformation.number }}</div>
           </div>
           <div>
-            <div>{{$t("becomeAnArbitrator.identityTtime")}}</div>
+            <div>{{ $t("becomeAnArbitrator.identityTtime") }}</div>
             <div>
               {{
                 $dayjs(ArbitratorsIdentityInformation.createDate)
@@ -140,12 +140,12 @@
         </div>
         <div class="bottom">
           <div>
-            <div>{{$t("becomeAnArbitrator._processaudit")}}</div>
+            <div>{{ $t("becomeAnArbitrator._processaudit") }}</div>
             <div>{{ ArbitratorsIdentityInformation.examineNum }}</div>
           </div>
           <div class="line"></div>
           <div>
-            <div>{{$t("becomeAnArbitrator.eotc")}}</div>
+            <div>{{ $t("becomeAnArbitrator.eotc") }}</div>
             <div>{{ ArbitratorsIdentityInformation.eotc }}</div>
           </div>
         </div>
@@ -158,24 +158,29 @@
         <div class="block">
           <van-button color="linear-gradient(to right, #3EBDFF, #006BF8)"
                       size="large ">
-            {{$t("becomeAnArbitrator.explain")}}
+            {{ $t("becomeAnArbitrator.explain") }}
           </van-button>
           <van-button color="#F3F4F5 "
-                      style="color: #333333"> {{$t("becomeAnArbitrator.ruls")}}</van-button>
+                      style="color: #333333">
+            {{ $t("becomeAnArbitrator.ruls") }}</van-button>
           <div class="middle">
             <div class="middleTitle">
-              <p>{{$t("becomeAnArbitrator.titleNumber")}}</p>
-              <p class="p2"><span>{{$t("becomeAnArbitrator.titleNumbertext1")}}</span>{{$t("becomeAnArbitrator.titleNumbertext2")}}</p>
+              <p>{{ $t("becomeAnArbitrator.titleNumber") }}</p>
+              <p class="p2">
+                <span>{{ $t("becomeAnArbitrator.titleNumbertext1") }}</span>{{ $t("becomeAnArbitrator.titleNumbertext2") }}
+              </p>
             </div>
             <div class="line"></div>
             <div class="middleTitle">
-              <p>{{$t("becomeAnArbitrator.testTime")}}</p>
-              <p class="p2"><span>{{$t("becomeAnArbitrator.testTimetext1")}}</span>{{$t("becomeAnArbitrator.testTimetext2")}}</p>
+              <p>{{ $t("becomeAnArbitrator.testTime") }}</p>
+              <p class="p2">
+                <span>{{ $t("becomeAnArbitrator.testTimetext1") }}</span>{{ $t("becomeAnArbitrator.testTimetext2") }}
+              </p>
             </div>
           </div>
           <van-button color="#237FF8"
                       class="startBtn"
-                      @click="auditing('auditNodeExamination')">{{$t("becomeAnArbitrator.start")}}</van-button>
+                      @click="auditing('auditNodeExamination')">{{ $t("becomeAnArbitrator.start") }}</van-button>
           <van-icon name="close"
                     color="#fff"
                     size="29"
@@ -206,14 +211,14 @@
                   color="#1B2945"
                   :disabled="!examinequalificationPassed"
                   @click="applyNow"
-                  v-if="displayApplicationConditions">{{$t("becomeAnArbitrator.applyimmediately")}}</van-button>
+                  v-if="displayApplicationConditions">{{ $t("becomeAnArbitrator.applyimmediately") }}</van-button>
       <van-button round
                   block
                   type="info"
                   color="#fff"
                   @click="dismissal"
                   v-if="displayApplicationConditions == false"
-                  class="vanbtn">{{$t("becomeAnArbitrator.relieve")}}</van-button>
+                  class="vanbtn">{{ $t("becomeAnArbitrator.relieve") }}</van-button>
     </footer>
   </div>
 </template>
@@ -399,6 +404,8 @@ export default {
           Dialog.confirm({
             title: this.$t('becomeAnArbitrator.relievetitle4'),
             message: this.$t('becomeAnArbitrator._relievemssg'),
+            confirmButtonText: this.$t('exam.Text1'),
+            cancelButtonText: this.$t('exam.Text2'),
             confirmButtonColor: '#1B2945',
             cancelButtonColor: '#666666 ',
             className: 'dismissalDialog',
@@ -483,7 +490,7 @@ export default {
 .identityCard {
   padding: 0 35px;
   position: relative;
-  top: -165px;
+  top: -150px;
   left: 0;
   .top {
     background: linear-gradient(#e9ecff, #b4b0f3);
@@ -613,6 +620,7 @@ export default {
   position: relative;
   .text {
     color: #fff;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 50%;

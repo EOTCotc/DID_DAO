@@ -132,7 +132,6 @@ export default {
   // 弹出层
   .popup {
     width: 630px;
-    height: 324px;
     .popup-title {
       margin-top: 30px;
       text-align: center;

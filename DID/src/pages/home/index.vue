@@ -27,49 +27,44 @@
       >
         <div class="btn-box" @click="identifyRouter">
           <template v-if="userInfo.authType === 0">
-            <span>开始认证</span>
+            <span>{{ $t("home.start_attestation") }}</span>
             <div class="icon_down"><van-icon color="#fff" name="down" /></div>
           </template>
           <template v-else-if="userInfo.authType === 1">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-            <span>认证中</span>
+            <span>{{ $t("home.tags1") }}</span>
           </template>
           <template v-else-if="userInfo.authType === 2">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-            <span>身份已认证</span>
+            <span>{{ $t("home.authenticated") }}</span>
           </template>
           <template v-else>
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-            <span>身份认证失败</span>
+            <span>{{ $t("home.tags2") }}</span>
             <div class="icon_down"><van-icon color="#fff" name="down" /></div>
           </template>
         </div>
       </div>
       <!-- 系统简介 -->
       <div class="title-summarize">
-        <span>系统简介</span>
+        <span>{{ $t("home.system_introduction") }}</span>
       </div>
       <!-- 简介 -->
       <p class="text-p">
-        EOTC
-        DID是去中心化身份体系，是独立运行、分布式存储的去中心化身份存储、授权调用的身份系统。EOTC
-        DID采用强关系链方式注册、由EOTC DAO配合审核和治理。 EOTC
-        DID可以链接所有公链，可以为所有公链上的任意地址提供去中心化身份的强关系链注册、去中心化审核、应用绑定、敏感信息加密存储、脱敏标签商业转化、信息授权调用等服务。
+        {{ $t("home.tags3") }}
       </p>
       <p class="text-p">
-        EOTC
-        DID的出现将在高度保护用户隐私同时弥补区块链无法识别公链地址持有人身份、无法给地址持有人打商业标签的空白，EOTC
-        DID将为区块链世界注入强大的基础应用支持，开启更加高效更加安全更加科学的区块链商业应用。
+        {{ $t("home.tags4") }}
       </p>
     </div>
     <!-- 底部 -->
     <div class="tail">
       <div>
-        <img src="../../assets/imgs/c.png" />
-        <span> 2022年EOTC版权所有。</span>
+        <img src="@/assets/imgs/c.png" />
+        <span>{{ $t("home.tags5") }}</span>
       </div>
       <div @click="handleTabLang">
-        <span class="tab-lang">简体中文</span>
+        <span class="tab-lang">{{ textLang }}</span>
         <van-icon :name="iconLang" />
       </div>
     </div>
@@ -80,7 +75,12 @@
       position="right"
     >
       <div class="menu">
-        <div class="menu-every" v-for="item in lang" :key="item.id">
+        <div
+          class="menu-every"
+          v-for="item in lang"
+          @click="tabLang(item)"
+          :key="item.id"
+        >
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -90,28 +90,28 @@
       <div class="wrapper" @click.stop>
         <div class="block">
           <img src="../../assets/imgs/lingdang.png" />
-          <div class="tips">检测到您暂无推荐关系，为了账户</div>
-          <div class="tips">安全性请前往绑定推荐关系</div>
+          <div class="tips">{{ $t("home.tags6") }}</div>
+          <div class="tips">{{ $t("home.tags7") }}</div>
           <div class="block-bot">
-            <div @click="showOverlay = false">取消</div>
-            <div @click="toSite">确定</div>
+            <div @click="showOverlay = false">{{ $t("public.cancel") }}</div>
+            <div @click="toSite">{{ $t("public.confirm") }}</div>
           </div>
         </div>
       </div>
     </van-overlay>
     <notification
       ref="notification"
-      title="系统检测您的账号存在异常"
-      message="暂无法使用该系统，请根据提示解除风控"
-      button-text="解除风控"
+      :title="$t('home.title1')"
+      :message="$t('home.title2')"
+      :button-text="$t('home.title3')"
       button-color="#F65F5F"
       :header-icon="headerIcon"
       @closed="handleClosed"
       @buttonClick="() => $router.push('/risk')"
     />
     <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
-      <img src="../../assets/imgs/jin.png" alt="" class="img" />
-      <div class="text">解除风控</div>
+      <img src="@/assets/imgs/jin.png" class="img" />
+      <div class="text">{{ $t("home.title3") }}</div>
     </div>
   </div>
 </template>
@@ -121,7 +121,7 @@ import Notification from "@/components/notification";
 import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import {risklevel} from '@/api/risk'
+import { risklevel } from "@/api/risk";
 export default {
   data() {
     return {
@@ -135,6 +135,7 @@ export default {
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
       ],
+      textLang: "",
     };
   },
   components: {
@@ -145,7 +146,7 @@ export default {
     risklevel().then((res) => {
       const { code, items: level } = res.data;
       if (code === 0) {
-        this.cookie.set('riskLevel', level)
+        this.cookie.set("riskLevel", level);
         if (level === 2) {
           this.$nextTick().then(() => {
             this.$refs.notification.toggle(true);
@@ -156,8 +157,19 @@ export default {
   },
   mounted() {
     // 当前的语言
-    if (localStorage.getItem("textLang")) {
-      this.textLang = localStorage.getItem("textLang");
+    if (localStorage.getItem("lang")) {
+      this.textLang = JSON.parse(localStorage.getItem("lang")).text;
+    } else {
+      let browserLang = navigator.language;
+      let langText = browserLang.slice(0, 2);
+      switch (langText) {
+        case "zh":
+          this.textLang = "简体中文";
+          break;
+        case "en":
+          this.textLang = "English";
+          break;
+      }
     }
     this.getrisklevel(); //风控等级
     this.getInfo(); //获取用户信息
@@ -228,6 +240,11 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
+    tabLang(item) {
+      localStorage.setItem("lang", JSON.stringify(item));
+      this.textLang = item.text;
+      this.$router.go(0);
+    },
     // 前往选择所在地
     toSite() {
       // 判断有没有选位置，有就直接调到社区
@@ -237,7 +254,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({ name: "bindCommunity" });
+          this.$router.push("/bindRelation/bindCommunity");
         }
       });
     },
@@ -265,7 +282,7 @@ export default {
   .big_bg_logo {
     margin-top: -40px;
     img {
-      width:100%;
+      width: 100%;
       height: 100%;
     }
   }
@@ -421,7 +438,6 @@ export default {
 .block {
   position: relative;
   width: 590px;
-  height: 354px;
   background-color: #fff;
   border-radius: 20px;
   img {

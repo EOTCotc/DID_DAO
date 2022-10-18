@@ -33,16 +33,18 @@
             </span>
           </div>
         </div>
-        <van-empty
-          v-show="!List.length"
-          class="custom-image"
-          :image="require('../../assets/img/empty.png')"
-          :description="$t('proposal.description')"
-        />
+        <van-empty v-show="!List.length"
+                   class="custom-image"
+                   :image="require('../../assets/img/empty.png')"
+                   :description="$t('proposal.description')" />
       </div>
     </main>
-    <footer v-if="isProponent != 0">
-      <van-button icon="plus" block type="info" @click="createAn">{{
+    <footer v-if="isProponent != 0"
+            ref="footer">
+      <van-button icon="plus"
+                  block
+                  type="info"
+                  @click="createAn">{{
         $t("proposal.create")
       }}</van-button>
     </footer>
@@ -50,84 +52,84 @@
 </template>
 
 <script>
-import white from "@/components/Nav/white.vue";
-import { getmyprops } from "@/api/Proposal";
-import { getproposallist } from "@/api/viewsApi/home";
+import white from '@/components/Nav/white.vue'
+import { getmyprops } from '@/api/Proposal'
+import { getproposallist } from '@/api/viewsApi/home'
 export default {
   components: { white },
-  name: "home",
+  name: 'home',
   data() {
     return {
-      title: this.$t("proposal.nav_title"),
-      name: "personage",
+      title: this.$t('proposal.nav_title'),
+      name: 'personage',
       List: [],
       isProponent: this.$route.query.isProponent || 1,
-    };
+    }
   },
   mounted() {
     this.isProponent == 0
-      ? (this.title = this.$t("proposal.nav_title_one"))
-      : (this.title = this.$t("proposal.nav_title"));
+      ? (this.title = this.$t('proposal.nav_title_one'))
+      : (this.title = this.$t('proposal.nav_title'))
     // 判断是否从home页面跳过来
     if (this.$route.query.home) {
-      this.name = "home";
+      this.name = 'home'
     }
   },
   created() {
     const loading = this.$toast.loading({
       forbidClick: true,
-      message: this.$t("proposal.message"),
-    });
+      message: this.$t('proposal.message'),
+    })
     if (this.isProponent != 0) {
       getmyprops()
         .then((res) => {
-          const { code, items } = res.data;
+          const { code, items } = res.data
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: this.$t("proposal.massage_fail"),
-            });
+              message: this.$t('proposal.massage_fail'),
+            })
           } else {
-            this.List = items;
+            this.List = items
             // console.log(this.List, '1111')
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: this.$t("proposal.massage_fail"),
-          });
+            message: this.$t('proposal.massage_fail'),
+          })
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     } else {
       getproposallist({ page: 1, itemsPerPage: 10 })
         .then((res) => {
-          const { code, items } = res.data;
+          const { code, items } = res.data
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: this.$t("proposal.massage_fail"),
-            });
+              message: this.$t('proposal.massage_fail'),
+            })
           } else {
-            this.List = items;
+            this.List = items
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: this.$t("proposal.massage_fail"),
-          });
+            message: this.$t('proposal.massage_fail'),
+          })
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     }
   },
   methods: {
     createAn() {
-      this.$router.push("/Create");
+      this.$router.push('/Create')
     },
     detail(id, state) {
       this.$router.push({
@@ -136,12 +138,12 @@ export default {
       })
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .box {
   background: #fff;
-  // height: 83.2vh;
+  flex: 1;
   overflow: auto;
   border-radius: 8px;
   margin-top: 20px;
