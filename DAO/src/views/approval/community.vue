@@ -59,11 +59,11 @@
             </van-row>
             <van-row class="item-row">
               <van-col span="8" class="name">质押数量</van-col>
-              <van-col span="16" class="value">{{item.zysl}}</van-col>
+              <van-col span="16" class="value">{{item.eotc}}</van-col>
             </van-row>
             <van-row class="item-row">
               <van-col span="8" class="name">社区地址</van-col>
-              <van-col span="16" class="value">{{item.address}}</van-col>
+              <van-col span="16" class="value">{{item.addressName}}</van-col>
             </van-row>
             <van-row class="item-row">
               <van-col span="8" class="name">有无办公室</van-col>
@@ -231,7 +231,7 @@
       showReferrer(data) {
         let dom = this.$refs.referrer
         dom.toggle(true)
-        dom.getInfo({refUId: data.refUId, refName: data.refName, refCommunityName: data.refCommunityName})
+        dom.getInfo({refUserId: data.refUserId, refName: data.refName, refCommunityName: data.refCommunityName})
         dom = null
       },
       // 批准

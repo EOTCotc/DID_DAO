@@ -16,8 +16,9 @@
                 :key="index"
                 :class="active == item.index ? 'after' : 'before'"
                 @click="changeType(item.index)"
-                >{{ item.title }}</van-tag
-              >
+                >
+                {{ item.title }}({{item.uid}})
+              </van-tag>
             </div>
             <van-cell-group
               v-show="pengList.length > 0"
@@ -33,7 +34,7 @@
               <van-cell
                 v-if="item.type == 1"
                 :title="$t('pending.title_two')"
-                :value="item.createDate"
+                :value="transformUTCDate(item.createDate)"
               />
               <van-cell
                 :title="$t('pending.text') + ':' + item.submitter"
@@ -161,6 +162,7 @@
 import white from "../../components/Nav/white.vue";
 import { getworkorderlist, updateWork } from "@/api/workOrder";
 import { Dialog } from "vant";
+import {transformUTCDate} from "@/utils/utils"
 export default {
   components: { white },
   data() {
@@ -199,6 +201,7 @@ export default {
     this.getList();
   },
   methods: {
+    transformUTCDate,
     // 下拉刷新
     onRefresh() {
       this.list.uploading = true;

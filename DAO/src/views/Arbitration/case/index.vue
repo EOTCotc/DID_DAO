@@ -264,7 +264,6 @@ export default {
             }
             item.total = item.defendantNum + item.plaintiffNum
             item.time = this.$dayjs(item.status === 0 ? item.adduceDate : item.voteDate).add(-8, 'hour').diff(now, 'millisecond')
-            console.log(item.time)
             return item
           })
           this.list.data = data

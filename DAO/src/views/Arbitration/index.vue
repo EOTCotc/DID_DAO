@@ -68,7 +68,7 @@ export default {
     getmessageisopen() {
       getmessageisopen().then((res) => {
         if (res.data.code == 0) {
-          this.isDot = res.data.items;
+          this.isDot = !!res.data.items;
         }
       });
     },
