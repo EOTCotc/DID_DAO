@@ -3,70 +3,62 @@
   <div class="meun">
     <white :title="title"></white>
     <div class="content">
-      <van-form @submit="submit" @failed="onfailed" id="submit">
+      <van-form @submit="submit"
+                @failed="onfailed"
+                id="submit">
         <div>
-          <van-cell
-            :value="titleList[0]"
-            class="feedbackTitle"
-            :border="false"
-          />
-          <div
-            v-for="(item, index) of feedbackTypeList"
-            :key="index"
-            class="feedbackTypeItem"
-            @click="feedbackTypeChange(index)"
-            :class="active == index ? 'active' : 'noActive'"
-          >
+          <van-cell :value="titleList[0]"
+                    class="feedbackTitle"
+                    :border="false" />
+          <div v-for="(item, index) of feedbackTypeList"
+               :key="index"
+               class="feedbackTypeItem"
+               @click="feedbackTypeChange(index)"
+               :class="active == index ? 'active' : 'noActive'">
             {{ item.title }}
           </div>
         </div>
         <div>
-          <van-cell
-            :value="titleList[1]"
-            name="feedbackText"
-            class="feedbackTitle"
-            :border="false"
-          />
-          <van-field
-            v-model="feedbackText"
-            class="feedbackText"
-            rows="3"
-            autosize
-            type="textarea"
-            maxlength="300"
-            :placeholder="$t('feedback.placeholder')"
-            show-word-limit
-          />
+          <van-cell :value="titleList[1]"
+                    name="feedbackText"
+                    class="feedbackTitle"
+                    :border="false" />
+          <van-field v-model="feedbackText"
+                     class="feedbackText"
+                     rows="3"
+                     autosize
+                     type="textarea"
+                     maxlength="300"
+                     :placeholder="$t('feedback.placeholder')"
+                     loader
+                     show-word-limit />
         </div>
         <div>
-          <van-cell class="feedbackTitle" :border="false">
+          <van-cell class="feedbackTitle"
+                    :border="false">
             <template #title>
               <span class="custom-title">{{ titleList[2] }}</span>
               <span class="custom-msg">{{ $t("feedback.custom_msg") }}</span>
             </template>
           </van-cell>
-          <van-uploader
-            multiple
-            :max-count="3"
-            v-model="fileList"
-            :after-read="afterRead"
-            :max-size="500 * 1024"
-          />
+          <van-uploader multiple
+                        :before-read="beforeRead"
+                        :max-count="3"
+                        v-model="fileList"
+                        :after-read="afterRead"
+                        :max-size="500 * 1024" />
         </div>
         <div>
-          <van-cell
-            :value="titleList[3]"
-            class="feedbackTitle"
-            :border="false"
-          />
-          <van-field
-            v-model="phone"
-            name="phone"
-            :placeholder="$t('feedback.placeholder_phone')"
-            @focus="focusFun()"
-            @blur="show = false"
-            class="phone"
-            :rules="
+          <van-cell :value="titleList[3]"
+                    class="feedbackTitle"
+                    :border="false" />
+          <van-field v-model="phone"
+                     name="phone"
+                     :placeholder="$t('feedback.placeholder_phone')"
+                     @focus="focusFun()"
+                     @blur="show = false"
+                     class="phone"
+                     :rules="
               phone != ''
                 ? [
                     {
@@ -82,21 +74,18 @@
                       message: '',
                     },
                   ]
-            "
-          />
+            " />
         </div>
 
-        <div v-show="show" class="heightDiv"></div>
+        <div v-show="show"
+             class="heightDiv"></div>
 
         <div class="bottom">
-          <van-button
-            class="bottomBtn"
-            round
-            block
-            native-type="submit"
-            :disabled="btnSwitch"
-            >{{ $t("feedback.submit") }}</van-button
-          >
+          <van-button class="bottomBtn"
+                      round
+                      block
+                      native-type="submit"
+                      :disabled="btnSwitch">{{ $t("feedback.submit") }}</van-button>
         </div>
       </van-form>
     </div>
@@ -104,28 +93,28 @@
 </template>
 
 <script>
-import White from "@/components/Nav/white.vue";
-import { Toast } from "vant";
-import { addworkorder, uploadimage } from "@/api/workOrder";
+import White from '@/components/Nav/white.vue'
+import { Toast } from 'vant'
+import { addworkorder, uploadimage } from '@/api/workOrder'
 export default {
-  name: "blue-nav",
+  name: 'blue-nav',
   components: {
     White,
   },
 
   data() {
     return {
-      title: this.$t("feedback.nav_title"),
+      title: this.$t('feedback.nav_title'),
       //分类标签选中的下标
       active: 0,
       titleList: [
-        this.$t("feedback.type"),
-        this.$t("feedback.describe"),
-        this.$t("feedback.add_photo"),
-        this.$t("feedback.relation"),
+        this.$t('feedback.type'),
+        this.$t('feedback.describe'),
+        this.$t('feedback.add_photo'),
+        this.$t('feedback.relation'),
       ],
-      feedbackText: "",
-      phone: "",
+      feedbackText: '',
+      phone: '',
       image: [],
       show: false,
       fileList: [],
@@ -135,77 +124,85 @@ export default {
         /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
       feedbackTypeList: [
         {
-          title: this.$t("feedback.type_feed"),
+          title: this.$t('feedback.type_feed'),
           index: 0,
         },
         {
-          title: this.$t("feedback.type_function"),
+          title: this.$t('feedback.type_function'),
           index: 1,
         },
       ],
-    };
+    }
   },
   watch: {
     phone: function (val) {
-      var el = val.trim();
+      var el = val.trim()
       if (el.length == 11) {
-        this.btnSwitch = false;
+        this.btnSwitch = false
       } else {
-        this.btnSwitch = true;
+        this.btnSwitch = true
       }
     },
   },
   created() {},
   methods: {
+    // 返回布尔值
+    beforeRead(file) {
+      if (file.type !== 'image/png') {
+        Toast('请上传 png 格式图片')
+        return false
+      }
+      return true
+    },
     onfailed(errorInfo) {
-      console.log("failed", errorInfo);
+      console.log('failed', errorInfo)
     },
     afterRead(fileObj) {
       // 声明form表单数据
-      const formData = new FormData();
+      const formData = new FormData()
       // 添加文件信息
-      formData.append("file", fileObj.file);
+      formData.append('file', fileObj.file)
       uploadimage(formData).then((res) => {
-        console.log(res);
-        this.image.push(res.data.message);
-      });
-      console.log(this.image);
+        console.log(res)
+        this.image.push(res.data.message)
+      })
+      console.log(this.image)
     },
 
     phoneValidator(val) {
       return /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(
         val
-      );
+      )
     },
 
     onOversize(file) {
-      console.log(file);
-      Toast(this.$t("feedback.file_text"));
+      console.log(file)
+      Toast(this.$t('feedback.file_text'))
     },
     feedbackTypeChange(index) {
-      this.active = index;
+      this.active = index
     },
     focusFun() {
-      this.show = true;
+      this.show = true
     },
     submit(val) {
-      if (val.feedbackText != "" && val.phone != "") {
-        this.btnSwitch = true;
+      if (val.feedbackText != '' && val.phone != '') {
+        this.btnSwitch = true
         addworkorder({
           workOrderType: this.active,
           describe: this.feedbackText,
-          images: this.image.join(","),
+          images: this.image.join(','),
           phone: this.phone,
         }).then((res) => {
           if (res.data.code == 0) {
-            this.$router.push({ name: "personage" });
-            Toast(this.$t("feedback.submit_text"));
+            this.$router.push({ name: 'personage' })
+            Toast(this.$t('feedback.submit_text'))
           }
-        });
+        })
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

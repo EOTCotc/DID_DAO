@@ -93,13 +93,29 @@ export default {
       title: this.$t('exam._title'),
       time: 30 * 60 * 1000,
       count: 1,
+      timer: null,
       totalScore: null,
       UserAnswer: [],
       loading: false,
       nextDisabled: true,
       submitDisabled: true,
-      testQuestionData: this.$t('exam.testQuestionData'),
+      testQuestionData: this.$t('exam.AuditTopic'),
     }
+  },
+  mounted() {
+    clearTimeout(this.timer)
+    this.testQuestionData.map((el) => {
+      Array.isArray(el.result) ? (el.result = []) : (el.result = '')
+      console.log(Array.isArray(el.result), 'typeof el.result')
+      if (el.questionAnswer != undefined) {
+        for (let i = 0; i < el.questionAnswer.length; i++) {
+          el.questionAnswer[i].Check = false
+        }
+      }
+
+      return el
+    })
+    console.log(this.testQuestionData, 'this.testQuestionData')
   },
   methods: {
     onClickLeft() {
@@ -180,7 +196,7 @@ export default {
               this.nextDisabled = false
             }
             if (
-              this.count == 6 &&
+              this.count == 5 &&
               this.testQuestionData[this.count - 1].result != ''
             ) {
               this.nextDisabled = false
@@ -190,7 +206,7 @@ export default {
           this.count++
           this.nextDisabled = true
           if (this.testQuestionData[this.count - 1].result != '') {
-            if (this.count == 4) {
+            if (this.count == 3) {
               if (this.testQuestionData[this.count - 1].result.length >= 2)
                 this.nextDisabled = false
             } else {
@@ -223,18 +239,20 @@ export default {
         })
         this.UserAnswer.map((el, index) => {
           for (let i = 0; i < el.length; i++) {
-            if (el.length == 4) {
+            if (el.length == 3) {
               el = [3]
             }
-            if (el.length >= 2 && el.length <= 3) {
+            if (el.length >= 2 && el.length < 3) {
               el = [0]
             }
+            if (index >= 6 && index <= 9) {
+              el[i] = el[i].toUpperCase()
+              console.log(el[i], this.testQuestionData[index].Answers)
+              this.testQuestionData[index].Answers =
+                this.testQuestionData[index].Answers.toUpperCase()
+            }
             if (el[i] == this.testQuestionData[index].Answers) {
-              if (index == 3 || index == 4) {
-                this.totalScore += 10
-              } else {
-                this.totalScore += 8
-              }
+              this.totalScore += 10
             }
           }
         })
@@ -245,7 +263,7 @@ export default {
           this.$router.replace({
             name: 'applicationConditions',
             params: {
-              totalScore: this.totalScore,
+              totalScore: +this.totalScore,
             },
           })
         }, 1000)
@@ -254,13 +272,13 @@ export default {
     getText(item) {
       this.$nextTick(() => {
         if (item.result != '') {
-          if (item.id == 12) {
+          if (item.id == 10) {
             this.submitDisabled = false
           }
           this.nextDisabled = false
         } else {
           this.nextDisabled = true
-          if (item.id == 12) {
+          if (item.id == 10) {
             this.submitDisabled = true
           }
         }
