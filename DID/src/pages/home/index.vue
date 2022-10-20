@@ -6,7 +6,13 @@
     <div class="content">
       <!-- 名称 -->
       <div class="project_name">
-        <img src="@/assets/imgs/project_name.png" />
+        <img
+          :src="
+            textLang == '简体中文'
+              ? require('@/assets/imgs/project_name.png')
+              : require('@/assets/imgs/project_name2.png')
+          "
+        />
       </div>
       <!-- 背景图 -->
       <div class="big_bg_logo">
@@ -121,7 +127,9 @@ import Notification from "@/components/notification";
 import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
+import { login } from "@/api/pagesApi/login";
 import { risklevel } from "@/api/risk";
+import { loadweb3 } from "@/utils/web3";
 export default {
   data() {
     return {
@@ -142,19 +150,6 @@ export default {
     TopBar,
     Notification,
   },
-  created() {
-    risklevel().then((res) => {
-      const { code, items: level } = res.data;
-      if (code === 0) {
-        this.cookie.set("riskLevel", level);
-        if (level === 2) {
-          this.$nextTick().then(() => {
-            this.$refs.notification.toggle(true);
-          });
-        }
-      }
-    });
-  },
   mounted() {
     // 当前的语言
     if (localStorage.getItem("lang")) {
@@ -171,10 +166,33 @@ export default {
           break;
       }
     }
-    this.getrisklevel(); //风控等级
-    this.getInfo(); //获取用户信息
+    // 自动登录(有钱包地址)
+    let req = {};
+    req.walletAddress = localStorage.getItem("myaddress");
+    req.otype = localStorage.getItem("netType");
+    req.sign = localStorage.getItem("mysign");
+    if (req.walletAddress && req.otype && req.sign) {
+      this.login(req);
+    } else if (!this.cookie.get("token")) {
+      this.$router.replace("/login");
+    }
   },
   methods: {
+    // 登录
+    login(req) {
+      login(req)
+        .then((res) => {
+          if (res.data.code == 0) {
+            this.cookie.set("token", res.data.items);
+            this.getInfo();
+          } else {
+            this.$router.replace("/login");
+          }
+        })
+        .catch((err) => {
+          this.$router.replace("/login");
+        });
+    },
     // 关闭风险弹窗
     handleClosed() {
       this.show = true;
@@ -198,8 +216,8 @@ export default {
       risklevel().then((res) => {
         const { code, items: level } = res.data;
         if (code === 0) {
+          this.cookie.set("riskLevel", level);
           if (level === 2) {
-            this.cookie.set("riskLevel", level);
             this.$nextTick().then(() => {
               this.$refs.notification.toggle(true);
             });
@@ -216,6 +234,7 @@ export default {
             // 用户信息存到cookie
             this.cookie.set("userInfo", JSON.stringify(this.userInfo));
             this.cookie.set("country", this.userInfo.country);
+            this.getrisklevel();
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;

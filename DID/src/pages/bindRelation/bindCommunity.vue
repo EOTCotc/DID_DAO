@@ -28,7 +28,13 @@
         <div v-for="(item, index) in list" :key="index">
           <div class="info">
             <p>{{ item.name }}</p>
-            <img :src="item.image || ''" />
+            <img
+              :src="
+                item.image || langCode == 'zh'
+                  ? require('@/assets/imgs/community_default.png')
+                  : require('@/assets/imgs/community_default2.png')
+              "
+            />
             <p>{{ $t("bindRelation.adbout") }}</p>
             <p>{{ item.describe }}</p>
             <p>{{ $t("setup.telegram") }}</p>
@@ -47,6 +53,7 @@ export default {
   name: "bindCommunity",
   data() {
     return {
+      langCode: "",
       show: true,
       // 展示页面的数据
       country: "",
@@ -66,6 +73,8 @@ export default {
     };
   },
   mounted() {
+    let lang = JSON.parse(localStorage.getItem("lang"));
+    this.langCode = lang ? lang.lang : "zh";
     this.getComSelect();
   },
   methods: {

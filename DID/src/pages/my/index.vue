@@ -156,7 +156,7 @@
           </template>
         </van-cell>
         <!-- 各公链绑定地址 -->
-        <van-cell is-link :border="false" to="/my/wallets">
+        <van-cell is-link :border="false" :to="riskLevel ? '/my/wallets' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/gonglian.png" />
@@ -169,7 +169,7 @@
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border="false" to="/my/projects">
+        <van-cell is-link :border="false" :to="riskLevel ? '/my/projects' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/xiangmu.png" />
@@ -190,7 +190,6 @@ import TopBar from "@/components/topBar/topBar";
 import { getuserinfo } from "@/api/pagesApi/home";
 import { list as communityList } from "@/api/pagesApi/approvalCommunity";
 import { list as identityList } from "@/api/pagesApi/identity";
-import { getcomselect } from "@/api/pagesApi/home";
 
 export default {
   name: "my",
@@ -207,9 +206,19 @@ export default {
         communityApproval: false,
         identity: false,
       },
+      riskLevel: false,
     };
   },
   created() {
+    if (this.cookie.get("riskLevel")) {
+      if (this.cookie.get("riskLevel") == 2) {
+        this.riskLevel = false;
+      } else {
+        this.riskLevel = true;
+      }
+    } else {
+      this.riskLevel = false;
+    }
     this.handleRefresh();
     this.getBadge();
   },
@@ -261,7 +270,9 @@ export default {
                   cancelButtonText: this.$t("my.my_dialog1_text2"),
                 })
                 .then(() => {
-                  this.$router.push("/my/community/setting");
+                  this.riskLevel
+                    ? this.$router.push("/my/community/setting")
+                    : "";
                 })
                 .catch(() => {});
               this.isShow = true;
@@ -285,7 +296,7 @@ export default {
       };
       if (this.userInfo.refUid) {
         if (validateAuthType) {
-          if (this.userInfo.authType === 2) {
+          if (this.userInfo.authType === 2 && this.riskLevel) {
             this.$router.push(path);
           } else {
             switch (this.userInfo.authType) {
@@ -293,7 +304,10 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg1");
-                options.cb = () => this.$router.push({ path: "/my/identity" });
+                options.cb = () =>
+                  this.riskLevel
+                    ? this.$router.push({ path: "/my/identity" })
+                    : "";
                 break;
               case 1:
                 options.type = "alert";
@@ -305,10 +319,12 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg3");
-                options.cb = this.$router.push({
-                  name: "identity",
-                  params: { name, phoneNum, idCard },
-                });
+                options.cb = this.riskLevel
+                  ? this.$router.push({
+                      name: "identity",
+                      params: { name, phoneNum, idCard },
+                    })
+                  : "";
                 break;
             }
             this.$dialog[options.type]({
@@ -344,16 +360,8 @@ export default {
             beforeClose: (action, done) => {
               if (action === "confirm") {
                 done();
-                // 判断有没有选位置，有就直接调到社区
-                // 没有就跳到选择已有的社区页面
-                getcomselect().then((res) => {
-                  if (!res.data.items.country) {
-                    this.showOverlay = false;
-                    this.$router.push("/bindRelation");
-                  } else {
-                    this.$router.push("/bindRelation/bindCommunity");
-                  }
-                });
+                this.showOverlay = false;
+                this.$router.push("/myReferrer");
               } else {
                 done();
               }

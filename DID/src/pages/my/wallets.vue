@@ -91,8 +91,8 @@ export default {
                   this.$toast({
                     forbidClick: true,
                     message: this.$t("wallets.wallets_msg1"),
-                    onClose: () => this.getList(),
                   });
+                  this.getList();
                 }
               });
             } else {

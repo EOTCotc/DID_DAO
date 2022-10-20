@@ -1,5 +1,5 @@
 <template>
-  <div :style="`min-height:${height}px;`" class="signin">
+  <div class="signin">
     <van-form ref="form">
       <div class="from-item" v-if="show">
         <p>{{ $t("content.select_network") }}</p>
@@ -46,11 +46,14 @@
       <van-button class="btn-login" type="default" @click="login">{{
         $t("menu.login")
       }}</van-button>
-      <div class="tips">
-        {{ $t("content.not_account") }}
-        <span class="sign-in" @click="handleBtn">
+      <div class="about-account">
+        <div @click="$router.push('/forgotPwd')">
+          {{ $t("content.forgetPwd") }}
+        </div>
+        <div class="sign-in" @click="handleBtn">
+          <!-- {{ $t("content.not_account") }} -->
           {{ $t("content.register") }}
-        </span>
+        </div>
       </div>
     </div>
   </div>
@@ -67,7 +70,6 @@ export default {
     return {
       show: false,
       pwd: "",
-      height: 0,
       form: {
         otype: "",
         walletAddress: "",
@@ -80,7 +82,6 @@ export default {
     };
   },
   mounted() {
-    this.height = document.body.scrollHeight - 152;
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
     if (localStorage.getItem("myaddress")) {
@@ -142,9 +143,9 @@ export default {
 <style lang='scss' scoped>
 .signin {
   position: relative;
-  margin-top: 89px;
   padding: 89px 38px 300px 38px;
   overflow: hidden;
+  flex: 1;
 }
 .from-item {
   margin-top: 30px;
@@ -176,14 +177,16 @@ p {
     background: #1b2945;
     border-radius: 48px;
   }
-  .tips {
+  .about-account {
     margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 28px;
-    text-align: center;
-  }
-  .sign-in {
-    margin-left: 10px;
-    color: #2483ff;
+    .sign-in {
+      margin-left: 10px;
+      color: #2483ff;
+    }
   }
 }
 </style>
