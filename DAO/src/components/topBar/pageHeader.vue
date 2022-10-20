@@ -2,8 +2,8 @@
   <van-nav-bar
       :class="{'nav-bar': theme === 'dark'}"
       :title="title"
-      left-arrow
-      @click-left="$router.go(-1)"
+      :left-arrow='hasLeftArrow'
+      @click-left="back"
   />
 </template>
 
@@ -11,7 +11,14 @@
   export default {
     props: {
       title: {type: String, default: '', required: true},
-      theme: {type: String, default: 'light'}
+      theme: {type: String, default: 'light'},
+      hasLeftArrow: {type: Boolean, default: true},
+      isGo: {type: Boolean, default: true}
+    },
+    methods: {
+      back() {
+        this.isGo ? this.$router.go(-1) : this.$emit('handleBack')
+      }
     }
   }
 </script>
