@@ -204,7 +204,6 @@ export default {
   },
   methods: {
     pre() {
-      console.log(this.isProponent, "1111111");
       if (this.List.isVote == 1) {
         this.isVote = false;
         this.isVote1 = false;
@@ -287,7 +286,6 @@ export default {
       history.go(-1);
     },
     onClickRight() {
-      console.log(11111);
       Dialog.confirm({
         title: this.$t("Detailsofproposal.cancletitle"),
         message: this.$t("Detailsofproposal.canclemessage"),
@@ -348,7 +346,7 @@ export default {
               this.List.opposeVotes += this.Votes;
               this.InitialopposeVotes = this.Votes;
               this.percentageVotes =
-                (this.InitialopposeVotes /
+                (this.InitialfavorVotes /
                   (this.InitialfavorVotes + this.InitialopposeVotes)) *
                 100;
             }

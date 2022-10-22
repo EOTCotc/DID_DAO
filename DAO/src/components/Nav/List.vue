@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <van-row class="row">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/an.png"
           class="img"
@@ -23,7 +23,7 @@
     </van-row>
 
     <van-row class="row" v-show="items >= 100">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/gong.png"
           class="img"
@@ -44,7 +44,7 @@
       </van-col>
     </van-row>
     <van-row class="row">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/xiao.png"
           class="img"
@@ -66,7 +66,7 @@
     </van-row>
 
     <van-row class="row" v-show="isExamine == 1">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/kong.png"
           class="img"
@@ -87,7 +87,7 @@
       </van-col>
     </van-row>
     <van-row class="row">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/zhong.png"
           class="img"
@@ -108,7 +108,7 @@
       </van-col>
     </van-row>
     <van-row class="row">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/shenhe.png"
           class="img"
@@ -129,7 +129,7 @@
       </van-col>
     </van-row>
     <van-row class="row">
-      <van-col span="1"
+      <van-col span="1" class="imgbox"
         ><img
           src="../../assets/img/he.png"
           class="img"
@@ -182,6 +182,10 @@ export default {
     align-items: center;
     padding-left: 16px;
     line-height: 45px;
+  }
+  .imgbox {
+    display: flex;
+    align-items: center;
   }
 
   .van-cell {
