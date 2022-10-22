@@ -26,3 +26,12 @@ export const register = (data) => {
     data
   })
 }
+
+// 找回密码
+export const forgotPwd=(data)=>{
+  return request({
+    url:'/api/user/retrievepassword',
+    method:'POST',
+    data
+  })
+}

@@ -68,7 +68,10 @@ export default {
     msg1: 'Please enter the correct email address or password',
     msg2: 'registered successfully',
     msg3: 'fail to sign in',
-    msg4: 'Please check the Agreement'
+    msg4: 'Please check the Agreement',
+    forgotPwd:'forgotPwd',
+    success:'success',
+    forgetPwd:'forget password'
   },
   // 首页
   home: {

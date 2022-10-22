@@ -2,7 +2,12 @@
   <div class="container">
     <van-nav-bar>
       <template #left>
-        <van-icon @click="$router.back()" name="arrow-left" color="#000" size="18" />
+        <van-icon
+          @click="$router.back()"
+          name="arrow-left"
+          color="#000"
+          size="18"
+        />
       </template>
       <template #title>
         <span class="title">{{ $t("setup.my_referrer") }}</span>
@@ -48,16 +53,16 @@ export default {
       if (this.refUserId != "") {
         setuserinfo({ refUserId: this.refUserId }).then((res) => {
           if (res.data.code == 0) {
-            this.$toast.success(this.$t('setup.referrer_toast1'));
+            this.$toast.success(this.$t("setup.referrer_toast1"));
             setTimeout(() => {
               this.$router.back();
             }, 500);
-          } else {
-            this.$toast.fail(res.data.message);
+          } else if (res.data.code == 1) {
+            this.$toast.fail("邀请码错误！");
           }
         });
       } else {
-        this.$toast.fail(this.$t('setup.referrer_toast2'));
+        this.$toast.fail(this.$t("setup.referrer_toast2"));
       }
     },
     // 获取邀请码

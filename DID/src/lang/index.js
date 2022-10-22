@@ -11,7 +11,7 @@ if (type == "Netscape") {
   var browserLang = navigator.userLanguage;//获取浏览器配置语言，支持IE5+ == navigator.systemLanguage
 };
 var browserLang = browserLang.slice(0, 2);//获取浏览器配置语言前两位
-
+localStorage.setItem('langText', browserLang)
 // 用户选择了语言
 let lang = JSON.parse(localStorage.getItem('lang'))
 if (lang) {

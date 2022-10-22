@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Cookies from 'js-cookie'
-import { Form } from 'vant';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
     { path: '/', name: 'home', component: () => import('@/pages/home') },//首页
     { path: '/login', name: 'login', component: () => import('@/pages/login') },//登录
+    { path: '/forgotPwd', name: 'forgotPwd', component: () => import('@/pages/login/forgotPwd') },//找回密码
     { path: '/my', name: 'my', component: () => import('@/pages/my') },//我的
     { path: '/bindRelation', name: 'bindRelation', component: () => import('@/pages/bindRelation') },//绑定位置
     { path: '/bindNation', name: 'bindNation', component: () => import('@/pages/bindRelation/bindNation') },//绑定国家
@@ -75,34 +75,10 @@ VueRouter.prototype.push = function push(to) {
 }
 
 router.beforeEach((to, from, next) => {
-  if (!Cookies.get('token')) {//未登录
-    if (to.path === '/login') {
-      next()
-    } else {
-      next('/login')
-    }
+  if (!Cookies.get('token')) {
+    next()
   } else {
-    // 判断是否被风控，被风控只能使用退出登录
-    if (from.path == '/') {
-      next()
-    } else if (from.path == '/my' && to.path == '/setup') {
-      // 去账号设置
-      next()
-    } else if (from.path == '/setup' && Cookies.get('riskLevel') != 2) {
-      // 在账号设置里面，并且没有被风控
-      next()
-    } else if (from.path == '/my' && Cookies.get('riskLevel') != 2) {
-      // 在my页面，并且没有被风控
-      next()
-    } else if (from.path == '/setup' && to.path == '/my') {
-      // 在账号设置页面，返回my页面
-      next()
-    } else if (from.path == '/my' && to.path == '/') {
-      // 在my页面，去首页
-      next()
-    } else if (Cookies.get('riskLevel') != 2) {
-      next()
-    }
+    next()
   }
 });
 

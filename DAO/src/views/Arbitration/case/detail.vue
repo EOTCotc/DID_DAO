@@ -4,121 +4,113 @@
     <div class="content">
       <div class="main">
         <!-- 仲裁已取消 -->
-        <van-row v-if="info.isCancel" class="header" type="flex" align="center">
-          <van-col :span="24" class="text" style="color: #999">{{
+        <van-row v-if="info.isCancel"
+                 class="header"
+                 type="flex"
+                 align="center">
+          <van-col :span="24"
+                   class="text"
+                   style="color: #999">{{
             $t("case.cancel")
           }}</van-col>
         </van-row>
         <!-- 未投票 -->
-        <van-row
-          v-else-if="info.time < 0 && !info.voteStatus"
-          class="header"
-          type="flex"
-          align="center"
-        >
-          <van-col :span="12" class="text" style="color: #999">{{
+        <van-row v-else-if="info.time < 0 && !info.voteStatus"
+                 class="header"
+                 type="flex"
+                 align="center">
+          <van-col :span="12"
+                   class="text"
+                   style="color: #999">{{
             $t("case.sentence")
           }}</van-col>
-          <van-col
-            v-if="info.voteStatus === 2"
-            :span="12"
-            class="date"
-            style="color: #00b87a"
-          >
+          <van-col v-if="info.voteStatus === 2"
+                   :span="12"
+                   class="date"
+                   style="color: #00b87a">
             +{{ info.eotc }} EOTC
           </van-col>
-          <van-col v-else :span="12" class="date" style="color: #fc7542">
+          <van-col v-else
+                   :span="12"
+                   class="date"
+                   style="color: #fc7542">
             -{{ info.eotc }} EOTC
           </van-col>
         </van-row>
         <template v-else>
           <!-- 举证中 -->
-          <van-row
-            v-if="info.status === 0"
-            class="header"
-            type="flex"
-            align="center"
-          >
+          <van-row v-if="info.status === 0"
+                   class="header"
+                   type="flex"
+                   align="center">
             <van-col :span="12">
-              <van-row type="flex" align="center">
-                <van-icon
-                  class="icon"
-                  style="margin-right: 5px"
-                  name="underway-o"
-                />
+              <van-row type="flex"
+                       align="center">
+                <van-icon class="icon"
+                          style="margin-right: 5px"
+                          name="underway-o" />
                 <div class="text">{{ $t("case.Adduce_evidence") }}</div>
               </van-row>
             </van-col>
-            <van-col :span="12" class="date">{{
+            <van-col :span="12"
+                     class="date">{{
               transformUTCDate(info.adduceDate)
             }}</van-col>
           </van-row>
           <!-- 投票中 -->
-          <van-row
-            class="header"
-            type="flex"
-            align="center"
-            justify="space-between"
-            v-else-if="info.status === 1"
-          >
+          <van-row class="header"
+                   type="flex"
+                   align="center"
+                   justify="space-between"
+                   v-else-if="info.status === 1">
             <van-col :span="12">
               <van-row>
-                <van-row type="flex" align="center">
-                  <van-icon
-                    class="icon"
-                    color="#237DF4"
-                    style="margin-right: 5px"
-                    name="underway-o"
-                  />
-                  <van-count-down
-                    class="time"
-                    :time="info.time || 0"
-                    style="color: #237df4"
-                    format="DD天HH时mm分"
-                  />
+                <van-row type="flex"
+                         align="center">
+                  <van-icon class="icon"
+                            color="#237DF4"
+                            style="margin-right: 5px"
+                            name="underway-o" />
+                  <van-count-down class="time"
+                                  :time="info.time || 0"
+                                  style="color: #237df4"
+                                  format="DD天HH时mm分" />
                 </van-row>
               </van-row>
             </van-col>
-            <van-col
-              :span="6"
-              class="date"
-              v-if="!info.hasDelay && info.voteStatus === 0"
-            >
-              <van-button
-                round
-                plain
-                block
-                size="small"
-                type="primary"
-                color="#237FF8"
-                @click="
+            <van-col :span="6"
+                     class="date"
+                     v-if="!info.hasDelay && info.voteStatus === 0">
+              <van-button round
+                          plain
+                          block
+                          size="small"
+                          type="primary"
+                          color="#237FF8"
+                          @click="
                   $router.push({
                     path: '/user/arbitration/case/initiateNewProof',
                     query: { id: info.arbitrateInfoId },
                   })
-                "
-              >
+                ">
                 {{ $t("case.again") }}
               </van-button>
             </van-col>
           </van-row>
           <!-- 是否胜诉 -->
-          <van-row
-            class="header"
-            type="flex"
-            align="center"
-            v-else-if="info.status > 1 && info.voteStatus"
-          >
+          <van-row class="header"
+                   type="flex"
+                   align="center"
+                   v-else-if="info.status > 1 && info.voteStatus">
             <van-col :span="12">
               <van-row>
                 <van-col :span="3">
-                  <img
-                    :src="info.isVictory ? icon1 : icon2"
-                    alt=""
-                    class="img"
-                  />
+                  <img :src="info.isVictory ? icon1 : icon2"
+                       alt=""
+                       class="img" />
                 </van-col>
-                <van-col class="text" :span="21">
+                <van-col class="text"
+                         :span="21">
                   {{
                     info.isVictory
                       ? $t("case.Win_lawsuit")
@@ -127,49 +119,46 @@
                 </van-col>
               </van-row>
             </van-col>
-            <van-col
-              :span="12"
-              class="date"
-              :style="{ color: info.isVictory ? '#00B87A' : '#FC7542' }"
-            >
+            <van-col :span="12"
+                     class="date"
+                     :style="{ color: info.isVictory ? '#00B87A' : '#FC7542' }">
               {{ info.isVictory ? "+" : "-" }}{{ info.eotc }} EOTC
             </van-col>
           </van-row>
         </template>
         <van-row class="row">
-          <van-col :span="12" class="title" style="color: #333">{{
+          <van-col :span="12"
+                   class="title"
+                   style="color: #333">{{
             $t("case.Originating_time")
           }}</van-col>
-          <van-col :span="12" class="value date">{{
+          <van-col :span="12"
+                   class="value date">{{
             transformUTCDate(info.createDate)
           }}</van-col>
         </van-row>
         <!-- 原被告信息 -->
         <div class="personnel_wrap">
-          <div
-            class="item"
-            @click="
+          <div class="item"
+               @click="
               go('/user/arbitration/case/personnelInfo', {
                 id: info.plaintiffId,
                 type: 'plaintiff',
               })
-            "
-          >
+            ">
             <span class="label">{{ $t("case.plaintiff") }}</span>
             <div class="user_wrap">
               <span class="name">{{ info.plaintiff }}</span>
               <span class="identity">{{ $t("case.seller") }}</span>
             </div>
           </div>
-          <div
-            class="item"
-            @click="
+          <div class="item"
+               @click="
               go('/user/arbitration/case/personnelInfo', {
                 id: info.defendantId,
                 type: 'plaintiff',
               })
-            "
-          >
+            ">
             <span class="label red">{{ $t("case.defendant") }}</span>
             <div class="user_wrap">
               <span class="name">{{ info.defendant }}</span>
@@ -182,41 +171,39 @@
           }}{{ getArbitrateInType(info.arbitrateInType) }}
         </div>
         <!-- 仲裁结果 -->
-        <div class="result_wrap" v-if="info.status > 1">
+        <div class="result_wrap"
+             v-if="info.status > 1">
           <div class="h3">{{ $t("case.result") }}</div>
           <div class="text">
             {{ $t("case.participate") }}{{ info.total }}{{ $t("case.evidence")
             }}{{ info.plaintiffNum }}{{ $t("case.determine_win") }}
           </div>
           <div class="h3">{{ $t("case.Closing_time") }}</div>
-          <div class="text" v-if="info.voteDate">
+          <div class="text"
+               v-if="info.voteDate">
             {{ transformUTCDate(info.voteDate) }}
           </div>
         </div>
         <!-- 原被告举证 -->
         <div class="evidence_wrap">
           <ul class="list">
-            <li
-              class="item"
-              v-for="item in info.adduce"
-              :key="item.adduceListId"
-            >
-              <span
-                class="label plaintiff"
-                v-if="item.adduceUserId === info.plaintiffId"
-                >{{ $t("case.plaintiff_evidence") }}</span
-              >
-              <span class="label defendant" v-else>{{
+            <li class="item"
+                v-for="item in info.adduce"
+                :key="item.adduceListId">
+              <span class="label plaintiff"
+                    v-if="item.adduceUserId === info.plaintiffId">{{ $t("case.plaintiff_evidence") }}</span>
+              <span class="label defendant"
+                    v-else>{{
                 $t("case.defendant_evidence")
               }}</span>
-              <van-grid v-if="!!item.images.length" :column-num="1">
-                <van-grid-item v-for="img in item.images" :key="img">
-                  <van-image
-                    class="img"
-                    :src="spliceSrc(img)"
-                    fit="contain"
-                    @click="preview(item.images)"
-                  />
+              <van-grid v-if="!!item.images.length"
+                        :column-num="1">
+                <van-grid-item v-for="img in item.images"
+                               :key="img">
+                  <van-image class="img"
+                             :src="spliceSrc(img)"
+                             fit="contain"
+                             @click="preview(item.images)" />
                 </van-grid-item>
                 <div class="message">{{ item.memo }}</div>
               </van-grid>
@@ -226,96 +213,110 @@
         <!-- 订单信息 -->
         <div class="order_wrap">
           <van-collapse v-model="show">
-            <van-collapse-item
-              :title="$t('case.order_title')"
-              name="1"
-              v-if="false"
-            >
+            <van-collapse-item :title="$t('case.order_title')"
+                               name="1"
+                               v-if="false">
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.order_number")
                 }}</van-col>
-                <van-col class="value" :span="18">7777781205789</van-col>
+                <van-col class="value"
+                         :span="18">7777781205789</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.transaction")
                 }}</van-col>
-                <van-col class="value" :span="18">997.00000 USDT</van-col>
+                <van-col class="value"
+                         :span="18">997.00000 USDT</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.price")
                 }}</van-col>
-                <van-col class="value" :span="18">6.35 CNY</van-col>
+                <van-col class="value"
+                         :span="18">6.35 CNY</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.Total_price")
                 }}</van-col>
-                <van-col class="value" :span="18" style="color: #f37a4c"
-                  >6350.00 CNY</van-col
-                >
+                <van-col class="value"
+                         :span="18"
+                         style="color: #f37a4c">6350.00 CNY</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.transaction_time")
                 }}</van-col>
-                <van-col class="value" :span="18">2022.05.26 15:00:21</van-col>
+                <van-col class="value"
+                         :span="18">2022.05.26 15:00:21</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title payment" :span="24">{{
+                <van-col class="title payment"
+                         :span="24">{{
                   $t("case.information")
                 }}</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{ $t("case.name") }}</van-col>
-                <van-col class="value" :span="18">{{
+                <van-col class="title"
+                         :span="6">{{ $t("case.name") }}</van-col>
+                <van-col class="value"
+                         :span="18">{{
                   $t("case.Li_Mu")
                 }}</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.Bank_deposit")
                 }}</van-col>
-                <van-col class="value" :span="18">{{
+                <van-col class="value"
+                         :span="18">{{
                   $t("case.Commercial_Bank")
                 }}</van-col>
               </van-row>
               <van-row class="row">
-                <van-col class="title" :span="6">{{
+                <van-col class="title"
+                         :span="6">{{
                   $t("case.Bank_No")
                 }}</van-col>
-                <van-col class="value" :span="18">4005633224656232</van-col>
+                <van-col class="value"
+                         :span="18">4005633224656232</van-col>
               </van-row>
             </van-collapse-item>
-            <van-collapse-item
-              :title="$t('case.public_judgment')"
-              name="2"
-              v-if="info.status > 1"
-            >
+            <van-collapse-item :title="$t('case.public_judgment')"
+                               name="2"
+                               v-if="info.status > 1">
               <ul class="list sentence_wrap">
-                <li class="item" v-for="item in info.votes" :key="item.number">
+                <li class="item"
+                    v-for="item in info.votes"
+                    :key="item.number">
                   <van-row>
-                    <van-col :span="6" class="text name">{{
+                    <van-col :span="6"
+                             class="text name">{{
                       item.name
                     }}</van-col>
-                    <van-col :span="12" class="text phone">{{
+                    <van-col :span="12"
+                             class="text phone">{{
                       item.phone
                     }}</van-col>
-                    <van-col
-                      :span="6"
-                      class="winner icon icon-court"
-                      :class="item.voteStatus === 1 ? 'plaintiff' : 'defendant'"
-                    >
+                    <van-col :span="6"
+                             class="winner icon icon-court"
+                             :class="item.voteStatus === 1 ? 'plaintiff' : 'defendant'">
                       {{
                         item.voteStatus === 1
                           ? $t("case.defendant_win")
                           : $t("case.defendant_win")
-                      }}</van-col
-                    >
+                      }}</van-col>
                   </van-row>
-                  <div class="remark" v-if="item.reason">{{ item.reason }}</div>
+                  <div class="remark"
+                       v-if="item.reason">{{ item.reason }}</div>
                 </li>
               </ul>
             </van-collapse-item>
@@ -323,66 +324,67 @@
         </div>
       </div>
     </div>
-    <van-row
-      class="btn"
-      :gutter="15"
-      v-if="info.status === 1 && !info.voteStatus && info.time > 0"
-    >
+    <van-row class="btn"
+             :gutter="15"
+             v-if="info.status === 1 && !info.voteStatus && info.time > 0">
       <van-col :span="12">
-        <van-button block round color="#4EA0F5" @click="sentence(1)">
+        <van-button block
+                    round
+                    color="#4EA0F5"
+                    @click="sentence(1)">
           {{ $t("case.defendant_win") }}
         </van-button>
       </van-col>
       <van-col :span="12">
-        <van-button block round color="#EE786F" @click="sentence(2)">
+        <van-button block
+                    round
+                    color="#EE786F"
+                    @click="sentence(2)">
           {{ $t("case.defendant_win") }}
         </van-button>
       </van-col>
     </van-row>
     <!-- 判定胜诉方 -->
-    <popup
-      ref="sentence"
-      :title="status === 1 ? $t('case.reason') : $t('case.ment_reasons')"
-    >
-      <div class="sentence-main" v-show="status === 1">
+    <popup ref="sentence"
+           :title="status === 1 ? $t('case.reason') : $t('case.ment_reasons')">
+      <div class="sentence-main"
+           v-show="status === 1">
         <div class="title">{{ $t("case.explain") }}</div>
         <div class="message">{{ $t("case.according") }}</div>
-        <van-checkbox
-          class="check"
-          icon-size="16px"
-          v-model="checked"
-          shape="square"
-          >{{ $t("case.confirm") }}</van-checkbox
-        >
+        <van-checkbox class="check"
+                      icon-size="16px"
+                      v-model="checked"
+                      shape="square">{{ $t("case.confirm") }}</van-checkbox>
       </div>
-      <div class="sentence-main" v-show="status === 2">
+      <div class="sentence-main"
+           v-show="status === 2">
         <div class="tip">{{ $t("case.security") }}</div>
-        <van-field
-          show-word-limit
-          v-model="remark"
-          rows="4"
-          type="textarea"
-          style="border: 1px solid #c8cfde; border-radius: 10px"
-          maxlength="100"
-          :placeholder="$t('case.describe')"
-        />
+        <van-field show-word-limit
+                   v-model="remark"
+                   rows="4"
+                   type="textarea"
+                   style="border: 1px solid #c8cfde; border-radius: 10px"
+                   maxlength="100"
+                   :placeholder="$t('case.describe')" />
       </div>
-      <van-row class="btn" :gutter="15">
+      <van-row class="btn"
+               :gutter="15">
         <van-col :span="12">
-          <van-button block round plain @click="hidePopup">
+          <van-button block
+                      round
+                      plain
+                      @click="hidePopup">
             {{ $t("case.think") }}
           </van-button>
         </van-col>
         <van-col :span="12">
-          <van-button
-            block
-            round
-            color="#4EA0F5"
-            :loading-text="$t('case.submitting')"
-            :loading="loading"
-            :disabled="loading || (status === 2 ? !remark : !checked)"
-            @click="onSubmit"
-          >
+          <van-button block
+                      round
+                      color="#4EA0F5"
+                      :loading-text="$t('case.submitting')"
+                      :loading="loading"
+                      :disabled="loading || (status === 2 ? !remark : !checked)"
+                      @click="onSubmit">
             {{ $t("case.true") }}
           </van-button>
         </van-col>
@@ -392,15 +394,15 @@
 </template>
 
 <script>
-import pageHeader from "@/components/topBar/pageHeader";
-import Popup from "@/components/popup";
-import { detail, sentence as submit } from "@/api/case";
-import { spliceSrc, transformUTCDate, getArbitrateInType } from "@/utils/utils";
-import icon1 from "@/assets/imgs/victory.png";
-import icon2 from "@/assets/imgs/fail.png";
+import pageHeader from '@/components/topBar/pageHeader'
+import Popup from '@/components/popup'
+import { detail, sentence as submit } from '@/api/case'
+import { spliceSrc, transformUTCDate, getArbitrateInType } from '@/utils/utils'
+import icon1 from '@/assets/imgs/victory.png'
+import icon2 from '@/assets/imgs/fail.png'
 
 export default {
-  name: "arbitrationCaseDetail",
+  name: 'arbitrationCaseDetail',
   components: {
     pageHeader,
     Popup,
@@ -411,12 +413,12 @@ export default {
       icon2,
       loading: false,
       show: [],
-      title: "",
-      remark: "",
+      title: '',
+      remark: '',
       status: 0,
       checked: false,
       info: {},
-    };
+    }
   },
   methods: {
     spliceSrc,
@@ -424,51 +426,51 @@ export default {
     transformUTCDate,
     // 跳转页面
     go(path, query) {
-      this.$router.push({ path, query });
+      this.$router.push({ path, query })
     },
     getDetail() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: this.$t("case.message_in"),
-      });
+        message: this.$t('case.message_in'),
+      })
       detail(this.$route.query.id)
         .then((res) => {
-          const { code, items } = res.data;
+          const { code, items } = res.data
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: this.$t("case.massage_fail"),
-            });
+              message: this.$t('case.massage_fail'),
+            })
           } else {
             if (items.status > 1) {
               // 判断是否胜诉
               items.isVictory =
                 (items.status === 2 && items.voteStatus === 1) ||
-                (items.status === 3 && items.voteStatus === 2);
+                (items.status === 3 && items.voteStatus === 2)
             }
-            items.total = items.plaintiffNum + items.defendantNum;
+            items.total = items.plaintiffNum + items.defendantNum
             items.adduce = items.adduce.map((item) => ({
               ...item,
-              images: item.images.split(","),
-            }));
+              images: item.images.split(','),
+            }))
             items.time = this.$dayjs(
               items.status === 0 ? items.adduceDate : items.voteDate
             )
-              .add("-8", "hour")
-              .diff(this.$dayjs(), "millisecond");
-            console.log(items.time);
-            this.info = items;
+              .add('-8', 'hour')
+              .diff(this.$dayjs(), 'millisecond')
+            console.log(items.time)
+            this.info = items
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: this.$t("case.massage_fail"),
-          });
+            message: this.$t('case.massage_fail'),
+          })
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     },
     // 判决
     sentence(type) {
@@ -476,32 +478,32 @@ export default {
         this.$dayjs(
           this.info.status === 0 ? this.info.adduceDate : this.info.voteDate
         )
-          .add("-8", "hour")
-          .diff(this.$dayjs(), "millisecond") > 0
+          .add('-8', 'hour')
+          .diff(this.$dayjs(), 'millisecond') > 0
       ) {
-        this.status = type;
-        this.$refs.sentence.toggle(true);
+        this.status = type
+        this.$refs.sentence.toggle(true)
       } else {
         this.$toast.fail({
           forbidClick: true,
-          message: this.$t("case.exceed"),
-        });
+          message: this.$t('case.exceed'),
+        })
       }
     },
     // 隐藏
     hidePopup() {
-      this.remark = "";
-      this.status = 0;
-      this.checked = false;
-      this.$refs.sentence.toggle(false);
+      this.remark = ''
+      this.status = 0
+      this.checked = false
+      this.$refs.sentence.toggle(false)
     },
     // 提交判决
     onSubmit() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: this.$t("case.submitting"),
-      });
-      this.loading = true;
+        message: this.$t('case.submitting'),
+      })
+      this.loading = true
       submit({
         arbitrateInfoId: this.info.arbitrateInfoId,
         reason: this.remark,
@@ -513,34 +515,34 @@ export default {
               forbidClick: true,
               duration: 2000,
               message: res.data.message,
-            });
+            })
           } else {
             this.$toast.success({
               forbidClick: true,
-              message: this.$t("case.become"),
+              message: this.$t('case.become'),
               onClose: () => {
-                this.hidePopup();
-                this.getDetail();
+                this.hidePopup()
+                this.getDetail()
               },
-            });
+            })
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: this.$t("case.fail"),
-          });
+            message: this.$t('case.fail'),
+          })
         })
         .finally(() => {
-          this.loading = false;
-          loading.clear();
-        });
+          this.loading = false
+          loading.clear()
+        })
     },
   },
   created() {
-    this.getDetail();
+    this.getDetail()
   },
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -655,9 +657,9 @@ export default {
       .remark {
         color: #333;
         padding: 24px;
-        font-size: 28px;
+        font-size: 24px;
         margin-top: 30px;
-        line-height: 1.2;
+        line-height: 55px;
         background-color: #f3f4f5;
         border-radius: 20px;
       }

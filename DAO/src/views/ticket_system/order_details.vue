@@ -5,85 +5,75 @@
     </header>
     <main>
       <van-cell-group inset>
-        <van-cell
-          v-if="type_title == 0"
-          :title="$t('order.type')"
-          title-style="color:#999;"
-          :value="$t('order.type_value_feed')"
-        />
-        <van-cell
-          v-if="type_title == 1"
-          :title="$t('order.type')"
-          title-style="color:#999;"
-          :value="$t('order.type_value')"
-        />
-        <van-cell
-          :title="$t('order.time')"
-          title-style="color:#999;"
-          :value="order.createDate"
-        />
-        <van-cell
-          :title="$t('order.submitter')"
-          title-style="color:#999;"
-          :value="order.submitter"
-        />
-        <van-cell
-          :title="$t('order.information')"
-          title-style="color:#999;"
-          :value="order.phone"
-        />
+        <van-cell v-if="type_title == 0"
+                  :title="$t('order.type')"
+                  title-style="color:#999;"
+                  :value="$t('order.type_value_feed')" />
+        <van-cell v-if="type_title == 1"
+                  :title="$t('order.type')"
+                  title-style="color:#999;"
+                  :value="$t('order.type_value')" />
+        <van-cell :title="$t('order.time')"
+                  title-style="color:#999;"
+                  :value="order.createDate" />
+        <van-cell :title="$t('order.submitter')"
+                  title-style="color:#999;"
+                  :value="order.submitter" />
+        <van-cell :title="$t('order.information')"
+                  title-style="color:#999;"
+                  :value="order.phone" />
       </van-cell-group>
-      <van-cell-group inset class="group">
-        <van-cell
-          :title="$t('order.describe')"
-          title-style="color:#999;"
-          :border="false"
-        />
+      <van-cell-group inset
+                      class="group">
+        <van-cell :title="$t('order.describe')"
+                  title-style="color:#999;"
+                  :border="false" />
         <van-cell :title="order.describe" />
       </van-cell-group>
-      <van-cell-group inset class="tu">
-        <van-image
-          width="55"
-          height="55"
-          v-for="(item, index) in order.images"
-          :key="index"
-          :src="spliceSrc(item)"
-        />
+      <van-cell-group inset
+                      class="tu">
+        <van-image width="55"
+                   height="55"
+                   v-for="(item, index) in order.images"
+                   :key="index"
+                   :src="spliceSrc(item)" />
       </van-cell-group>
-      <van-cell-group inset class="group" v-show="order.status == 1">
-        <van-cell
-          :title="$t('order.processing')"
-          style="color: #999"
-          :border="false"
-        />
-        <van-field
-          v-model="message"
-          rows="5"
-          type="textarea"
-          :placeholder="$t('order.placeholder')"
-        />
+      <van-cell-group inset
+                      class="group"
+                      v-show="order.status == 1">
+        <van-cell :title="$t('order.processing')"
+                  style="color: #999"
+                  :border="false" />
+        <van-field v-model="message"
+                   rows="5"
+                   type="textarea"
+                   :placeholder="$t('order.placeholder')" />
       </van-cell-group>
-      <van-cell-group inset class="group" v-show="order.status == 2">
-        <van-cell
-          :title="$t('order.processing')"
-          style="color: #999"
-          :border="false"
-        />
+      <van-cell-group inset
+                      class="group"
+                      v-show="order.status == 2">
+        <van-cell :title="$t('order.processing')"
+                  style="color: #999"
+                  :border="false" />
         <van-cell :title="order.record"></van-cell>
       </van-cell-group>
-      <van-button
-        round
-        type="info"
-        @click="update(order.status)"
-        class="one_btn"
-        v-show="order.status == 0"
-        >{{ $t("order.further") }}</van-button
-      >
-      <div class="two_btn" v-show="order.status == 1">
-        <van-button round type="info" color="#E52A2A" plain @click="cancel()">{{
+      <van-button round
+                  type="info"
+                  @click="update(order.status)"
+                  class="one_btn"
+                  v-show="order.status == 0">{{ $t("order.further") }}</van-button>
+      <div class="two_btn"
+           v-show="order.status == 1">
+        <van-button round
+                    type="info"
+                    color="#E52A2A"
+                    plain
+                    @click="cancel()">{{
           $t("order.cancel")
         }}</van-button>
-        <van-button round type="info" @click="update(order.status)">{{
+        <van-button round
+                    type="info"
+                    @click="update(order.status)">{{
           $t("order.finish")
         }}</van-button>
       </div>
@@ -92,47 +82,47 @@
 </template>
 
 <script>
-import { spliceSrc } from "@/utils/utils";
-import white from "../../components/Nav/white.vue";
-import { getworkorder, updateWork } from "@/api/workOrder";
-import { Dialog } from "vant";
+import { spliceSrc } from '@/utils/utils'
+import white from '../../components/Nav/white.vue'
+import { getworkorder, updateWork } from '@/api/workOrder'
+import { Dialog } from 'vant'
 export default {
   components: { white },
   data() {
     return {
-      title: this.$t("order.nav_title"),
+      title: this.$t('order.nav_title'),
       order: {},
-      message: "",
-      workOrderId: "",
+      message: '',
+      workOrderId: '',
       fileList: [],
-      type: "wordOrder",
+      type: 'wordOrder',
       type_title: undefined,
-    };
+    }
   },
   created() {
-    this.type_title = this.$route.query.type;
-    this.workOrderId = this.$route.query.workOrderId;
+    this.type_title = this.$route.query.type
+    this.workOrderId = this.$route.query.workOrderId
     getworkorder({ workOrderId: this.workOrderId }).then((res) => {
-      res.data.items.createDate = this.$dayjs(res.data.items.createDate).format(
-        "YYYY-MM-DD hh:mm:ss"
-      );
-      res.data.items.images = res.data.items.images.split(",");
-      this.order = res.data.items;
-      console.log(this.order);
-    });
+      res.data.items.createDate = this.$dayjs(res.data.items.createDate)
+        .utc()
+        .format('YYYY-MM-DD hh:mm:ss')
+      res.data.items.images = res.data.items.images.split(',')
+      this.order = res.data.items
+      console.log(this.order)
+    })
   },
   methods: {
     spliceSrc,
     onClickLeft() {
-      history.go(-1);
+      history.go(-1)
     },
 
     cancel() {
       Dialog.confirm({
-        title: this.$t("order.dialog_title"),
-        confirmButtonColor: "#000",
-        message: this.$t("order.dialog_message"),
-        getContainer: ".order",
+        title: this.$t('order.dialog_title'),
+        confirmButtonColor: '#000',
+        message: this.$t('order.dialog_message'),
+        getContainer: '.order',
       })
         .then(() => {
           updateWork({
@@ -140,33 +130,33 @@ export default {
             workOrderStatus: 0,
             record: this.message,
           }).then((res) => {
-            console.log(res);
+            console.log(res)
             this.$router.push({
-              path: "/pending",
-            });
-          });
+              path: '/pending',
+            })
+          })
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     update(status) {
-      console.log(status);
+      console.log(status)
       if (status == 0) {
         updateWork({
           workOrderId: this.workOrderId,
           workOrderStatus: status + 1,
           record: this.message,
         }).then((res) => {
-          console.log(res);
+          console.log(res)
           this.$router.push({
-            path: "/pending",
+            path: '/pending',
             query: { status: status + 1 },
-          });
-        });
+          })
+        })
       } else {
         Dialog.confirm({
-          title: this.$t("order.dialog_finish"),
-          confirmButtonColor: "#000",
-          message: this.$t("order.dialog_messfinish"),
+          title: this.$t('order.dialog_finish'),
+          confirmButtonColor: '#000',
+          message: this.$t('order.dialog_messfinish'),
         })
           .then(() => {
             updateWork({
@@ -174,18 +164,18 @@ export default {
               workOrderStatus: status + 1,
               record: this.message,
             }).then((res) => {
-              console.log(res);
+              console.log(res)
               this.$router.push({
-                path: "/pending",
+                path: '/pending',
                 query: { status: status + 1 },
-              });
-            });
+              })
+            })
           })
-          .catch(() => {});
+          .catch(() => {})
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

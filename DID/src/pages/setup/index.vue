@@ -33,7 +33,7 @@
         :title="$t('setup.referrer')"
         :value="userInfo.refUid ? 'UID：' + userInfo.refUid : $t('setup.add')"
         :to="
-          userInfo.refUid
+          userInfo.refUid && riskLevel
             ? {
                 path: '/setup/haveMyReferrer',
                 query: { refUid: userInfo.refUid },
@@ -44,27 +44,37 @@
       />
       <van-cell
         :title="$t('setup.telegram')"
-        @click="cookie.get('riskLevel') == 2 ? '' : (showPopup = true)"
+        @click="
+          cookie.get('riskLevel') == 2 && riskLevel ? '' : (showPopup = true)
+        "
         :value="userInfo.telegram || $t('setup.set')"
         is-link
       />
       <van-cell
         :title="$t('setup.locality')"
         :value="userInfo.country ? site : $t('setup.tab')"
-        to="/locality"
+        :to="riskLevel ? '/locality' : ''"
         is-link
       />
       <van-cell
         :title="$t('setup.change_pass')"
-        to="/setup/setPassword"
+        :to="riskLevel ? '/setup/setPassword' : ''"
         is-link
       />
       <van-cell
         :title="$t('setup.change_email')"
-        to="/setup/setEmail"
+        :to="riskLevel ? '/setup/setEmail' : ''"
         is-link
       />
-      <van-cell :title="$t('logout.logout')" to="/setup/logout" is-link />
+      <van-cell
+        :title="$t('logout.logout')"
+        :to="
+          userInfo.hasLogout && riskLevel
+            ? '/setup/logout/logoutCountdown'
+            : '/setup/logout'
+        "
+        is-link
+      />
     </div>
 
     <!-- 设置电报群 -->
@@ -113,9 +123,19 @@ export default {
       userInfo: "", //用户信息
       showPopup: false, //设置电报群弹出层
       showLogout: false, //退出登录弹出层
+      riskLevel: false, //是否被风控
     };
   },
   mounted() {
+    if (this.cookie.get("riskLevel")) {
+      if (this.cookie.get("riskLevel") == 2) {
+        this.riskLevel = false;
+      } else {
+        this.riskLevel = true;
+      }
+    } else {
+      this.riskLevel = false;
+    }
     this.$toast.loading({
       duration: 15,
       forbidClick: true,

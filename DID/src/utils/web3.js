@@ -243,8 +243,6 @@ export const SendUSDT = async function (val, ads, ctype) {
 export const loadweb3 = function (func) {
   //bsg为true强制签名
   if (window.tronWeb) {
-    // console.log('Loading web3');
-    // console.log(window.tronWeb.defaultAddress.base58);
     var obj = setInterval(async () => {
       if (window.tronWeb.defaultAddress.base58) {
         clearInterval(obj);
