@@ -100,7 +100,7 @@
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell is-link :border="false" @click="auth('/my/payment', false)">
+        <van-cell is-link :border="false" @click="auth('/my/payment', true)">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/fukuan.png" />
@@ -156,7 +156,7 @@
           </template>
         </van-cell>
         <!-- 各公链绑定地址 -->
-        <van-cell is-link :border="false" to="/my/wallets">
+        <van-cell is-link :border="false" :to="riskLevel ? '/my/wallets' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/gonglian.png" />
@@ -169,7 +169,7 @@
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border="false" to="/my/projects">
+        <van-cell is-link :border="false" :to="riskLevel ? '/my/projects' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/xiangmu.png" />
@@ -206,9 +206,19 @@ export default {
         communityApproval: false,
         identity: false,
       },
+      riskLevel: false,
     };
   },
   created() {
+    if (this.cookie.get("riskLevel")) {
+      if (this.cookie.get("riskLevel") == 2) {
+        this.riskLevel = false;
+      } else {
+        this.riskLevel = true;
+      }
+    } else {
+      this.riskLevel = false;
+    }
     this.handleRefresh();
     this.getBadge();
   },
@@ -260,7 +270,9 @@ export default {
                   cancelButtonText: this.$t("my.my_dialog1_text2"),
                 })
                 .then(() => {
-                  this.$router.push("/my/community/setting");
+                  this.riskLevel
+                    ? this.$router.push("/my/community/setting")
+                    : "";
                 })
                 .catch(() => {});
               this.isShow = true;
@@ -284,7 +296,7 @@ export default {
       };
       if (this.userInfo.refUid) {
         if (validateAuthType) {
-          if (this.userInfo.authType === 2) {
+          if (this.userInfo.authType === 2 && this.riskLevel) {
             this.$router.push(path);
           } else {
             switch (this.userInfo.authType) {
@@ -292,7 +304,10 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg1");
-                options.cb = () => this.$router.push({ path: "/my/identity" });
+                options.cb = () =>
+                  this.riskLevel
+                    ? this.$router.push({ path: "/my/identity" })
+                    : "";
                 break;
               case 1:
                 options.type = "alert";
@@ -304,10 +319,12 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg3");
-                options.cb = this.$router.push({
-                  name: "identity",
-                  params: { name, phoneNum, idCard },
-                });
+                options.cb = this.riskLevel
+                  ? this.$router.push({
+                      name: "identity",
+                      params: { name, phoneNum, idCard },
+                    })
+                  : "";
                 break;
             }
             this.$dialog[options.type]({
@@ -318,6 +335,7 @@ export default {
                   ? this.$t("my.my_index_text1")
                   : this.$t("public.confirm"),
               confirmButtonColor: "#F65F5F",
+              cancelButtonText: this.$t("my.my_dialog1_text2"),
               beforeClose: (action, done) => {
                 if (action === "confirm") {
                   done();
@@ -338,10 +356,12 @@ export default {
             message: this.$t("my.my_index_msg4"),
             confirmButtonText: this.$t("my.my_index_text2"),
             confirmButtonColor: "#F65F5F",
+            cancelButtonText: this.$t("my.my_dialog1_text2"),
             beforeClose: (action, done) => {
               if (action === "confirm") {
                 done();
-                this.$router.push({ path: "/bindRelation" });
+                this.showOverlay = false;
+                this.$router.push("/myReferrer");
               } else {
                 done();
               }

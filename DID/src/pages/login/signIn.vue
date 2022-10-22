@@ -1,5 +1,5 @@
 <template>
-  <div class="log-in" :style="`min-height:${height}px;`">
+  <div class="log-in">
     <van-form ref="form" validate-trigger="onSubmit">
       <!-- 选择网络 -->
       <div class="title">{{ $t("content.signin_title") }}</div>
@@ -138,7 +138,6 @@ export default {
   name: "logIn",
   data() {
     return {
-      height: 0,
       showCode: true, //验证码按钮显示隐藏
       emailBtnColor: "#1B2945", //发送验证码按钮颜色
       seconds: 60, //重新发送验证码倒计时
@@ -157,7 +156,6 @@ export default {
   },
   mounted() {
     this.form.refUserId = this.$route.query.code || "";
-    this.height = document.body.scrollHeight - 152;
     this.form.walletAddress = localStorage.getItem("myaddress");
     this.form.otype = localStorage.getItem("netType");
     this.form.sign = localStorage.getItem("mysign");
@@ -266,6 +264,7 @@ export default {
   margin-top: 89px;
   padding: 89px 38px 300px 38px;
   overflow: hidden;
+  flex: 1;
 }
 .from-item {
   margin-top: 30px;

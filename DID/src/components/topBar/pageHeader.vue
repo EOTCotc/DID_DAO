@@ -3,7 +3,7 @@
       :class="{'nav-bar': theme === 'dark'}"
       :title="title"
       :left-arrow='hasLeftArrow'
-      @click-left="$router.go(-1)"
+      @click-left="back"
   />
 </template>
 
@@ -12,13 +12,24 @@
     props: {
       title: {type: String, default: '', required: true},
       theme: {type: String, default: 'light'},
-      hasLeftArrow: {type: Boolean, default: true}
+      hasLeftArrow: {type: Boolean, default: true},
+      isGo: {type: Boolean, default: true}
+    },
+    methods: {
+      back() {
+        this.isGo ? this.$router.go(-1) : this.$emit('handleBack')
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .nav-bar {
+  .van-nav-bar {
+    &::v-deep(.van-icon) {
+      color: #000;
+    }
+  }
+  .van-nav-bar.nav-bar {
     background-color: $theme;
 
     &::after {

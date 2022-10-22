@@ -3,7 +3,7 @@
     <img class="logo" src="@/assets/imgs/logo.png" />
     <div class="title">EOTC</div>
     <img class="logo-bg" src="@/assets/imgs/logo_bg.png" alt="" />
-    <div class="bg-white" :style="`min-height:${height}px;`">
+    <div class="bg-white">
       <!-- 登录、注册 -->
       <div class="login-box">
         <button
@@ -35,7 +35,6 @@ export default {
   data() {
     return {
       btn: 1,
-      height: 0,
     };
   },
   components: {
@@ -43,8 +42,6 @@ export default {
     SignIn,
   },
   mounted() {
-    // 获取动态高度
-    this.height = document.body.scrollHeight - 152;
     this.btn = !!this.$route.code ? 2 : 1;
     loadweb3(() => {
       const dom = this.$refs.login;
@@ -68,6 +65,8 @@ export default {
   position: relative;
   min-height: 100vh;
   background: #1b2945;
+  display: flex;
+  flex-direction: column;
   .logo {
     margin: 0 auto;
     padding-top: 52px;
@@ -91,12 +90,15 @@ export default {
   }
   .bg-white {
     position: relative;
-    bottom: 0;
+    margin-top: 89px;
     margin-left: 4%;
     width: 92%;
     border-top-right-radius: 10px;
     background: #fff;
     z-index: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     .login-box {
       position: absolute;
       top: -48px;

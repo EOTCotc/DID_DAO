@@ -68,7 +68,10 @@ export default {
     msg1: '请输入正确的邮箱或密码',
     msg2: '注册成功',
     msg3: '注册失败',
-    msg4: '请勾选协议'
+    msg4: '请勾选协议',
+    forgotPwd: '找回密码',
+    success:'找回成功',
+    forgetPwd:'忘记密码'
   },
   // 首页
   home: {
