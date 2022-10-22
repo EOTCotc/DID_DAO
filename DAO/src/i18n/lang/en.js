@@ -410,7 +410,7 @@ module.exports = {
     AuditTopic: [
       {
         id: 1,
-        question: "题目一",
+        question: "Topic 1",
         questionContant: "Why does identity authentication deduct points?",
         topicType: "(single choice)",
         result: "",
@@ -436,7 +436,7 @@ module.exports = {
       },
       {
         id: 2,
-        question: "题目二",
+        question: "Topic 2",
         questionContant: "How many malicious submissions will disable the account?",
         topicType: "(single choice)",
         result: "",
@@ -461,7 +461,7 @@ module.exports = {
       },
       {
         id: 3,
-        question: "题目三",
+        question: "Topic 3",
         questionContant: "In what way will the certification activities be carried out?",
         topicType: "(multiple choice)",
         result: [],
@@ -486,7 +486,7 @@ module.exports = {
       },
       {
         id: 4,
-        question: "题目四",
+        question: "Topic 4",
         questionContant: "Authentication rules?",
         topicType: "(multiple choice)",
         result: [],
@@ -511,7 +511,7 @@ module.exports = {
       },
       {
         id: 5,
-        question: "题目五",
+        question: "Topic 5",
         questionContant: "The auditor must assume the auditee's proprietary information confidential obligation?",
         topicType: "(Judgmental question)",
         result: "",
@@ -531,7 +531,7 @@ module.exports = {
       },
       {
         id: 6,
-        question: "题目六",
+        question: "Topic 6",
         questionContant: "'Just' is 'fair and upright, without partiality'?",
         topicType: "(Judgmental question)",
         result: "",
@@ -551,7 +551,7 @@ module.exports = {
       },
       {
         id: 7,
-        question: "题目七",
+        question: "Topic 7",
         questionContant: ["Audit activities are conducted by", "accomplish"],
         topicType: "(Completion)",
         result: "",
@@ -559,7 +559,7 @@ module.exports = {
       },
       {
         id: 8,
-        question: "题目八",
+        question: "Topic 8",
         questionContant: ["The auditor can not subjectively assume and speculate to draw conclusions, everything to", "speak"],
         topicType: "(Completion)",
         result: "",
@@ -567,7 +567,7 @@ module.exports = {
       },
       {
         id: 9,
-        question: "题目九",
+        question: "Topic 9",
         questionContant: ['', "It is a requirement for the morality of the auditor."],
         topicType: "(Completion)",
         result: "",
@@ -575,7 +575,7 @@ module.exports = {
       },
       {
         id: 10,
-        question: "题目十",
+        question: "Topic 10",
         questionContant: ["The auditor shall carefully use and protect the information obtained during the audit process", ' '],
         topicType: "(Completion)",
         result: "",
