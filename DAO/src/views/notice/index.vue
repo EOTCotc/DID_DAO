@@ -2,13 +2,14 @@
   <div class="notice_wrap bg-gray fullscreen">
     <white title="公告"></white>
     <div class="list">
-      <div class="item" @click="$router.push('/notice/detail')">
-        <div class="header">欢庆国庆奖励活动</div>
-        <vant-divider :style="{color: '#F5F6F7'}" />
-        <div class="text u-line-1">尊敬的EOTC会员:为庆祝EOTCswap聚合币币交易所正式上线，EOTC会员系统给新…</div>
+      <div class="item"
+           v-for="item in list"
+           :key="item.noticeId"
+           @click="$router.push({name: 'noticeDetail', query: {id: item.noticeId}})">
+        <div class="header">{{ item.title }}</div>
         <div class="flex">
-          <div class="team">EOTC技术团队</div>
-          <div class="date">2022年12月7日</div>
+          <div class="team">{{ item.creatorName }}</div>
+          <div class="date">{{ transformUTCDate(item.createDate) }}</div>
         </div>
       </div>
     </div>
@@ -17,6 +18,8 @@
 
 <script>
 import white from "@/components/Nav/white"
+import {list} from "@/api/notice"
+import {transformUTCDate} from "@/utils/utils"
 
 export default {
   components: {
@@ -24,6 +27,24 @@ export default {
   },
   data() {
     return {
+      list: []
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    transformUTCDate,
+    getList() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: '加载中…'
+      })
+      list().then(res => {
+        this.list = res.data.items
+      }).finally(() => {
+        loading.clear()
+      })
     }
   }
 }
@@ -43,6 +64,8 @@ export default {
         padding: 30px 0;
         font-size: 32px;
         font-weight: bold;
+        border-bottom: 1px solid #f5f6f7;
+        margin-bottom: 30px;
       }
       .text {
         color: #333;
