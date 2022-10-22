@@ -6,41 +6,36 @@
     <div class="rulesBox "
          ref="rulesBox">
       <div class="BasicRules">
-        <h3>{{$t("learningRules.rulstitle1")}}</h3>
+        <h3>{{$t("learningRules2.rulstitle1")}}</h3>
         <div>
-          {{$t("learningRules.rus1")}}
+          {{$t("learningRules2.rus1")}}
         </div>
         <div>
-          {{$t("learningRules.rus2")}}
+          {{$t("learningRules2.rus2")}}
         </div>
         <div>
-          {{$t("learningRules.rus3")}}
+          {{$t("learningRules2.rus3")}}
         </div>
         <div>
-          {{$t("learningRules.rus4")}}
+          {{$t("learningRules2.rus4")}}
         </div>
         <div>
-          {{$t("learningRules.rus5")}}
+          {{$t("learningRules2.rus5")}}
         </div>
         <div>
-          {{$t("learningRules.rus6")}}
+          {{$t("learningRules2.rus6")}}
+        </div>
+        <div>
+          {{$t("learningRules2.rus7")}}
         </div>
       </div>
       <div class="DeductionRules">
-        <h3>{{$t("learningRules.rulstitle2")}}</h3>
+        <h3>{{$t("learningRules2.rulstitle2")}}</h3>
         <div>
-          {{$t("learningRules._rus1title")}}
-          <div> {{$t("learningRules._rus1content1")}}</div>
+          {{$t("learningRules2._rus1title")}}
+          <div> {{$t("learningRules2._rus1content1")}}</div>
         </div>
-        <div>
-          {{$t("learningRules._rus2title")}}
-          <div>{{$t("learningRules._rus2content1")}}</div>
-          <div> {{$t("learningRules._rus2content2")}}</div>
-        </div>
-        <div>
-          {{$t("learningRules._rus3title")}}
-          <div> {{$t("learningRules._rus3content1")}}</div>
-        </div>
+
       </div>
     </div>
     <footer ref="footer">
@@ -48,7 +43,7 @@
                   block
                   color="#1B2945"
                   :disabled="flag"
-                  @click="completeLearning"> {{$t("learningRules.btnmsg")}}</van-button>
+                  @click="completeLearning"> {{$t("learningRules2.btnmsg")}}</van-button>
     </footer>
   </div>
 </template>
