@@ -134,17 +134,6 @@ module.exports = {
       "① The user deducts 120 points and freezes all pledged EOTc tokens. After proper processing, the user can apply for arbitration to unseal them, and arbitration can confiscate part or all of the tokens, and the confiscated tokens are sent into the black hole. ③ Node, three generations above the recommender and six generations below the user: six points will be deducted (the deduction will be automatically adjusted according to the arbitration probability)",
     btnmsg: "I have finished my study",
   },
-  reject: {
-    tags1: 'type',
-    tags2: 'The malicious user and the passing recommender node will be deducted the corresponding credit score',
-    tags3: 'specific reason',
-    tags4: 'Please enter the specific reason',
-    data: ['incomplete information', 'wrong information', 'The ID photo is wrong', 'The ID photo is not clear'],
-  },
-  public: {
-    cancel: 'cancel',
-    confirm: 'confirm',
-  },
   exam: {
     title: "Arbitration test",
     _title: "Review the test",
@@ -821,12 +810,6 @@ module.exports = {
     sub: "Submit",
     subfail: "Submit failed",
     subsuss: "Submitted successfully",
-  },
-  personnel: {
-    nav_title: "Publicity of arbitrators",
-    finished_text: "No more",
-    Application_time: "Application time",
-    arbitrations: "Number of arbitrations",
   },
   // 仲裁消息
   arbitrationMsg: {

@@ -196,7 +196,6 @@ export default {
   },
   methods: {
     pre() {
-      console.log(this.isProponent, '1111111')
       if (this.List.isVote == 1) {
         this.isVote = false
         this.isVote1 = false
