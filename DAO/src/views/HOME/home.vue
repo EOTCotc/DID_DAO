@@ -152,6 +152,7 @@ import {
 import {loadweb3} from '@/utils/web3.js'
 import {getdaoinfo} from '@/api/earnings'
 import {getmessageopen} from '@/api/case'
+import {list} from "@/api/notice"
 
 export default {
   components: {
@@ -204,8 +205,21 @@ export default {
       //没有钱包地址
       loadweb3(this.handle);
     }
+    this.getList()
   },
   methods: {
+    getList() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: '加载中…'
+      })
+      list().then(res => {
+        const data = res.data.items
+        this.notice = data.length ? data[0].title : ''
+      }).finally(() => {
+        loading.clear()
+      })
+    },
     getLocal() {
       // 获取用户信息
       getdaoinfo().then((res) => {

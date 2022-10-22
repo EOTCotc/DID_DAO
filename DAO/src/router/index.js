@@ -213,7 +213,7 @@ const routes = [
   // 公告详情
   {
     path: "/notice/detail",
-    name: "notice/detail",
+    name: "noticeDetail",
     component: () => import("@/views/notice/detail"),
   },
 ];
