@@ -49,7 +49,7 @@ export default {
       this.show = show
     },
     getInfo(data) {
-      referrerInfo(data.refUId).then((res) => {
+      referrerInfo(data.refUserId).then((res) => {
         if (!res.data.code) {
           this.referrer = {
             ...data,

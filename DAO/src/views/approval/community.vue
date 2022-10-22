@@ -33,7 +33,7 @@
                  :src="require(`../../assets/imgs/status_cancel.png`)"
                  alt="">
             <van-row class="item-row user">
-              <van-cell :title="item.comName"
+              <van-cell :title="`${item.comName} (${item.refUId})`"
                         :value="transformUTCDate(item.createDate)"></van-cell>
             </van-row>
             <van-row class="item-row">
@@ -58,13 +58,13 @@
               <van-col span="8"
                        class="name">{{$t('cApproval.EOTCnum')}}</van-col>
               <van-col span="16"
-                       class="value">{{item.zysl}}</van-col>
+                       class="value">{{item.eotc}}</van-col>
             </van-row>
             <van-row class="item-row">
               <van-col span="8"
                        class="name">{{$t('cApproval.address')}}</van-col>
               <van-col span="16"
-                       class="value">{{item.address}}</van-col>
+                       class="value">{{item.addressName}}</van-col>
             </van-row>
             <van-row class="item-row">
               <van-col span="8"
@@ -264,7 +264,7 @@ export default {
       let dom = this.$refs.referrer
       dom.toggle(true)
       dom.getInfo({
-        refUId: data.refUId,
+        refUserId: data.refUserId,
         refName: data.refName,
         refCommunityName: data.refCommunityName,
       })

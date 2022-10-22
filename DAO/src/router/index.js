@@ -203,6 +203,19 @@ const routes = [
     component: () =>
       import("@/views/approval/auditNode/examineUnderstandLearningRules"),
   },
+  // 公告
+  {
+    path: "/notice",
+    name: "notice",
+    component: () =>
+      import("@/views/notice"),
+  },
+  // 公告详情
+  {
+    path: "/notice/detail",
+    name: "notice/detail",
+    component: () => import("@/views/notice/detail"),
+  },
 ];
 // 解决重复点击同一各路由会报错
 const VueRouterPush = VueRouter.prototype.push;
