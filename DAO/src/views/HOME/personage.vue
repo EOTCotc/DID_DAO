@@ -1,13 +1,13 @@
 <template>
-  <div class='personage'>
+  <div class="personage">
     <header>
       <TopBar />
     </header>
     <main>
-      <div class='identity-card'>
-        <div class='card-top'>
-          <div class='card-top-left'>
-            <img src='@/assets/img/logo_two.png' />
+      <div class="identity-card">
+        <div class="card-top">
+          <div class="card-top-left">
+            <img src="@/assets/img/logo_two.png" />
             <div>
               <div>{{ user.mail }}</div>
               <div>UID:{{ user.uid }}</div>
@@ -59,15 +59,13 @@
     <footer></footer>
   </div>
 </template>
+
 <script>
 import TopBar from "@/components/topBar/topBar";
 import List from "../../components/Nav/List.vue";
 import { setDaoenable } from "@/api/earnings";
 export default {
-  components: {
-    TopBar,
-    List
-  },
+  components: { TopBar, List },
   data() {
     return {
       checked: localStorage.getItem("isEnable") == 0 ? false : true,
@@ -108,33 +106,29 @@ export default {
   },
 };
 </script>
-<style lang='scss' scoped>
+
+<style lang="scss" scoped>
 .personage {
   padding-top: 88px;
-  width: 100%;
+  width: 100wh;
   background: #000;
   min-height: 100vh;
   color: #000;
 }
-
 .parent ::v-deep .van-popover__action {
-  width: 345px !important;
-  height: 80px;
   font-size: 16px;
-  line-height: 28px;
+  width: 345px !important;
+  margin: 10px 0;
 }
-
-.parent ::v-deep .van-popover {
+.parent ::v-deep .van-popup {
+  width: 345px !important;
+  border-radius: 8px;
   position: absolute !important;
   top: 65px !important;
   left: 15px !important;
 }
-
-.parent
-::v-deep
-.van-popover[data-popper-placement='bottom']
-.van-popover__arrow {
-  left: 13% !important;
+.parent ::v-deep .van-popover__arrow {
+  left: 13% ;
 }
 
 .Onlineswitch {
@@ -149,22 +143,18 @@ export default {
     border-radius: 15px;
     background-color: #25282b;
     position: relative;
-
     .div2 {
       div {
         display: flex;
         align-items: center;
-
         span {
           display: inline-block;
           margin-right: 13px;
         }
-
         .van-image__img {
           margin-top: -5px;
         }
       }
-
       position: absolute;
       bottom: 0;
       left: 0;
@@ -179,7 +169,6 @@ export default {
     }
   }
 }
-
 .identity-card {
   position: relative;
   z-index: 99;
@@ -187,34 +176,27 @@ export default {
   border-radius: 20px;
   margin: 40px 25px 30px 30px;
   background: linear-gradient(134deg, #2a86ff 0%, #54dcff 100%);
-
   .card-top {
     margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
-
     .card-top-left {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-
       img {
         width: 96px;
         height: 96px;
       }
-
       div {
         margin-left: 30px;
         color: #fff;
-
         div {
           margin-left: 0;
         }
-
         div:first-of-type {
           font-size: 36px;
         }
-
         div:last-of-type {
           margin-top: 8px;
           font-size: 28px;
@@ -222,18 +204,15 @@ export default {
       }
     }
   }
-
   .eotc {
     color: #fff;
     margin-top: 10px;
     font-size: 30px;
     line-height: 48px;
-
     .sum {
       color: #9acdff;
       font-size: 26px;
     }
-
     .ming {
       margin-top: 20px;
       display: flex;

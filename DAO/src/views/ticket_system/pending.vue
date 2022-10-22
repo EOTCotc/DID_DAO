@@ -17,7 +17,7 @@
                 :class="active == item.index ? 'after' : 'before'"
                 @click="changeType(item.index)"
                 >
-                {{ item.title }}({{item.uid}})
+                {{ item.title }}
               </van-tag>
             </div>
             <van-cell-group
@@ -34,7 +34,7 @@
               <van-cell
                 v-if="item.type == 1"
                 :title="$t('pending.title_two')"
-                :value="transformUTCDate(item.createDate)"
+                :value="item.createDate"
               />
               <van-cell
                 :title="$t('pending.text') + ':' + item.submitter"
@@ -245,10 +245,8 @@ export default {
         ...this.list.query,
       })
         .then((res) => {
-          res.data.items.map((item) => {
-            item.createDate = this.$dayjs(item.createDate).format(
-              "YYYY-MM-DD hh:mm:ss"
-            );
+          res.data.items.forEach((item) => {
+            item.createDate = this.transformUTCDate(item.createDate)
           });
           if (this.list.query.page === 1) {
             this.pengList = res.data.items;
@@ -314,7 +312,7 @@ export default {
   justify-content: space-around;
   .van-tag {
     display: inline-block;
-    padding: 6.4px 24px;
+    padding: 6.4px 18px;
   }
   .after {
     background: #e8f2ff;

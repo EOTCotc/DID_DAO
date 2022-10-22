@@ -1,52 +1,95 @@
 <template>
   <van-pull-refresh v-model="list.uploading" @refresh="refresh">
     <div class="case_wrap fullscreen bg-gray">
-      <page-header title="仲裁案公示"></page-header>
+      <page-header :title="$t('publicity.nav_title')"></page-header>
       <div class="content">
         <ul class="list" v-if="!!list.data.length">
-          <li class="item"
-              v-for="item in list.data"
-              :key="item.id"
-          >
+          <li class="item" v-for="item in list.data" :key="item.id">
             <!-- 原被告信息 -->
             <van-row>
-              <van-col class="lf" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.plaintiffId, type: 1 })">
+              <van-col
+                class="lf"
+                :span="12"
+                @click="
+                  go('/user/arbitration/case/personnelInfo', {
+                    id: item.plaintiffId,
+                    type: 1,
+                  })
+                "
+              >
                 <div class="identity_wrap">
-                  <img v-if="item.status === 2" src="../../../../assets/imgs/huangguan.png" alt="" class="img">
-                  原告
+                  <img
+                    v-if="item.status === 2"
+                    src="../../../../assets/imgs/huangguan.png"
+                    alt=""
+                    class="img"
+                  />
+                  {{ $t("publicity.plaintiff") }}
                 </div>
                 <div class="user">
                   <span class="name">{{ item.plaintiff }}</span>
-                  <span class="text">（卖家）</span>
+                  <span class="text">{{ $t("publicity.seller") }}</span>
                 </div>
-                <div class="num">{{item.plaintiffNum}}票</div>
+                <div class="num">
+                  {{ item.plaintiffNum }}{{ $t("publicity.ticket") }}
+                </div>
               </van-col>
-              <van-col class="rt" :span="12" @click="go('/user/arbitration/case/personnelInfo', { id: item.defendantId, type: 2 })">
+              <van-col
+                class="rt"
+                :span="12"
+                @click="
+                  go('/user/arbitration/case/personnelInfo', {
+                    id: item.defendantId,
+                    type: 2,
+                  })
+                "
+              >
                 <div class="identity_wrap">
-                  <img v-if="item.status === 3" src="../../../../assets/imgs/huangguan.png" alt="" class="img">
-                  被告
+                  <img
+                    v-if="item.status === 3"
+                    src="../../../../assets/imgs/huangguan.png"
+                    alt=""
+                    class="img"
+                  />
+                  {{ $t("publicity.defendant") }}
                 </div>
                 <div class="user">
-                  <span class="text">（卖家）</span>
+                  <span class="text">{{ $t("publicity.Buyer") }}</span>
                   <span class="name">{{ item.plaintiff }}</span>
                 </div>
-                <div class="num">{{item.plaintiffNum}}票</div>
+                <div class="num">
+                  {{ item.plaintiffNum }}{{ $t("publicity.ticket") }}
+                </div>
               </van-col>
             </van-row>
             <div class="process_wrap">
-              <van-progress
-                stroke-width="12"
-                :percentage="item.plaintiffNum / item.total * 100 || 0"
-                :show-pivot="false"
-                color="#4EA0F5"
-                track-color="#EC6F66"
-              />
+              <div
+                class="lt chunk"
+                :style="{
+                  flex: `0 0 ${(item.plaintiffNum / item.total) * 100}%`,
+                }"
+              ></div>
+              <div class="border"></div>
+              <div class="rt chunk"></div>
             </div>
-            <div class="row" @click="go('/user/arbitration/publicity/case/detail', {arbitrateInfoId: item.arbitrateInfoId})">
-              <div class="title">仲裁结果</div>
+            <div
+              class="row"
+              @click="
+                go('/user/arbitration/publicity/case/detail', {
+                  arbitrateInfoId: item.arbitrateInfoId,
+                })
+              "
+            >
+              <div class="title">{{ $t("publicity.result") }}</div>
               <div class="message">
-                <p>本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.plaintiffNum }}位仲裁员判定原告…</p>
-                <div class="more"><van-icon name="description" /> 详情</div>
+                <p>
+                  {{ $t("publicity.participate") }}{{ item.total
+                  }}{{ $t("publicity.evidence") }}{{ item.plaintiffNum
+                  }}{{ $t("publicity.determine") }}
+                </p>
+                <div class="more">
+                  <van-icon name="description" />{{ $t("publicity.detail") }}
+                </div>
               </div>
             </div>
           </li>
@@ -54,7 +97,7 @@
         <van-empty
           v-else
           :image="require('../../../../assets/img/empty.png')"
-          description="暂无任何数据"
+          :description="$t('publicity.no_data')"
         />
       </div>
     </div>
@@ -63,58 +106,64 @@
 
 <script>
 import pageHeader from "@/components/topBar/pageHeader";
-import {caseList} from '@/api/publicity'
+import { caseList } from "@/api/publicity";
 export default {
   name: "arbitrationCase",
   components: {
-    pageHeader
+    pageHeader,
   },
   data() {
     return {
       list: {
         uploading: false,
         data: [],
-      }
-    }
+      },
+    };
   },
   methods: {
     // 跳转页面
     go(path, query) {
-      this.$router.push({ path, query })
+      this.$router.push({ path, query });
     },
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: '加载中…'
-      })
-      caseList().then(res => {
-        const {code, items} = res.data
-        if (code) {
+        message: this.$t("publicity.message"),
+      });
+      caseList()
+        .then((res) => {
+          const { code, items } = res.data;
+          if (code) {
+            this.$toast.fail({
+              forbidClick: true,
+              message: this.$t("publicity.message_fild"),
+            });
+          } else {
+            this.list.data = items.map((item) => ({
+              ...item,
+              total: item.plaintiffNum + item.defendantNum,
+            }));
+          }
+        })
+        .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: "加载失败！"
-          })
-        } else {
-          this.list.data = items.map(item => ({...item, total: item.plaintiffNum + item.defendantNum}))
-        }
-      }).catch(() => {
-        this.$toast.fail({
-          forbidClick: true,
-          message: "加载失败！"
+            message: this.$t("publicity.message_fild"),
+          });
         })
-      }).finally(() => {
-        loading.clear()
-      })
+        .finally(() => {
+          loading.clear();
+        });
     },
     // 下拉刷新
     refresh() {
-      this.getList()
-    }
+      this.getList();
+    },
   },
   created() {
-    this.getList()
-  }
-}
+    this.getList();
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -125,7 +174,7 @@ export default {
       .item {
         padding: 30px;
         border-radius: 20px;
-        background-color: #FFF;
+        background-color: #fff;
         margin-bottom: 25px;
         &:last-of-type {
           margin-bottom: 0;
@@ -134,7 +183,7 @@ export default {
           .identity_wrap {
             border-radius: 0 40px 40px 50px;
             margin-right: 10px;
-            background-color: #4EA0F5;
+            background-color: #4ea0f5;
           }
         }
         & .rt {
@@ -142,14 +191,14 @@ export default {
           .identity_wrap {
             border-radius: 40px 0 40px 50px;
             margin-left: 10px;
-            background-color: #EC6F66;
+            background-color: #ec6f66;
           }
           .user {
             justify-content: flex-end;
             margin: 20px 0;
           }
           .num {
-            color: #EC6F66;
+            color: #ec6f66;
           }
         }
         .identity_wrap {
@@ -157,7 +206,7 @@ export default {
           position: relative;
           font-size: 24px;
           flex: 0 0 90px;
-          color: #FFF;
+          color: #fff;
           padding: 10px 15px;
           .img {
             @include posi($t: -20px, $l: 50%);
@@ -181,7 +230,7 @@ export default {
         }
         .num {
           margin-top: 15px;
-          color: #4EA0F5;
+          color: #4ea0f5;
           font-size: 24px;
         }
         .process_wrap {

@@ -2,7 +2,7 @@
 <template>
   <van-pull-refresh v-model="list.uploading" @refresh="handleBottomRefresh">
     <div class="certificationAudit_wrap bg-gray fullscreen">
-      <page-header :title='$t('my.certification_audit')' theme='dark' />
+      <page-header :title="$t('my.certification_audit')" theme='dark' />
       <van-tabs
         v-model="tab.active"
         swipeable
