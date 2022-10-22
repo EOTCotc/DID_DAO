@@ -1,7 +1,16 @@
 <template>
   <div class="invite_wrap fullscreen">
     <page-header :title="$t('my.invite_friends')" theme="dark"></page-header>
-    <div class="content">
+    <div
+      class="content"
+      :style="
+        'background-image: url(' +
+        (langCode == 'zh'
+          ? require('@/assets/imgs/bg-invite.png')
+          : require('@/assets/imgs/bg-invite2.png')) +
+        ')'
+      "
+    >
       <div class="main">
         <div class="share_wrap">
           <van-row class="row" type="flex" align="center">
@@ -51,7 +60,15 @@
       </div>
       <div class="poster_wrap" v-show="poster">
         <div class="img" ref="img">
-          <img class="bg" src="../../../assets/imgs/poster.png" alt="" />
+          <img
+            class="bg"
+            :src="
+              langCode == 'zh'
+                ? require('@/assets/imgs/poster.png')
+                : require('@/assets/imgs/poster2.png')
+            "
+            alt=""
+          />
           <vue-qr class="qr" :logoSrc="logo" :text="form.data.url" />
         </div>
         <div class="icon icon-download" @click.stop="save"></div>
@@ -81,7 +98,12 @@ export default {
           url: "",
         },
       },
+      langCode: "",
     };
+  },
+  mounted() {
+    let lang = JSON.parse(localStorage.getItem("lang"));
+    this.langCode = lang ? lang.lang : "zh";
   },
   methods: {
     copy,
@@ -136,7 +158,6 @@ export default {
     margin-top: -1px;
     padding-top: 1px;
     background-color: $theme;
-    background-image: url("../../../assets/imgs/bg-invite.png");
     background-size: 90%;
     background-repeat: no-repeat;
     background-position: top center;

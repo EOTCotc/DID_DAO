@@ -104,6 +104,15 @@ export default {
   },
   mounted() {
     clearTimeout(this.timer)
+    this.testQuestionData.map((el) => {
+      Array.isArray(el.result) ? (el.result = []) : (el.result = '')
+      if (el.questionAnswer != undefined) {
+        for (let i = 0; i < el.questionAnswer.length; i++) {
+          el.questionAnswer[i].Check = false
+        }
+      }
+      return el
+    })
   },
   methods: {
     onClickLeft() {
@@ -241,7 +250,13 @@ export default {
             if (el.length >= 2 && el.length <= 3) {
               el = [0]
             }
+            if (index >= 8 && index <= 11) {
+              el[i] = el[i].toUpperCase()
+              this.testQuestionData[index].Answers =
+                this.testQuestionData[index].Answers.toUpperCase()
+            }
             if (el[i] == this.testQuestionData[index].Answers) {
+              console.log(el[i])
               if (index == 3 || index == 4) {
                 this.totalScore += 10
               } else {
@@ -257,7 +272,7 @@ export default {
           this.$router.replace({
             name: 'meetTheConditions',
             params: {
-              totalScore: this.totalScore,
+              totalScore: +this.totalScore,
             },
           })
         }, 1000)

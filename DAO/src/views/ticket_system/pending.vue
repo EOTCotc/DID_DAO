@@ -1,13 +1,17 @@
 <template>
   <div class="fullscreen bg-gray">
     <header>
-      <white :title="title" :name="name"></white>
+      <white :title="title"
+             :name="name"></white>
     </header>
     <main class="home">
-      <van-pull-refresh v-model="list.uploading" @refresh="onRefresh">
-        <van-tabs v-model="activeName" @change="tabs">
+      <van-pull-refresh v-model="list.uploading"
+                        @refresh="onRefresh">
+        <van-tabs v-model="activeName"
+                  @change="tabs">
           <!-- 待处理 -->
-          <van-tab :title="$t('pending.status_one')" :name="0">
+          <van-tab :title="$t('pending.status_one')"
+                   :name="0">
             <div class="tag">
               <van-tag
                 round
@@ -20,138 +24,100 @@
                 {{ item.title }}
               </van-tag>
             </div>
-            <van-cell-group
-              v-show="pengList.length > 0"
-              inset
-              v-for="(item, index) in pengList"
-              :key="index"
-            >
-              <van-cell
-                v-if="item.type == 0"
-                :title="$t('pending.title_one')"
-                :value="item.createDate"
-              />
-              <van-cell
-                v-if="item.type == 1"
-                :title="$t('pending.title_two')"
-                :value="item.createDate"
-              />
-              <van-cell
-                :title="$t('pending.text') + ':' + item.submitter"
-                :border="false"
-              />
-              <van-cell :title="item.describe" :border="false" />
-              <van-button
-                class="dai"
-                round
-                size="small"
-                type="info"
-                @click="chuli(item.workOrderId, item.type)"
-                >{{ $t("pending.btn_text") }}</van-button
-              >
+            <van-cell-group v-show="pengList.length > 0"
+                            inset
+                            v-for="(item, index) in pengList"
+                            :key="index">
+              <van-cell v-if="item.type == 0"
+                        :title="$t('pending.title_one')"
+                        :value="item.createDate" />
+              <van-cell v-if="item.type == 1"
+                        :title="$t('pending.title_two')"
+                        :value="item.createDate" />
+              <van-cell :title="$t('pending.text') + ':' + item.submitter"
+                        :border="false" />
+              <van-cell :title="item.describe"
+                        :border="false" />
+              <van-button class="dai"
+                          round
+                          size="small"
+                          type="info"
+                          @click="chuli(item.workOrderId, item.type)">{{ $t("pending.btn_text") }}</van-button>
             </van-cell-group>
-            <van-empty
-              v-show="!pengList.length"
-              class="custom-image"
-              :image="require('./../../assets/img/空态-02.png')"
-              :description="$t('pending.empty_text')"
-            />
+            <van-empty v-show="!pengList.length"
+                       class="custom-image"
+                       :image="require('./../../assets/img/空态-02.png')"
+                       :description="$t('pending.empty_text')" />
           </van-tab>
           <!-- 处理中 -->
-          <van-tab :title="$t('pending.status2_two')" :name="1">
-            <van-cell-group
-              inset
-              v-show="pengList.length > 0"
-              v-for="(item, index) in pengList"
-              class="chu"
-              :key="index"
-            >
-              <van-cell
-                v-if="item.type == 0"
-                :title="$t('pending.title_one')"
-                :value="item.createDate"
-              />
-              <van-cell
-                v-if="item.type == 1"
-                :title="$t('pending.title_two')"
-                :value="item.createDate"
-              />
-              <van-cell
-                :title="$t('pending.text') + ':' + item.submitter"
-                :border="false"
-              />
-              <van-cell :title="item.describe" :border="false" />
+          <van-tab :title="$t('pending.status2_two')"
+                   :name="1">
+            <van-cell-group inset
+                            v-show="pengList.length > 0"
+                            v-for="(item, index) in pengList"
+                            class="chu"
+                            :key="index">
+              <van-cell v-if="item.type == 0"
+                        :title="$t('pending.title_one')"
+                        :value="item.createDate" />
+              <van-cell v-if="item.type == 1"
+                        :title="$t('pending.title_two')"
+                        :value="item.createDate" />
+              <van-cell :title="$t('pending.text') + ':' + item.submitter"
+                        :border="false" />
+              <van-cell :title="item.describe"
+                        :border="false" />
               <div class="btn">
-                <van-button
-                  round
-                  size="small"
-                  color="#FDE9E9"
-                  class="red"
-                  @click="cancel(item.workOrderId)"
-                  >{{ $t("pending.btn_cancel") }}</van-button
-                >
-                <van-button
-                  round
-                  size="small"
-                  color="#E8F2FF"
-                  @click="chuli(item.workOrderId, item.type)"
-                  >{{ $t("pending.btn_once") }}</van-button
-                >
+                <van-button round
+                            size="small"
+                            color="#FDE9E9"
+                            class="red"
+                            @click="cancel(item.workOrderId)">{{ $t("pending.btn_cancel") }}</van-button>
+                <van-button round
+                            size="small"
+                            color="#E8F2FF"
+                            @click="chuli(item.workOrderId, item.type)">{{ $t("pending.btn_once") }}</van-button>
               </div>
             </van-cell-group>
-            <van-empty
-              v-show="!pengList.length"
-              class="custom-image"
-              :image="require('./../../assets/img/空态-02.png')"
-              :description="$t('pending.empty_text')"
-            />
+            <van-empty v-show="!pengList.length"
+                       class="custom-image"
+                       :image="require('./../../assets/img/空态-02.png')"
+                       :description="$t('pending.empty_text')" />
           </van-tab>
           <!-- 已处理 -->
-          <van-tab :title="$t('pending.status3_three')" :name="2">
-            <van-cell-group
-              class="finish"
-              inset
-              v-show="pengList.length > 0"
-              v-for="(item, index) in pengList"
-              :key="index"
-            >
-              <van-cell
-                v-if="item.type == 0"
-                :title="$t('pending.title_one')"
-                :value="item.createDate"
-              />
-              <van-cell
-                v-if="item.type == 1"
-                :title="$t('pending.title_two')"
-                :value="item.createDate"
-              />
-              <van-cell
-                :title="$t('pending.text') + ':' + item.submitter"
-                :border="false"
-              />
-              <van-cell :title="item.describe" :border="false" />
-              <van-cell
-                class="yi"
-                :title="$t('pending.text_finish')"
-                @click="chuli(item.workOrderId, item.type)"
-              />
+          <van-tab :title="$t('pending.status3_three')"
+                   :name="2">
+            <van-cell-group class="finish"
+                            inset
+                            v-show="pengList.length > 0"
+                            v-for="(item, index) in pengList"
+                            :key="index">
+              <van-cell v-if="item.type == 0"
+                        :title="$t('pending.title_one')"
+                        :value="item.createDate" />
+              <van-cell v-if="item.type == 1"
+                        :title="$t('pending.title_two')"
+                        :value="item.createDate" />
+              <van-cell :title="$t('pending.text') + ':' + item.submitter"
+                        :border="false" />
+              <van-cell :title="item.describe"
+                        :border="false" />
+              <van-cell class="yi"
+                        :title="$t('pending.text_finish')"
+                        @click="chuli(item.workOrderId, item.type)" />
             </van-cell-group>
-            <van-empty
-              v-show="!pengList.length"
-              class="custom-image"
-              :image="require('./../../assets/img/空态-02.png')"
-              :description="$t('pending.empty_text')"
-            />
+            <van-empty v-show="!pengList.length"
+                       class="custom-image"
+                       :image="require('./../../assets/img/空态-02.png')"
+                       :description="$t('pending.empty_text')" />
           </van-tab>
         </van-tabs>
-        <van-list
-          class="list_wrap"
-          v-show="!!pengList.length"
-          v-model="list.UpRefreshLoading"
-          :finished="!!pengList.length && list.finished"
-          :finished-text="$t('pending.finished_text')"
-          @load="handleUpRefresh"
-        />
+        <van-list class="list_wrap"
+                  v-show="!!pengList.length"
+                  v-model="list.UpRefreshLoading"
+                  :finished="!!pengList.length && list.finished"
+                  :finished-text="$t('pending.finished_text')"
+                  @load="handleUpRefresh" />
       </van-pull-refresh>
     </main>
     <footer></footer>
@@ -167,8 +133,8 @@ export default {
   components: { white },
   data() {
     return {
-      title: this.$t("pending.nav_title"),
-      name: "personage",
+      title: this.$t('pending.nav_title'),
+      name: 'personage',
       activeName: 0,
       active: undefined,
       pengList: [],
@@ -183,62 +149,62 @@ export default {
       },
       type: [
         {
-          title: this.$t("pending.type_all"),
+          title: this.$t('pending.type_all'),
           index: undefined,
         },
         {
-          title: this.$t("pending.title_one"),
+          title: this.$t('pending.title_one'),
           index: 0,
         },
         {
-          title: this.$t("pending.title_two"),
+          title: this.$t('pending.title_two'),
           index: 1,
         },
       ],
-    };
+    }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   methods: {
     transformUTCDate,
     // 下拉刷新
     onRefresh() {
-      this.list.uploading = true;
-      this.getList();
+      this.list.uploading = true
+      this.getList()
     },
     // 滚动到底翻页
     handleUpRefresh() {
-      this.list.query.page++;
-      this.list.UpRefreshLoading = true;
-      this.getList();
+      this.list.query.page++
+      this.list.UpRefreshLoading = true
+      this.getList()
     },
     chuli(id, type) {
       if (type != undefined) {
-        console.log("type", type);
+        console.log('type', type)
         this.$router.push({
-          path: "/order_details",
+          path: '/order_details',
           query: { workOrderId: id, type: type },
-        });
+        })
       }
     },
     changeType(index) {
-      console.log(index);
-      this.active = index;
-      this.list.query.page = 1;
-      this.list.finished = false;
-      this.pengList = [];
-      this.getList();
+      console.log(index)
+      this.active = index
+      this.list.query.page = 1
+      this.list.finished = false
+      this.pengList = []
+      this.getList()
     },
     tabs() {
-      this.list.query.page = 1;
-      this.list.finished = false;
-      this.pengList = [];
-      this.getList();
+      this.list.query.page = 1
+      this.list.finished = false
+      this.pengList = []
+      this.getList()
     },
     //获取列表
     getList() {
-      this.$toast.loading(this.$t("pending.load_text"));
+      this.$toast.loading(this.$t('pending.load_text'))
       getworkorderlist({
         workOrderStatus: this.activeName,
         workOrderType: this.active,
@@ -249,28 +215,28 @@ export default {
             item.createDate = this.transformUTCDate(item.createDate)
           });
           if (this.list.query.page === 1) {
-            this.pengList = res.data.items;
-            console.log(this.list.finished);
+            this.pengList = res.data.items
+            console.log(this.list.finished)
           } else {
-            this.pengList.push(...res.data.items);
-            console.log(this.list.finished);
+            this.pengList.push(...res.data.items)
+            console.log(this.list.finished)
           }
-          this.list.finished = !res.data.items.length;
+          this.list.finished = !res.data.items.length
 
-          console.log(!res.data.items.length);
+          console.log(!res.data.items.length)
         })
         .finally(() => {
-          this.$toast.clear();
-          this.list.uploading = false;
-          this.list.UpRefreshLoading = false;
-        });
+          this.$toast.clear()
+          this.list.uploading = false
+          this.list.UpRefreshLoading = false
+        })
     },
     cancel(id) {
       Dialog.confirm({
-        title: this.$t("pending.dialog_title"),
-        confirmButtonColor: "#000",
-        message: this.$t("pending.dialog_message"),
-        getContainer: ".home",
+        title: this.$t('pending.dialog_title'),
+        confirmButtonColor: '#000',
+        message: this.$t('pending.dialog_message'),
+        getContainer: '.home',
       })
         .then(() => {
           updateWork({
@@ -278,14 +244,14 @@ export default {
             workOrderStatus: 0,
             record: this.message,
           }).then((res) => {
-            console.log(res);
-            this.getList();
-          });
+            console.log(res)
+            this.getList()
+          })
         })
-        .catch(() => {});
+        .catch(() => {})
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
