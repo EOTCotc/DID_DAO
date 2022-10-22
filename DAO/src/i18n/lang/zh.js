@@ -87,6 +87,7 @@ module.exports = {
     titleNumber: "题目数量",
     titleNumbertext1: "12",
     titleNumbertext2: "题",
+    titleNumbertext3: "10",
     testTime: "考试时长",
     testTimetext1: "30",
     testTimetext2: "分钟",

@@ -79,6 +79,7 @@ module.exports = {
     titleNumbertext2: "Royale",
     testTime: "The test time",
     testTimetext1: "thirty",
+    titleNumbertext3: "ten",
     testTimetext2: "Minutes",
     start: "Starting to work",
     point: "minute",
