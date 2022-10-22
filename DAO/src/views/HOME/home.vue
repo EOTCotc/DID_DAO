@@ -2,6 +2,14 @@
   <div>
     <TopBar />
     <div class="content">
+      <van-notice-bar
+        v-if="notice"
+        :text="notice"
+        left-icon="volume-o"
+        color="#FFF"
+        background="rgba(255, 255, 255, .2)"
+        @click="$router.push('/notice')"
+      />
       <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
@@ -155,6 +163,7 @@ export default {
     return {
       iconLang: "arrow-down",
       showPopup: false,
+      notice: '', // 公告文字
       lang: [
         {
           id: 0,
@@ -288,7 +297,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .content {
-  padding: 88px 30px 208px 30px;
+  padding: 88px 0 208px;
   width: 100vw;
   min-height: 100vh;
   text-align: center;
@@ -323,7 +332,7 @@ export default {
 
 // 最新提案
 .proposal-list {
-  margin-top: 100px;
+  margin: 100px 30px 0;
   color: #fff;
 
   .proposal-title {

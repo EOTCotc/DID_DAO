@@ -13,12 +13,16 @@
           <van-tab :title="$t('pending.status_one')"
                    :name="0">
             <div class="tag">
-              <van-tag round
-                       type="primary"
-                       v-for="(item, index) in type"
-                       :key="index"
-                       :class="active == item.index ? 'after' : 'before'"
-                       @click="changeType(item.index)">{{ item.title }}</van-tag>
+              <van-tag
+                round
+                type="primary"
+                v-for="(item, index) in type"
+                :key="index"
+                :class="active == item.index ? 'after' : 'before'"
+                @click="changeType(item.index)"
+                >
+                {{ item.title }}
+              </van-tag>
             </div>
             <van-cell-group v-show="pengList.length > 0"
                             inset
@@ -121,9 +125,10 @@
 </template>
 
 <script>
-import white from '../../components/Nav/white.vue'
-import { getworkorderlist, updateWork } from '@/api/workOrder'
-import { Dialog } from 'vant'
+import white from "../../components/Nav/white.vue";
+import { getworkorderlist, updateWork } from "@/api/workOrder";
+import { Dialog } from "vant";
+import {transformUTCDate} from "@/utils/utils"
 export default {
   components: { white },
   data() {
@@ -162,6 +167,7 @@ export default {
     this.getList()
   },
   methods: {
+    transformUTCDate,
     // 下拉刷新
     onRefresh() {
       this.list.uploading = true
@@ -205,12 +211,9 @@ export default {
         ...this.list.query,
       })
         .then((res) => {
-          res.data.items.map((item) => {
-            item.createDate = this.$dayjs(item.createDate)
-              .utc()
-              .format('YYYY-MM-DD hh:mm:ss')
-            console.log(item.createDate)
-          })
+          res.data.items.forEach((item) => {
+            item.createDate = this.transformUTCDate(item.createDate)
+          });
           if (this.list.query.page === 1) {
             this.pengList = res.data.items
             console.log(this.list.finished)
