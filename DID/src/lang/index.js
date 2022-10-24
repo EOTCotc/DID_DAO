@@ -29,7 +29,9 @@ const i18n = new VueI18n({
     en: {
       ...en,
     },
-    zhTw,
+    zhTw: {
+      ...zhTw,
+    },
   },
 });
 
