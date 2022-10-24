@@ -13,6 +13,7 @@ const i18n = new vueI18n({
   messages: {
     zh: require("./lang/zh"),
     en: require("./lang/en"),
+    zhTw: require('./lang/zhTw')
   },
 });
 
