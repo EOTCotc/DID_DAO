@@ -212,7 +212,7 @@ export default {
           .validate()
           .then(() => {
             let newForm = Object.assign({}, this.form);
-            newForm.password = this.$md5(newForm.password);
+            newForm.password = this.$md5(newForm.password + 'uEe');
             // 注册请求
             register(newForm).then((res) => {
               if (res.data.code == 0) {

@@ -117,7 +117,7 @@ export default {
         .validate()
         .then(() => {
           if (this.pwd) {
-            this.form.password = this.$md5(this.pwd);
+            this.form.password = this.$md5(this.pwd + 'uEe');
           }
           login(this.form).then((res) => {
             if (res.data.code == 0) {
