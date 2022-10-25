@@ -32,7 +32,7 @@
         <div class="zan" v-else>
           <van-empty
             class="custom-image"
-            :image="require('./../../assets/img/空态-02.png')"
+            :image="require('./../../assets/img/kongtai_02.png')"
             :description="$t('detail.description')"
           />
         </div>
