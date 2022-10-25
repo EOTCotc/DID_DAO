@@ -74,9 +74,6 @@ export default {
     if (this.$route.query.home) {
       this.name = 'home'
     }
-    let footerHeight = this.$refs.footer ? this.$refs.footer.offsetHeight : 0
-    let height = window.innerHeight - 45
-    this.$refs.box.style.height = `calc(${height}px - ${footerHeight}px )`
   },
   created() {
     const loading = this.$toast.loading({

@@ -176,7 +176,7 @@ export default {
             } else {
               this.list.data = users || [];
             }
-            this.list.finished = !users.length;
+            this.list.finished = users.length < this.list.query.itemsPerPage;
           } else {
             this.$toast.fail({
               forbidClick: true,
