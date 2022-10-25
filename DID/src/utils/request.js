@@ -1,6 +1,6 @@
 import axios from "axios";
 import cookie from "js-cookie";
-
+// process.env.VUE_APP_LOCATION
 const request = axios.create({
   baseURL: process.env.VUE_APP_LOCATION,
 });

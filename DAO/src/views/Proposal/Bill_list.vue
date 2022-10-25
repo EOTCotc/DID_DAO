@@ -1,16 +1,17 @@
 <template>
   <div class="fullscreen bg-gray">
-    <header class="me" ref="header">
-      <white :title="title" :name="name"></white>
+    <header class="me"
+            ref="header">
+      <white :title="title"
+             :name="name"></white>
     </header>
-    <main class="box" ref="box">
+    <main class="box"
+          ref="box">
       <div>
-        <div
-          class="one_an"
-          @click="detail(item.proposalId, item.state)"
-          v-for="(item, index) in List"
-          :key="index"
-        >
+        <div class="one_an"
+             @click="detail(item.proposalId, item.state)"
+             v-for="(item, index) in List"
+             :key="index">
           <div>{{ item.title }}</div>
           <div class="piao">
             <span>{{ item.total }}{{ $t("proposal.ticket") }}</span>
@@ -32,16 +33,18 @@
             </span>
           </div>
         </div>
-        <van-empty
-          v-show="!List.length"
-          class="custom-image"
-          :image="require('../../assets/img/empty.png')"
-          :description="$t('proposal.description')"
-        />
+        <van-empty v-show="!List.length"
+                   class="custom-image"
+                   :image="require('../../assets/img/empty.png')"
+                   :description="$t('proposal.description')" />
       </div>
     </main>
-    <footer v-if="isProponent != 0" ref="footer">
-      <van-button icon="plus" block type="info" @click="createAn">{{
+    <footer v-if="isProponent != 0"
+            ref="footer">
+      <van-button icon="plus"
+                  block
+                  type="info"
+                  @click="createAn">{{
         $t("proposal.create")
       }}</van-button>
     </footer>
@@ -49,96 +52,93 @@
 </template>
 
 <script>
-import white from "@/components/Nav/white.vue";
-import { getmyprops } from "@/api/Proposal";
-import { getproposallist } from "@/api/viewsApi/home";
+import white from '@/components/Nav/white.vue'
+import { getmyprops } from '@/api/Proposal'
+import { getproposallist } from '@/api/viewsApi/home'
 export default {
   components: { white },
-  name: "home",
+  name: 'home',
   data() {
     return {
-      title: this.$t("proposal.nav_title"),
-      name: "personage",
+      title: this.$t('proposal.nav_title'),
+      name: 'personage',
       List: [],
       isProponent: this.$route.query.isProponent || 1,
-    };
+    }
   },
   mounted() {
-    let footerHeight = this.$refs.footer ? this.$refs.footer.offsetHeight : 0;
-    let height = window.innerHeight - 45;
-    this.$refs.box.style.height = `calc(${height}px - ${footerHeight}px )`;
     this.isProponent == 0
-      ? (this.title = this.$t("proposal.nav_title_one"))
-      : (this.title = this.$t("proposal.nav_title"));
+      ? (this.title = this.$t('proposal.nav_title_one'))
+      : (this.title = this.$t('proposal.nav_title'))
     // 判断是否从home页面跳过来
     if (this.$route.query.home) {
-      this.name = "home";
+      this.name = 'home'
     }
   },
   created() {
     const loading = this.$toast.loading({
       forbidClick: true,
-      message: this.$t("proposal.message"),
-    });
+      message: this.$t('proposal.message'),
+    })
     if (this.isProponent != 0) {
       getmyprops()
         .then((res) => {
-          const { code, items } = res.data;
+          const { code, items } = res.data
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: this.$t("proposal.massage_fail"),
-            });
+              message: this.$t('proposal.massage_fail'),
+            })
           } else {
-            this.List = items;
+            this.List = items
             // console.log(this.List, '1111')
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: this.$t("proposal.massage_fail"),
-          });
+            message: this.$t('proposal.massage_fail'),
+          })
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     } else {
       getproposallist({ page: 1, itemsPerPage: 10 })
         .then((res) => {
-          const { code, items } = res.data;
+          const { code, items } = res.data
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: this.$t("proposal.massage_fail"),
-            });
+              message: this.$t('proposal.massage_fail'),
+            })
           } else {
-            this.List = items;
+            this.List = items
           }
         })
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: this.$t("proposal.massage_fail"),
-          });
+            message: this.$t('proposal.massage_fail'),
+          })
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     }
   },
   methods: {
     createAn() {
-      this.$router.push("/Create");
+      this.$router.push('/Create')
     },
     detail(id, state) {
       this.$router.push({
-        path: "/detail",
+        path: '/detail',
         query: { proposalId: id, state: state },
-      });
+      })
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .box {

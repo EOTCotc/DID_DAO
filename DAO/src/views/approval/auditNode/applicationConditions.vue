@@ -167,7 +167,7 @@
             <div class="middleTitle">
               <p>{{ $t("becomeAnArbitrator.titleNumber") }}</p>
               <p class="p2">
-                <span>{{ $t("becomeAnArbitrator.titleNumbertext1") }}</span>{{ $t("becomeAnArbitrator.titleNumbertext2") }}
+                <span>{{ $t("becomeAnArbitrator.titleNumbertext3") }}</span>{{ $t("becomeAnArbitrator.titleNumbertext2") }}
               </p>
             </div>
             <div class="line"></div>

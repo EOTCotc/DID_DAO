@@ -9,7 +9,7 @@ import i18n from '@/lang/index'
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc"
 import "@/assets/font/style.css"
-import "lib-flexible"
+import "lib-flexible";
 
 import {
   Area, Picker, Search, Toast, Button, Form, Field, Icon, Checkbox, NavBar,

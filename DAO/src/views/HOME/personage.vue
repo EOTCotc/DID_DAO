@@ -78,7 +78,7 @@ export default {
           text: this.$t("user.text"),
         },
       ],
-      user: JSON.parse(localStorage.getItem("user")),
+      user: JSON.parse(this.cookie.get("userInfo")),
     };
   },
   methods: {
