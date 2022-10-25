@@ -144,6 +144,7 @@ export default {
         { id: 2, text: "English", lang: "en" },
         { id: 3, text: "繁體中文", lang: "zhTw" },
         { id: 4, text: "日本語", lang: "ja" },
+        { id: 5, text: "한국어", lang: "ko" },
       ],
       textLang: "",
     };
@@ -171,6 +172,9 @@ export default {
           break;
         case "ja":
           this.textLang = "日本語";
+          break;
+        case "ko":
+          this.textLang = "한국어";
           break;
       }
     }

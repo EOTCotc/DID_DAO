@@ -68,7 +68,6 @@ export default {
     },
     // 去我的页面
     toMy() {
-      console.log(111);
       this.$router.push("/my");
     },
   },

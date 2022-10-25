@@ -4,6 +4,7 @@ import zh from './zh';
 import en from './en';
 import zhTw from './zhTw';
 import ja from './ja'
+import ko from './ko'
 Vue.use(VueI18n);
 
 var type = navigator.appName;
@@ -35,6 +36,9 @@ const i18n = new VueI18n({
     },
     ja: {
       ...ja,
+    },
+    ko:{
+      ...ko,
     }
   },
 });
