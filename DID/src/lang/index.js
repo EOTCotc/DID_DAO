@@ -6,8 +6,7 @@ import zhTw from './zhTw';
 import ko from './ko'; // 韩语
 import ru from './ru'; // 俄语
 import fr from './fr'; // 法语
-import ja from './ja'
-import ko from './ko'
+import ja from './ja';
 Vue.use(VueI18n);
 
 var type = navigator.appName;
@@ -44,9 +43,6 @@ const i18n = new VueI18n({
     ja: {
       ...ja,
     },
-    ko:{
-      ...ko,
-    }
   },
 });
 
