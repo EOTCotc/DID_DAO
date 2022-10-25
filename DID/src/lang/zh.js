@@ -10,7 +10,8 @@ export default {
     toast1: '请先选择国家',
     loading: '加载中…',
     not_data: '暂无任何数据',
-    suc: '保存成功'
+    suc: '保存成功',
+    msg1:'功能即将上线!'
   },
   rulesMsg: {
     email: '请填写邮箱地址',

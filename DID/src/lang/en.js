@@ -10,7 +10,8 @@ export default {
     toast1: 'Please select the country first',
     loading: 'loading…',
     not_data: 'No data yet',
-    suc: 'save successfully'
+    suc: 'save successfully',
+    msg1:'Features coming soon!'
   },
   rulesMsg: {
     email: 'Please fill in the email address',
@@ -69,9 +70,9 @@ export default {
     msg2: 'registered successfully',
     msg3: 'fail to sign in',
     msg4: 'Please check the Agreement',
-    forgotPwd:'forgotPwd',
-    success:'success',
-    forgetPwd:'forget password'
+    forgotPwd: 'forgotPwd',
+    success: 'success',
+    forgetPwd: 'forget password'
   },
   // 首页
   home: {
