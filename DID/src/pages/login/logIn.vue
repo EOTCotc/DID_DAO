@@ -82,7 +82,6 @@ export default {
     };
   },
   mounted() {
-    this.getWallet()
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
     if (localStorage.getItem("myaddress")) {
@@ -113,15 +112,6 @@ export default {
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
-    },
-    getWallet(data) {
-      const { oType, myaddress, sign } = data;
-      if (oType && myaddress && sign) {
-        this.form.otype = oType;
-        this.form.walletAddress = myaddress;
-        this.form.sign = sign;
-        this.show = true;
-      }
     },
     // 登录
     login() {
