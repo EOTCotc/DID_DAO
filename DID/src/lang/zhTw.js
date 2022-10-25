@@ -11,6 +11,7 @@ export default {
     loading: '加載中…',
     not_data: '暫無任何數據',
     suc: '保存成功',
+    msg1:'功能即將上線!'
   },
   rulesMsg: {
     email: '請填寫郵箱地址',

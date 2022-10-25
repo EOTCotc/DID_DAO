@@ -95,6 +95,7 @@ export default {
     margin-left: 4%;
     width: 92%;
     border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     background: #fff;
     z-index: 3;
     flex: 1;

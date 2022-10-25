@@ -86,7 +86,7 @@ export default {
     if (localStorage.getItem("myaddress")) {
       this.show = true;
       this.form.walletAddress = localStorage.getItem("myaddress");
-      this.form.otype = localStorage.getItem("netType");
+      this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
       this.form.sign = localStorage.getItem("mysign");
     }
   },
@@ -116,7 +116,7 @@ export default {
         .validate()
         .then(() => {
           if (this.pwd) {
-            this.form.password = this.$md5(this.pwd + 'uEe');
+            this.form.password = this.$md5(this.pwd + "uEe");
           }
           login(this.form).then((res) => {
             if (res.data.code == 0) {
