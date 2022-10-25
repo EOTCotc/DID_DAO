@@ -113,12 +113,11 @@
           </template>
         </van-cell>
         <!-- 我的社区 -->
-        <van-cell
+        <!-- <van-cell
           is-link
           :border="false"
           @click="auth({ path: '/my/community' })"
         >
-          <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/shequ.png" />
           </template>
@@ -128,7 +127,7 @@
               <span v-show="false" class="badge"></span>
             </span>
           </template>
-        </van-cell>
+        </van-cell> -->
         <!-- 我的团队 -->
         <van-cell is-link :border="false" @click="auth('/my/team')">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->

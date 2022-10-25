@@ -12,15 +12,15 @@
         >
           {{ $t("menu.login") }}
         </button>
-        <button
+        <!-- <button
           :style="btn == 2 ? 'background:#1B2945;color:#fff;' : ''"
           @click="btn = 2"
         >
           {{ $t("menu.signin") }}
-        </button>
+        </button> -->
       </div>
       <LogIn v-if="btn == 1" @btnNum="getBtnNum" ref="login" />
-      <SignIn v-else @btnNum="getBtnNum" />
+      <!-- <SignIn v-else @btnNum="getBtnNum" /> -->
     </div>
   </div>
 </template>
