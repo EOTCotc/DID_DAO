@@ -45,9 +45,10 @@ export default {
     this.btn = !!this.$route.code ? 2 : 1;
     loadweb3(() => {
       const dom = this.$refs.login;
+      const address = localStorage.getItem("myaddress")
       dom.getWallet({
-        myaddress: localStorage.getItem("myaddress"),
-        oType: localStorage.getItem("netType"),
+        myaddress: address,
+        oType: address.length === 34 ? 'trx' : 'bsc',
         sign: localStorage.getItem("mysign"),
       });
     });

@@ -3,6 +3,9 @@ import VueI18n from 'vue-i18n'; // 引入国际化的包
 import zh from './zh';
 import en from './en';
 import zhTw from './zhTw';
+import ko from './ko'; // 韩语
+import ru from './ru'; // 俄语
+import fr from './fr'; // 法语
 import ja from './ja'
 import ko from './ko'
 Vue.use(VueI18n);
@@ -31,6 +34,10 @@ const i18n = new VueI18n({
     en: {
       ...en,
     },
+    zhTw,
+    ko,
+    ru,
+    fr,
     zhTw: {
       ...zhTw,
     },
