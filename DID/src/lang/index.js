@@ -3,6 +3,7 @@ import VueI18n from 'vue-i18n'; // 引入国际化的包
 import zh from './zh';
 import en from './en';
 import zhTw from './zhTw';
+import ja from './ja'
 Vue.use(VueI18n);
 
 var type = navigator.appName;
@@ -32,6 +33,9 @@ const i18n = new VueI18n({
     zhTw: {
       ...zhTw,
     },
+    ja: {
+      ...ja,
+    }
   },
 });
 

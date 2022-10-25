@@ -18,7 +18,12 @@
       position="left"
     >
       <div class="menu">
-        <div class="menu-every" v-for="item in list" :key="item.id">
+        <div
+          class="menu-every"
+          v-for="item in list"
+          @click="toast(item.link)"
+          :key="item.id"
+        >
           <a :href="item.link">{{ item.name }}</a>
           <img src="@/assets/imgs/r_t_arrow.png" alt="" />
         </div>
@@ -40,15 +45,20 @@ export default {
         { id: 3, name: "去中心化借贷交易所" },
         { id: 4, name: "去中心化合约交易所" },
         { id: 5, name: "链上理财赚币", link: "https://fi.eotc.im/" },
-        { id: 6, name: "DID去中心化身份系统" },
+        { id: 6, name: "DID去中心化身份系统", link: "https://did.eotc.im/" },
         { id: 7, name: "去中心化应用系统" },
         { id: 8, name: "EOTC NFT", link: "https://nft.eotc.im/" },
         { id: 9, name: "EOTC 元宇宙" },
-        { id: 10, name: "EOTC DAO" },
+        { id: 10, name: "EOTC DAO", link: "https://dao.eotc.im/" },
       ],
     };
   },
   methods: {
+    toast(link) {
+      if (!link) {
+        this.$toast("功能即将上线！");
+      }
+    },
     handleMenu() {
       this.showPopup = !this.showPopup;
     },
@@ -58,6 +68,7 @@ export default {
     },
     // 去我的页面
     toMy() {
+      console.log(111);
       this.$router.push("/my");
     },
   },

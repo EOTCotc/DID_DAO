@@ -58,6 +58,7 @@
             {{ $t("setup.new_pwd") }} <span>({{ $t("content.include") }})</span>
           </p>
           <van-field
+            type="password"
             v-model="form.newPassWord"
             name="newPassWord"
             :placeholder="$t('rulesMsg.signin_pwd')"
@@ -71,6 +72,7 @@
         <div class="form-item">
           <p>{{ $t("content.confirm_pass") }}</p>
           <van-field
+            type="password"
             v-model="form.confirmPwd"
             name="confirmPwd"
             :placeholder="$t('rulesMsg.confirm_pass')"
@@ -147,7 +149,10 @@ export default {
     // 验证通过
     onSubmit() {
       delete this.form.confirmPwd;
-      forgotPwd({...this.form,newPassWord: this.$md5(this.form.newPassWord + 'uEe')}).then((res) => {
+      forgotPwd({
+        ...this.form,
+        newPassWord: this.$md5(this.form.newPassWord + "uEe"),
+      }).then((res) => {
         if (res.data.code == 0) {
           this.$toast.success(this.$t("content.success"));
           setTimeout(() => {
