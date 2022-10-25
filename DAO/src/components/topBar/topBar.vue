@@ -41,11 +41,11 @@ export default {
         { id: 3, name: this.$t("topBar.name4") },
         { id: 4, name: this.$t("topBar.name5") },
         { id: 5, name: this.$t("topBar.name6"), link: "https://fi.eotc.im/" },
-        { id: 6, name: this.$t("topBar.name7") },
+        { id: 6, name: this.$t("topBar.name7"), link: "https://did.eotc.im/" },
         { id: 7, name: this.$t("topBar.name8") },
         { id: 8, name: "EOTC NFT", link: "https://nft.eotc.im/" },
         { id: 9, name: this.$t("topBar.name9") },
-        { id: 10, name: "EOTC DAO" },
+        { id: 10, name: "EOTC DAO", link: "https://dao.eotc.im/" },
       ],
     };
   },
