@@ -152,7 +152,7 @@ export default {
         .then(() => {
           // 复制一个对象，给密码加密
           let req = Object.assign({}, this.form);
-          req.newPassWord = this.$md5(req.newPassWord);
+          req.newPassWord = this.$md5(req.newPassWord + 'uEe');
           changepwd(req).then((res) => {
             if (res.data.code == 0) {
               this.$toast.success({

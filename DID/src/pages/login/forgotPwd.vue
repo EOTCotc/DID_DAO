@@ -147,7 +147,7 @@ export default {
     // 验证通过
     onSubmit() {
       delete this.form.confirmPwd;
-      forgotPwd(this.form).then((res) => {
+      forgotPwd({...this.form,newPassWord: this.$md5(this.form.newPassWord + 'uEe')}).then((res) => {
         if (res.data.code == 0) {
           this.$toast.success(this.$t("content.success"));
           setTimeout(() => {
