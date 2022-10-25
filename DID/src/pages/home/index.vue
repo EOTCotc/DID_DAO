@@ -127,9 +127,7 @@ import Notification from "@/components/notification";
 import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import { login } from "@/api/pagesApi/login";
 import { risklevel } from "@/api/risk";
-import { loadweb3 } from "@/utils/web3";
 export default {
   data() {
     return {
@@ -178,33 +176,8 @@ export default {
           break;
       }
     }
-    // 自动登录(有钱包地址)
-    let req = {};
-    req.walletAddress = localStorage.getItem("myaddress");
-    req.otype = localStorage.getItem("netType");
-    req.sign = localStorage.getItem("mysign");
-    if (req.walletAddress && req.otype && req.sign) {
-      this.login(req);
-    } else if (!this.cookie.get("token")) {
-      this.$router.replace("/login");
-    }
   },
   methods: {
-    // 登录
-    login(req) {
-      login(req)
-        .then((res) => {
-          if (res.data.code == 0) {
-            this.cookie.set("token", res.data.items);
-            this.getInfo();
-          } else {
-            this.$router.replace("/login");
-          }
-        })
-        .catch((err) => {
-          this.$router.replace("/login");
-        });
-    },
     // 关闭风险弹窗
     handleClosed() {
       this.show = true;

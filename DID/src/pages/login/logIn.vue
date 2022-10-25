@@ -60,6 +60,7 @@
 
 <script>
 import { login } from "@/api/pagesApi/login";
+import { loadweb3 } from "@/utils/web3";
 export default {
   name: "logIn",
   props: {
@@ -81,6 +82,7 @@ export default {
     };
   },
   mounted() {
+    this.getWallet()
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
     if (localStorage.getItem("myaddress")) {
@@ -88,6 +90,18 @@ export default {
       this.form.walletAddress = localStorage.getItem("myaddress");
       this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
       this.form.sign = localStorage.getItem("mysign");
+      // 自动登录
+      login(this.form).then((res) => {
+        if (res.data.code == 0) {
+          this.cookie.set("token", res.data.items);
+          this.$router.replace("/");
+        }
+      });
+    } else {
+      // 获取钱包地址，网络类型...
+      loadweb3(() => {
+        this.$router.go(0);
+      });
     }
   },
   methods: {
@@ -100,7 +114,6 @@ export default {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
-
     getWallet(data) {
       const { oType, myaddress, sign } = data;
       if (oType && myaddress && sign) {
