@@ -50,10 +50,9 @@
         <div @click="$router.push('/forgotPwd')">
           {{ $t("content.forgetPwd") }}
         </div>
-        <div class="sign-in" @click="handleBtn">
-          <!-- {{ $t("content.not_account") }} -->
+        <!-- <div class="sign-in" @click="handleBtn">
           {{ $t("content.register") }}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

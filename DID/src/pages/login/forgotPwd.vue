@@ -60,6 +60,7 @@
           <van-field
             v-model="form.newPassWord"
             name="newPassWord"
+            type="password"
             :placeholder="$t('rulesMsg.signin_pwd')"
             :rules="[
               { required: true, message: $t('rulesMsg.signin_pwd') },
@@ -73,6 +74,7 @@
           <van-field
             v-model="form.confirmPwd"
             name="confirmPwd"
+            type="password"
             :placeholder="$t('rulesMsg.confirm_pass')"
             :rules="[
               { required: true, message: $t('rulesMsg.confirm_pass') },
