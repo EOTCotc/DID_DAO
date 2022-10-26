@@ -67,6 +67,9 @@ export default {
     }
   },
   mounted() {
+    let footerHeight = this.$refs.footer ? this.$refs.footer.offsetHeight : 0
+    let height = window.innerHeight - 45
+    this.$refs.box.style.height = `calc(${height}px - ${footerHeight}px )`
     this.isProponent == 0
       ? (this.title = this.$t('proposal.nav_title_one'))
       : (this.title = this.$t('proposal.nav_title'))
