@@ -1,11 +1,12 @@
 import axios from "axios";
 import Vue from "vue";
 import $router from "../router";
-
+// http://192.168.1.10:5555/
+// https://didapi.eotc.me/
+// process.env.VUE_APP_LOCATION
 const request = axios.create({
   baseURL: process.env.VUE_APP_LOCATION,
 });
-
 //请求拦截器
 request.interceptors.request.use(
   (config) => {

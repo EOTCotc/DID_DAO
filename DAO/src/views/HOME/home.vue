@@ -143,16 +143,13 @@
   </div>
 </template>
 <script>
-import TopBar from '@/components/topBar/topBar'
-import Notification from '@/components/notification'
-import {
-  getproposallist,
-  getuserrisklevel
-} from '@/api/viewsApi/home'
-import {loadweb3} from '@/utils/web3.js'
-import {getdaoinfo} from '@/api/earnings'
-import {getmessageopen} from '@/api/case'
-import {list} from "@/api/notice"
+import TopBar from "@/components/topBar/topBar";
+import Notification from "@/components/notification";
+import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
+import { loadweb3 } from "@/utils/web3.js";
+import { getdaoinfo } from "@/api/earnings";
+import { getmessageopen } from "@/api/case";
+import { list } from "@/api/notice";
 
 export default {
   components: {
@@ -164,7 +161,7 @@ export default {
     return {
       iconLang: "arrow-down",
       showPopup: false,
-      notice: '', // 公告文字
+      notice: "", // 公告文字
       lang: [
         {
           id: 0,
@@ -205,26 +202,35 @@ export default {
       //没有钱包地址
       loadweb3(this.handle);
     }
-    this.getList()
   },
   methods: {
+    handle() {
+      this.getuserrisklevel();
+      this.getProposal();
+      this.getLocal();
+      this.getUnhandledArbitrationMsg();
+      this.getList();
+    },
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: '加载中…'
-      })
-      list().then(res => {
-        const data = res.data.items
-        this.notice = data.length ? data[0].title : ''
-      }).finally(() => {
-        loading.clear()
-      })
+        message: "加载中…",
+      });
+      list()
+        .then((res) => {
+          const data = res.data.items;
+          this.notice = data.length ? data[0].title : "";
+        })
+        .finally(() => {
+          loading.clear();
+        });
     },
     getLocal() {
       // 获取用户信息
       getdaoinfo().then((res) => {
         this.user = res.data.items;
         localStorage.setItem("user", JSON.stringify(res.data.items));
+        this.cookie.set("user", JSON.stringify(res.data.items));
         localStorage.setItem("items", res.data.items.daoEOTC);
         localStorage.setItem("uid", res.data.items.uid);
         localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
@@ -233,12 +239,7 @@ export default {
         localStorage.setItem("isEnable", res.data.items.isEnable);
       });
     },
-    handle() {
-      this.getuserrisklevel();
-      this.getProposal();
-      this.getLocal();
-      this.getUnhandledArbitrationMsg();
-    },
+
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
