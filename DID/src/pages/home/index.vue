@@ -229,7 +229,12 @@ export default {
               this.showOverlay = true;
             }
           } else {
-            this.$toast.fail(res.data.message);
+            this.$toast.fail({
+              message: res.data.message,
+              onClose: () => {
+                this.$router.replace("/login");
+              },
+            });
           }
         })
         .catch((err) => {
@@ -364,7 +369,6 @@ export default {
   .text-p {
     padding: 0 40px;
     line-height: 60px;
-    font-family:'楷体 KaiTi';
     font-size: 28px;
     color: #b9b9b9;
     text-indent: 2em;
