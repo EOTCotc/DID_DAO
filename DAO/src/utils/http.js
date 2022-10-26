@@ -14,6 +14,7 @@ request.interceptors.request.use(
       otype: localStorage.getItem("netType"),
       sign: localStorage.getItem("mysign"),
     };
+    wallet.otype = wallet.walletAddress.length == 34 ? 'trx' : 'bsc';
     config.data = Object.assign(config.data || {}, wallet);
     return config;
   },

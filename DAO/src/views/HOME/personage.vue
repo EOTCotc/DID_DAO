@@ -78,7 +78,7 @@ export default {
           text: this.$t("user.text"),
         },
       ],
-      user: JSON.parse(this.cookie.get("userInfo")),
+      user: JSON.parse(this.cookie.get("user")),
     };
   },
   methods: {
@@ -128,7 +128,7 @@ export default {
   left: 15px !important;
 }
 .parent ::v-deep .van-popover__arrow {
-  left: 13% ;
+  left: 13%;
 }
 
 .Onlineswitch {

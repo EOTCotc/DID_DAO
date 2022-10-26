@@ -6,29 +6,28 @@
     <main class="section">
       <van-form @submit="submit">
         <div class="title">{{ $t("create.title") }}</div>
-        <van-field v-model="value"
-                   :placeholder="$t('create.placeholder')"
-                   :rules="[{ required: true }]" />
+        <van-field
+          v-model="value"
+          :placeholder="$t('create.placeholder')"
+          :rules="[{ required: true }]"
+        />
         <div class="title">{{ $t("create.overview") }}</div>
-        <van-field v-model="message"
-                   rows="5"
-                   autosize
-                   type="textarea"
-                   :placeholder="$t('create.describe')"
-                   :rules="[{ required: true }]" />
+        <van-field
+          v-model="message"
+          rows="5"
+          autosize
+          type="textarea"
+          :placeholder="$t('create.describe')"
+          :rules="[{ required: true }]"
+        />
 
         <div v-if="items < 10000">
-          <van-button block
-                      type="warning"
-                      color="#fc7542">
+          <van-button block type="warning" color="#fc7542">
             {{ $t("create.btn_text") }}
           </van-button>
         </div>
         <div v-else>
-          <van-button block
-                      type="warning"
-                      color="#237ff8"
-                      native-type="submit">
+          <van-button block type="warning" color="#237ff8" native-type="submit">
             {{ $t("create.btn_submit") }}
           </van-button>
         </div>
@@ -38,44 +37,47 @@
 </template>
 
 <script>
-import white from '@/components/Nav/white.vue'
-import { putproposal } from '@/api/Proposal'
-import { getuSereotc } from '@/api/earnings'
-import { Toast } from 'vant'
+import white from "@/components/Nav/white.vue";
+import { putproposal } from "@/api/Proposal";
+import { getuSereotc } from "@/api/earnings";
+import { Toast } from "vant";
 export default {
   components: { white },
   data() {
     return {
-      title: this.$t('create.nav_title'),
-      value: '',
-      message: '',
+      title: this.$t("create.nav_title"),
+      value: "",
+      message: "",
       items: undefined,
-    }
+      user: JSON.parse(localStorage.getItem("user")),
+    };
   },
   created() {
     getuSereotc().then((res) => {
-      console.log(res)
-      this.items = res.data.items
-    })
+      console.log(res);
+      this.items = res.data.items;
+    });
   },
   methods: {
     onClickLeft() {
-      history.go(-1)
+      history.go(-1);
     },
     submit() {
-      putproposal({
-        title: this.value,
-        summary: this.message,
-      }).then((res) => {
-        console.log(res)
-        if (res.status == 200) {
-          Toast.success(this.$t('create.success'))
-          this.$router.push('/Bill_list')
-        }
-      })
+      if (this.user.daoEOTC >= 10000) {
+        putproposal({
+          title: this.value,
+          summary: this.message,
+        }).then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+            Toast.success(this.$t("create.success"));
+            this.$router.push("/Bill_list");
+          }
+        });
+      }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
