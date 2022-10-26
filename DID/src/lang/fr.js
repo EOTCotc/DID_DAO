@@ -75,6 +75,7 @@ export default {
   },
   // 首页
   home: {
+    title: ['欢迎来到', 'DID去中心化身份系统'],
     authenticated: '身份已认证',
     start_attestation: '开始认证',
     system_introduction: '系统简介',

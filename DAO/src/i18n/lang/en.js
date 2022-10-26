@@ -34,6 +34,7 @@ module.exports = {
     status4: "Terminated",
     not_data: "No proposal information yet",
     remove_risk: "Remove risk control",
+    msg_fail:'Failure to obtain information'
   },
   user: {
     total: "Total revenue (EOTC)",

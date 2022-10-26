@@ -7,7 +7,7 @@
                       left-icon="volume-o"
                       color="#FFF"
                       background="rgba(255, 255, 255, .2)"
-                      @click="$router.push('/notice')" />
+                      @click="user ? $router.push('/notice') : ''" />
       <img class="home-logo"
            src="@/assets/imgs/home_logo.png"
            alt="首页logo" />
@@ -16,7 +16,7 @@
         <p>{{ $t("home.text2") }}</p>
       </div>
       <button class="home-btn"
-              @click="$router.push('/Create')">
+              @click="user ? $router.push('/Create') : ''">
         {{ $t("home.btn") }}
       </button>
       <!-- 最新提案 -->
@@ -25,10 +25,12 @@
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
           <span class="home-proposal-more"
                 @click="
-              $router.push({
-                path: '/Bill_list',
-                query: { isProponent: 0, home: 'home' },
-              })
+              user
+                ? $router.push({
+                    path: '/Bill_list',
+                    query: { isProponent: 0, home: 'home' },
+                  })
+                : ''
             "
                 v-if="proposalList.length != 0">
             {{ $t("home.more") }}
@@ -43,14 +45,16 @@
                v-for="(item, index) in proposalList"
                :key="index"
                @click="
-              $router.push({
-                path: '/detail',
-                query: {
-                  proposalId: item.proposalId,
-                  isProponent: 0,
-                  state: item.state,
-                },
-              })
+              user
+                ? $router.push({
+                    path: '/detail',
+                    query: {
+                      proposalId: item.proposalId,
+                      isProponent: 0,
+                      state: item.state,
+                    },
+                  })
+                : ''
             ">
             <!-- 提案标题 -->
             <div class="every-title">{{ item.title }}</div>
@@ -151,6 +155,7 @@ export default {
   name: 'home',
   data() {
     return {
+      user: '',
       iconLang: 'arrow-down',
       showPopup: false,
       notice: '', // 公告文字
@@ -202,13 +207,7 @@ export default {
           break
       }
     }
-    if (localStorage.getItem('myaddress')) {
-      //有钱包地址
-      this.handle()
-    } else {
-      //没有钱包地址
-      loadweb3(this.handle)
-    }
+    loadweb3(this.handle)
   },
   methods: {
     handle() {
@@ -234,19 +233,22 @@ export default {
     },
     getLocal() {
       // 获取用户信息
-      getdaoinfo().then((res) => {
-        this.user = res.data.items
-        localStorage.setItem('user', JSON.stringify(res.data.items))
-        this.cookie.set('user', JSON.stringify(res.data.items))
-        localStorage.setItem('items', res.data.items.daoEOTC)
-        localStorage.setItem('uid', res.data.items.uid)
-        localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
-        localStorage.setItem('isExamine', res.data.items.isExamine)
-        localStorage.setItem('authType', res.data.items.authType)
-        localStorage.setItem('isEnable', res.data.items.isEnable)
-      })
+      getdaoinfo()
+        .then((res) => {
+          this.user = res.data.items
+          localStorage.setItem('user', JSON.stringify(res.data.items))
+          this.cookie.set('user', JSON.stringify(res.data.items))
+          localStorage.setItem('items', res.data.items.daoEOTC)
+          localStorage.setItem('uid', res.data.items.uid)
+          localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
+          localStorage.setItem('isExamine', res.data.items.isExamine)
+          localStorage.setItem('authType', res.data.items.authType)
+          localStorage.setItem('isEnable', res.data.items.isEnable)
+        })
+        .catch((err) => {
+          this.$toast.fail(this.$t('home.msg_fail'))
+        })
     },
-
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
@@ -279,7 +281,7 @@ export default {
       })
     },
     buttonClickArbitration() {
-      this.$router.push('/user/arbitration/case')
+      this.user ? this.$router.push('/user/arbitration/case') : ''
     },
     //弹框点击事件
     buttonClick() {
@@ -298,7 +300,7 @@ export default {
     },
     //跳转到解除风控
     Remove_risk() {
-      this.$router.push('/relieve')
+      this.user ? this.$router.push('/relieve') : ''
     },
     // 选择语言
     handleTabLang() {

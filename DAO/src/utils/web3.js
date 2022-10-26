@@ -254,14 +254,15 @@ export const loadweb3 = function (func) {
           address = window.tronWeb.defaultAddress.base58;
           // localStorage.setItem('myaddress', address)
           // ethereum.chainId   xxx->测试链  netType 网络类型
-          localStorage.setItem("netType", "xxx");
-          // localStorage.setItem("netType", "trx");
+          // localStorage.setItem("netType", "xxx");
+          localStorage.setItem("netType", "trx");
 
+          // 查询用户钱包的usdt和eotc
           // mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
           // mytron = await window.tronWeb.contract().at(contractAddress);
           // myUsdtAmount();
           // myEOTCAmount();
-
+          
           if (address != localStorage.getItem("myaddress")) {
             localStorage.removeItem("myaddress");
             localStorage.removeItem("mysign");
@@ -314,7 +315,7 @@ export const userSign = async (mes, func) => {
           }
           localStorage.setItem("myaddress", tronweb.defaultAddress.base58);
           localStorage.setItem("mysign", md5(signedStr));
-          console.log(md5(signedStr));
+          // console.log(md5(signedStr));
           if (func != null) {
             func();
           }
