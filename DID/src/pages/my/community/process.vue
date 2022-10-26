@@ -3,7 +3,7 @@
     <div class="community_wrap fullscreen bg-gray">
       <page-header :title="$t('community.tags3')" />
       <div class="process_wrap">
-        <div class="content">
+        <div class="content" v-if="!!step.length">
           <div class="title">{{ $t("process.tags1") }}</div>
           <van-steps
             direction="vertical"

@@ -113,7 +113,7 @@
           </template>
         </van-cell>
         <!-- 我的社区 -->
-        <!-- <van-cell
+        <van-cell
           is-link
           :border="false"
           @click="auth({ path: '/my/community' })"
@@ -127,7 +127,7 @@
               <span v-show="false" class="badge"></span>
             </span>
           </template>
-        </van-cell> -->
+        </van-cell>
         <!-- 我的团队 -->
         <van-cell is-link :border="false" @click="auth('/my/team')">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
@@ -155,7 +155,7 @@
           </template>
         </van-cell>
         <!-- 各公链绑定地址 -->
-        <van-cell is-link :border="false" :to="riskLevel ? '/my/wallets' : ''">
+        <van-cell is-link :border="false" :to="!riskLevel ? '/my/wallets' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/gonglian.png" />
@@ -168,7 +168,7 @@
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border="false" :to="riskLevel ? '/my/projects' : ''">
+        <van-cell is-link :border="false" :to="!riskLevel ? '/my/projects' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/xiangmu.png" />
@@ -209,15 +209,7 @@ export default {
     };
   },
   created() {
-    if (this.cookie.get("riskLevel")) {
-      if (this.cookie.get("riskLevel") == 2) {
-        this.riskLevel = false;
-      } else {
-        this.riskLevel = true;
-      }
-    } else {
-      this.riskLevel = false;
-    }
+    this.riskLevel = this.cookie.get("riskLevel") == 2;
     this.handleRefresh();
     this.getBadge();
   },
@@ -252,33 +244,26 @@ export default {
         forbidClick: true,
         message: this.$t("public.loading"),
       });
-      getuserinfo()
-        .then((res) => {
-          this.userInfo = res.data.items;
-          this.cookie.set("userInfo", JSON.stringify(this.userInfo));
-          if (
-            this.userInfo &&
-            this.userInfo.comAuditType === 2 &&
-            !this.userInfo.isImprove
-          ) {
-            if (!this.isShow) {
-              this.$dialog
-                .confirm({
-                  message: this.$t("my.my_dialog1_msg"),
-                  confirmButtonText: this.$t("my.my_dialog1_text1"),
-                  cancelButtonText: this.$t("my.my_dialog1_text2"),
-                })
-                .then(() => {
-                  this.riskLevel
-                    ? this.$router.push("/my/community/setting")
-                    : "";
-                })
-                .catch(() => {});
-              this.isShow = true;
-            }
+      getuserinfo().then((res) => {
+        this.userInfo = res.data.items;
+        this.cookie.set("userInfo", JSON.stringify(this.userInfo));
+        if (
+          this.userInfo &&
+          this.userInfo.comAuditType === 2 &&
+          !this.userInfo.isImprove
+        ) {
+          if (!this.isShow) {
+            this.$dialog.confirm({
+              message: this.$t("my.my_dialog1_msg"),
+              confirmButtonText: this.$t("my.my_dialog1_text1"),
+              cancelButtonText: this.$t("my.my_dialog1_text2"),
+            }).then(() => {
+              !this.riskLevel ? this.$router.push("/my/community/setting") : "";
+            }).catch(() => {});
+            this.isShow = true;
           }
-        })
-        .finally(() => loading.clear());
+        }
+      }).finally(() => loading.clear());
     },
     /**
      * 验证是否有跳转权限
@@ -295,7 +280,7 @@ export default {
       };
       if (this.userInfo.refUid) {
         if (validateAuthType) {
-          if (this.userInfo.authType === 2 && this.riskLevel) {
+          if (this.userInfo.authType === 2 && !this.riskLevel) {
             this.$router.push(path);
           } else {
             switch (this.userInfo.authType) {
@@ -303,27 +288,19 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg1");
-                options.cb = () =>
-                  this.riskLevel
-                    ? this.$router.push({ path: "/my/identity" })
-                    : "";
+                options.cb = () => this.$router.push({ path: this.riskLevel ? "/risk" : "/my/identity" })
                 break;
               case 1:
                 options.type = "alert";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg2");
-                options.cb = null;
+                options.cb = () => {};
                 break;
               case 3:
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg3");
-                options.cb = this.riskLevel
-                  ? this.$router.push({
-                      name: "identity",
-                      params: { name, phoneNum, idCard },
-                    })
-                  : "";
+                options.cb = () => this.$router.push({ path: this.riskLevel ? "/risk" : "/my/identity", params: this.riskLevel ? {} : { name, phoneNum, idCard } })
                 break;
             }
             this.$dialog[options.type]({

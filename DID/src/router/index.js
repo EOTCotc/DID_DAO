@@ -212,7 +212,7 @@ router.beforeEach((to, from, next) => {
     if (whiteList.includes(to.path)) {
       next();
     } else {
-      next(to.path);
+      next('/login');
     }
   } else {
     next();

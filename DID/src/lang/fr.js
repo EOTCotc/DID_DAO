@@ -439,6 +439,8 @@ export default {
     tags4: '重新提交申请',
   },
   setting: {
+    address: '地址',
+    addressPlaceholder: '请选择社区所在地',
     title1: '社区信息',
     title2: '请输入…',
     title3: '填写电报群地址',
@@ -446,6 +448,9 @@ export default {
     title5: '填写Discord账号',
     title6: '申请提交成功',
     title7: '结果将在7个工作日内进行反馈',
+    title: '确认提示',
+    message:
+      '为了便于线下建立推荐关系请谨慎选择社区地址，一年内只可更改两次地址',
     tags1: '展示图片',
     tags2: '不传则显示默认图片',
     tags3: '知道了',

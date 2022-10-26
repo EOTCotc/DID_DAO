@@ -27,11 +27,7 @@
         "
       >
         <div class="btn-box" @click="identifyRouter">
-          <template v-if="userInfo.authType === 0">
-            <span>{{ $t("home.start_attestation") }}</span>
-            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
-          </template>
-          <template v-else-if="userInfo.authType === 1">
+          <template v-if="userInfo.authType === 1">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>{{ $t("home.tags1") }}</span>
           </template>
@@ -39,9 +35,13 @@
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>{{ $t("home.authenticated") }}</span>
           </template>
-          <template v-else>
+          <template v-else-if="userInfo.authType === 3">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>{{ $t("home.tags2") }}</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+          </template>
+          <template v-else>
+            <span>{{ $t("home.start_attestation") }}</span>
             <div class="icon_down"><van-icon color="#fff" name="down" /></div>
           </template>
         </div>
@@ -175,13 +175,16 @@ export default {
     }
     // 自动登录(有钱包地址)
     let req = {};
+    const token = this.cookie.get("token")
     req.walletAddress = localStorage.getItem("myaddress");
     req.otype = localStorage.getItem("netType");
     req.sign = localStorage.getItem("mysign");
     if (req.walletAddress && req.otype && req.sign) {
       this.login(req);
-    } else if (!this.cookie.get("token")) {
+    } else if (!token) {
       this.$router.replace("/login");
+    } else if (!!token) {
+      this.getInfo();
     }
   },
   methods: {
