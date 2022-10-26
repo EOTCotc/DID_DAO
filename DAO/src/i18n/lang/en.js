@@ -150,6 +150,8 @@ module.exports = {
     next: "Next question",
     pre: "Previous question",
     submit: "submit",
+    topicType1: "(multiple choice)",
+    topicType2: "(Completion)",
     testQuestionData: [
       {
         id: 1,
