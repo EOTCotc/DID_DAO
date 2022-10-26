@@ -185,7 +185,7 @@ export default {
     if (localStorage.getItem("lang")) {
       this.langText = JSON.parse(localStorage.getItem("lang")).text;
     } else {
-      let lang = navigator.language;
+      let lang = navigator.language.slice(0,2);
       switch (lang) {
         case "zh":
           this.langText = "简体中文";
