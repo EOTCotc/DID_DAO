@@ -32,7 +32,11 @@ module.exports = {
     status4: "已终止",
     not_data: "暂无任何提案信息",
     remove_risk: "解除风控",
+<<<<<<< HEAD
+    msg_fail: '获取信息失败'
+=======
     msg_fail:'获取信息失败'
+>>>>>>> 6e73ddf17724ef513e5637f728c2c7a875ac49d7
   },
   reject: {
     tags1: '类型',
@@ -170,6 +174,8 @@ module.exports = {
     next: "下一题",
     pre: "上一题",
     submit: "提交",
+    topicType1: "(多选题)",
+    topicType2: "(填空题)",
     testQuestionData: [
       {
         id: 1,
