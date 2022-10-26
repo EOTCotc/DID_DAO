@@ -32,22 +32,18 @@ module.exports = {
     status4: "已终止",
     not_data: "暂无任何提案信息",
     remove_risk: "解除风控",
-<<<<<<< HEAD
-    msg_fail: '获取信息失败'
-=======
-    msg_fail:'获取信息失败'
->>>>>>> 6e73ddf17724ef513e5637f728c2c7a875ac49d7
+    msg_fail: "获取信息失败",
   },
   reject: {
-    tags1: '类型',
-    tags2: '恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分',
-    tags3: '具体原因',
-    tags4: '请输入具体原因',
-    data: ['信息不全', '信息有误', '证件照片有误', '证件照片不清晰',],
+    tags1: "类型",
+    tags2: "恶意操作的用户及进行通过的推荐人节点将扣取相应的信用分",
+    tags3: "具体原因",
+    tags4: "请输入具体原因",
+    data: ["信息不全", "信息有误", "证件照片有误", "证件照片不清晰"],
   },
   public: {
-    cancel: '取消',
-    confirm: '确定',
+    cancel: "取消",
+    confirm: "确定",
   },
   user: {
     total: "总收益(EOTC)",
@@ -157,8 +153,7 @@ module.exports = {
     rus6: "(5)审核员不能主观臆断和推测下结论，一切以证据说话。",
     rus7: "(6)身份认证确保身份证的边框没有遮挡、证件不能太小、不能太模糊。",
     _rus1title: "(1) 身份认证恶意提交",
-    _rus1content1:
-      "① 审核通过人员扣3分  ② 用户恶意提交3次，禁用账号。",
+    _rus1content1: "① 审核通过人员扣3分  ② 用户恶意提交3次，禁用账号。",
     btnmsg: "我已完成学习",
   },
   exam: {
@@ -504,7 +499,7 @@ module.exports = {
             title: "C、",
             contant: "不能太模糊",
             Check: false,
-          }
+          },
         ],
         Answers: 3,
       },
@@ -567,7 +562,7 @@ module.exports = {
       {
         id: 9,
         question: "题目九",
-        questionContant: ['', "是对审核员品德的要求。"],
+        questionContant: ["", "是对审核员品德的要求。"],
         topicType: "(填空题)",
         result: "",
         Answers: "诚实正直",
@@ -1006,4 +1001,3 @@ module.exports = {
   //   confirm: '确定',
   // },
 };
-

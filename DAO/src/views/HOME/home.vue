@@ -185,6 +185,16 @@ export default {
           text: 'German',
           lang: 'de',
         },
+        {
+          id: 4,
+          text: "Korean",
+          lang: "ko",
+        },
+        {
+          id: 6,
+          text: "Thai",
+          lang: "th",
+        },
       ],
       tanShow: false,
       proposalList: [], //提案列表

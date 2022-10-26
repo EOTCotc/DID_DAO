@@ -33,7 +33,10 @@
           </div>
           <div class="upload_wrap step-2">
             <div class="title">{{ $t("check.card_photo") }}</div>
-            <div class="example_zheng">
+            <div
+              class="example_zheng"
+              v-if="user.handHeldImage != null || user.handHeldImage != ''"
+            >
               <img class="img" :src="user.handHeldImage" alt="" />
             </div>
           </div>
