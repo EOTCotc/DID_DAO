@@ -1,7 +1,7 @@
 export default {
   menu: {
     login: '登录',
-    signin: '注册'
+    signin: '注册',
   },
   public: {
     cancel: '取消',
@@ -11,7 +11,7 @@ export default {
     loading: '加载中…',
     not_data: '暂无任何数据',
     suc: '保存成功',
-    msg1:'功能即将上线!'
+    msg1: '功能即将上线!',
   },
   rulesMsg: {
     email: '请填写邮箱地址',
@@ -71,11 +71,12 @@ export default {
     msg3: '注册失败',
     msg4: '请勾选协议',
     forgotPwd: '找回密码',
-    success:'找回成功',
-    forgetPwd:'忘记密码'
+    success: '找回成功',
+    forgetPwd: '忘记密码',
   },
   // 首页
   home: {
+    title: ['欢迎来到', 'DID去中心化身份系统'],
     authenticated: '身份已认证',
     start_attestation: '开始认证',
     system_introduction: '系统简介',
@@ -92,7 +93,7 @@ export default {
     tags7: '安全性请前往绑定推荐关系',
     title1: '系统检测您的账号存在异常',
     title2: '暂无法使用该系统，请根据提示解除风控',
-    title3: '解除风控'
+    title3: '解除风控',
   },
   // 账号设置
   setup: {
@@ -141,7 +142,7 @@ export default {
     // 修改密码
     set_pwd: '修改密码',
     new_pwd: '新密码',
-    conf_pwd: '确认新密码'
+    conf_pwd: '确认新密码',
   },
   // 绑定社区(bindRelation)
   bindRelation: {
@@ -161,7 +162,8 @@ export default {
     search: '请输入搜索关键词',
     // bindCommunity
     site_comm: '所在地社区',
-    comm_tip: '为了您的账户安全，请加入所在地的电报群联系管理进行线下建立推荐关系',
+    comm_tip:
+      '为了您的账户安全，请加入所在地的电报群联系管理进行线下建立推荐关系',
     not_more: '没有更多了',
     adbout: '社区简介',
     msg1: '请选择省份',
@@ -183,13 +185,17 @@ export default {
     dis_tip: '确定舍弃或已妥善处理好当前账户中所有的资产及奖励',
     think_again: '我再想想',
     //重要提醒(remind)
-    parag1: '注销帐号是不可恢复的操作，操作之前，请确认与帐号相关的所有资产均已进行妥善处理。',
-    parag2: '请谨记:注销帐号，你将无法再使用本帐号或找回你添加或绑定的任何内容或信息(即使你使用相同的邮箱再次注册)，包括但不限于',
+    parag1:
+      '注销帐号是不可恢复的操作，操作之前，请确认与帐号相关的所有资产均已进行妥善处理。',
+    parag2:
+      '请谨记:注销帐号，你将无法再使用本帐号或找回你添加或绑定的任何内容或信息(即使你使用相同的邮箱再次注册)，包括但不限于',
     parag3: '(1)你将无法登录、使用本帐号，你的团队关系将不存在。',
     parag4: '(2)注销微信帐号前，你需妥善处理账户下所有资金问题。',
-    parag5: '(3)你通过账号使用，曾获得的奖励、卡牌、盲盒、权益、资格、订单、优惠等视为你自行放弃，将无法继续使用。你理解并同意，EOTC无法协助你重新恢复前述资产。',
+    parag5:
+      '(3)你通过账号使用，曾获得的奖励、卡牌、盲盒、权益、资格、订单、优惠等视为你自行放弃，将无法继续使用。你理解并同意，EOTC无法协助你重新恢复前述资产。',
     parag6: '(4)与帐号的所有功能或服务都将无法继续使用。',
-    parag7: '(5)在帐号注销期间，如果你的帐号正处于仲裁程序中，EOTC、DAO有权终止你帐号的注销而无需另行得到你的同意。',
+    parag7:
+      '(5)在帐号注销期间，如果你的帐号正处于仲裁程序中，EOTC、DAO有权终止你帐号的注销而无需另行得到你的同意。',
     have_read: '我已阅读',
     // 注销原因(reason)
     reason: '请选择注销原因',
@@ -204,7 +210,8 @@ export default {
     warn: '警告',
     warn1: '1、注销提交后，EOTC DAO将在48小时内完成注销核查和处理。',
     warn2: '2、注销后，该账户的所有信息均将清除且无法恢复，请谨慎操作。',
-    warn3: '3、注销成功后，该邮箱可以重新注册为一个全新的账号，不包含注销前的任何信息。',
+    warn3:
+      '3、注销成功后，该邮箱可以重新注册为一个全新的账号，不包含注销前的任何信息。',
     // 账号注销倒计时(logoutCountdown)
     title: '账号注销期',
     count_down: '后完成注销',
@@ -254,7 +261,8 @@ export default {
     team_data2: '已认证',
     team_data3: '未认证',
     team_title1: '温馨提示',
-    team_msg1: '查看团队更多成员需要向DAO提出申请，申请通过后成员名单将发送至您的邮箱',
+    team_msg1:
+      '查看团队更多成员需要向DAO提出申请，申请通过后成员名单将发送至您的邮箱',
     team_text1: '提交申请',
     team_text2: '稍后联系',
     team_msg2: '申请已提交',
@@ -272,7 +280,7 @@ export default {
     projects_title1: '取消绑定',
     projects_msg1: '确定解绑当前项目',
     projects_msg2: '操作失败',
-    projects_msg3: '已解绑'
+    projects_msg3: '已解绑',
   },
   // 各公链绑定地址
   wallets: {
@@ -324,7 +332,7 @@ export default {
     data1: '银行账号',
     data2: '获取失败',
     msg1: '提交中…',
-    mag2: '提交失败'
+    mag2: '提交失败',
   },
   // 邀请好友
   invute: {
@@ -366,7 +374,7 @@ export default {
     tags1: '上传身份证',
     tags2: '打回原因',
     tags3: '信息有误: 手持证件照有误,请重新提交',
-    tags4: '重新提交'
+    tags4: '重新提交',
   },
   approval: {
     tags1: '证件及手持证件照',
@@ -390,7 +398,7 @@ export default {
     data9: '未审核',
     data10: '审核通过',
     data11: '恶意提交',
-    data12: '信息有误'
+    data12: '信息有误',
   },
   // 信用分
   credit: {
@@ -452,6 +460,6 @@ export default {
     tags3: '解除风控联系',
     tags4: '联系人',
     data1: '呼叫',
-    data2: '复制号码'
-  }
-}
+    data2: '复制号码',
+  },
+};

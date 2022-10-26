@@ -1,7 +1,7 @@
 export default {
   menu: {
     login: 'log in',
-    signin: 'sign in'
+    signin: 'sign in',
   },
   public: {
     cancel: 'cancel',
@@ -11,7 +11,7 @@ export default {
     loading: 'loading…',
     not_data: 'No data yet',
     suc: 'save successfully',
-    msg1:'Features coming soon!'
+    msg1: 'Features coming soon!',
   },
   rulesMsg: {
     email: 'Please fill in the email address',
@@ -36,7 +36,8 @@ export default {
   },
   reject: {
     tags1: 'type',
-    tags2: 'The malicious user and the passing recommender node will be deducted the corresponding credit score',
+    tags2:
+      'The malicious user and the passing recommender node will be deducted the corresponding credit score',
     tags3: 'specific reason',
     tags4: 'Please enter the specific reason',
     data1: 'incomplete information',
@@ -72,14 +73,16 @@ export default {
     msg4: 'Please check the Agreement',
     forgotPwd: 'forgotPwd',
     success: 'success',
-    forgetPwd: 'forget password'
+    forgetPwd: 'forget password',
   },
   // 首页
   home: {
+    title: ['Welcome to', 'DID Decentralized Identity System'],
     authenticated: 'authenticated',
     start_attestation: 'Start certification',
     system_introduction: 'System introduction',
-    not_bound: 'Detected that you do not have a referral relationship, for account security, please go to binding referral relationship',
+    not_bound:
+      'Detected that you do not have a referral relationship, for account security, please go to binding referral relationship',
     tags1: 'authenticating',
     tags2: 'Authentication failed',
     tags3: `EOTC DID is a decentralized identity system, which is a decentralized identity storage and authorized call system with independent operation and distributed storage.
@@ -88,11 +91,13 @@ export default {
     tags4: `The emergence of EOTC DID will highly protect user privacy while filling the gap that the blockchain cannot identify the identity of the public chain address holder and label the address holder with a commercial label.
     EOTC DID will inject strong basic application support into the blockchain world, and open more efficient, safer and more scientific blockchain commercial applications.`,
     tags5: 'Copyright 2022 EOTC. All rights reserved.',
-    tags6: 'Detected that you do not have a referral relationship, for account security, ',
+    tags6:
+      'Detected that you do not have a referral relationship, for account security, ',
     tags7: 'please go to binding referral relationship',
     title1: 'The system has detected an anomaly in your account',
-    title2: 'The system cannot be used temporarily, please follow the prompts to remove the risk control',
-    title3: 'De-risk control'
+    title2:
+      'The system cannot be used temporarily, please follow the prompts to remove the risk control',
+    title3: 'De-risk control',
   },
   // 账号设置
   setup: {
@@ -121,7 +126,8 @@ export default {
     my_referrer: 'My references',
     code: 'Fill in the invitation code',
     input_mail_code: 'Please enter the invitation code',
-    get_code: 'Get the invitation code and bind the recommendation relationship',
+    get_code:
+      'Get the invitation code and bind the recommendation relationship',
     referrer_name: 'name',
     referrer_phone: 'Phone number',
     referrer_toast1: 'Binding success',
@@ -141,7 +147,7 @@ export default {
     // 修改密码
     set_pwd: 'change password',
     new_pwd: 'new password',
-    conf_pwd: 'Confirm new password'
+    conf_pwd: 'Confirm new password',
   },
   // 绑定社区(bindRelation)
   bindRelation: {
@@ -156,12 +162,14 @@ export default {
     tip: 'In order to facilitate the establishment of the recommendation relationship offline, please carefully choose the current location, once the binding cannot be changed',
     next: 'Confirm, proceed to the next step',
     conf_tip: 'confirmation',
-    conf_cont: 'The binding region of the relationship cannot be modified after confirmation. Are you sure to go to the next step?',
+    conf_cont:
+      'The binding region of the relationship cannot be modified after confirmation. Are you sure to go to the next step?',
     // bindNation
     search: 'Please enter a search term',
     // bindCommunity
     site_comm: 'Local community',
-    comm_tip: 'For the safety of your account, please join the local telegram group contact management to establish the recommendation relationship offline',
+    comm_tip:
+      'For the safety of your account, please join the local telegram group contact management to establish the recommendation relationship offline',
     not_more: 'No more.',
     adbout: 'Community profile',
     msg1: 'Please select Province',
@@ -176,20 +184,29 @@ export default {
     cause: 'reason',
     //确定信息confInfo
     acc_property: 'Account balance',
-    conf_tip: 'Account assets include but are not limited to all assets and rewards in each EOTC project account',
+    conf_tip:
+      'Account assets include but are not limited to all assets and rewards in each EOTC project account',
     give_up: 'Determine rejected/disposed',
     next: 'next step',
     acc_dispose: 'Account asset disposal',
-    dis_tip: 'Make sure to discard or dispose of all assets and rewards currently in the account',
-    think_again: "think twice",
+    dis_tip:
+      'Make sure to discard or dispose of all assets and rewards currently in the account',
+    think_again: 'think twice',
     //重要提醒(remind)
-    parag1: 'Account cancellation is a non-recoverable process. Before proceeding, please ensure that all assets related to the account have been properly disposed of.',
-    parag2: 'Please remember: if you log out of your account, you will no longer be able to use this account or retrieve any content or information you added or tied to (even if you register again using the same email address), including but not limited to',
-    parag3: '(1)You will not be able to login, use this account, your team relationship will not exist.',
-    parag4: '(2)Before you cancel your wechat account, you need to properly handle all funds under the account.',
-    parag5: '(3)The rewards, cards, blind boxes, rights, qualifications, orders, offers, etc. you have obtained through your account are deemed to be abandoned by you and will not be able to continue to use. You understand and agree that EOTC cannot assist you in the recovery of the said assets.',
-    parag6: '(4)All features or services associated with the account will no longer be available.',
-    parag7: '(5)During the account cancellation period, if your account is in arbitration proceedings, EOTC and DAO have the right to terminate the cancellation of your account without your consent.',
+    parag1:
+      'Account cancellation is a non-recoverable process. Before proceeding, please ensure that all assets related to the account have been properly disposed of.',
+    parag2:
+      'Please remember: if you log out of your account, you will no longer be able to use this account or retrieve any content or information you added or tied to (even if you register again using the same email address), including but not limited to',
+    parag3:
+      '(1)You will not be able to login, use this account, your team relationship will not exist.',
+    parag4:
+      '(2)Before you cancel your wechat account, you need to properly handle all funds under the account.',
+    parag5:
+      '(3)The rewards, cards, blind boxes, rights, qualifications, orders, offers, etc. you have obtained through your account are deemed to be abandoned by you and will not be able to continue to use. You understand and agree that EOTC cannot assist you in the recovery of the said assets.',
+    parag6:
+      '(4)All features or services associated with the account will no longer be available.',
+    parag7:
+      '(5)During the account cancellation period, if your account is in arbitration proceedings, EOTC and DAO have the right to terminate the cancellation of your account without your consent.',
     have_read: 'I have read',
     // 注销原因(reason)
     reason: 'Please select the reason for logout',
@@ -202,9 +219,12 @@ export default {
     // 确认信息(verifyLogout)
     submit: 'submit',
     warn: 'warning',
-    warn1: '1、The EOTC DAO will complete the cancellation verification and processing within 48 hours after the cancellation is submitted.',
-    warn2: '2、After logout, all information of the account will be erased and cannot be recovered, please use caution.',
-    warn3: '3、After successful logout, the mailbox can be re-registered as a new account, without any information before logout.',
+    warn1:
+      '1、The EOTC DAO will complete the cancellation verification and processing within 48 hours after the cancellation is submitted.',
+    warn2:
+      '2、After logout, all information of the account will be erased and cannot be recovered, please use caution.',
+    warn3:
+      '3、After successful logout, the mailbox can be re-registered as a new account, without any information before logout.',
     // 账号注销倒计时(logoutCountdown)
     title: 'Account cancellation period',
     count_down: 'then complete the cancellation',
@@ -229,16 +249,19 @@ export default {
     invite_friends: 'Invite Friends',
     bind_address: 'Each public chain binding address',
     each_item: 'Binding each project',
-    my_dialog1_msg: 'The community application has been approved, please complete the community information in time, do you want to go now?',
+    my_dialog1_msg:
+      'The community application has been approved, please complete the community information in time, do you want to go now?',
     my_dialog1_text1: 'Leave for',
     my_dialog1_text2: 'Later to',
     my_index_title1: 'identity authentication',
-    my_index_msg1: 'The identity is not authenticated, please authenticate immediately',
+    my_index_msg1:
+      'The identity is not authenticated, please authenticate immediately',
     my_index_msg2: 'Identity authentication audit, please wait patiently',
     my_index_msg3: 'The authentication audit failed, please re-authenticate',
     my_index_text1: 'To the certification',
     my_index_title2: 'Recommend the relationship',
-    my_index_msg4: 'The recommendation relationship is not bound yet, please bind it now',
+    my_index_msg4:
+      'The recommendation relationship is not bound yet, please bind it now',
     my_index_text2: 'Immediately binding',
   },
   // 我的团队
@@ -254,7 +277,8 @@ export default {
     team_data2: 'Authenticated',
     team_data3: 'unverified',
     team_title1: 'warm prompt',
-    team_msg1: 'More members of the team need to apply for DAO. After the application is approved, the list of members will be sent to your email',
+    team_msg1:
+      'More members of the team need to apply for DAO. After the application is approved, the list of members will be sent to your email',
     team_text1: 'submit applications',
     team_text2: 'contact later',
     team_msg2: 'Application has been submitted',
@@ -272,13 +296,14 @@ export default {
     projects_title1: 'unbind',
     projects_msg1: 'Decide to untie the current item',
     projects_msg2: 'operation failure',
-    projects_msg3: 'Have unbundling'
+    projects_msg3: 'Have unbundling',
   },
   // 各公链绑定地址
   wallets: {
     wallets_title1: 'Each public chain binding address',
     tags: 'cancel authorization',
-    wallets_msg1: 'Determine the cancellation of the current public chain address authorization',
+    wallets_msg1:
+      'Determine the cancellation of the current public chain address authorization',
     wallets_msg1: 'Authorization has been revoked',
   },
   // 付款方式
@@ -310,7 +335,8 @@ export default {
     text8: 'please enter',
     text9: 'Account',
     title2: 'warm prompt',
-    tags1: 'The receiving and payment information involves transactions, please check the information before submitting',
+    tags1:
+      'The receiving and payment information involves transactions, please check the information before submitting',
     tags2: 'okay',
     title3: 'Checking Information',
     tags3: 'Please confirm that the current information is correct',
@@ -324,7 +350,7 @@ export default {
     data1: 'bank account',
     data2: 'fail to get',
     msg1: 'Submit...',
-    mag2: 'submit failure'
+    mag2: 'submit failure',
   },
   // 邀请好友
   invute: {
@@ -344,11 +370,13 @@ export default {
     tags2: 'Upload ID card portrait face',
     tags3: 'Please follow the example image to upload the ID card face photo',
     tags4: 'Audit information display',
-    tags5: 'After your uploaded ID card photo is partially blurred, it will be reviewed by different nodes',
+    tags5:
+      'After your uploaded ID card photo is partially blurred, it will be reviewed by different nodes',
     tags6: 'References are shown on the left 60%',
     tags7: 'The audit node shows the right 60%',
     tags8: 'Upload ID card national emblem face to face',
-    tags9: 'Please follow the example image to upload the ID card national emblem face',
+    tags9:
+      'Please follow the example image to upload the ID card national emblem face',
     tags10: 'Upload handheld ID photo',
     tags11: 'Please follow the example image to upload the hand-held ID photo',
     tags12: 'Back',
@@ -366,7 +394,7 @@ export default {
     tags1: 'Upload ID card',
     tags2: 'Back to reason',
     tags3: 'Wrong information: There is an error in the photo, please resubmit',
-    tags4: 'resubmit'
+    tags4: 'resubmit',
   },
   approval: {
     tags1: 'Id card and hand-held ID photo',
@@ -383,14 +411,15 @@ export default {
     data3: 'reject',
     data4: 'List loading...',
     data5: 'Approval prompt',
-    data6: 'Please make sure that the information is correct and the application is approved?',
+    data6:
+      'Please make sure that the information is correct and the application is approved?',
     msg1: 'success',
     data7: 'Dismiss the prompt',
     data8: 'Do you decide to reject the application?',
     data9: 'unreviewed',
     data10: 'approve',
     data11: 'Malicious submitted',
-    data12: 'wrong info'
+    data12: 'wrong info',
   },
   // 信用分
   credit: {
@@ -447,11 +476,12 @@ export default {
   },
   // 风控
   risk: {
-    tags1: 'For normal use of the account, please check the video identity with the following five contacts',
+    tags1:
+      'For normal use of the account, please check the video identity with the following five contacts',
     tags2: 'The termination of 3 or more contacts takes effect',
     tags3: 'Release the risk control link',
     tags4: 'Contact',
     data1: 'call',
-    data2: 'Copy Number'
-  }
-}
+    data2: 'Copy Number',
+  },
+};

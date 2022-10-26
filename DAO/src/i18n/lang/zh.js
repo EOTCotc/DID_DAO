@@ -6,7 +6,6 @@ module.exports = {
       btn: "解除风控",
     },
   },
-
   topBar: {
     name1: "EOTC官网",
     name2: "去中心化OTC交易所",
