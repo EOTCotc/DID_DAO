@@ -205,12 +205,14 @@ VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch(err => err);
 };
 
+// 路由白名单
+const whiteList = ['/login', '/forgotPwd'];
 router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem('myaddress') || !Cookies.get('token')) {
-    if (to.path === '/login') {
+  if (!Cookies.get('token')) {
+    if (whiteList.includes(to.path)) {
       next();
     } else {
-      next('/login');
+      next(to.path);
     }
   } else {
     next();
