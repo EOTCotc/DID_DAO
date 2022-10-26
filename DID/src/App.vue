@@ -5,13 +5,10 @@
 </template>
 
 <script>
-import { loadweb3 } from "@/utils/web3";
 
 export default {
   name: "App",
-  mounted() {
-    loadweb3();
-  },
+  
 };
 </script>
 
