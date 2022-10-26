@@ -441,6 +441,8 @@ export default {
     tags4: '重新提交申請',
   },
   setting: {
+    address: '地址',
+    addressPlaceholder: '請選擇社區所在地',
     title1: '社區信息',
     title2: '請輸入…',
     title3: '填寫電報群地址',
@@ -448,6 +450,9 @@ export default {
     title5: '填寫Discord賬號',
     title6: '申請提交成功',
     title7: '結果將在7個工作日內進行反饋',
+    title: '確認提示',
+    message:
+      '為了便於線下建立推薦關係請謹慎選擇社區地址，一年內只可更改兩次地址',
     tags1: '展示圖片',
     tags2: '不傳則顯示默認圖片',
     tags3: '知道了',

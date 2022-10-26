@@ -102,6 +102,8 @@ export default {
   },
   // 账号设置
   setup: {
+    address: 'address',
+    addressPlaceholder: 'Please select a community location',
     settings: 'Account Settings',
     email: 'E-mail',
     referrer: 'Referrer',
@@ -469,6 +471,9 @@ export default {
     title5: 'Fill in Discord Account',
     title6: 'Application submitted successfully',
     title7: 'The results will be returned within 7 working days',
+    title: 'Confirmation prompt',
+    message:
+      'To facilitate the establishment of offline referral relationship, please carefully select the community address. You can only change the address twice a year',
     tags1: 'LastPhoto',
     tags2: 'If not, the default image is displayed',
     tags3: 'i see',

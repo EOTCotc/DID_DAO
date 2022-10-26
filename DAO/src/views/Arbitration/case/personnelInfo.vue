@@ -14,7 +14,7 @@
         <van-col class="title" :span="6">{{ $t("publicity.card") }}</van-col>
         <van-col class="value" :span="18">{{ info.idCard }}</van-col>
       </van-row>
-      <van-row class="row">
+      <van-row class="row" v-if="info.portraitImage || info.nationalImage">
         <van-col class="title" :span="24">{{
           $t("publicity.identity")
         }}</van-col>
@@ -29,7 +29,7 @@
           </van-row>
         </van-col>
       </van-row>
-      <van-row class="row">
+      <van-row class="row" v-if="info.handHeldImage">
         <van-col class="title" :span="24">{{
           $t("publicity.card_photo")
         }}</van-col>

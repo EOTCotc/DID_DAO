@@ -107,7 +107,7 @@ export default {
             this.community = {
               ...data,
               image: data.image
-                ? `http://192.168.2.110:5555/${data.image}`
+                ? `${process.env.VUE_APP_LOCATION}${data.image}`
                 : this.defaultImg,
             };
           } else {
