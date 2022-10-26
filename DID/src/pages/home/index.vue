@@ -122,9 +122,7 @@ import Notification from "@/components/notification";
 import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import { login } from "@/api/pagesApi/login";
 import { risklevel } from "@/api/risk";
-import { loadweb3 } from "@/utils/web3";
 export default {
   data() {
     return {
@@ -138,8 +136,8 @@ export default {
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
         { id: 3, text: "繁體中文", lang: "zhTw" },
-        { id: 4, text: "日本語", lang: "ja" },
-        { id: 5, text: "한국어", lang: "ko" },
+        // { id: 4, text: "日本語", lang: "ja" },
+        // { id: 5, text: "한국어", lang: "ko" },
       ],
       textLang: "",
     };
@@ -149,12 +147,16 @@ export default {
     Notification,
   },
   mounted() {
+    if (!this.cookie.get("userInfo") && !this.cookie.get("token")) {
+      this.$router.replace("/login");
+    } else {
+      this.getInfo();
+    }
     // 当前的语言
     if (localStorage.getItem("lang")) {
       this.textLang = JSON.parse(localStorage.getItem("lang")).text;
     } else {
-      let browserLang = navigator.language;
-      let langText = browserLang.slice(0, 2);
+      let langText = navigator.language.slice(0, 2);
       switch (langText) {
         case "zh":
           this.textLang = "简体中文";
@@ -173,33 +175,8 @@ export default {
           break;
       }
     }
-    // 自动登录(有钱包地址)
-    let req = {};
-    req.walletAddress = localStorage.getItem("myaddress");
-    req.otype = localStorage.getItem("netType");
-    req.sign = localStorage.getItem("mysign");
-    if (req.walletAddress && req.otype && req.sign) {
-      this.login(req);
-    } else if (!this.cookie.get("token")) {
-      this.$router.replace("/login");
-    }
   },
   methods: {
-    // 登录
-    login(req) {
-      login(req)
-        .then((res) => {
-          if (res.data.code == 0) {
-            this.cookie.set("token", res.data.items);
-            this.getInfo();
-          } else {
-            this.$router.replace("/login");
-          }
-        })
-        .catch((err) => {
-          this.$router.replace("/login");
-        });
-    },
     // 关闭风险弹窗
     handleClosed() {
       this.show = true;
@@ -388,6 +365,7 @@ export default {
   .text-p {
     padding: 0 40px;
     line-height: 60px;
+    font-family:'楷体 KaiTi';
     font-size: 28px;
     color: #b9b9b9;
     text-indent: 2em;

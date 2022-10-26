@@ -196,9 +196,10 @@ export default {
         }
       });
     },
-    // 推出登录
+    // 退出登录
     logout() {
       this.cookie.remove("token");
+      this.cookie.remove("userInfo");
       localStorage.clear();
       this.$toast.success(this.$t("setup.setup_toast5"));
       setTimeout(() => {

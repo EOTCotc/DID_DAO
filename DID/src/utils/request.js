@@ -1,6 +1,8 @@
 import axios from "axios";
 import cookie from "js-cookie";
 // process.env.VUE_APP_LOCATION
+// http://192.168.10.107:5555/
+// https://didapi.eotc.me/
 const request = axios.create({
   baseURL: process.env.VUE_APP_LOCATION,
 });

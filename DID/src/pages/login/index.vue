@@ -28,7 +28,6 @@
 <script>
 import LogIn from "./logIn";
 import SignIn from "./signIn";
-import { loadweb3 } from "@/utils/web3";
 
 export default {
   name: "login",
@@ -43,15 +42,15 @@ export default {
   },
   mounted() {
     this.btn = !!this.$route.code ? 2 : 1;
-    loadweb3(() => {
-      const dom = this.$refs.login;
-      const address = localStorage.getItem("myaddress")
-      dom.getWallet({
-        myaddress: address,
-        oType: address.length === 34 ? 'trx' : 'bsc',
-        sign: localStorage.getItem("mysign"),
-      });
-    });
+    // loadweb3(() => {
+    //   const dom = this.$refs.login;
+    //   const address = localStorage.getItem("myaddress")
+    //   dom.getWallet({
+    //     myaddress: address,
+    //     oType: address.length === 34 ? 'trx' : 'bsc',
+    //     sign: localStorage.getItem("mysign"),
+    //   });
+    // });
   },
   methods: {
     getBtnNum(e) {

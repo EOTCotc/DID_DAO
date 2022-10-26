@@ -27,7 +27,7 @@ export const getuserinfo = params => {
 //获取质押数量
 export const getuSereotc = data => {
   return request({
-    url: 'api/user/getusereotc',
+    url: 'api/daouser/getusereotc',
     method: 'post',
     data,
   });
