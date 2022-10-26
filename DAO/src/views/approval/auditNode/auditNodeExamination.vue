@@ -24,7 +24,7 @@
         <div v-show="index + 1 == count"
              v-for="(item, index) in testQuestionData"
              :key="item.id">
-          <div v-if="item.topicType != '(填空题)' && item.topicType != '(Completion)'">
+          <div v-if="item.topicType != `${$t('exam.topicType2')}`">
             <div class="questions">
               <h3>{{ item.questionContant }}</h3>
               <h4>{{ item.topicType }}</h4>
@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="completion"
-               v-if="item.topicType == '(填空题)' || item.topicType == '(Completion)'">
+               v-if="item.topicType == `${$t('exam.topicType2')}`">
             <h4>{{ item.topicType }}</h4>
             <div class="filed">
               {{ item.questionContant[0] }}
@@ -138,10 +138,7 @@ export default {
       this.idx = index
       this.jumpTestQuestions = false
       this.flag = true
-      if (
-        item.topicType == '(多选题)' ||
-        item.topicType == '(multiple choice)'
-      ) {
+      if (item.topicType == `${this.$t('exam.topicType1')}`) {
         let reindex = item.result.indexOf(val.contant)
         reindex == -1
           ? item.result.push(val.contant)
@@ -180,8 +177,8 @@ export default {
         return
       } else {
         if (
-          this.testQuestionData[index].topicType == '(多选题)' ||
-          this.testQuestionData[this.count - 1].topicType == '(multiple choice)'
+          this.testQuestionData[index].topicType ==
+          `${this.$t('exam.topicType1')}`
         ) {
           let CheckArr = []
           this.testQuestionData[index].questionAnswer.forEach((element) => {
@@ -225,7 +222,7 @@ export default {
         return
       } else {
         this.testQuestionData.forEach((el) => {
-          if (el.topicType != '(填空题)' && el.topicType != '(Completion)') {
+          if (el.topicType != `${this.$t('exam.topicType2')}`) {
             let a = []
             el.questionAnswer.forEach((item, idx) => {
               if (item.Check) {

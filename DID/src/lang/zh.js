@@ -94,6 +94,7 @@ export default {
     title1: '系统检测您的账号存在异常',
     title2: '暂无法使用该系统，请根据提示解除风控',
     title3: '解除风控',
+    air_drop:'空投',
   },
   // 账号设置
   setup: {

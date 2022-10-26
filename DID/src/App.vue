@@ -5,14 +5,13 @@
 </template>
 
 <script>
-
 export default {
   name: "App",
-  
 };
 </script>
 
 <style>
+/* iconfont */
 @font-face {
   font-family: "iconfont";
   src: url("@/assets/font/iconfont.woff2?t=1663582623740") format("woff2"),

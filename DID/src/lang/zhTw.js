@@ -94,6 +94,7 @@ export default {
     title1: '系統檢測您的賬號存在異常',
     title2: '暫無法使用該系統，請根據提示解除風控',
     title3: '解除風控',
+    air_drop:'空投',
   },
   // 賬號設置
   setup: {
