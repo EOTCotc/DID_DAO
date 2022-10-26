@@ -318,12 +318,14 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg3");
-                options.cb = this.riskLevel
-                  ? this.$router.push({
-                      name: "identity",
-                      params: { name, phoneNum, idCard },
-                    })
-                  : "";
+                options.cb = () => {
+                  if (this.riskLevel) {
+                    this.$router.push({
+                        name: "identity",
+                        params: { name, phoneNum, idCard },
+                      })
+                    }
+                };
                 break;
             }
             this.$dialog[options.type]({

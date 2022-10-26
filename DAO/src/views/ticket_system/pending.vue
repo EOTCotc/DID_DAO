@@ -46,7 +46,7 @@
             </van-cell-group>
             <van-empty v-show="!pengList.length"
                        class="custom-image"
-                       :image="require('./../../assets/img/空态-02.png')"
+                       :image="require('./../../assets/img/kongtai_02.png')"
                        :description="$t('pending.empty_text')" />
           </van-tab>
           <!-- 处理中 -->
@@ -81,7 +81,7 @@
             </van-cell-group>
             <van-empty v-show="!pengList.length"
                        class="custom-image"
-                       :image="require('./../../assets/img/空态-02.png')"
+                       :image="require('./../../assets/img/kongtai_02.png')"
                        :description="$t('pending.empty_text')" />
           </van-tab>
           <!-- 已处理 -->
@@ -108,7 +108,7 @@
             </van-cell-group>
             <van-empty v-show="!pengList.length"
                        class="custom-image"
-                       :image="require('./../../assets/img/空态-02.png')"
+                       :image="require('./../../assets/img/kongtai_02.png')"
                        :description="$t('pending.empty_text')" />
           </van-tab>
         </van-tabs>

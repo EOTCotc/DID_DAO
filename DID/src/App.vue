@@ -11,7 +11,7 @@ export default {
   name: "App",
   mounted() {
     loadweb3();
-  }
+  },
 };
 </script>
 

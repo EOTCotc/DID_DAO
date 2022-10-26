@@ -206,15 +206,7 @@ VueRouter.prototype.push = function push(to) {
 };
 
 router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem('myaddress') || !Cookies.get('token')) {
-    if (to.path === '/login') {
-      next();
-    } else {
-      next('/login');
-    }
-  } else {
-    next();
-  }
+  next()
 });
 
 export default router;

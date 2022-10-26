@@ -141,8 +141,8 @@ export default {
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
         { id: 3, text: "繁體中文", lang: "zhTw" },
-        { id: 4, text: "日本語", lang: "ja" },
-        { id: 5, text: "한국어", lang: "ko" },
+        // { id: 4, text: "日本語", lang: "ja" },
+        // { id: 5, text: "한국어", lang: "ko" },
       ],
       textLang: "",
     };
@@ -152,6 +152,11 @@ export default {
     Notification,
   },
   mounted() {
+    if (!this.cookie.get("userInfo") && !this.cookie.get("token")) {
+      this.$router.replace("/login");
+    } else {
+      this.getInfo();
+    }
     // 当前的语言
     if (localStorage.getItem("lang")) {
       this.textLang = JSON.parse(localStorage.getItem("lang")).text;
