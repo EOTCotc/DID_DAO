@@ -175,8 +175,7 @@ export default {
       } else {
         if (
           this.testQuestionData[this.count - 1].topicType ==
-            `${this.$t('exam.topicType1')}` ||
-          this.testQuestionData[this.count - 1].topicType == '(multiple choice)'
+          `${this.$t('exam.topicType1')}`
         ) {
           let CheckArr = []
           this.testQuestionData[this.count - 1].questionAnswer.forEach(
