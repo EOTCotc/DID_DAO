@@ -169,6 +169,8 @@ module.exports = {
     next: "下一題",
     pre: "上一題",
     submit: "提交",
+    topicType1: "(多選題)",
+    topicType2: "(填空題)",
     testQuestionData: [
       {
         id: 1,
