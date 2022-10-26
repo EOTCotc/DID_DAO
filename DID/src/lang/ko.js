@@ -11,7 +11,7 @@ export default {
     loading: '로드 중…',
     not_data: '아직 데이터가 없습니다.',
     suc: '성공적으로 저장됨',
-    msg1:'기능이 곧 출시될 것이다!'
+    msg1: '기능이 곧 출시될 것이다!',
   },
   rulesMsg: {
     email: '이메일 주소를 입력하세요.',
@@ -77,6 +77,7 @@ export default {
   },
   // 首页
   home: {
+    title: ['에 오신 것을 환영합니다', 'DID 분산 ID 시스템'],
     authenticated: '신원 확인',
     start_attestation: '인증 시작',
     system_introduction: '소개',

@@ -205,8 +205,18 @@ VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch(err => err);
 };
 
+// 路由白名单
+const whiteList = ['/login', '/forgotPwd'];
 router.beforeEach((to, from, next) => {
-  next()
+  if (!Cookies.get('token')) {
+    if (whiteList.includes(to.path)) {
+      next();
+    } else {
+      next(to.path);
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
