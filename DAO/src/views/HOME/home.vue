@@ -173,6 +173,16 @@ export default {
           text: "English",
           lang: "en",
         },
+        {
+          id: 4,
+          text: "Korean",
+          lang: "ko",
+        },
+        {
+          id: 6,
+          text: "Thai",
+          lang: "th",
+        },
       ],
       tanShow: false,
       proposalList: [], //提案列表
@@ -185,7 +195,7 @@ export default {
     if (localStorage.getItem("lang")) {
       this.langText = JSON.parse(localStorage.getItem("lang")).text;
     } else {
-      let lang = navigator.language.slice(0,2);
+      let lang = navigator.language.slice(0, 2);
       switch (lang) {
         case "zh":
           this.langText = "简体中文";

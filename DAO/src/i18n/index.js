@@ -1,11 +1,11 @@
 import Vue from "vue";
 import vueI18n from "vue-i18n";
-Vue.use(vueI18n)
+Vue.use(vueI18n);
 
-let browserLang = navigator.language.split('-')[0]
-let lang = JSON.parse(localStorage.getItem('lang'))
+let browserLang = navigator.language.split("-")[0];
+let lang = JSON.parse(localStorage.getItem("lang"));
 if (lang) {
-  lang = lang.lang
+  lang = lang.lang;
 }
 
 const i18n = new vueI18n({
@@ -13,7 +13,9 @@ const i18n = new vueI18n({
   messages: {
     zh: require("./lang/zh"),
     en: require("./lang/en"),
-    zhTw: require('./lang/zhTw')
+    zhTw: require("./lang/zhTw"),
+    ko: require("./lang/ko"),
+    th: require("./lang/th"),
   },
 });
 
