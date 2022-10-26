@@ -94,12 +94,24 @@ export default {
         if (res.data.code == 0) {
           this.cookie.set("token", res.data.items);
           this.$router.replace("/");
+        } else {
+          this.$toast.fail(res.data.message);
         }
       });
     } else {
       // 获取钱包地址，网络类型...
       loadweb3(() => {
-        this.$router.go(0);
+        this.form.walletAddress = localStorage.getItem("myaddress");
+        this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
+        this.form.sign = localStorage.getItem("mysign");
+        login(this.form).then((res) => {
+          if (res.data.code == 0) {
+            this.cookie.set("token", res.data.items);
+            this.$router.replace("/");
+          } else {
+            this.$toast.fail(res.data.message);
+          }
+        });
       });
     }
   },

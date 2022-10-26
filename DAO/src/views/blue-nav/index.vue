@@ -214,7 +214,7 @@ export default {
   margin-top: 20px;
 }
 .feedbackTitle {
-  font-size: 30px;
+  font-size: 32px;
   color: #333333;
   font-weight: 700;
   margin: 10px 0;
@@ -226,7 +226,7 @@ export default {
   align-items: center;
   padding: 5px 20px;
   line-height: 50px;
-  font-size: 14px;
+  font-size: 28px;
   box-sizing: border-box;
   background-color: #f3f4f5;
   border-radius: 10px;
@@ -252,7 +252,7 @@ export default {
 
 .custom-msg {
   color: #999999;
-  font-size: 20px;
+  font-size: 28px;
 }
 
 .van-uploader {
