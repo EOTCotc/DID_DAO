@@ -98,6 +98,7 @@ export default {
     title2:
       'The system cannot be used temporarily, please follow the prompts to remove the risk control',
     title3: 'De-risk control',
+    air_drop:'air-drop'
   },
   // 账号设置
   setup: {

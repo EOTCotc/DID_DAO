@@ -11,35 +11,6 @@ export default {
 </script>
 
 <style>
-/* 思源黑体 */
-@font-face {
-  font-family: NotoSansHans-Black;
-  src: url("./assets/family/NotoSansHans-Black.ttf");
-}
-@font-face {
-  font-family: NotoSansHans-Bold;
-  src: url("./assets/family/NotoSansHans-Bold.ttf");
-}
-@font-face {
-  font-family: NotoSansHans-DemiLight;
-  src: url("./assets/family/NotoSansHans-DemiLight.ttf");
-}
-@font-face {
-  font-family: NotoSansHans-Light;
-  src: url("./assets/family/NotoSansHans-Light.ttf");
-}
-@font-face {
-  font-family: NotoSansHans-Medium;
-  src: url("./assets/family/NotoSansHans-Medium.ttf");
-}
-@font-face {
-  font-family: NotoSansHans-Regular;
-  src: url("./assets/family/NotoSansHans-Regular.ttf");
-}
-@font-face {
-  font-family: NotoSansHans-Thin-Windows;
-  src: url("./assets/family/NotoSansHans-Thin-Windows.ttf");
-}
 /* iconfont */
 @font-face {
   font-family: "iconfont";

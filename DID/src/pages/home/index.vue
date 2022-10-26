@@ -136,8 +136,11 @@ export default {
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
         { id: 3, text: "繁體中文", lang: "zhTw" },
-        // { id: 4, text: "日本語", lang: "ja" },
-        // { id: 5, text: "한국어", lang: "ko" },
+        { id: 4, text: "日本語", lang: "ja" },
+        { id: 5, text: "한국어", lang: "ko" },
+        { id: 6, text: "русский язык", lang: "ru" },
+        { id: 7, text: "Français", lang: "fr" },
+        { id: 8, text: "ภาษาไทย", lang: "th" },
       ],
       textLang: "",
     };
@@ -172,6 +175,15 @@ export default {
           break;
         case "ko":
           this.textLang = "한국어";
+          break;
+        case "ru":
+          this.textLang = "русский язык";
+          break;
+        case "fr":
+          this.textLang = "Français";
+          break;
+        case "th":
+          this.textLang = "ภาษาไทย";
           break;
       }
     }
@@ -282,7 +294,7 @@ export default {
     margin-top: 100px;
     text-align: center;
     .text {
-      color: #FFF;
+      color: #fff;
       font-size: 60px;
       font-weight: bold;
       letter-spacing: 4px;

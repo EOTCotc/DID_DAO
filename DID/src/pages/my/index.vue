@@ -36,6 +36,14 @@
           </div>
         </div>
       </div>
+      <!-- 空投 -->
+      <div class="air-drop">
+        <div>
+          <span>{{$t('home.air_drop')}}</span>
+          <span>{{userInfo.airdropEotc}}EOTC</span>
+        </div>
+        <img src="@/assets/imgs/kongtou.png" alt="" />
+      </div>
       <!-- 菜单栏 -->
       <div class="cell">
         <!-- 认证审核 -->
@@ -321,10 +329,10 @@ export default {
                 options.cb = () => {
                   if (this.riskLevel) {
                     this.$router.push({
-                        name: "identity",
-                        params: { name, phoneNum, idCard },
-                      })
-                    }
+                      name: "identity",
+                      params: { name, phoneNum, idCard },
+                    });
+                  }
                 };
                 break;
             }
@@ -473,7 +481,30 @@ export default {
       }
     }
   }
-
+  // 空投
+  .air-drop {
+    margin-top: 30px;
+    padding: 0 30px;
+    height: 120px;
+    background: linear-gradient(135deg, #3a5683 0%, #83aade 100%, #000 100%);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      span {
+        font-size: 32px;
+        color: #fff;
+      }
+      span:last-of-type{
+        margin-left: 30px;
+      }
+    }
+    img {
+      width: 88px;
+      height: 100px;
+    }
+  }
   // 菜单栏
   :deep(.van-cell) {
     padding: 30px 0 0 0;
