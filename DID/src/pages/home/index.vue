@@ -137,10 +137,10 @@ export default {
         { id: 2, text: "English", lang: "en" },
         { id: 3, text: "繁體中文", lang: "zhTw" },
         { id: 4, text: "日本語", lang: "ja" },
-        { id: 5, text: "한국어", lang: "ko" },
-        { id: 6, text: "русский язык", lang: "ru" },
-        { id: 7, text: "Français", lang: "fr" },
-        { id: 8, text: "ภาษาไทย", lang: "th" },
+        { id: 5, text: "한국어", lang: "ko" }, //韩语
+        { id: 6, text: "русский язык", lang: "ru" }, //俄语
+        { id: 7, text: "Français", lang: "fr" }, //法语
+        { id: 8, text: "ภาษาไทย", lang: "th" }, //泰语
       ],
       textLang: "",
     };
@@ -174,16 +174,16 @@ export default {
           this.textLang = "日本語";
           break;
         case "ko":
-          this.textLang = "한국어";
+          this.textLang = "한국어"; //韩语
           break;
         case "ru":
-          this.textLang = "русский язык";
+          this.textLang = "русский язык"; //俄语
           break;
         case "fr":
-          this.textLang = "Français";
+          this.textLang = "Français"; //法语
           break;
         case "th":
-          this.textLang = "ภาษาไทย";
+          this.textLang = "ภาษาไทย"; //泰语
           break;
       }
     }
