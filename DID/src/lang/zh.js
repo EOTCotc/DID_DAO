@@ -98,6 +98,8 @@ export default {
   },
   // 账号设置
   setup: {
+    address: '地址',
+    addressPlaceholder: '请选择社区所在地',
     settings: '账号设置',
     email: '邮箱',
     referrer: '推荐人',
@@ -448,6 +450,9 @@ export default {
     title5: '填写Discord账号',
     title6: '申请提交成功',
     title7: '结果将在7个工作日内进行反馈',
+    title: '确认提示',
+    message:
+      '为了便于线下建立推荐关系请谨慎选择社区地址，一年内只可更改两次地址',
     tags1: '展示图片',
     tags2: '不传则显示默认图片',
     tags3: '知道了',

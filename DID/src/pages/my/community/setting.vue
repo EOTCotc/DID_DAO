@@ -31,6 +31,15 @@
           :placeholder="$t('setting.title2')"
         />
         <van-field
+          v-model="form.data.addressName"
+          required
+          name="addressName"
+          :label="$t('setup.address')"
+          :placeholder="$t('setup.addressPlaceholder')"
+          :rules="[{ required: true, message: $t('setup.addressPlaceholder') }]"
+          @click="$router.push({ path: '/site', query: {form: $route.name} })"
+        />
+        <van-field
           v-model="form.data.telegram"
           required
           name="telegram"
@@ -87,31 +96,37 @@ export default {
     // 获取社区信息
     getCommunity() {
       this.$toast.loading(this.$t('public.loading'));
-      search()
-        .then((res) => {
-          if (!res.data.code) {
-            const data = res.data.items;
-            this.form.data = res.data.items;
-            data.image &&
-              this.$set(this.fileList, 0, {
-                url: `http://192.168.2.110:5555/${data.image}`,
-                file: "",
-                status: "",
-                message: this.$t('setting.data1'),
-                deletable: true,
-                imageFit: "contain",
-                previewSize: "100%",
-              });
-          } else {
-            this.$toast.fail({
-              forbidClick: true,
-              message: res.data.message,
-            });
+      search().then((res) => {
+        if (!res.data.code) {
+          const data = res.data.items;
+          if (this.$route.params.code) {
+            const {province, city, area} = this.$route.params.code
+            const country = this.cookie.get("country") ? this.cookie.get("country").split(',') : []
+            data.addressName = `${country ? country[1] : ''}${province ? province[1] : ''}${city ? city[1] : ''}${area ? area[1] : ''}`
+            data.country = country ? country[0] : ''
+            data.province = province ? province[0] : ''
+            data.city = city ? city[0] : ''
+            data.area = area ? area[0] : ''
           }
-        })
-        .finally((err) => {
-          this.$toast.clear();
-        });
+          data.image && this.$set(this.fileList, 0, {
+            url: `${process.env.VUE_APP_LOCATION}${data.image}`,
+            file: "",
+            status: "",
+            message: this.$t('setting.data1'),
+            deletable: true,
+            imageFit: "contain",
+            previewSize: "100%",
+          });
+          this.form.data = data;
+        } else {
+          this.$toast.fail({
+            forbidClick: true,
+            message: res.data.message,
+          });
+        }
+      }).finally((err) => {
+        this.$toast.clear();
+      });
     },
     afterRead({ content, file }) {
       this.$set(this.fileList, 0, {
@@ -139,21 +154,29 @@ export default {
       });
     },
     handleSubmit() {
-      const loading = this.$toast.loading({
-        message:this.$t('setting.data2'),
-        forbidClick: true,
-      });
-      update(this.form.data)
-        .then((res) => {
-          this.$toast.success({
-            message: this.$t('identity.data4'),
-            forbidClick: true,
-            onClose: () => {
-              this.$router.replace("/my/community");
-            },
-          });
-        })
-        .finally(() => loading.clear());
+      this.$dialog.confirm({
+        title: this.$t('setting.title'),
+        message: this.$t('setting.message'),
+        beforeClose: (action, done) => {
+          if (action === 'confirm') {
+            const loading = this.$toast.loading({
+              message:this.$t('setting.data2'),
+              forbidClick: true,
+            });
+            update(this.form.data).then(() => {
+              this.$toast.success({
+                message: this.$t('identity.data4'),
+                forbidClick: true,
+                onClose: () => {
+                  this.$router.replace("/my/community");
+                },
+              });
+            }).finally(() => loading.clear());
+          } else {
+            done()
+          }
+        }
+      })
     },
   },
   created() {

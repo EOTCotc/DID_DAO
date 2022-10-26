@@ -35,7 +35,8 @@ export default {
   },
   reject: {
     tags1: 'taper',
-    tags2: 'Les utilisateurs qui opèrent de manière malveillante et les nœuds de recommandation qui les traversent déduiront les points de crédit correspondants',
+    tags2:
+      'Les utilisateurs qui opèrent de manière malveillante et les nœuds de recommandation qui les traversent déduiront les points de crédit correspondants',
     tags3: 'cause spécifique',
     tags4: 'Veuillez entrer une raison précise',
     data1: 'Information incomplète',
@@ -51,7 +52,8 @@ export default {
     pwd: 'mot de passe',
     not_account: 'pas encore de compte',
     register: "S'inscrire maintenant",
-    signin_title: "L'EOTC adopte un système d'inscription sur invitation strict",
+    signin_title:
+      "L'EOTC adopte un système d'inscription sur invitation strict",
     send_code: 'Envoyer le code de vérification',
     email_code: 'Code de vérification de courrier électronique',
     signin_pwd: 'le mot de passe',
@@ -79,7 +81,8 @@ export default {
     authenticated: 'Identité vérifiée',
     start_attestation: 'commencer la certification',
     system_introduction: 'introduction',
-    not_bound: "Il a été détecté que vous n'avez aucune relation de parrainage. Pour la sécurité du compte, veuillez vous rendre sur Lier la relation de parrainage",
+    not_bound:
+      "Il a été détecté que vous n'avez aucune relation de parrainage. Pour la sécurité du compte, veuillez vous rendre sur Lier la relation de parrainage",
     tags1: 'sous certification',
     tags2: 'Authentification échouée',
     tags3: `EOTC DID est un système d'identité décentralisé, un système d'identité qui fonctionne de manière indépendante, un stockage distribué, un stockage d'identité décentralisé et une invocation autorisée. EOTC
@@ -88,12 +91,15 @@ DID peut relier toutes les chaînes publiques et peut fournir une identité déc
     tags4: `L'émergence d'EOTC DID protégera fortement la vie privée des utilisateurs et comblera en même temps l'écart que la blockchain ne peut pas identifier l'identité du détenteur de l'adresse de la chaîne publique et ne peut pas étiqueter le détenteur de l'adresse avec des étiquettes commerciales.
 DID injectera un support d'application de base solide dans le monde de la blockchain et ouvrira des applications commerciales de blockchain plus efficaces, plus sûres et plus scientifiques.`,
     tags5: 'Copyright 2022 EOTC.',
-    tags6: "Il est détecté que vous n'avez aucune relation de parrainage, pour le compte",
-    tags7: 'Pour plus de sécurité, veuillez vous rendre sur Bind Referral Relationship',
+    tags6:
+      "Il est détecté que vous n'avez aucune relation de parrainage, pour le compte",
+    tags7:
+      'Pour plus de sécurité, veuillez vous rendre sur Bind Referral Relationship',
     title1: 'Le système détecte que votre compte est anormal',
-    title2: 'Le système est temporairement indisponible, veuillez suivre les invites pour libérer le contrôle des risques',
+    title2:
+      'Le système est temporairement indisponible, veuillez suivre les invites pour libérer le contrôle des risques',
     title3: 'Contrôle des risques liés aux versions',
-    air_drop:'Largage aérien',
+    air_drop: 'Largage aérien',
   },
   // 账号设置
   setup: {
@@ -111,7 +117,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     setTelegram: 'Créer un groupe de télégrammes',
     input_telegram: "Veuillez entrer l'adresse du télégramme",
     logout_tip: 'Invite de sortie',
-    logout_cont: 'Voulez-vous vraiment vous déconnecter de votre compte actuel ?',
+    logout_cont:
+      'Voulez-vous vraiment vous déconnecter de votre compte actuel ?',
     logout: 'se déconnecter',
     setup_toast1: 'Copier avec succès',
     setup_toast2: 'Échec de la réplication',
@@ -132,7 +139,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     new_email: 'Nouvelle adresse courriel',
     input_email: 'Veuillez saisir une nouvelle adresse e-mail',
     new_code: "nouveau code de vérification d'e-mail",
-    input_code: "Veuillez saisir le nouveau code de vérification de l'adresse e-mail",
+    input_code:
+      "Veuillez saisir le nouveau code de vérification de l'adresse e-mail",
     impower: 'Autoriser',
     cimmit_change: 'Soumettre des changements',
     set_email_toast1: 'veuillez entrer votre email',
@@ -157,7 +165,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     tip: "Afin de faciliter l'établissement d'une relation de recommandation hors ligne, veuillez choisir avec soin l'emplacement actuel.Une fois lié, il ne peut pas être modifié.",
     next: "Confirmez, passez à l'étape suivante",
     conf_tip: 'invite de confirmation',
-    conf_cont: "Après confirmation, vous ne pourrez plus modifier la relation ni lier la région. Voulez-vous vraiment passer à l'étape suivante ?",
+    conf_cont:
+      "Après confirmation, vous ne pourrez plus modifier la relation ni lier la région. Voulez-vous vraiment passer à l'étape suivante ?",
     // bindNation
     search: 'Veuillez entrer le mot-clé de recherche',
     // bindCommunity
@@ -178,22 +187,27 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     cause: "Raison pour l'annulation",
     //确定信息confInfo
     acc_property: 'Actifs du compte',
-    conf_tip: "Les actifs du compte incluent, mais sans s'y limiter, tous les actifs et récompenses de chaque compte de projet d'EOTC",
+    conf_tip:
+      "Les actifs du compte incluent, mais sans s'y limiter, tous les actifs et récompenses de chaque compte de projet d'EOTC",
     give_up: 'OK Rejeté/Traité',
     next: "L'étape suivante",
     acc_dispose: 'Gestion des actifs du compte',
-    dis_tip: "Assurez-vous d'abandonner ou de disposer correctement de tous les actifs et récompenses du compte courant",
+    dis_tip:
+      "Assurez-vous d'abandonner ou de disposer correctement de tous les actifs et récompenses du compte courant",
     think_again: 'laisse-moi repenser',
     //重要提醒(remind)
     parag1:
       "La fermeture d'un compte est une opération irréversible, avant toute opération, veuillez vous assurer que tous les avoirs liés au compte ont bien été liquidés.",
     parag2:
       "N'oubliez pas : si vous annulez votre compte, vous ne pourrez plus utiliser ce compte ou récupérer tout contenu ou information que vous avez ajouté ou lié (même si vous utilisez la même adresse e-mail pour vous inscrire à nouveau), y compris, mais sans s'y limiter :",
-    parag3: "(1) Vous ne pourrez pas vous connecter et utiliser ce compte, et votre relation d'équipe n'existera pas.",
-    parag4: "(2) Avant d'annuler votre compte WeChat, vous devez gérer correctement tous les problèmes de fonds du compte.",
+    parag3:
+      "(1) Vous ne pourrez pas vous connecter et utiliser ce compte, et votre relation d'équipe n'existera pas.",
+    parag4:
+      "(2) Avant d'annuler votre compte WeChat, vous devez gérer correctement tous les problèmes de fonds du compte.",
     parag5:
       "(3) Si vous l'utilisez via votre compte, les récompenses, cartes, blind box, droits, qualifications, commandes, réductions, etc. que vous avez obtenus seront réputés abandonnés par vous et ne seront plus utilisés. Vous comprenez et acceptez qu'EOTC ne peut pas vous aider à restaurer les actifs susmentionnés.",
-    parag6: '(4) Toutes les fonctions ou services liés au compte ne seront plus disponibles.',
+    parag6:
+      '(4) Toutes les fonctions ou services liés au compte ne seront plus disponibles.',
     parag7:
       "(5) Pendant la période d'annulation de compte, si votre compte est en cours d'arbitrage, EOTC et DAO ont le droit de mettre fin à l'annulation de votre compte sans obtenir votre consentement.",
     have_read: "J'ai lu",
@@ -202,14 +216,17 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     rests: 'Veuillez décrire brièvement les autres raisons',
     conf_off: 'confirmer la déconnexion',
     reason_text1: "Besoin de dissocier l'e-mail",
-    reason_text2: 'Vous souhaitez annuler la relation actuelle avec la communauté de parrainage',
+    reason_text2:
+      'Vous souhaitez annuler la relation actuelle avec la communauté de parrainage',
     reason_text3: 'Ceci est un compte redondant',
     reason_text4: 'autre',
     // 确认信息(verifyLogout)
     submit: 'nous faire parvenir',
     warn: 'prévenir',
-    warn1: "1. Une fois l'annulation soumise, l'EOTC DAO effectuera la vérification et le traitement de l'annulation dans les 48 heures.",
-    warn2: "2. Après la déconnexion, toutes les informations du compte seront effacées et ne pourront pas être récupérées, veuillez faire preuve de prudence.",
+    warn1:
+      "1. Une fois l'annulation soumise, l'EOTC DAO effectuera la vérification et le traitement de l'annulation dans les 48 heures.",
+    warn2:
+      '2. Après la déconnexion, toutes les informations du compte seront effacées et ne pourront pas être récupérées, veuillez faire preuve de prudence.',
     warn3:
       "3. Une fois l'annulation réussie, la boîte aux lettres peut être réenregistrée en tant que nouveau compte, qui ne contient aucune information avant l'annulation.",
     // 账号注销倒计时(logoutCountdown)
@@ -236,16 +253,21 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     invite_friends: 'Inviter des amis',
     bind_address: 'Adresse contraignante de chaque chaîne publique',
     each_item: 'Reliez chaque élément',
-    my_dialog1_msg: 'La candidature de la communauté a été approuvée. Veuillez améliorer les informations de la communauté à temps. Voulez-vous y aller maintenant ?',
+    my_dialog1_msg:
+      'La candidature de la communauté a été approuvée. Veuillez améliorer les informations de la communauté à temps. Voulez-vous y aller maintenant ?',
     my_dialog1_text1: "D'accord pour y aller",
     my_dialog1_text2: 'aller plus tard',
     my_index_title1: 'Authentification',
-    my_index_msg1: "L'identité n'est pas vérifiée, veuillez vérifier maintenant",
-    my_index_msg2: "La vérification d'identité est en cours, veuillez patienter",
-    my_index_msg3: "Échec de la vérification de l'identité, veuillez renouveler la certification",
+    my_index_msg1:
+      "L'identité n'est pas vérifiée, veuillez vérifier maintenant",
+    my_index_msg2:
+      "La vérification d'identité est en cours, veuillez patienter",
+    my_index_msg3:
+      "Échec de la vérification de l'identité, veuillez renouveler la certification",
     my_index_text1: "aller à l'agrément",
     my_index_title2: 'Relation de référence',
-    my_index_msg4: "La relation de recommandation n'a pas encore été liée, veuillez la lier maintenant",
+    my_index_msg4:
+      "La relation de recommandation n'a pas encore été liée, veuillez la lier maintenant",
     my_index_text2: 'lier maintenant',
   },
   // 我的团队
@@ -286,7 +308,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
   wallets: {
     wallets_title1: 'Adresse contraignante de chaque chaîne publique',
     tags: "Annuler l'autorisation",
-    wallets_msg1: "Confirmer pour annuler l'autorisation de l'adresse de chaîne publique actuelle",
+    wallets_msg1:
+      "Confirmer pour annuler l'autorisation de l'adresse de chaîne publique actuelle",
     wallets_msg1: 'Autorisation annulée',
   },
   // 付款方式
@@ -294,7 +317,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     title1: 'Mode de paiement',
     tags1: 'Configurer un compte de paiement',
     text1: 'effacer',
-    tags2: 'Afficher uniquement les acheteurs qui ouvrent des comptes récepteurs',
+    tags2:
+      'Afficher uniquement les acheteurs qui ouvrent des comptes récepteurs',
     data1: 'carte bancaire',
     data2: 'Alipay',
     data3: 'Payer WeChat',
@@ -318,7 +342,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     text8: "Entrez s'il vous plait",
     text9: 'Compte',
     title2: 'Bons conseils',
-    tags1: 'Les informations de paiement impliquent des transactions, veuillez vérifier les informations avant de soumettre',
+    tags1:
+      'Les informations de paiement impliquent des transactions, veuillez vérifier les informations avant de soumettre',
     tags2: "D'ACCORD",
     title3: 'Vérifier les informations',
     tags3: 'Veuillez confirmer que les informations actuelles sont correctes',
@@ -350,15 +375,19 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     text3: "Veuillez entrer le numéro d'identification",
     tags1: 'exemple de graphique',
     tags2: "Télécharger le visage de la carte d'identité",
-    tags3: "Veuillez suivre l'exemple d'image pour télécharger la photo du visage du portrait de la carte d'identité",
+    tags3:
+      "Veuillez suivre l'exemple d'image pour télécharger la photo du visage du portrait de la carte d'identité",
     tags4: "Affichage des informations d'audit",
-    tags5: "Une fois que la photo d'identité que vous avez téléchargée est partiellement floue, elle sera examinée par différents nœuds",
+    tags5:
+      "Une fois que la photo d'identité que vous avez téléchargée est partiellement floue, elle sera examinée par différents nœuds",
     tags6: 'Le recommandataire affiche les 60 % restants',
     tags7: "Le nœud d'audit affiche les bons 60 %",
     tags8: "Téléchargez votre carte d'identité et votre emblème national",
-    tags9: "Veuillez suivre l'exemple d'image pour télécharger la carte d'identité et l'emblème national",
+    tags9:
+      "Veuillez suivre l'exemple d'image pour télécharger la carte d'identité et l'emblème national",
     tags10: 'Télécharger une photo de passeport',
-    tags11: "Veuillez suivre l'exemple d'image pour télécharger une photo de passeport",
+    tags11:
+      "Veuillez suivre l'exemple d'image pour télécharger une photo de passeport",
     tags12: 'Précédent',
     tags13: "Téléchargement d'images...",
     tags14: "Envoi d'informations...",
@@ -373,7 +402,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
   fail: {
     tags1: 'ID de téléchargement',
     tags2: 'Rappeler la raison',
-    tags3: 'Informations incorrectes : la photo en main est incorrecte, veuillez la soumettre à nouveau',
+    tags3:
+      'Informations incorrectes : la photo en main est incorrecte, veuillez la soumettre à nouveau',
     tags4: 'Soumettre à nouveau',
   },
   approval: {
@@ -391,7 +421,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     data3: 'refuser',
     data4: 'Chargement de la liste...',
     data5: "Invite d'approbation",
-    data6: 'Veuillez vous assurer que le demandeur remplit correctement les informations, êtes-vous sûr que la demande est approuvée ?',
+    data6:
+      'Veuillez vous assurer que le demandeur remplit correctement les informations, êtes-vous sûr que la demande est approuvée ?',
     msg1: 'Opération réussie',
     data7: "Ignorer l'invite",
     data8: 'Êtes-vous sûr de vouloir rejeter la candidature ?',
@@ -435,11 +466,14 @@ DID injectera un support d'application de base solide dans le monde de la blockc
   // process
   process: {
     tags1: "processus d'approbation",
-    tags2: "Désolé, votre demande de création d'une communauté a été rejetée pour le moment",
+    tags2:
+      "Désolé, votre demande de création d'une communauté a été rejetée pour le moment",
     tags3: 'Les motifs de refus sont les suivants',
     tags4: 'resoumettre la demande',
   },
   setting: {
+    address: 'adresse',
+    addressPlaceholder: 'Veuillez sélectionner un emplacement communautaire',
     title1: 'informations communautaires',
     title2: "Entrez s'il vous plait…",
     title3: "Remplissez l'adresse du groupe de télégrammes",
@@ -455,7 +489,8 @@ DID injectera un support d'application de base solide dans le monde de la blockc
   },
   // 风控
   risk: {
-    tags1: "Afin d'utiliser le compte normalement, veuillez vérifier l'identité de la vidéo avec les 5 contacts suivants à temps",
+    tags1:
+      "Afin d'utiliser le compte normalement, veuillez vérifier l'identité de la vidéo avec les 5 contacts suivants à temps",
     tags2: "L'annulation de 3 contacts ou plus prendra effet immédiatement",
     tags3: 'Libérer le contact de contrôle des risques',
     tags4: 'Contactez',
