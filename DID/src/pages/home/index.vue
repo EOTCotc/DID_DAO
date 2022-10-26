@@ -6,13 +6,8 @@
     <div class="content">
       <!-- 名称 -->
       <div class="project_name">
-        <img
-          :src="
-            textLang == '简体中文'
-              ? require('@/assets/imgs/project_name.png')
-              : require('@/assets/imgs/project_name2.png')
-          "
-        />
+        <p class="text bold">{{ $t("home.title[0]") }}</p>
+        <p class="text">{{ $t("home.title[1]") }}</p>
       </div>
       <!-- 背景图 -->
       <div class="big_bg_logo">
@@ -281,9 +276,15 @@ export default {
   .project_name {
     margin-top: 100px;
     text-align: center;
-    img {
-      width: 657px;
-      height: 236px;
+    .text {
+      color: #FFF;
+      font-size: 60px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      &.bold {
+        font-size: 60px;
+        margin-bottom: 30px;
+      }
     }
   }
   // 大的背景图
