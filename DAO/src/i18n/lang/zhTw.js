@@ -33,6 +33,7 @@ module.exports = {
     status4: "已終止",
     not_data: "暫無任何提案信息",
     remove_risk: "解除風控",
+    msg_fail:'獲取信息失敗'
   },
   reject: {
     tags1: '類型',

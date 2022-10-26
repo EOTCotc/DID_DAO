@@ -6,7 +6,6 @@ module.exports = {
       btn: "解除风控",
     },
   },
-
   topBar: {
     name1: "EOTC官网",
     name2: "去中心化OTC交易所",
@@ -33,6 +32,7 @@ module.exports = {
     status4: "已终止",
     not_data: "暂无任何提案信息",
     remove_risk: "解除风控",
+    msg_fail:'获取信息失败'
   },
   reject: {
     tags1: '类型',
