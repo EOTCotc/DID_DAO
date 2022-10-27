@@ -204,6 +204,21 @@ export default {
           text: "ภาษาไทย",
           lang: "th",
         },
+        {
+          id: 8,
+          text: "Nederlands",
+          lang: "nl",
+        },
+        {
+          id: 10,
+          text: "عربي",
+          lang: "ar",
+        },
+        {
+          id: 12,
+          text: "IndonesiaName",
+          lang: "id",
+        },
       ],
       tanShow: false,
       proposalList: [], //提案列表
@@ -223,6 +238,16 @@ export default {
           break;
         case "en":
           this.langText = "English";
+          break;
+
+        case "nl":
+          this.langText = "Nederlands";
+          break;
+        case "ar":
+          this.langText = "عربي";
+          break;
+        case "id":
+          this.langText = "IndonesiaName";
           break;
         case "ja":
           this.textLang = "日本語";
