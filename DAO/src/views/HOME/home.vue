@@ -2,29 +2,29 @@
   <div>
     <TopBar />
     <div class="content">
-      <van-notice-bar
-        v-if="notice"
-        :text="notice"
-        left-icon="volume-o"
-        color="#FFF"
-        background="rgba(255, 255, 255, .2)"
-        @click="user ? $router.push('/notice') : ''"
-      />
-      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
+      <van-notice-bar v-if="notice"
+                      :text="notice"
+                      left-icon="volume-o"
+                      color="#FFF"
+                      background="rgba(255, 255, 255, .2)"
+                      @click="user ? $router.push('/notice') : ''" />
+      <img class="home-logo"
+           src="@/assets/imgs/home_logo.png"
+           alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
-      <button class="home-btn" @click="user ? $router.push('/Create') : ''">
+      <button class="home-btn"
+              @click="user ? $router.push('/Create') : ''">
         {{ $t("home.btn") }}
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
-          <span
-            class="home-proposal-more"
-            @click="
+          <span class="home-proposal-more"
+                @click="
               user
                 ? $router.push({
                     path: '/Bill_list',
@@ -32,19 +32,19 @@
                   })
                 : ''
             "
-            v-if="proposalList.length != 0"
-          >
+                v-if="proposalList.length != 0">
             {{ $t("home.more") }}
-            <van-icon name="arrow" color="#fff" />
+            <van-icon name="arrow"
+                      color="#fff" />
           </span>
         </div>
         <!-- 最新提案 -->
-        <div class="list-box" v-if="proposalList.length != 0">
-          <div
-            class="list-every"
-            v-for="(item, index) in proposalList"
-            :key="index"
-            @click="
+        <div class="list-box"
+             v-if="proposalList.length != 0">
+          <div class="list-every"
+               v-for="(item, index) in proposalList"
+               :key="index"
+               @click="
               user
                 ? $router.push({
                     path: '/detail',
@@ -55,8 +55,7 @@
                     },
                   })
                 : ''
-            "
-          >
+            ">
             <!-- 提案标题 -->
             <div class="every-title">{{ item.title }}</div>
             <!-- 提案状态 -->
@@ -83,7 +82,8 @@
             </div>
           </div>
         </div>
-        <div v-else class="not-data">{{ $t("home.not_data") }}</div>
+        <div v-else
+             class="not-data">{{ $t("home.not_data") }}</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -99,51 +99,43 @@
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup
-        v-model="showPopup"
-        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-        position="right"
-      >
+      <van-popup v-model="showPopup"
+                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+                 position="right">
         <div class="menu">
-          <div
-            class="menu-every"
-            v-for="item in lang"
-            @click="tabLang(item)"
-            :key="item.id"
-          >
+          <div class="menu-every"
+               v-for="item in lang"
+               @click="tabLang(item)"
+               :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>
       </van-popup>
     </div>
-    <div class="filed" v-show="tanShow" @click="Remove_risk">
-      <van-image
-        width="30"
-        height="30"
-        style="margin-right: 5px"
-        :src="require('../../assets/img/jin.png')"
-      />
+    <div class="filed"
+         v-show="tanShow"
+         @click="Remove_risk">
+      <van-image width="30"
+                 height="30"
+                 style="margin-right: 5px"
+                 :src="require('../../assets/img/jin.png')" />
       <span>{{ $t("home.remove_risk") }}</span>
     </div>
-    <Notification
-      ref="notification"
-      :title="$t('notification.risk.title')"
-      :message="$t('notification.risk.message')"
-      :headerIcon="require('../../assets/img/jin.png')"
-      buttonColor="#F65F5F"
-      :buttonText="$t('notification.risk.btn')"
-      :closeOnClick="true"
-      @buttonClick="buttonClick"
-    />
-    <Notification
-      closeOnClick
-      :headerIcon="require('../../assets/imgs/tongzhi.png')"
-      :title="`最近有 ${unhandledArbitration} 件仲裁案待处理`"
-      ref="arbitration"
-      buttonColor="#237FF8"
-      buttonText="前往处理"
-      @buttonClick="buttonClickArbitration"
-    />
+    <Notification ref="notification"
+                  :title="$t('notification.risk.title')"
+                  :message="$t('notification.risk.message')"
+                  :headerIcon="require('../../assets/img/jin.png')"
+                  buttonColor="#F65F5F"
+                  :buttonText="$t('notification.risk.btn')"
+                  :closeOnClick="true"
+                  @buttonClick="buttonClick" />
+    <Notification closeOnClick
+                  :headerIcon="require('../../assets/imgs/tongzhi.png')"
+                  :title="`最近有 ${unhandledArbitration} 件仲裁案待处理`"
+                  ref="arbitration"
+                  buttonColor="#237FF8"
+                  buttonText="前往处理"
+                  @buttonClick="buttonClickArbitration" />
   </div>
 </template>
 <script>
@@ -181,28 +173,43 @@ export default {
 
         {
           id: 2,
-          text: "繁體中文",
-          lang: "zhTw",
+          text: '繁體中文',
+          lang: 'zhTw',
         },
         {
           id: 3,
-          text: "日本語",
-          lang: "ja",
+          text: '日本語',
+          lang: 'ja',
         },
         {
           id: 5,
-          text: "Deutsch",
-          lang: "de",
+          text: 'Deutsch',
+          lang: 'de',
         },
         {
           id: 4,
-          text: "한국어",
-          lang: "ko",
+          text: '한국어',
+          lang: 'ko',
         },
         {
           id: 6,
-          text: "ภาษาไทย",
-          lang: "th",
+          text: 'ภาษาไทย',
+          lang: 'th',
+        },
+        {
+          id: 7,
+          text: 'Français',
+          lang: 'fr',
+        },
+        {
+          id: 9,
+          text: 'Русский',
+          lang: 'ru',
+        },
+        {
+          id: 11,
+          text: 'ViệtName',
+          lang: 'vi',
         },
         {
           id: 8,
@@ -233,6 +240,23 @@ export default {
     } else {
       let lang = navigator.language.slice(0, 2);
       switch (lang) {
+<<<<<<< HEAD
+        case 'zh':
+          this.langText = '简体中文'
+          break
+        case 'en':
+          this.langText = 'English'
+          break
+        case 'fr':
+          this.langText = 'Français'
+          break
+        case 'ru':
+          this.langText = 'Русский'
+          break
+        case 'vi':
+          this.langText = 'ViệtName'
+          break
+=======
         case "zh":
           this.langText = "简体中文";
           break;
@@ -264,6 +288,7 @@ export default {
         case "de":
           this.textLang = "Deutsch"; //德语
           break;
+>>>>>>> a85c6210aaf14d2ea2dedd35d2da636794ba5294
       }
     }
     loadweb3(this.handle);
