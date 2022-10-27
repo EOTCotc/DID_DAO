@@ -172,28 +172,43 @@ export default {
         },
         {
           id: 2,
-          text: '中文繁体',
+          text: '繁體中文',
           lang: 'zhTw',
         },
         {
           id: 3,
-          text: 'Japanese',
+          text: '日本語',
           lang: 'ja',
         },
         {
           id: 5,
-          text: 'German',
+          text: 'Deutsch',
           lang: 'de',
         },
         {
           id: 4,
-          text: "Korean",
-          lang: "ko",
+          text: '한국어',
+          lang: 'ko',
         },
         {
           id: 6,
-          text: "Thai",
-          lang: "th",
+          text: 'ภาษาไทย',
+          lang: 'th',
+        },
+        {
+          id: 7,
+          text: 'Français',
+          lang: 'fr',
+        },
+        {
+          id: 9,
+          text: 'Русский',
+          lang: 'ru',
+        },
+        {
+          id: 11,
+          text: 'ViệtName',
+          lang: 'vi',
         },
       ],
       tanShow: false,
@@ -214,6 +229,15 @@ export default {
           break
         case 'en':
           this.langText = 'English'
+          break
+        case 'fr':
+          this.langText = 'Français'
+          break
+        case 'ru':
+          this.langText = 'Русский'
+          break
+        case 'vi':
+          this.langText = 'ViệtName'
           break
       }
     }
