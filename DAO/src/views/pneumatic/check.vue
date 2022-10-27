@@ -31,12 +31,12 @@
               <img class="img" :src="user.nationalImage" alt="" />
             </div>
           </div>
-          <div class="upload_wrap step-2">
+          <div
+            class="upload_wrap step-2"
+            v-if="user.handHeldImage != null || user.handHeldImage != ''"
+          >
             <div class="title">{{ $t("check.card_photo") }}</div>
-            <div
-              class="example_zheng"
-              v-if="user.handHeldImage != null || user.handHeldImage != ''"
-            >
+            <div class="example_zheng">
               <img class="img" :src="user.handHeldImage" alt="" />
             </div>
           </div>

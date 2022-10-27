@@ -16,8 +16,11 @@ const i18n = new vueI18n({
     zhTw: require("./lang/zhTw"),
     ko: require("./lang/ko"),
     th: require("./lang/th"),
-    ja: require('./lang/ja'),
-    de: require('./lang/de'),
+    ja: require("./lang/ja"),
+    de: require("./lang/de"),
+    nl: require("./lang/nl"),
+    ar: require("./lang/ar"),
+    id: require("./lang/id"),
   },
 });
 
