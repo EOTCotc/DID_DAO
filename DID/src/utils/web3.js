@@ -254,8 +254,8 @@ export const loadweb3 = function (func) {
         try {
           address = window.tronWeb.defaultAddress.base58;
           // ethereum.chainId   xxx->测试链  netType 网络类型
-          localStorage.setItem('netType', 'xxx');
-          // localStorage.setItem("netType", "trx");
+          // localStorage.setItem('netType', 'xxx');
+          localStorage.setItem("netType", "trx");
 
           // mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
           // mytron = await window.tronWeb.contract().at(contractAddress);

@@ -139,37 +139,38 @@
   </div>
 </template>
 <script>
-import TopBar from '@/components/topBar/topBar'
-import Notification from '@/components/notification'
-import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
-import { loadweb3 } from '@/utils/web3.js'
-import { getdaoinfo } from '@/api/earnings'
-import { getmessageopen } from '@/api/case'
-import { list } from '@/api/notice'
+import TopBar from "@/components/topBar/topBar";
+import Notification from "@/components/notification";
+import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
+import { loadweb3 } from "@/utils/web3.js";
+import { getdaoinfo } from "@/api/earnings";
+import { getmessageopen } from "@/api/case";
+import { list } from "@/api/notice";
 
 export default {
   components: {
     TopBar,
     Notification,
   },
-  name: 'home',
+  name: "home",
   data() {
     return {
-      user: '',
-      iconLang: 'arrow-down',
+      user: "",
+      iconLang: "arrow-down",
       showPopup: false,
-      notice: '', // 公告文字
+      notice: "", // 公告文字
       lang: [
         {
           id: 0,
-          text: '简体中文',
-          lang: 'zh',
+          text: "简体中文",
+          lang: "zh",
         },
         {
           id: 1,
-          text: 'English',
-          lang: 'en',
+          text: "English",
+          lang: "en",
         },
+
         {
           id: 2,
           text: '繁體中文',
@@ -213,17 +214,18 @@ export default {
       ],
       tanShow: false,
       proposalList: [], //提案列表
-      riskShow: this.cookie.get('riskShow'),
+      riskShow: this.cookie.get("riskShow"),
       unhandledArbitration: 0,
-      langText: '',
-    }
+      langText: "",
+    };
   },
   mounted() {
-    if (localStorage.getItem('lang')) {
-      this.langText = JSON.parse(localStorage.getItem('lang')).text
+    if (localStorage.getItem("lang")) {
+      this.langText = JSON.parse(localStorage.getItem("lang")).text;
     } else {
-      let lang = navigator.language.slice(0, 2)
+      let lang = navigator.language.slice(0, 2);
       switch (lang) {
+<<<<<<< HEAD
         case 'zh':
           this.langText = '简体中文'
           break
@@ -239,87 +241,110 @@ export default {
         case 'vi':
           this.langText = 'ViệtName'
           break
+=======
+        case "zh":
+          this.langText = "简体中文";
+          break;
+        case "en":
+          this.langText = "English";
+          break;
+        case "ja":
+          this.textLang = "日本語";
+          break;
+        case "zhTw":
+          this.textLang = "繁体中文";
+          break;
+        case "ko":
+          this.textLang = "한국어"; //韩语
+          break;
+        case "th":
+          this.textLang = "ภาษาไทย"; //泰语
+          break;
+        case "de":
+          this.textLang = "Deutsch"; //德语
+          break;
+>>>>>>> a85c6210aaf14d2ea2dedd35d2da636794ba5294
       }
     }
-    loadweb3(this.handle)
+    loadweb3(this.handle);
   },
   methods: {
     handle() {
-      this.getuserrisklevel()
-      this.getProposal()
-      this.getLocal()
-      this.getUnhandledArbitrationMsg()
-      this.getList()
+      this.getuserrisklevel();
+      this.getProposal();
+      this.getLocal();
+      this.getUnhandledArbitrationMsg();
+      this.getList();
     },
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: '加载中…',
-      })
+        message: "加载中…",
+      });
       list()
         .then((res) => {
-          const data = res.data.items
-          this.notice = data.length ? data[0].title : ''
+          const data = res.data.items;
+          this.notice = data.length ? data[0].title : "";
         })
         .finally(() => {
-          loading.clear()
-        })
+          loading.clear();
+        });
     },
     getLocal() {
       // 获取用户信息
       getdaoinfo()
         .then((res) => {
-          this.user = res.data.items
-          localStorage.setItem('user', JSON.stringify(res.data.items))
-          this.cookie.set('user', JSON.stringify(res.data.items))
-          localStorage.setItem('items', res.data.items.daoEOTC)
-          localStorage.setItem('uid', res.data.items.uid)
-          localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
-          localStorage.setItem('isExamine', res.data.items.isExamine)
-          localStorage.setItem('authType', res.data.items.authType)
-          localStorage.setItem('isEnable', res.data.items.isEnable)
+          this.user = res.data.items;
+          localStorage.setItem("user", JSON.stringify(res.data.items));
+          this.cookie.set("user", JSON.stringify(res.data.items));
+          localStorage.setItem("items", res.data.items.daoEOTC);
+          localStorage.setItem("uid", res.data.items.uid);
+          localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
+          localStorage.setItem("isExamine", res.data.items.isExamine);
+          localStorage.setItem("authType", res.data.items.authType);
+          localStorage.setItem("isEnable", res.data.items.isEnable);
         })
         .catch((err) => {
-          this.$toast.fail(this.$t('home.msg_fail'))
-        })
+          this.$toast.fail(this.$t("home.msg_fail"));
+        });
     },
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
-          this.cookie.set('riskLevel', res.data.items)
-          this.cookie.set('riskShow', 'false')
+          this.cookie.set("riskLevel", res.data.items);
+          this.cookie.set("riskShow", "false");
           if (res.data.items == 2 && !this.riskShow) {
             this.$nextTick().then(() => {
-              this.$refs.notification.toggle(true)
-            })
+              this.$refs.notification.toggle(true);
+            });
           }
           if (res.data.items == 2 && this.riskShow) {
-            this.tanShow = true
+            this.tanShow = true;
           }
         }
-      })
+      });
     },
     // 获取是否有仲裁未处理
     getUnhandledArbitrationMsg() {
       getmessageopen(0).then((res) => {
-        this.unhandledArbitration = res.data.items.length
+        this.unhandledArbitration = res.data.items.length;
         if (
           this.unhandledArbitration &&
-          Number(this.cookie.get('unhandledArbitration')) !==
+          Number(this.cookie.get("unhandledArbitration")) !==
             this.unhandledArbitration
         ) {
-          this.cookie.set('unhandledArbitration', this.unhandledArbitration)
-          this.$nextTick(() => this.$refs.arbitration.toggle(true))
+          this.cookie.set("unhandledArbitration", this.unhandledArbitration);
+          this.$nextTick(() => this.$refs.arbitration.toggle(true));
         }
-      })
+      });
     },
     buttonClickArbitration() {
-      this.user ? this.$router.push('/user/arbitration/case') : ''
+      this.user ? this.$router.push("/user/arbitration/case") : "";
     },
     //弹框点击事件
     buttonClick() {
-      this.tanShow = true
+      this.tanShow = true;
     },
     // 获取最新的十个提案
     getProposal() {
@@ -328,30 +353,30 @@ export default {
         itemsPerPage: 10,
       }).then((res) => {
         if (res.data.code == 0) {
-          this.proposalList = res.data.items
+          this.proposalList = res.data.items;
         }
-      })
+      });
     },
     //跳转到解除风控
     Remove_risk() {
-      this.user ? this.$router.push('/relieve') : ''
+      this.user ? this.$router.push("/relieve") : "";
     },
     // 选择语言
     handleTabLang() {
       if (this.showPopup) {
-        this.iconLang = 'arrow-down'
+        this.iconLang = "arrow-down";
       } else {
-        this.iconLang = 'arrow-up'
+        this.iconLang = "arrow-up";
       }
-      this.showPopup = !this.showPopup
+      this.showPopup = !this.showPopup;
     },
     tabLang(item) {
-      console.log(item)
-      localStorage.setItem('lang', JSON.stringify(item))
-      this.$router.go(0)
+      console.log(item);
+      localStorage.setItem("lang", JSON.stringify(item));
+      this.$router.go(0);
     },
   },
-}
+};
 </script>
 <style lang='scss' scoped>
 .content {
@@ -465,6 +490,7 @@ export default {
 // 条件
 .condition {
   margin-top: 44px;
+  padding: 0 30px;
   font-size: 28px;
   color: #f9fbff;
 }

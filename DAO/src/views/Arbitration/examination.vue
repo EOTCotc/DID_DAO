@@ -24,7 +24,7 @@
         <div v-show="index + 1 == count"
              v-for="(item, index) in testQuestionData"
              :key="item.id">
-          <div v-if="item.topicType != `${$t('exam.topicType2')}` ">
+          <div v-if="item.topicType != `${$t('exam.topicType2')}`">
             <div class="questions">
               <h3>{{ item.questionContant }}</h3>
               <h4>{{ item.topicType }}</h4>
@@ -47,7 +47,7 @@
                          @input="getText(item)"
                          input-align="center" />{{ item.questionContant[1] }}
             </div>
-            <div class="tips">{{$t("exam.blank")}}</div>
+            <div class="tips">{{ $t("exam.blank") }}</div>
           </div>
         </div>
       </div>
@@ -58,24 +58,26 @@
                   :disabled="jumpTestQuestions"
                   color="#1B2945"
                   v-if="count == 1"
-                  @click="nextQuestion(count - 1)">{{$t("exam.next")}}</van-button>
+                  @click="nextQuestion(count - 1)">{{ $t("exam.next") }}</van-button>
       <div class="btn"
            v-if="count > 1 && count < testQuestionData.length">
         <van-button round
                     type="default"
-                    @click="previousQuestion">{{$t("exam.pre")}}</van-button>
+                    @click="previousQuestion">{{
+          $t("exam.pre")
+        }}</van-button>
         <van-button round
                     color="#1B2945"
                     :disabled="nextDisabled"
-                    @click="nextQuestion(count - 1)">{{$t("exam.next")}}</van-button>
+                    @click="nextQuestion(count - 1)">{{ $t("exam.next") }}</van-button>
       </div>
       <van-button round
                   block
                   color="#1B2945"
                   v-if="count == testQuestionData.length"
-                  :loading='loading'
+                  :loading="loading"
                   :disabled="submitDisabled"
-                  @click="SubmitExaminationPapers(count - 1)">{{$t("exam.submit")}}</van-button>
+                  @click="SubmitExaminationPapers(count - 1)">{{ $t("exam.submit") }}</van-button>
     </footer>
   </div>
 </template>

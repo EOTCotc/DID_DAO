@@ -157,7 +157,7 @@ export default {
   mounted() {
     this.form.refUserId = this.$route.query.code || "";
     this.form.walletAddress = localStorage.getItem("myaddress");
-    this.form.otype = localStorage.getItem("netType");
+    this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
     this.form.sign = localStorage.getItem("mysign");
   },
   methods: {
@@ -212,15 +212,16 @@ export default {
           .validate()
           .then(() => {
             let newForm = Object.assign({}, this.form);
-            newForm.password = this.$md5(newForm.password + 'uEe');
+            newForm.password = this.$md5(newForm.password + "uEe");
             // 注册请求
             register(newForm).then((res) => {
               if (res.data.code == 0) {
-                this.$toast.success(this.$t("content.msg2"));
-                setTimeout(() => {
-                  //延迟一点时间
-                  this.$emit("btnNum", 1); //成功跳登录页
-                }, 500);
+                this.$toast.success({
+                  message: this.$t("content.msg2"),
+                  onClose: () => {
+                    this.$emit("btnNum", 1);
+                  },
+                });
               } else {
                 this.$toast.fail(res.data.message);
               }
