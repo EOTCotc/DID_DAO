@@ -144,6 +144,10 @@ export default {
         { id: 9, text: "Nederlands", lang: "nl" }, //荷兰语
         { id: 10, text: "بالعربية", lang: "ar" }, //阿拉伯语
         { id: 11, text: "IndonesiaName", lang: "id" }, //印尼语
+        { id: 12, text: "Español", lang: "es" }, //西班牙语
+        { id: 13, text: "Português", lang: "pt" }, //葡萄牙语
+        { id: 14, text: "ViệtName", lang: "vi" }, //越南语
+        { id: 15, text: "Italiano", lang: "it" }, //意大利语
       ],
       textLang: "简体中文",
     };
@@ -196,6 +200,18 @@ export default {
           break;
         case "id":
           this.textLang = "IndonesiaName"; //印尼语
+          break;
+        case "es":
+          this.textLang = "Español"; //西班牙语
+          break;
+        case "pt":
+          this.textLang = "Português"; //葡萄牙语
+          break;
+        case "vi":
+          this.textLang = "ViệtName"; //越南语
+          break;
+        case "it":
+          this.textLang = "Italiano"; //意大利语
           break;
         default:
           this.textLang = "简体中文";
