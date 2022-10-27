@@ -7,7 +7,10 @@ import ja from './ja'; // 日语
 import ko from './ko'; // 韩语
 import ru from './ru'; // 俄语
 import fr from './fr'; // 法语
-import th from './th'; //泰语
+import th from './th'; // 泰语
+import nl from './nl'; // 荷兰语
+import ar from './ar'; // 阿拉伯语
+import id from './id'; // 印尼语
 
 Vue.use(VueI18n);
 
@@ -36,7 +39,10 @@ const i18n = new VueI18n({
     zhTw,
     ko,
     ja,
-    th
+    nl,
+    th,
+    ar,
+    id
   },
 });
 

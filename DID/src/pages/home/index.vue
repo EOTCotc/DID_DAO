@@ -141,8 +141,11 @@ export default {
         { id: 6, text: "русский язык", lang: "ru" }, //俄语
         { id: 7, text: "Français", lang: "fr" }, //法语
         { id: 8, text: "ภาษาไทย", lang: "th" }, //泰语
+        { id: 9, text: "Nederlands", lang: "nl" }, //荷兰语
+        { id: 10, text: "بالعربية", lang: "ar" }, //阿拉伯语
+        { id: 11, text: "IndonesiaName", lang: "id" }, //印尼语
       ],
-      textLang: "",
+      textLang: "简体中文",
     };
   },
   components: {
@@ -185,11 +188,23 @@ export default {
         case "th":
           this.textLang = "ภาษาไทย"; //泰语
           break;
+        case "nl":
+          this.textLang = "Nederlands"; //荷兰语
+          break;
+        case "ar":
+          this.textLang = "بالعربية "; //阿拉伯语
+          break;
+        case "id":
+          this.textLang = "IndonesiaName"; //印尼语
+          break;
+        default:
+          this.textLang = "简体中文";
+          break;
       }
     }
     // 自动登录(有钱包地址)
     let req = {};
-    const token = this.cookie.get("token")
+    const token = this.cookie.get("token");
     req.walletAddress = localStorage.getItem("myaddress");
     req.otype = localStorage.getItem("netType");
     req.sign = localStorage.getItem("mysign");
