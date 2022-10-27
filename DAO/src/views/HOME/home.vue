@@ -239,6 +239,7 @@ export default {
         case "en":
           this.langText = "English";
           break;
+
         case "nl":
           this.langText = "Nederlands";
           break;
@@ -247,6 +248,21 @@ export default {
           break;
         case "id":
           this.langText = "IndonesiaName";
+          break;
+        case "ja":
+          this.textLang = "日本語";
+          break;
+        case "zhTw":
+          this.textLang = "繁体中文";
+          break;
+        case "ko":
+          this.textLang = "한국어"; //韩语
+          break;
+        case "th":
+          this.textLang = "ภาษาไทย"; //泰语
+          break;
+        case "de":
+          this.textLang = "Deutsch"; //德语
           break;
       }
     }
@@ -474,6 +490,7 @@ export default {
 // 条件
 .condition {
   margin-top: 44px;
+  padding: 0 30px;
   font-size: 28px;
   color: #f9fbff;
 }

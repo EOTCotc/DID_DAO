@@ -7,7 +7,14 @@ import ja from './ja'; // 日语
 import ko from './ko'; // 韩语
 import ru from './ru'; // 俄语
 import fr from './fr'; // 法语
-import th from './th'; //泰语
+import th from './th'; // 泰语
+import nl from './nl'; // 荷兰语
+import ar from './ar'; // 阿拉伯语
+import id from './id'; // 印尼语
+import es from './es'; // 西班牙语
+import pt from './pt'; // 葡萄牙语
+import vi from './vi'; // 越南语
+import it from './it'; // 意大利语
 
 Vue.use(VueI18n);
 
@@ -36,7 +43,14 @@ const i18n = new VueI18n({
     zhTw,
     ko,
     ja,
-    th
+    nl,
+    th,
+    ar,
+    id,
+    es,
+    pt,
+    vi,
+    it,
   },
 });
 

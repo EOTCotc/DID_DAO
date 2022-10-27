@@ -39,8 +39,8 @@
       <!-- 空投 -->
       <div class="air-drop">
         <div>
-          <span>{{$t('home.air_drop')}}</span>
-          <span>{{userInfo.airdropEotc}}EOTC</span>
+          <span>{{ $t("home.air_drop") }}</span>
+          <span>{{ userInfo.airdropEotc }}EOTC</span>
         </div>
         <img src="@/assets/imgs/kongtou.png" alt="" />
       </div>
@@ -176,7 +176,11 @@
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border="false" :to="!riskLevel ? '/my/projects' : ''">
+        <van-cell
+          is-link
+          :border="false"
+          :to="!riskLevel ? '/my/projects' : ''"
+        >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/xiangmu.png" />
@@ -252,26 +256,33 @@ export default {
         forbidClick: true,
         message: this.$t("public.loading"),
       });
-      getuserinfo().then((res) => {
-        this.userInfo = res.data.items;
-        this.cookie.set("userInfo", JSON.stringify(this.userInfo));
-        if (
-          this.userInfo &&
-          this.userInfo.comAuditType === 2 &&
-          !this.userInfo.isImprove
-        ) {
-          if (!this.isShow) {
-            this.$dialog.confirm({
-              message: this.$t("my.my_dialog1_msg"),
-              confirmButtonText: this.$t("my.my_dialog1_text1"),
-              cancelButtonText: this.$t("my.my_dialog1_text2"),
-            }).then(() => {
-              !this.riskLevel ? this.$router.push("/my/community/setting") : "";
-            }).catch(() => {});
-            this.isShow = true;
+      getuserinfo()
+        .then((res) => {
+          this.userInfo = res.data.items;
+          this.cookie.set("userInfo", JSON.stringify(this.userInfo));
+          if (
+            this.userInfo &&
+            this.userInfo.comAuditType === 2 &&
+            !this.userInfo.isImprove
+          ) {
+            if (!this.isShow) {
+              this.$dialog
+                .confirm({
+                  message: this.$t("my.my_dialog1_msg"),
+                  confirmButtonText: this.$t("my.my_dialog1_text1"),
+                  cancelButtonText: this.$t("my.my_dialog1_text2"),
+                })
+                .then(() => {
+                  !this.riskLevel
+                    ? this.$router.push("/my/community/setting")
+                    : "";
+                })
+                .catch(() => {});
+              this.isShow = true;
+            }
           }
-        }
-      }).finally(() => loading.clear());
+        })
+        .finally(() => loading.clear());
     },
     /**
      * 验证是否有跳转权限
@@ -296,7 +307,10 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg1");
-                options.cb = () => this.$router.push({ path: this.riskLevel ? "/risk" : "/my/identity" })
+                options.cb = () =>
+                  this.$router.push({
+                    path: this.riskLevel ? "/risk" : "/my/identity",
+                  });
                 break;
               case 1:
                 options.type = "alert";
@@ -308,7 +322,11 @@ export default {
                 options.type = "confirm";
                 options.title = this.$t("my.my_index_title1");
                 options.message = this.$t("my.my_index_msg3");
-                options.cb = () => this.$router.push({ path: this.riskLevel ? "/risk" : "/my/identity", params: this.riskLevel ? {} : { name, phoneNum, idCard } })
+                options.cb = () =>
+                  this.$router.push({
+                    path: this.riskLevel ? "/risk" : "/my/identity",
+                    params: this.riskLevel ? {} : { name, phoneNum, idCard },
+                  });
                 break;
             }
             this.$dialog[options.type]({
@@ -471,7 +489,7 @@ export default {
         font-size: 32px;
         color: #fff;
       }
-      span:last-of-type{
+      span:last-of-type {
         margin-left: 30px;
       }
     }
