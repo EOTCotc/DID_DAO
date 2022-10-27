@@ -219,16 +219,9 @@ export default {
       }
     }
     // 自动登录(有钱包地址)
-    let req = {};
-    const token = this.cookie.get("token");
-    req.walletAddress = localStorage.getItem("myaddress");
-    req.otype = localStorage.getItem("netType");
-    req.sign = localStorage.getItem("mysign");
-    if (req.walletAddress && req.otype && req.sign) {
-      this.login(req);
-    } else if (!token) {
+    if (!this.cookie.get('token')) {
       this.$router.replace("/login");
-    } else if (!!token) {
+    } else if (!!this.cookie.get('token')) {
       this.getInfo();
     }
   },
