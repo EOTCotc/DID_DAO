@@ -190,29 +190,61 @@ export default {
           lang: "ja",
         },
         {
-          id: 5,
-          text: "Deutsch",
-          lang: "de",
-        },
-        {
           id: 4,
-          text: "한국어",
+          text: "한국어",//韩语
           lang: "ko",
         },
         {
+          id: 5,
+          text: "Deutsch",//德语
+          lang: "de",
+        },
+
+        {
           id: 6,
-          text: "ภาษาไทย",
+          text: "ภาษาไทย",//泰语
           lang: "th",
         },
         {
           id: 7,
+          text: "Français",//法语
+          lang: "fr",
+        },
+        {
+          id: 8,
           text: "Español", //西班牙语
           lang: "es",
         },
         {
-          id: 8,
+          id: 9,
           text: "Português", //葡萄牙语
           lang: "pt",
+        },
+        {
+          id: 10,
+          text: "Русский",//俄语
+          lang: "ru",
+        },
+
+        {
+          id: 11,
+          text: "Nederlands",//荷兰语
+          lang: "nl",
+        },
+        {
+          id: 12,
+          text: "عربي",//阿拉伯语
+          lang: "ar",
+        },
+        {
+          id: 13,
+          text: "ViệtName",//越南语
+          lang: "vi",
+        },
+        {
+          id: 14,
+          text: "IndonesiaName",//印尼语
+          lang: "id",
         },
       ],
       tanShow: false,
@@ -231,17 +263,35 @@ export default {
         case "zh":
           this.langText = "简体中文";
           break;
+        case "zhTw":
+          this.langText = "繁体中文";
+          break;
         case "en":
           this.langText = "English";
           break;
         case "ja":
           this.langText = "日本語";
           break;
-        case "zhTw":
-          this.langText = "繁体中文";
-          break;
         case "ko":
           this.langText = "한국어"; //韩语
+          break;
+        case "fr":
+          this.langText = "Français";//法语
+          break;
+        case "ru":
+          this.langText = "Русский";//俄语
+          break;
+        case "vi":
+          this.langText = "ViệtName";//越南语
+          break;
+        case "nl":
+          this.langText = "Nederlands";//荷兰语
+          break;
+        case "ar":
+          this.langText = "عربي";//阿拉伯语
+          break;
+        case "id":
+          this.langText = "IndonesiaName";//印尼语
           break;
         case "th":
           this.langText = "ภาษาไทย"; //泰语
