@@ -1,53 +1,58 @@
 <template>
-  <div :style="`min-height:${height}px;`" class="signin">
+  <div class="signin">
     <van-form ref="form">
       <div class="from-item" v-if="show">
-        <p>选择网络</p>
+        <p>{{ $t("content.select_network") }}</p>
         <van-field
           class="input-border"
           v-model="form.otype"
-          placeholder="选择网络"
+          :placeholder="$t('content.select_network')"
           :disabled="true"
         />
       </div>
       <div class="from-item" v-if="show">
-        <p>钱包地址</p>
+        <p>{{ $t("content.wallet_address") }}</p>
         <van-field
           class="input-border"
           v-model="form.walletAddress"
-          placeholder="钱包地址"
+          :placeholder="$t('content.wallet_address')"
           :disabled="true"
         />
       </div>
       <div class="from-item">
-        <p>邮箱地址</p>
+        <p>{{ $t("content.email") }}</p>
         <van-field
           class="input-border"
           v-model="form.mail"
-          placeholder="邮箱地址"
+          :placeholder="$t('content.email')"
           :rules="[
-            { required: true, message: '请填写邮箱地址' },
-            { validator: mailRule, message: '请输入正确的邮箱' },
+            { required: true, message: $t('rulesMsg.email') },
+            { validator: mailRule, message: $t('rulesMsg.correct_mail') },
           ]"
         />
       </div>
       <div class="from-item">
-        <p>登录密码</p>
+        <p>{{ $t("content.pwd") }}</p>
         <van-field
           class="input-border"
-          v-model="pwd"
+          v-model="form.password"
           type="password"
-          placeholder="登录密码"
-          :rules="[{ required: true, message: '请填写登录密码' }]"
+          :placeholder="$t('content.pwd')"
+          :rules="[{ required: true, message: $t('rulesMsg.pwd') }]"
         />
       </div>
     </van-form>
     <div class="btn">
-      <van-button class="btn-login" type="default" @click="login"
-        >登录</van-button
-      >
-      <div class="tips">
-        还没有账户<span class="sign-in" @click="handleBtn">立即注册</span>
+      <van-button class="btn-login" type="default" @click="submit">{{
+        $t("menu.login")
+      }}</van-button>
+      <div class="about-account">
+        <div @click="$router.push('/forgotPwd')">
+          {{ $t("content.forgetPwd") }}
+        </div>
+        <!-- <div class="sign-in" @click="handleBtn">
+          {{ $t("content.register") }}
+        </div> -->
       </div>
     </div>
   </div>
@@ -55,6 +60,7 @@
 
 <script>
 import { login } from "@/api/pagesApi/login";
+import { loadweb3 } from "@/utils/web3";
 export default {
   name: "logIn",
   props: {
@@ -63,8 +69,6 @@ export default {
   data() {
     return {
       show: false,
-      pwd: "",
-      height: 0,
       form: {
         otype: "",
         walletAddress: "",
@@ -77,60 +81,62 @@ export default {
     };
   },
   mounted() {
-    this.height = document.body.scrollHeight - 152;
     // 如果没有钱包地址输入邮箱和密码
     this.show = !!this.form.walletAddress;
-    if(localStorage.getItem('myaddress')){
-      this.show=true
-      this.form.walletAddress=localStorage.getItem('myaddress')
-      this.form.otype=localStorage.getItem('netType')
-      this.form.sign=localStorage.getItem('mysign')
+    if (localStorage.getItem("myaddress")) {
+      this.show = true;
+      this.form.walletAddress = localStorage.getItem("myaddress");
+      this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
+      this.form.sign = localStorage.getItem("mysign");
+      // 自动登录
+      this.login(this.form);
+    } else {
+      // 获取钱包地址，网络类型...
+      loadweb3(() => {
+        this.form.walletAddress = localStorage.getItem("myaddress");
+        this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
+        this.form.sign = localStorage.getItem("mysign");
+        this.login(this.form);
+      });
     }
   },
   methods: {
     // 去注册
-    handleBtn() {
-      this.$emit("btnNum", 2);
-    },
+    // handleBtn() {
+    //   this.$emit("btnNum", 2);
+    // },
     // 邮箱验证规则
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
-
-    getWallet(data) {
-      const { oType, myaddress, sign } = data;
-      if (oType && myaddress && sign) {
-        this.form.otype = oType;
-        this.form.walletAddress = myaddress;
-        this.form.sign = sign;
-        this.show = true;
-      }
-    },
-    // 登录
-    login() {
+    // 表单验证
+    submit() {
       this.$refs.form
         .validate()
         .then(() => {
-          if (this.pwd) {
-            this.form.password = this.$md5(this.pwd);
-          }
-          login(this.form).then((res) => {
-            if (res.data.code == 0) {
-              this.cookie.set("token", res.data.items, { expires: 30 });
-              this.$toast.success({
-                forbidClick: true,
-                message: "登录成功",
-                onClose: () => this.$router.push("/"),
-              });
-            } else {
-              this.$toast.fail(res.data.message);
-            }
-          });
+          var newForm = Object.assign({}, this.form);
+          newForm.password = this.$md5(newForm.password + "uEe");
+          this.login(newForm);
         })
         .catch(() => {
-          this.$toast.fail("请输入正确的邮箱或密码");
+          this.$toast.fail(this.$t("content.msg1"));
         });
+    },
+    // 登录
+    login(form) {
+      login(form).then((res) => {
+        if (res.data.code == 0) {
+          this.cookie.set("token", res.data.items, { expires: 30 });
+          this.$toast.success({
+            forbidClick: true,
+            message: this.$t("content.login_suc"),
+            onClose: () => this.$router.replace("/"),
+          });
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      });
     },
   },
 };
@@ -139,9 +145,9 @@ export default {
 <style lang='scss' scoped>
 .signin {
   position: relative;
-  margin-top: 89px;
   padding: 89px 38px 300px 38px;
   overflow: hidden;
+  flex: 1;
 }
 .from-item {
   margin-top: 30px;
@@ -173,14 +179,16 @@ p {
     background: #1b2945;
     border-radius: 48px;
   }
-  .tips {
+  .about-account {
     margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 28px;
-    text-align: center;
-  }
-  .sign-in {
-    margin-left: 10px;
-    color: #2483ff;
+    .sign-in {
+      margin-left: 10px;
+      color: #2483ff;
+    }
   }
 }
 </style>

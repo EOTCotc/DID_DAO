@@ -14,13 +14,13 @@
           >
             <van-cell :title="item.name" :value="item.createDate" />
             <van-cell :title="item.reason" :border="false" />
-            <div class="btn" v-show="item.authStatus == 0">
+            <div class="btn" v-if="item.authStatus == 0">
               <van-button
                 round
                 size="small"
                 color="#237FF8"
                 @click="check(item.userRiskId, item.authStatus)"
-                >核对身份信息</van-button
+                >{{ $t("pneumatic.btn_check") }}</van-button
               >
               <van-button
                 round
@@ -28,32 +28,31 @@
                 color="#F3F4F5"
                 class="jie"
                 disabled
-                >解除风控</van-button
+                >{{ $t("pneumatic.btn_relieve") }}</van-button
               >
             </div>
-            <div class="btn" v-show="item.authStatus == 1">
+            <div class="btn" v-if="item.authStatus == 1">
               <van-button round size="small" color="#00B87A" plain
-                ><van-icon
-                  name="passed"
-                  style="margin-right: 5px"
-                />已核对身份</van-button
+                ><van-icon name="passed" style="margin-right: 5px" />{{
+                  $t("pneumatic.btn_already")
+                }}</van-button
               >
               <van-button
                 round
                 size="small"
                 color="#237FF8"
                 @click="relieve(item.userRiskId)"
-                >解除风控</van-button
+                >{{ $t("pneumatic.btn_relieve") }}</van-button
               >
             </div>
-            <div class="btn" v-show="item.authStatus == 2">
+            <div class="btn" v-if="item.authStatus == 2">
               <van-button
                 round
                 size="small"
                 color="#F34747"
                 plain
                 @click="check(item.userRiskId, item.authStatus)"
-                >核对身份异常</van-button
+                >{{ $t("pneumatic.btn_abnormal") }}</van-button
               >
               <van-button
                 round
@@ -61,7 +60,7 @@
                 color="#F3F4F5"
                 class="jie"
                 disabled
-                >解除风控</van-button
+                >{{ $t("pneumatic.btn_relieve") }}</van-button
               >
             </div>
           </van-cell-group>
@@ -69,7 +68,7 @@
             v-show="!maticList.length"
             class="custom-image"
             :image="require('./../../assets/img/empty.png')"
-            description="暂无任何数据"
+            :description="$t('pneumatic.description')"
           />
           <van-overlay :show="over_show">
             <div class="dialog_wrap">
@@ -80,9 +79,13 @@
                   alt=""
                 />
               </slot>
-              <div class="dialog-title">身份核对成功</div>
-              <div class="dialog-message">解除风控后即可</div>
-              <div class="dialog-zhi" @click="close">知道了</div>
+              <div class="dialog-title">{{ $t("pneumatic.dialog_title") }}</div>
+              <div class="dialog-message">
+                {{ $t("pneumatic.dialog_message") }}
+              </div>
+              <div class="dialog-zhi" @click="close">
+                {{ $t("pneumatic.dialog_know") }}
+              </div>
             </div>
           </van-overlay>
         </div>
@@ -100,7 +103,7 @@ export default {
   data() {
     return {
       maticList: [],
-      title: "风控",
+      title: this.$t("pneumatic.nav_title"),
       name: "personage",
       over_show: false,
       status: "",
@@ -123,7 +126,7 @@ export default {
     getUser() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…",
+        message: this.$t("pneumatic.message"),
       });
       getUserrisk()
         .then((res) => {
@@ -131,7 +134,7 @@ export default {
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: "加载失败！",
+              message: this.$t("pneumatic.message_fail"),
             });
           } else {
             items.map((item) => {
@@ -145,7 +148,7 @@ export default {
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: "加载失败！",
+            message: this.$t("pneumatic.message_fail"),
           });
         })
         .finally(() => {
@@ -165,7 +168,7 @@ export default {
       }).then((res) => {
         console.log(res);
         this.getUser();
-        Toast("解除风控");
+        Toast(this.$t("pneumatic.btn_relieve"));
       });
     },
   },

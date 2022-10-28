@@ -5,17 +5,13 @@
 </template>
 
 <script>
-import { loadweb3 } from "@/utils/web3";
-
 export default {
   name: "App",
-  mounted() {
-    loadweb3();
-  }
 };
 </script>
 
 <style>
+/* iconfont */
 @font-face {
   font-family: "iconfont";
   src: url("@/assets/font/iconfont.woff2?t=1663582623740") format("woff2"),

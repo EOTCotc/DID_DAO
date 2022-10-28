@@ -3,7 +3,7 @@
     <img class="logo" src="@/assets/imgs/logo.png" />
     <div class="title">EOTC</div>
     <img class="logo-bg" src="@/assets/imgs/logo_bg.png" alt="" />
-    <div class="bg-white" :style="`min-height:${height}px;`">
+    <div class="bg-white">
       <!-- 登录、注册 -->
       <div class="login-box">
         <button
@@ -28,14 +28,12 @@
 <script>
 import LogIn from "./logIn";
 import SignIn from "./signIn";
-import { loadweb3 } from "@/utils/web3";
 
 export default {
   name: "login",
   data() {
     return {
       btn: 1,
-      height: 0,
     };
   },
   components: {
@@ -43,17 +41,16 @@ export default {
     SignIn,
   },
   mounted() {
-    // 获取动态高度
-    this.height = document.body.scrollHeight - 152;
     this.btn = !!this.$route.code ? 2 : 1;
-    loadweb3(() => {
-      const dom = this.$refs.login;
-      dom.getWallet({
-        myaddress: localStorage.getItem("myaddress"),
-        oType: localStorage.getItem("netType"),
-        sign: localStorage.getItem("mysign"),
-      });
-    });
+    // loadweb3(() => {
+    //   const dom = this.$refs.login;
+    //   const address = localStorage.getItem("myaddress")
+    //   dom.getWallet({
+    //     myaddress: address,
+    //     oType: address.length === 34 ? 'trx' : 'bsc',
+    //     sign: localStorage.getItem("mysign"),
+    //   });
+    // });
   },
   methods: {
     getBtnNum(e) {
@@ -68,6 +65,8 @@ export default {
   position: relative;
   min-height: 100vh;
   background: #1b2945;
+  display: flex;
+  flex-direction: column;
   .logo {
     margin: 0 auto;
     padding-top: 52px;
@@ -91,12 +90,16 @@ export default {
   }
   .bg-white {
     position: relative;
-    bottom: 0;
+    margin-top: 89px;
     margin-left: 4%;
     width: 92%;
     border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     background: #fff;
     z-index: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     .login-box {
       position: absolute;
       top: -48px;

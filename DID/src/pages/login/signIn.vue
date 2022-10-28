@@ -1,5 +1,5 @@
 <template>
-  <div class="log-in" :style="`min-height:${height}px;`">
+  <div class="log-in">
     <van-form ref="form" validate-trigger="onSubmit">
       <!-- 选择网络 -->
       <div class="title">{{ $t("content.signin_title") }}</div>
@@ -138,7 +138,6 @@ export default {
   name: "logIn",
   data() {
     return {
-      height: 0,
       showCode: true, //验证码按钮显示隐藏
       emailBtnColor: "#1B2945", //发送验证码按钮颜色
       seconds: 60, //重新发送验证码倒计时
@@ -157,10 +156,11 @@ export default {
   },
   mounted() {
     this.form.refUserId = this.$route.query.code || "";
-    this.height = document.body.scrollHeight - 152;
-    this.form.walletAddress = localStorage.getItem("myaddress");
-    this.form.otype = localStorage.getItem("netType");
-    this.form.sign = localStorage.getItem("mysign");
+    if (localStorage.getItem("myaddress")) {
+      this.form.walletAddress = localStorage.getItem("myaddress");
+      this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
+      this.form.sign = localStorage.getItem("mysign");
+    }
   },
   methods: {
     // 点击去登录
@@ -169,24 +169,26 @@ export default {
     },
     // 点击发送验证码
     handleCode() {
-      this.showCode = false;
-      // 更改按钮颜色
-      this.emailBtnColor = "#fff";
-      getCode({ mail: this.form.mail, type: 0 }).then((res) => {
-        console.log(res.data, "code");
-      });
-      if (0 < this.seconds) {
-        //重新发送验证码倒计时
-        let timer = setInterval(() => {
-          this.seconds--;
-          if (this.seconds == 0) {
-            //清除定时器并初始化
-            this.emailBtnColor = "#1B2945";
-            this.showCode = true;
-            this.seconds = 60;
-            clearInterval(timer);
-          }
-        }, 1000);
+      if (this.form.mail&&this.mailRule()) {
+        this.showCode = false;
+        // 更改按钮颜色
+        this.emailBtnColor = "#fff";
+        getCode({ mail: this.form.mail, type: 0 }).then((res) => {
+          console.log(res.data, "code");
+        });
+        if (0 < this.seconds) {
+          //重新发送验证码倒计时
+          let timer = setInterval(() => {
+            this.seconds--;
+            if (this.seconds == 0) {
+              //清除定时器并初始化
+              this.emailBtnColor = "#1B2945";
+              this.showCode = true;
+              this.seconds = 60;
+              clearInterval(timer);
+            }
+          }, 1000);
+        }
       }
     },
     // 邮箱验证规则
@@ -214,25 +216,26 @@ export default {
           .validate()
           .then(() => {
             let newForm = Object.assign({}, this.form);
-            newForm.password = this.$md5(newForm.password);
+            newForm.password = this.$md5(newForm.password + "uEe");
             // 注册请求
             register(newForm).then((res) => {
               if (res.data.code == 0) {
-                this.$toast.success("注册成功！");
-                setTimeout(() => {
-                  //延迟一点时间
-                  this.$emit("btnNum", 1); //成功跳登录页
-                }, 500);
+                this.$toast.success({
+                  message: this.$t("content.msg2"),
+                  onClose: () => {
+                    this.$emit("btnNum", 1);
+                  },
+                });
               } else {
                 this.$toast.fail(res.data.message);
               }
             });
           })
           .catch(() => {
-            this.$toast.fail("注册失败");
+            this.$toast.fail(this.$t("content.msg3"));
           });
       } else {
-        this.$toast.fail("请勾选协议");
+        this.$toast.fail(this.$t("content.msg4"));
       }
     },
   },
@@ -263,9 +266,9 @@ export default {
 // 普通样式
 .log-in {
   position: relative;
-  margin-top: 89px;
   padding: 89px 38px 300px 38px;
   overflow: hidden;
+  flex: 1;
 }
 .from-item {
   margin-top: 30px;

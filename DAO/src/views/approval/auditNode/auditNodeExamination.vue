@@ -10,7 +10,9 @@
     <div class="body">
       <div class="main">
         <div class="mainTitle">
-          <div class="NumberOfQuestions"><span>{{count}}</span>/{{testQuestionData.length}}</div>
+          <div class="NumberOfQuestions">
+            <span>{{ count }}</span>/{{ testQuestionData.length }}
+          </div>
           <div class="Aim">
             <van-icon name="aim"
                       color="#237FF8" />
@@ -19,32 +21,35 @@
                             @finish="finish" />
           </div>
         </div>
-        <div v-show="(index+1) == count"
-             v-for="(item,index) in testQuestionData"
+        <div v-show="index + 1 == count"
+             v-for="(item, index) in testQuestionData"
              :key="item.id">
-          <div v-if="item.topicType!='(填空题)'">
+          <div v-if="item.topicType != `${$t('exam.topicType2')}`">
             <div class="questions">
-              <h3>{{item.questionContant}}</h3>
-              <h4>{{item.topicType}}</h4>
+              <h3>{{ item.questionContant }}</h3>
+              <h4>{{ item.topicType }}</h4>
             </div>
             <div class="answerOptions"
-                 v-for="(el,index) in item.questionAnswer"
+                 v-for="(el, index) in item.questionAnswer"
                  :key="index">
-              <div @click="handleCilck(el,item,index)"
-                   :class="flag && el.Check? 'bg' : ''"><span>{{el.title}}</span>{{el.contant}}</div>
+              <div @click="handleCilck(el, item, index)"
+                   :class="flag && el.Check ? 'bg' : ''">
+                <span>{{ el.title }}</span>{{ el.contant }}
+              </div>
             </div>
           </div>
           <div class="completion"
-               v-if="item.topicType=='(填空题)'">
-            <h4>{{item.topicType}}</h4>
-            <div class="filed">{{item.questionContant[0]}}
+               v-if="item.topicType == `${$t('exam.topicType2')}`">
+            <h4>{{ item.topicType }}</h4>
+            <div class="filed">
+              {{ item.questionContant[0] }}
               <van-field v-model="item.result"
-                         @input="getText(item)" />{{item.questionContant[1]}}
+                         input-align="center"
+                         @input="getText(item)" />{{ item.questionContant[1] }}
             </div>
-            <div class="tips">在横线输入您的答案</div>
+            <div class="tips">{{$t("exam.blank")}}</div>
           </div>
         </div>
-
       </div>
     </div>
     <footer>
@@ -52,25 +57,25 @@
                   block
                   :disabled="jumpTestQuestions"
                   color="#1B2945"
-                  v-if="count==1"
-                  @click="nextQuestion(count-1)">下一题</van-button>
+                  v-if="count == 1"
+                  @click="nextQuestion(count - 1)">{{$t("exam.next")}}</van-button>
       <div class="btn"
-           v-if="count>1&& count<testQuestionData.length">
+           v-if="count > 1 && count < testQuestionData.length">
         <van-button round
                     type="default"
-                    @click="previousQuestion">上一题</van-button>
+                    @click="previousQuestion">{{$t("exam.pre")}}</van-button>
         <van-button round
                     color="#1B2945"
                     :disabled="nextDisabled"
-                    @click="nextQuestion(count-1)">下一题</van-button>
+                    @click="nextQuestion(count - 1)">{{$t("exam.next")}}</van-button>
       </div>
       <van-button round
                   block
                   color="#1B2945"
-                  v-if="count==testQuestionData.length"
-                  :loading='loading'
+                  v-if="count == testQuestionData.length"
+                  :loading="loading"
                   :disabled="submitDisabled"
-                  @click="SubmitExaminationPapers(count-1)">提交</van-button>
+                  @click="SubmitExaminationPapers(count - 1)">{{$t("exam.submit")}}</van-button>
     </footer>
   </div>
 </template>
@@ -85,251 +90,40 @@ export default {
       idx: null,
       flag: false,
       jumpTestQuestions: true,
-      title: '审核考试',
+      title: this.$t('exam._title'),
       time: 30 * 60 * 1000,
       count: 1,
+      timer: null,
       totalScore: null,
       UserAnswer: [],
       loading: false,
       nextDisabled: true,
       submitDisabled: true,
-      testQuestionData: [
-        {
-          id: 1,
-          question: '题目一',
-          questionContant: '交易中，买家打款备注交易相关信息会被判定？',
-          topicType: '(单选题)',
-          result: '',
-          isTrue: false,
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '作恶交易',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '洗黑钱',
-              Check: false,
-            },
-            {
-              title: 'C、',
-              contant: '非法交易',
-              Check: false,
-            },
-          ],
-          Answers: 0,
-        },
-        {
-          id: 2,
-          question: '题目二',
-          questionContant: '系统根据信用评分，默认收款后多少小时放币？',
-          topicType: '(单选题)',
-          result: '',
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '12-24小时',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '24-48小时',
-              Check: false,
-            },
-            {
-              title: 'C、',
-              contant: '36-48小时',
-              Check: false,
-            },
-          ],
-          Answers: 1,
-        },
-        {
-          id: 3,
-          question: '题目三',
-          questionContant: '卖家在什么期间内可以发起黑钱仲裁？',
-          topicType: '(单选题)',
-          result: '',
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '买家付款后12个月后',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '卖家收款后3个月后',
-              Check: false,
-            },
-            {
-              title: 'C、',
-              contant: '卖家收款后6个月内',
-              Check: false,
-            },
-          ],
-          Answers: 2,
-        },
-        {
-          id: 4,
-          question: '题目四',
-          questionContant: '买家打款备注违规会进行什么处理？',
-          topicType: '(多选题)',
-          result: [],
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '判定作恶交易',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '打出款项冻结',
-              Check: false,
-            },
-            {
-              title: 'C、',
-              contant: '质押代币全部罚没',
-              Check: false,
-            },
-            {
-              title: 'D、',
-              contant: '连坐扣分',
-              Check: false,
-            },
-          ],
-          Answers: 3,
-        },
-        {
-          id: 5,
-          question: '题目五',
-          questionContant: '仲裁中以下哪些属于有效举证？',
-          topicType: '(多选题)',
-          result: [],
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '双方聊天记录',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '银行电子回单',
-              Check: false,
-            },
-            {
-              title: 'C、',
-              contant: '微信支付转账电子凭证',
-              Check: false,
-            },
-            {
-              title: 'D、',
-              contant: '支付宝电子回单',
-              Check: false,
-            },
-          ],
-          Answers: 3,
-        },
-        {
-          id: 6,
-          question: '题目六',
-          questionContant: '系统根据信用评分，默认收款后12-24小时放币？',
-          topicType: '(判断题)',
-          result: '',
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '对',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '错',
-              Check: false,
-            },
-          ],
-          Answers: 1,
-        },
-        {
-          id: 7,
-          question: '题目七',
-          questionContant: '打款不需要使用DID实名的同名账户打款？',
-          topicType: '(判断题)',
-          result: '',
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '对',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '错',
-              Check: false,
-            },
-          ],
-          Answers: 1,
-        },
-        {
-          id: 8,
-          question: '题目八',
-          questionContant: '仲裁DAO不支持异名打款仲裁？',
-          topicType: '(判断题)',
-          result: '',
-          questionAnswer: [
-            {
-              title: 'A、',
-              contant: '对',
-              Check: false,
-            },
-            {
-              title: 'B、',
-              contant: '错',
-              Check: false,
-            },
-          ],
-          Answers: 0,
-        },
-        {
-          id: 9,
-          question: '题目九',
-          questionContant: ['超时放币', '内无需仲裁，系统自动扣分.'],
-          topicType: '(填空题)',
-          result: '',
-          Answers: '30分钟',
-        },
-        {
-          id: 10,
-          question: '题目十',
-          questionContant: ['系统自动扣分后超时60分钟以上可申请', ''],
-          topicType: '(填空题)',
-          result: '',
-          Answers: '仲裁放币',
-        },
-        {
-          id: 11,
-          question: '题目十一',
-          questionContant: ['交易中卖家放币时间提前，由此引发的损失', '承担'],
-          topicType: '(填空题)',
-          result: '',
-          Answers: '自行',
-        },
-        {
-          id: 12,
-          question: '题目十二',
-          questionContant: ['买家申请已打款仲裁，需要提供具有', '的打款凭证'],
-          topicType: '(填空题)',
-          result: '',
-          Answers: '法律效力',
-        },
-      ],
+      testQuestionData: this.$t('exam.AuditTopic'),
     }
+  },
+  mounted() {
+    clearTimeout(this.timer)
+    this.testQuestionData.map((el) => {
+      Array.isArray(el.result) ? (el.result = []) : (el.result = '')
+      console.log(Array.isArray(el.result), 'typeof el.result')
+      if (el.questionAnswer != undefined) {
+        for (let i = 0; i < el.questionAnswer.length; i++) {
+          el.questionAnswer[i].Check = false
+        }
+      }
+
+      return el
+    })
+    console.log(this.testQuestionData, 'this.testQuestionData')
   },
   methods: {
     onClickLeft() {
       Dialog.confirm({
-        title: '退出考试',
-        message: '您确定要终止这次考试吗',
+        title: this.$t('exam.quittitle'),
+        message: this.$t('exam.quitmessage'),
+        confirmButtonText: this.$t('exam.Text1'),
+        cancelButtonText: this.$t('exam.Text2'),
       })
         .then(() => {
           this.$router.push({
@@ -344,7 +138,7 @@ export default {
       this.idx = index
       this.jumpTestQuestions = false
       this.flag = true
-      if (item.topicType == '(多选题)') {
+      if (item.topicType == `${this.$t('exam.topicType1')}`) {
         let reindex = item.result.indexOf(val.contant)
         reindex == -1
           ? item.result.push(val.contant)
@@ -382,7 +176,10 @@ export default {
       ) {
         return
       } else {
-        if (this.testQuestionData[index].topicType == '(多选题)') {
+        if (
+          this.testQuestionData[index].topicType ==
+          `${this.$t('exam.topicType1')}`
+        ) {
           let CheckArr = []
           this.testQuestionData[index].questionAnswer.forEach((element) => {
             if (element.Check == true) CheckArr.push(element.Check)
@@ -396,7 +193,7 @@ export default {
               this.nextDisabled = false
             }
             if (
-              this.count == 6 &&
+              this.count == 5 &&
               this.testQuestionData[this.count - 1].result != ''
             ) {
               this.nextDisabled = false
@@ -406,7 +203,7 @@ export default {
           this.count++
           this.nextDisabled = true
           if (this.testQuestionData[this.count - 1].result != '') {
-            if (this.count == 4) {
+            if (this.count == 3) {
               if (this.testQuestionData[this.count - 1].result.length >= 2)
                 this.nextDisabled = false
             } else {
@@ -425,7 +222,7 @@ export default {
         return
       } else {
         this.testQuestionData.forEach((el) => {
-          if (el.topicType != '(填空题)') {
+          if (el.topicType != `${this.$t('exam.topicType2')}`) {
             let a = []
             el.questionAnswer.forEach((item, idx) => {
               if (item.Check) {
@@ -439,18 +236,20 @@ export default {
         })
         this.UserAnswer.map((el, index) => {
           for (let i = 0; i < el.length; i++) {
-            if (el.length == 4) {
+            if (el.length == 3) {
               el = [3]
             }
-            if (el.length >= 2 && el.length <= 3) {
+            if (el.length >= 2 && el.length < 3) {
               el = [0]
             }
+            if (index >= 6 && index <= 9) {
+              el[i] = el[i].toUpperCase()
+              console.log(el[i], this.testQuestionData[index].Answers)
+              this.testQuestionData[index].Answers =
+                this.testQuestionData[index].Answers.toUpperCase()
+            }
             if (el[i] == this.testQuestionData[index].Answers) {
-              if (index == 3 || index == 4) {
-                this.totalScore += 10
-              } else {
-                this.totalScore += 8
-              }
+              this.totalScore += 10
             }
           }
         })
@@ -461,7 +260,7 @@ export default {
           this.$router.replace({
             name: 'applicationConditions',
             params: {
-              totalScore: this.totalScore,
+              totalScore: +this.totalScore,
             },
           })
         }, 1000)
@@ -470,13 +269,13 @@ export default {
     getText(item) {
       this.$nextTick(() => {
         if (item.result != '') {
-          if (item.id == 12) {
+          if (item.id == 10) {
             this.submitDisabled = false
           }
           this.nextDisabled = false
         } else {
           this.nextDisabled = true
-          if (item.id == 12) {
+          if (item.id == 10) {
             this.submitDisabled = true
           }
         }
@@ -484,8 +283,8 @@ export default {
     },
     finish() {
       Dialog.alert({
-        title: '考试时间结束',
-        message: '很遗憾，考试时间已经结束了，请重新考试',
+        title: this.$t('exam.timeoverT'),
+        message: this.$t('exam.timeoverMsg'),
       }).then(() => {
         this.$router.push({
           name: 'applicationConditions',

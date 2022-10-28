@@ -1,12 +1,16 @@
-/* eslint-disable */
 // 主网链
 // let contractAddress = "TBpcQXdZEX8vYqf2M2CQrHsGt9KZpAEVqu";
 // let contractAddress_usdt = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
 // let contractAddress_eotc = "TWP9nhCPWPa6Wr1wSgNY228jGgZ3vzjw4u";
+// 测试链
+// let contractAddress = "TH4oq291NoktCN345uxdBHd9YakAwG49H3";
+// let contractAddress_usdt = "TJ2ijtG2xfaEhrLrU81h742bPfcHL4CL1w";
+// let contractAddress_eotc = "TEt19qEdJM2sPBxLB5XmJGWijT6UvFbs1K";
 
-let contractAddress = "TH4oq291NoktCN345uxdBHd9YakAwG49H3";
-let contractAddress_usdt = "TJ2ijtG2xfaEhrLrU81h742bPfcHL4CL1w";
-let contractAddress_eotc = "TEt19qEdJM2sPBxLB5XmJGWijT6UvFbs1K";
+//根据环境切换链
+let contractAddress = process.env.VUE_WALLKET_ADDRESS;
+let contractAddress_usdt = process.env.VUE_WALLKET_USDT;
+let contractAddress_eotc = process.env.VUE_WALLKET_EOTC;
 
 import PubSub from "pubsub-js";
 
@@ -250,14 +254,15 @@ export const loadweb3 = function (func) {
           address = window.tronWeb.defaultAddress.base58;
           // localStorage.setItem('myaddress', address)
           // ethereum.chainId   xxx->测试链  netType 网络类型
-          localStorage.setItem("netType", "xxx");
-          // localStorage.setItem("netType", "trx");
+          // localStorage.setItem("netType", "xxx");
+          localStorage.setItem("netType", "trx");
 
+          // 查询用户钱包的usdt和eotc
           // mytron_usdt = await window.tronWeb.contract().at(contractAddress_usdt);
           // mytron = await window.tronWeb.contract().at(contractAddress);
           // myUsdtAmount();
           // myEOTCAmount();
-
+          
           if (address != localStorage.getItem("myaddress")) {
             localStorage.removeItem("myaddress");
             localStorage.removeItem("mysign");
@@ -310,7 +315,7 @@ export const userSign = async (mes, func) => {
           }
           localStorage.setItem("myaddress", tronweb.defaultAddress.base58);
           localStorage.setItem("mysign", md5(signedStr));
-          console.log(md5(signedStr));
+          // console.log(md5(signedStr));
           if (func != null) {
             func();
           }

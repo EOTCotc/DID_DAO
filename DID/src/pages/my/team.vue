@@ -3,109 +3,105 @@
     <div class="team_wrap bg-gray fullscreen">
       <van-nav-bar
         class="nav-bar"
-        title="我的团队"
+        :title="$t('my.my_team')"
         left-arrow
         @click-left="$router.go(-1)"
       />
       <ul class="peopleNumb_wrap blue">
         <li class="item">
-          <div class="title">团队人数</div>
-          <div class="num">{{teamNumber}}</div>
+          <div class="title">{{ $t("my_team.tags1") }}</div>
+          <div class="num">{{ teamNumber }}</div>
         </li>
         <li class="item">
-          <div class="title">直推人数</div>
-          <div class="num">{{pushNumber}}</div>
+          <div class="title">{{ $t("my_team.tags2") }}</div>
+          <div class="num">{{ pushNumber }}</div>
         </li>
       </ul>
-      <van-tabs 
-        v-model="tab.active" 
+      <van-tabs
+        v-model="tab.active"
         swipeable
-        color='#237DF4'
+        color="#237DF4"
         @click="handleTabClick"
       >
-        <van-tab
-          v-for="item in tab.data"
-          :key="item"
-          :title="item"
-        >
-        </van-tab>
+        <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
       </van-tabs>
       <van-list
         class="list_wrap"
         v-if="!!list.data.length"
         v-model="list.UpRefreshLoading"
         :finished="!!list.data.length && list.finished"
-        finished-text="没有更多了"
+        :finished-text="$t('bindRelation.not_more')"
         @load="handleUpRefresh"
       >
         <ul class="list">
-          <li
-            class="item"
-            v-for="item in list.data"
-            :key="item.uid"
-          >
+          <li class="item" v-for="item in list.data" :key="item.uid">
             <div class="user_wrap">
               <div class="avatar">
-                <span class="name" v-if="item.name">{{item.name}}（{{item.uid}}）</span>
-                <span class="name" v-else><span class="link">未认证</span>（{{item.uid}}）</span>
+                <span class="name" v-if="item.name"
+                  >{{ item.name }}（{{ item.uid }}）</span
+                >
+                <span class="name" v-else
+                  ><span class="link">{{ $t("my.identity_unver") }}</span
+                  >（{{ item.uid }}）</span
+                >
               </div>
               <div class="button_wrap">
-                <van-tag
-                  round
-                  plain
-                  color="#247FF6"
-                  text-color="#247FF6"
-                >
-                  {{getLevel(item.userNode)}}
+                <van-tag round plain color="#247FF6" text-color="#247FF6">
+                  {{ getLevel(item.userNode) }}
                 </van-tag>
               </div>
             </div>
             <van-row class="wrap">
-              <van-col :span="6">手机号码</van-col>
-              <van-col :span="18" v-if="item.phone">{{item.phone}} <i class="icon-copy icon" @click="copy(item.phone)"></i></van-col>
+              <van-col :span="6">{{ $t("my_team.tags3") }}</van-col>
+              <van-col :span="18" v-if="item.phone"
+                >{{ item.phone }}
+                <i class="icon-copy icon" @click="copy(item.phone)"></i
+              ></van-col>
             </van-row>
             <van-row class="wrap">
-              <van-col :span="6">邮箱地址</van-col>
-              <van-col :span="18">{{item.mail}} </van-col>
+              <van-col :span="6">{{ $t("content.email") }}</van-col>
+              <van-col :span="18">{{ item.mail }} </van-col>
             </van-row>
             <van-row class="wrap">
-              <van-col :span="6">注册日期</van-col>
-              <van-col :span="18">{{transformUTCDate(item.regDate)}}</van-col>
+              <van-col :span="6">{{ $t("my_team.tags4") }}</van-col>
+              <van-col :span="18">{{ transformUTCDate(item.regDate) }}</van-col>
             </van-row>
           </li>
           <van-button
             block
-            class='more'
+            class="more"
             color="#1B2945"
             type="primary"
             :loading="moreLoading"
             :disabled="moreLoading"
-            loading-text="申请提交中…"
+            :loading-text="$t('my_team.tags5')"
             @click="getMore"
           >
-            更多团队成员
+            {{ $t("my_team.tags6") }}
           </van-button>
         </ul>
       </van-list>
       <van-empty
         v-else
         class="custom-image"
-        :image="require('../../assets/imgs/empty.png')"
-        description="暂无任何数据"
+        :image="require('@/assets/imgs/empty.png')"
+        :description="$t('public.not_data')"
       >
-        <div class="link">去邀请<van-icon name="arrow" /></div>
+        <div class="link">
+          {{ $t("my_team.tags7") }}<van-icon name="arrow" />
+        </div>
       </van-empty>
     </div>
   </van-pull-refresh>
 </template>
 
 <script>
-import { Dialog } from 'vant'
-import {list, morePersonnel} from "@/api/pagesApi/team"
-import {transformUTCDate, copy} from "@/utils/utils";
+import { Dialog } from "vant";
+import { list, morePersonnel } from "@/api/pagesApi/team";
+import { transformUTCDate, copy } from "@/utils/utils";
 
 export default {
-  name: 'team',
+  name: "team",
   data() {
     return {
       loading: false,
@@ -113,117 +109,133 @@ export default {
       pushNumber: 0,
       moreLoading: false,
       tab: {
-        data: ['全部', '已认证', '未认证'],
-        active: 0
+        data: [
+          this.$t("my_team.team_data1"),
+          this.$t("my_team.team_data2"),
+          this.$t("my_team.team_data3"),
+        ],
+        active: 0,
       },
       list: {
         loading: false,
-        status: '',
+        status: "",
         UpRefreshLoading: false,
         finished: false,
         data: [],
         query: {
           page: 1,
-          itemsPerPage: 10
-        }
-      }
-    }
+          itemsPerPage: 10,
+        },
+      },
+    };
   },
   methods: {
     copy,
     transformUTCDate,
     onRefresh() {
-      this.loading = true
-      this.list.query.page = 1
-      this.list.data = []
-      this.getList()
+      this.loading = true;
+      this.list.query.page = 1;
+      this.list.data = [];
+      this.getList();
     },
     // Tab切换
     handleTabClick(tab) {
       const handle = {
-        0: '',
+        0: "",
         1: true,
-        2: false
-      }
-      this.list.status = handle[tab]
-      this.getList()
+        2: false,
+      };
+      this.list.status = handle[tab];
+      this.getList();
     },
     // 滚动到底翻页
     handleUpRefresh() {
-      this.list.query.page++
-      this.list.UpRefreshLoading = true
-      this.getList()
+      this.list.query.page++;
+      this.list.UpRefreshLoading = true;
+      this.getList();
     },
     // 获取团队成员
     getList() {
-      const query = {...this.list.query}
+      const query = { ...this.list.query };
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…"
-      })
+        message: this.$t("public.loading"),
+      });
       if (this.tab.active > 0) {
-        query.isAuth = this.list.status
+        query.isAuth = this.list.status;
       }
-      this.list.loading = true
-      list(query).then(res => {
-        if (!res.data.code) {
-          const {teamNumber, users, pushNumber} = res.data.items
-          this.teamNumber = teamNumber
-          this.pushNumber = pushNumber
-          if (query.page > 1) {
-            this.list.data.push(...users)
+      this.list.loading = true;
+      list(query)
+        .then((res) => {
+          if (!res.data.code) {
+            const { teamNumber, users, pushNumber } = res.data.items;
+            this.teamNumber = teamNumber;
+            this.pushNumber = pushNumber;
+            if (query.page > 1) {
+              this.list.data.push(...users);
+            } else {
+              this.list.data = users || [];
+            }
+            this.list.finished = users.length < this.list.query.itemsPerPage;
           } else {
-            this.list.data = users || []
+            this.$toast.fail({
+              forbidClick: true,
+              message: res.data.message,
+            });
           }
-          this.list.finished = !users.length
-        } else {
-          this.$toast.fail({
-            forbidClick: true,
-            message: res.data.message
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.loading = false
-        this.list.loading = false
-        this.list.UpRefreshLoading = false
-        loading.clear()
-      })
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loading = false;
+          this.list.loading = false;
+          this.list.UpRefreshLoading = false;
+          loading.clear();
+        });
     },
     // 查看更多团队人员
     getMore() {
       Dialog.confirm({
-        title: "温馨提示",
-        message: "查看团队更多成员需要向DAO提出申请，申请通过后成员名单将发送至您的邮箱",
-        confirmButtonText: "提交申请",
-        cancelButtonText: "稍后联系",
+        title: this.$t("my_team.team_title1"),
+        message: this.$t("my_team.team_msg1"),
+        confirmButtonText: this.$t("my_team.team_text1"),
+        cancelButtonText: this.$t("my_team.team_text2"),
         beforeClose: (action, done) => {
           if (action === "confirm") {
-            this.moreLoading = true
-            morePersonnel().then(res => {
-              if (res.data.code) {
-                this.$toast.fail('申请失败');
-              } else {
-                this.$toast.success('申请已提交');
-              }
-            }).finally(() => this.moreLoading = false)
-            done()
+            this.moreLoading = true;
+            morePersonnel()
+              .then((res) => {
+                if (res.data.code) {
+                  this.$toast.fail(res.data.message);
+                } else {
+                  this.$toast.success(this.$t("my_team.team_msg2"));
+                }
+              })
+              .finally(() => (this.moreLoading = false));
+            done();
           } else {
-            done()
+            done();
           }
-        }
-      })
+        },
+      });
     },
     getLevel(level) {
-      const arr = ['普通用户', '交易用户', '信用节点', '实时节点', '中级节点', '高级节点']
-      return arr[level]
-    }
+      const arr = [
+        this.$t("my_team.team_data4"),
+        this.$t("my_team.team_data5"),
+        this.$t("my_team.team_data6"),
+        this.$t("my_team.team_data7"),
+        this.$t("my_team.team_data8"),
+        this.$t("my_team.team_data9"),
+      ];
+      return arr[level];
+    },
   },
   created() {
-    this.getList()
-  }
-}
+    this.getList();
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -240,14 +252,14 @@ export default {
       height: 80px;
       opacity: 0.2;
       box-sizing: border-box;
-      border-right: 1px solid #F3F4F5;
+      border-right: 1px solid #f3f4f5;
       transform: scaleX(0.5) translate(-50%, -50%);
     }
     .item {
       flex: 1;
       text-align: center;
       .title {
-        color: rgba($color: #FFF, $alpha: 0.3);
+        color: rgba($color: #fff, $alpha: 0.3);
         font-size: 28px;
       }
       .num {
@@ -265,11 +277,11 @@ export default {
     min-height: 0;
     margin-top: 25px;
     overflow: auto;
-    padding-bottom: 44PX;
+    padding-bottom: 44px;
     box-sizing: border-box;
     .list {
       .item {
-        background: #FFFFFF;
+        background: #ffffff;
         border-radius: 20px;
         padding: 30px;
         margin: 25px;
@@ -283,7 +295,7 @@ export default {
           align-items: center;
           justify-content: space-between;
           padding-bottom: 30px;
-          border-bottom: 1px solid #F3F4F5;
+          border-bottom: 1px solid #f3f4f5;
           .avatar {
             display: flex;
             align-items: center;
@@ -318,7 +330,7 @@ export default {
   .link {
     text-align: center;
     font-size: 32px;
-    color: #247FF6;
+    color: #247ff6;
   }
   .more {
     @include posi($p: fixed, $b: 0, $l: 0, $r: 0);

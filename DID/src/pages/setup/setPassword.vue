@@ -152,18 +152,18 @@ export default {
         .then(() => {
           // 复制一个对象，给密码加密
           let req = Object.assign({}, this.form);
-          req.newPassWord = this.$md5(req.newPassWord);
+          req.newPassWord = this.$md5(req.newPassWord + 'uEe');
           changepwd(req).then((res) => {
             if (res.data.code == 0) {
               this.$toast.success({
-                message: "修改成功",
+                message: this.$t("setup.set_email_toast3"),
                 forbidClick: true,
                 onClose: () => this.$router.replace("/login"),
               });
               this.cookie.remove("token");
             } else {
               this.$toast.fail({
-                message: "修改失败",
+                message: this.$t("setup.set_email_toast4"),
                 forbidClick: true,
               });
             }
@@ -171,7 +171,7 @@ export default {
         })
         .catch(() => {
           this.$toast.fail({
-            message: "修改失败",
+            message: this.$t("setup.set_email_toast4"),
             forbidClick: true,
           });
         });

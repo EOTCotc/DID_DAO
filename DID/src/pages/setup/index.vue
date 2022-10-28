@@ -33,7 +33,7 @@
         :title="$t('setup.referrer')"
         :value="userInfo.refUid ? 'UID：' + userInfo.refUid : $t('setup.add')"
         :to="
-          userInfo.refUid
+          userInfo.refUid && riskLevel
             ? {
                 path: '/setup/haveMyReferrer',
                 query: { refUid: userInfo.refUid },
@@ -44,27 +44,37 @@
       />
       <van-cell
         :title="$t('setup.telegram')"
-        @click="cookie.get('riskLevel') == 2 ? '' : (showPopup = true)"
+        @click="
+          cookie.get('riskLevel') == 2 && riskLevel ? '' : (showPopup = true)
+        "
         :value="userInfo.telegram || $t('setup.set')"
         is-link
       />
       <van-cell
         :title="$t('setup.locality')"
         :value="userInfo.country ? site : $t('setup.tab')"
-        to="/locality"
+        :to="riskLevel ? '/locality' : ''"
         is-link
       />
       <van-cell
         :title="$t('setup.change_pass')"
-        to="/setup/setPassword"
+        :to="riskLevel ? '/setup/setPassword' : ''"
         is-link
       />
       <van-cell
         :title="$t('setup.change_email')"
-        to="/setup/setEmail"
+        :to="riskLevel ? '/setup/setEmail' : ''"
         is-link
       />
-      <van-cell :title="$t('logout.logout')" to="/setup/logout" is-link />
+      <van-cell
+        :title="$t('logout.logout')"
+        :to="
+          userInfo.hasLogout && riskLevel
+            ? '/setup/logout/logoutCountdown'
+            : '/setup/logout'
+        "
+        is-link
+      />
     </div>
 
     <!-- 设置电报群 -->
@@ -113,9 +123,19 @@ export default {
       userInfo: "", //用户信息
       showPopup: false, //设置电报群弹出层
       showLogout: false, //退出登录弹出层
+      riskLevel: false, //是否被风控
     };
   },
   mounted() {
+    if (this.cookie.get("riskLevel")) {
+      if (this.cookie.get("riskLevel") == 2) {
+        this.riskLevel = false;
+      } else {
+        this.riskLevel = true;
+      }
+    } else {
+      this.riskLevel = false;
+    }
     this.$toast.loading({
       duration: 15,
       forbidClick: true,
@@ -156,11 +176,11 @@ export default {
     copyUid() {
       let clipboard = new Clipboard("#uid");
       clipboard.on("success", (e) => {
-        this.$toast.success("复制成功");
+        this.$toast.success(this.$t("setup.setup_toast1"));
         clipboard.destroy();
       });
       clipboard.on("error", (e) => {
-        this.$toast.fail("复制失败");
+        this.$toast.fail(this.$t("setup.setup_toast2"));
         clipboard.destroy();
       });
     },
@@ -168,19 +188,20 @@ export default {
     setTelegram() {
       setuserinfo({ telegram: this.telegram }).then((res) => {
         if (res.data.code == 0) {
-          this.$toast.success("设置成功");
+          this.$toast.success(this.$t("setup.setup_toast3"));
           this.getUserInfo();
           this.showPopup = false;
         } else {
-          this.$toast.fail("设置失败");
+          this.$toast.fail(this.$t("setup.setup_toast4"));
         }
       });
     },
-    // 推出登录
+    // 退出登录
     logout() {
       this.cookie.remove("token");
+      this.cookie.remove("userInfo");
       localStorage.clear();
-      this.$toast.success("退出登录成功");
+      this.$toast.success(this.$t("setup.setup_toast5"));
       setTimeout(() => {
         this.$router.replace("/login");
       }, 600);

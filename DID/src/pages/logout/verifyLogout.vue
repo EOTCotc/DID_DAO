@@ -129,7 +129,7 @@ export default {
           } else if (res.data.code == 1) {
             this.$toast.fail(res.data.message);
           } else {
-            this.$toast.fail("注销失败");
+            this.$toast.fail(res.data.message);
           }
         });
       }

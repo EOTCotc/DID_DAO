@@ -36,6 +36,14 @@
           </div>
         </div>
       </div>
+      <!-- 空投 -->
+      <div class="air-drop">
+        <div>
+          <span>{{ $t("home.air_drop") }}</span>
+          <span>{{ userInfo.airdropEotc }}EOTC</span>
+        </div>
+        <img src="@/assets/imgs/kongtou.png" alt="" />
+      </div>
       <!-- 菜单栏 -->
       <div class="cell">
         <!-- 认证审核 -->
@@ -100,7 +108,7 @@
           </template>
         </van-cell>
         <!-- 收付款方式 -->
-        <van-cell is-link :border="false" @click="auth('/my/payment', false)">
+        <van-cell is-link :border="false" @click="auth('/my/payment', true)">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/fukuan.png" />
@@ -118,7 +126,6 @@
           :border="false"
           @click="auth({ path: '/my/community' })"
         >
-          <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/shequ.png" />
           </template>
@@ -156,7 +163,7 @@
           </template>
         </van-cell>
         <!-- 各公链绑定地址 -->
-        <van-cell is-link :border="false" to="/my/wallets">
+        <van-cell is-link :border="false" :to="!riskLevel ? '/my/wallets' : ''">
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/gonglian.png" />
@@ -169,7 +176,11 @@
           </template>
         </van-cell>
         <!-- 绑定各项目 -->
-        <van-cell is-link :border="false" to="/my/projects">
+        <van-cell
+          is-link
+          :border="false"
+          :to="!riskLevel ? '/my/projects' : ''"
+        >
           <!-- 使用 right-icon 插槽来自定义右侧图标 -->
           <template #icon>
             <img src="@/assets/imgs/xiangmu.png" />
@@ -206,9 +217,11 @@ export default {
         communityApproval: false,
         identity: false,
       },
+      riskLevel: false,
     };
   },
   created() {
+    this.riskLevel = this.cookie.get("riskLevel") == 2;
     this.handleRefresh();
     this.getBadge();
   },
@@ -241,7 +254,7 @@ export default {
     handleRefresh() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…",
+        message: this.$t("public.loading"),
       });
       getuserinfo()
         .then((res) => {
@@ -255,12 +268,14 @@ export default {
             if (!this.isShow) {
               this.$dialog
                 .confirm({
-                  message: "社区申请已批准，请及时完善社区信息，是否现在前往？",
-                  confirmButtonText: "确定前往",
-                  cancelButtonText: "稍后前往",
+                  message: this.$t("my.my_dialog1_msg"),
+                  confirmButtonText: this.$t("my.my_dialog1_text1"),
+                  cancelButtonText: this.$t("my.my_dialog1_text2"),
                 })
                 .then(() => {
-                  this.$router.push("/my/community/setting");
+                  !this.riskLevel
+                    ? this.$router.push("/my/community/setting")
+                    : "";
                 })
                 .catch(() => {});
               this.isShow = true;
@@ -284,38 +299,45 @@ export default {
       };
       if (this.userInfo.refUid) {
         if (validateAuthType) {
-          if (this.userInfo.authType === 2) {
+          if (this.userInfo.authType === 2 && !this.riskLevel) {
             this.$router.push(path);
           } else {
             switch (this.userInfo.authType) {
               case 0:
                 options.type = "confirm";
-                options.title = "身份认证";
-                options.message = "身份未认证，请立即认证";
-                options.cb = () => this.$router.push({ path: "/my/identity" });
+                options.title = this.$t("my.my_index_title1");
+                options.message = this.$t("my.my_index_msg1");
+                options.cb = () =>
+                  this.$router.push({
+                    path: this.riskLevel ? "/risk" : "/my/identity",
+                  });
                 break;
               case 1:
                 options.type = "alert";
-                options.title = "身份认证";
-                options.message = "身份认证审核中，请耐心等待";
-                options.cb = null;
+                options.title = this.$t("my.my_index_title1");
+                options.message = this.$t("my.my_index_msg2");
+                options.cb = () => {};
                 break;
               case 3:
                 options.type = "confirm";
-                options.title = "身份认证";
-                options.message = "身份认证审核未通过，请重新认证";
-                options.cb = this.$router.push({
-                  name: "identity",
-                  params: { name, phoneNum, idCard },
-                });
+                options.title = this.$t("my.my_index_title1");
+                options.message = this.$t("my.my_index_msg3");
+                options.cb = () =>
+                  this.$router.push({
+                    path: this.riskLevel ? "/risk" : "/my/identity",
+                    params: this.riskLevel ? {} : { name, phoneNum, idCard },
+                  });
                 break;
             }
             this.$dialog[options.type]({
               title: options.title,
               message: options.message,
               confirmButtonText:
-                options.type === "confirm" ? "前往认证" : "确定",
+                options.type === "confirm"
+                  ? this.$t("my.my_index_text1")
+                  : this.$t("public.confirm"),
               confirmButtonColor: "#F65F5F",
+              cancelButtonText: this.$t("my.my_dialog1_text2"),
               beforeClose: (action, done) => {
                 if (action === "confirm") {
                   done();
@@ -332,14 +354,16 @@ export default {
       } else {
         this.$dialog
           .confirm({
-            title: "推荐关系",
-            message: "暂未绑定推荐关系，请立即绑定",
-            confirmButtonText: "立即绑定",
+            title: this.$t("my.my_index_title2"),
+            message: this.$t("my.my_index_msg4"),
+            confirmButtonText: this.$t("my.my_index_text2"),
             confirmButtonColor: "#F65F5F",
+            cancelButtonText: this.$t("my.my_dialog1_text2"),
             beforeClose: (action, done) => {
               if (action === "confirm") {
                 done();
-                this.$router.push({ path: "/bindRelation" });
+                this.showOverlay = false;
+                this.$router.push("/myReferrer");
               } else {
                 done();
               }
@@ -450,7 +474,30 @@ export default {
       }
     }
   }
-
+  // 空投
+  .air-drop {
+    margin-top: 30px;
+    padding: 0 30px;
+    height: 120px;
+    background: linear-gradient(135deg, #3a5683 0%, #83aade 100%, #000 100%);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      span {
+        font-size: 32px;
+        color: #fff;
+      }
+      span:last-of-type {
+        margin-left: 30px;
+      }
+    }
+    img {
+      width: 88px;
+      height: 100px;
+    }
+  }
   // 菜单栏
   :deep(.van-cell) {
     padding: 30px 0 0 0;

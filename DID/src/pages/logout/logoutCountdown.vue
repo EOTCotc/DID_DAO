@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">{{$t('logout.logout')}}</span>
+        <span class="title">{{ $t("logout.logout") }}</span>
       </template>
     </van-nav-bar>
     <!-- 内容 -->
@@ -19,12 +19,13 @@
       <img src="../../assets/imgs/zhuxiao2.png" />
       <div class="info">
         <p>{{ email }}</p>
-        <p>{{$t('logout.title')}}</p>
+        <p>{{ $t("logout.title") }}</p>
       </div>
       <div class="countdown">
-        {{ `${hours}:${minute}:${second}` }}<span>{{$t('logout.count_down')}}</span>
+        {{ `${hours}:${minute}:${second}`
+        }}<span>{{ $t("logout.count_down") }}</span>
       </div>
-      <button @click="waiveLogout">{{$t('logout.waive')}}</button>
+      <button @click="waiveLogout">{{ $t("logout.waive") }}</button>
     </div>
   </div>
 </template>
@@ -56,7 +57,7 @@ export default {
     },
     // 处理时间
     handleTime(date) {
-      setInterval(() => {
+      let countdown = () => {
         let logoutTime = new Date(date).getTime() + 172800000;
         let now = new Date().getTime();
         let timestamp = logoutTime - now;
@@ -66,18 +67,20 @@ export default {
         this.minute = minute >= 10 ? minute : "0" + minute;
         let second = Math.floor(((timestamp % 3600000) % 60000) / 1000);
         this.second = second >= 10 ? second : "0" + second;
-      }, 1000);
+      };
+      countdown()
+      setInterval(countdown, 1000);
     },
     // 放弃注销
     waiveLogout() {
       cancellogout().then((res) => {
         if (res.data.code == 0) {
-          this.$toast.success("取消注销成功");
+          this.$toast.success(this.$t("logout.logout_toast1"));
           setTimeout(() => {
             this.$router.replace("/setup");
           }, 600);
         } else {
-          this.$toast.fail("取消注销失败");
+          this.$toast.fail(this.$t("logout.logout_toast2"));
         }
       });
     },

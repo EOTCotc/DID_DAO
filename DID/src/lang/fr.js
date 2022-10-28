@@ -1,0 +1,500 @@
+export default {
+  menu: {
+    login: 'Connexion',
+    signin: "S'inscrire",
+  },
+  public: {
+    cancel: 'Annuler',
+    confirm: 'Bien sûr',
+    save: 'donjon',
+    toast1: "Veuillez d'abord sélectionner le pays",
+    loading: 'Chargement…',
+    not_data: 'Pas encore de données',
+    suc: 'Enregistré avec succès',
+  },
+  rulesMsg: {
+    email: 'Veuillez renseigner votre adresse e-mail',
+    correct_mail: 'veuillez saisir votre email valide',
+    pwd: 'Veuillez renseigner le mot de passe de connexion',
+    code: 'veuillez entrer le code de vérification',
+    signin_pwd: 'Veuillez remplir le mot de passe',
+    confirm_pass: 'Veuillez confirmer votre mot de passe',
+    different_pass: 'les mots de passe ne sont pas les mêmes',
+    invited_address: "Veuillez entrer l'adresse d'invitation",
+  },
+  topBar: {
+    name1: "Site officiel de l'EOTC",
+    name2: 'Échange OTC décentralisé',
+    name3: 'Bureau de change décentralisé',
+    name4: 'Bourse de prêt décentralisée',
+    name5: 'Échange de contrats décentralisé',
+    name6: 'Gestion financière en chaîne pour gagner des pièces',
+    name7: "Système d'Identité Décentralisé DID",
+    name8: "Système d'application décentralisé",
+    name9: 'EOTC métaverse',
+  },
+  reject: {
+    tags1: 'taper',
+    tags2:
+      'Les utilisateurs qui opèrent de manière malveillante et les nœuds de recommandation qui les traversent déduiront les points de crédit correspondants',
+    tags3: 'cause spécifique',
+    tags4: 'Veuillez entrer une raison précise',
+    data1: 'Information incomplète',
+    data2: 'mauvaise information',
+    data3: "La photo d'identité est fausse",
+    data4: "La photo d'identité n'est pas claire",
+  },
+  // 登录注册页
+  content: {
+    select_network: 'choisir le réseau',
+    wallet_address: 'adresse de portefeuille',
+    email: 'adresse e-mail',
+    pwd: 'mot de passe',
+    not_account: 'pas encore de compte',
+    register: "S'inscrire maintenant",
+    signin_title:
+      "L'EOTC adopte un système d'inscription sur invitation strict",
+    send_code: 'Envoyer le code de vérification',
+    email_code: 'Code de vérification de courrier électronique',
+    signin_pwd: 'le mot de passe',
+    include: "Contient des lettres et des chiffres d'au moins 8 chiffres",
+    confirm_pass: 'Confirmez le mot de passe',
+    invitation_code: "Code d'invitation",
+    not_required: 'Non requis',
+    read_agree: "J'ai lu et accepté",
+    user_agreement: "Accord de l'utilisateur",
+    registration: "Confirmer l'inscription",
+    have_account: 'avoir un compte',
+    to_login: 'aller à la connexion',
+    login_suc: 'connexion réussie',
+    msg1: 'Veuillez entrer le bon email ou mot de passe',
+    msg2: "succès de l'inscription",
+    msg3: "échec de l'enregistrement",
+    msg4: "Veuillez cocher l'accord",
+    forgotPwd: 'Récupérer mot de passe',
+    success: 'trouver le succès',
+    forgetPwd: 'Mot de passe oublié',
+  },
+  // 首页
+  home: {
+    title: ['Bienvenue à', "Système d'Identité Décentralisé DID"],
+    authenticated: 'Identité vérifiée',
+    start_attestation: 'commencer la certification',
+    system_introduction: 'introduction',
+    not_bound:
+      "Il a été détecté que vous n'avez aucune relation de parrainage. Pour la sécurité du compte, veuillez vous rendre sur Lier la relation de parrainage",
+    tags1: 'sous certification',
+    tags2: 'Authentification échouée',
+    tags3: `EOTC DID est un système d'identité décentralisé, un système d'identité qui fonctionne de manière indépendante, un stockage distribué, un stockage d'identité décentralisé et une invocation autorisée. EOTC
+DID est inscrit dans une chaîne de relations solides, et est audité et régi par l'EOTC DAO. EOTC
+DID peut relier toutes les chaînes publiques et peut fournir une identité décentralisée pour n'importe quelle adresse sur toutes les chaînes publiques. Enregistrement de chaîne de relations solides, audit décentralisé, liaison d'application, stockage chiffré d'informations sensibles, transformation commerciale d'étiquettes désensibilisées, appels d'autorisation d'informations et autres services.`,
+    tags4: `L'émergence d'EOTC DID protégera fortement la vie privée des utilisateurs et comblera en même temps l'écart que la blockchain ne peut pas identifier l'identité du détenteur de l'adresse de la chaîne publique et ne peut pas étiqueter le détenteur de l'adresse avec des étiquettes commerciales.
+DID injectera un support d'application de base solide dans le monde de la blockchain et ouvrira des applications commerciales de blockchain plus efficaces, plus sûres et plus scientifiques.`,
+    tags5: 'Copyright 2022 EOTC.',
+    tags6:
+      "Il est détecté que vous n'avez aucune relation de parrainage, pour le compte",
+    tags7:
+      'Pour plus de sécurité, veuillez vous rendre sur Bind Referral Relationship',
+    title1: 'Le système détecte que votre compte est anormal',
+    title2:
+      'Le système est temporairement indisponible, veuillez suivre les invites pour libérer le contrôle des risques',
+    title3: 'Contrôle des risques liés aux versions',
+    air_drop: 'Largage aérien',
+  },
+  // 账号设置
+  setup: {
+    settings: 'Paramètres du compte',
+    email: 'Courrier',
+    referrer: 'recommandeur',
+    add: 'Ajouter à',
+    telegram: 'Groupe de télégrammes',
+    set: "d'installation",
+    locality: 'emplacement',
+    tab: 'choisir',
+    change_pass: 'changer le mot de passe',
+    change_email: "Modifier l'e-mail",
+    logout: 'Se déconnecter',
+    setTelegram: 'Créer un groupe de télégrammes',
+    input_telegram: "Veuillez entrer l'adresse du télégramme",
+    logout_tip: 'Invite de sortie',
+    logout_cont:
+      'Voulez-vous vraiment vous déconnecter de votre compte actuel ?',
+    logout: 'se déconnecter',
+    setup_toast1: 'Copier avec succès',
+    setup_toast2: 'Échec de la réplication',
+    setup_toast3: 'réglé avec succès',
+    setup_toast4: 'La configuration a échoué',
+    setup_toast5: 'Déconnectez-vous et connectez-vous avec succès',
+    // 我的推荐人页面
+    my_referrer: 'mes recommandations',
+    code: "Remplissez le code d'invitation",
+    input_mail_code: "Veuillez entrer le code d'invitation",
+    get_code: "Obtenez le code d'invitation et liez la relation de parrainage",
+    referrer_name: 'Nom',
+    referrer_phone: 'Numéro de téléphone',
+    referrer_toast1: 'La liaison a réussi',
+    referrer_toast2: "Veuillez remplir le code d'invitation",
+    // 修改邮箱
+    set_email: "Modifier l'adresse e-mail",
+    new_email: 'Nouvelle adresse courriel',
+    input_email: 'Veuillez saisir une nouvelle adresse e-mail',
+    new_code: "nouveau code de vérification d'e-mail",
+    input_code:
+      "Veuillez saisir le nouveau code de vérification de l'adresse e-mail",
+    impower: 'Autoriser',
+    cimmit_change: 'Soumettre des changements',
+    set_email_toast1: 'veuillez entrer votre email',
+    set_email_toast2: 'Merci de renseigner le bon email',
+    set_email_toast3: 'Modifié avec succès',
+    set_email_toast4: 'ne parvient pas à modifier',
+    // 修改密码
+    set_pwd: 'changer le mot de passe',
+    new_pwd: 'nouveau mot de passe',
+    conf_pwd: 'Confirmez le nouveau mot de passe',
+  },
+  // 绑定社区(bindRelation)
+  bindRelation: {
+    tab_locality: "choisir l'emplacement",
+    user_loc: "utiliser l'emplacement actuel",
+    loc: 'position actuelle',
+    country: 'nation',
+    p_c_area: 'Provinces et villes',
+    select_site: 'Sélectionnez votre région actuelle',
+    have_site: 'Existant dans la région actuelle',
+    comm_num: 'communautés',
+    tip: "Afin de faciliter l'établissement d'une relation de recommandation hors ligne, veuillez choisir avec soin l'emplacement actuel.Une fois lié, il ne peut pas être modifié.",
+    next: "Confirmez, passez à l'étape suivante",
+    conf_tip: 'invite de confirmation',
+    conf_cont:
+      "Après confirmation, vous ne pourrez plus modifier la relation ni lier la région. Voulez-vous vraiment passer à l'étape suivante ?",
+    // bindNation
+    search: 'Veuillez entrer le mot-clé de recherche',
+    // bindCommunity
+    site_comm: 'communauté locale',
+    comm_tip:
+      "Pour la sécurité de votre compte, veuillez rejoindre le groupe de télégramme local pour contacter la direction afin d'établir une relation de parrainage hors ligne",
+    not_more: 'Pas plus',
+    adbout: 'Profil de la communauté',
+    msg1: 'Veuillez sélectionner la province',
+  },
+  // 账号注销(logout文件)
+  logout: {
+    logout: 'Annulation de compte',
+    write_off: 'Se déconnecter',
+    bind_account: 'compte lié',
+    conf_info: 'Confirmer les informations',
+    imp_reminder: 'Rappel important',
+    cause: "Raison pour l'annulation",
+    //确定信息confInfo
+    acc_property: 'Actifs du compte',
+    conf_tip:
+      "Les actifs du compte incluent, mais sans s'y limiter, tous les actifs et récompenses de chaque compte de projet d'EOTC",
+    give_up: 'OK Rejeté/Traité',
+    next: "L'étape suivante",
+    acc_dispose: 'Gestion des actifs du compte',
+    dis_tip:
+      "Assurez-vous d'abandonner ou de disposer correctement de tous les actifs et récompenses du compte courant",
+    think_again: 'laisse-moi repenser',
+    //重要提醒(remind)
+    parag1:
+      "La fermeture d'un compte est une opération irréversible, avant toute opération, veuillez vous assurer que tous les avoirs liés au compte ont bien été liquidés.",
+    parag2:
+      "N'oubliez pas : si vous annulez votre compte, vous ne pourrez plus utiliser ce compte ou récupérer tout contenu ou information que vous avez ajouté ou lié (même si vous utilisez la même adresse e-mail pour vous inscrire à nouveau), y compris, mais sans s'y limiter :",
+    parag3:
+      "(1) Vous ne pourrez pas vous connecter et utiliser ce compte, et votre relation d'équipe n'existera pas.",
+    parag4:
+      "(2) Avant d'annuler votre compte WeChat, vous devez gérer correctement tous les problèmes de fonds du compte.",
+    parag5:
+      "(3) Si vous l'utilisez via votre compte, les récompenses, cartes, blind box, droits, qualifications, commandes, réductions, etc. que vous avez obtenus seront réputés abandonnés par vous et ne seront plus utilisés. Vous comprenez et acceptez qu'EOTC ne peut pas vous aider à restaurer les actifs susmentionnés.",
+    parag6:
+      '(4) Toutes les fonctions ou services liés au compte ne seront plus disponibles.',
+    parag7:
+      "(5) Pendant la période d'annulation de compte, si votre compte est en cours d'arbitrage, EOTC et DAO ont le droit de mettre fin à l'annulation de votre compte sans obtenir votre consentement.",
+    have_read: "J'ai lu",
+    // 注销原因(reason)
+    reason: "Veuillez sélectionner la raison de l'annulation",
+    rests: 'Veuillez décrire brièvement les autres raisons',
+    conf_off: 'confirmer la déconnexion',
+    reason_text1: "Besoin de dissocier l'e-mail",
+    reason_text2:
+      'Vous souhaitez annuler la relation actuelle avec la communauté de parrainage',
+    reason_text3: 'Ceci est un compte redondant',
+    reason_text4: 'autre',
+    // 确认信息(verifyLogout)
+    submit: 'nous faire parvenir',
+    warn: 'prévenir',
+    warn1:
+      "1. Une fois l'annulation soumise, l'EOTC DAO effectuera la vérification et le traitement de l'annulation dans les 48 heures.",
+    warn2:
+      '2. Après la déconnexion, toutes les informations du compte seront effacées et ne pourront pas être récupérées, veuillez faire preuve de prudence.',
+    warn3:
+      "3. Une fois l'annulation réussie, la boîte aux lettres peut être réenregistrée en tant que nouveau compte, qui ne contient aucune information avant l'annulation.",
+    // 账号注销倒计时(logoutCountdown)
+    title: "Période d'annulation du compte",
+    count_down: 'Après avoir terminé la déconnexion',
+    waive: 'abandonner la déconnexion',
+    logout_toast1: 'Annuler la déconnexion avec succès',
+    logout_toast2: "Échec de l'annulation de la déconnexion",
+  },
+  // 我的页面
+  my: {
+    //index
+    unverified: 'Identité non authentifiée',
+    credit_core: 'pointage de crédit',
+    certification_audit: 'Audit de certification',
+    community_approval: 'Approbation de la communauté',
+    identity_info: "Informations d'identité",
+    identity_unver: 'non certifié',
+    under_review: "à l'étude",
+    audit_failure: "Échec de l'audit",
+    payment: 'Mode de paiement',
+    my_comm: 'ma communauté',
+    my_team: 'mon équipe',
+    invite_friends: 'Inviter des amis',
+    bind_address: 'Adresse contraignante de chaque chaîne publique',
+    each_item: 'Reliez chaque élément',
+    my_dialog1_msg:
+      'La candidature de la communauté a été approuvée. Veuillez améliorer les informations de la communauté à temps. Voulez-vous y aller maintenant ?',
+    my_dialog1_text1: "D'accord pour y aller",
+    my_dialog1_text2: 'aller plus tard',
+    my_index_title1: 'Authentification',
+    my_index_msg1:
+      "L'identité n'est pas vérifiée, veuillez vérifier maintenant",
+    my_index_msg2:
+      "La vérification d'identité est en cours, veuillez patienter",
+    my_index_msg3:
+      "Échec de la vérification de l'identité, veuillez renouveler la certification",
+    my_index_text1: "aller à l'agrément",
+    my_index_title2: 'Relation de référence',
+    my_index_msg4:
+      "La relation de recommandation n'a pas encore été liée, veuillez la lier maintenant",
+    my_index_text2: 'lier maintenant',
+  },
+  // 我的团队
+  my_team: {
+    tags1: "Taille de l'équipe",
+    tags2: 'Numéro direct push',
+    tags3: 'Numéro de téléphone portable',
+    tags4: "Date d'inscription",
+    tags5: 'Soumission de la candidature...',
+    tags6: "plus de membres de l'équipe",
+    tags7: 'inviter',
+    team_data1: 'tout',
+    team_data2: 'vérifié',
+    team_data3: 'non certifié',
+    team_title1: 'Bons conseils',
+    team_msg1:
+      "Pour voir plus de membres de l'équipe, vous devez postuler à DAO. Une fois la candidature approuvée, la liste des membres vous sera envoyée par e-mail",
+    team_text1: 'présenter une demande',
+    team_text2: 'papa',
+    team_msg2: 'application déposée',
+    team_data4: 'utilisateur général',
+    team_data5: 'utilisateur commercial',
+    team_data6: 'nœud de crédit',
+    team_data7: 'nœud en temps réel',
+    team_data8: 'Nœud intermédiaire',
+    team_data9: 'Nœud avancé',
+  },
+  //绑定个项目
+  projects: {
+    tags1: "J'ai lié chaque élément",
+    tags2: 'délier',
+    projects_title1: 'délier',
+    projects_msg1: 'Déterminer de dissocier le projet en cours',
+    projects_msg2: "l'opération a échoué",
+    projects_msg3: 'Non lié',
+  },
+  // 各公链绑定地址
+  wallets: {
+    wallets_title1: 'Adresse contraignante de chaque chaîne publique',
+    tags: "Annuler l'autorisation",
+    wallets_msg1:
+      "Confirmer pour annuler l'autorisation de l'adresse de chaîne publique actuelle",
+    wallets_msg1: 'Autorisation annulée',
+  },
+  // 付款方式
+  payment: {
+    title1: 'Mode de paiement',
+    tags1: 'Configurer un compte de paiement',
+    text1: 'effacer',
+    tags2:
+      'Afficher uniquement les acheteurs qui ouvrent des comptes récepteurs',
+    data1: 'carte bancaire',
+    data2: 'Alipay',
+    data3: 'Payer WeChat',
+    data4: 'paiement en espèces',
+    msg1: 'erreur inconnue',
+    title2: "supprimer l'invite",
+    msg2: 'Voulez-vous vraiment supprimer le compte de paiement ?',
+    msg3: 'Échec de la création',
+    msg4: 'Créé avec succès',
+  },
+  // 添加收付款账号
+  create: {
+    title1: 'Ajouter un compte de paiement',
+    text1: 'Nom',
+    text2: 'veuillez entrer votre vrai nom',
+    text3: 'carte bancaire',
+    text4: 'Veuillez saisir la banque du compte',
+    text5: 'Veuillez entrer le numéro de compte de la carte bancaire',
+    text6: 'mot de passe des transactions',
+    text7: 'Veuillez entrer le mot de passe de la transaction',
+    text8: "Entrez s'il vous plait",
+    text9: 'Compte',
+    title2: 'Bons conseils',
+    tags1:
+      'Les informations de paiement impliquent des transactions, veuillez vérifier les informations avant de soumettre',
+    tags2: "D'ACCORD",
+    title3: 'Vérifier les informations',
+    tags3: 'Veuillez confirmer que les informations actuelles sont correctes',
+    tags4: 'Nom',
+    tags5: 'banque dépositaire',
+    tags6: 'Compte bancaire',
+    tags7: 'Un code de vérification sera envoyé à votre adresse e-mail',
+    tags8: 'Erreur de code de vérification!',
+    tags9: 'Renvoyer',
+    tags10: 'Confirmer la soumission',
+    data1: 'Compte bancaire',
+    data2: 'Échec',
+    msg1: 'soumission…',
+    mag2: 'Échec de la soumission',
+  },
+  // 邀请好友
+  invute: {
+    tags1: "Lien d'invitation",
+    tags2: "Code d'invitation",
+    tags3: 'partager une affiche',
+    tags4: 'invitation face à face',
+    tags5: "Il est recommandé d'utiliser",
+    tags6: 'Album photo mobile/code de numérisation du navigateur',
+  },
+  // 身份认证
+  identity: {
+    text1: 'Veuillez entrer le numéro de téléphone',
+    text2: 'numéro de licence',
+    text3: "Veuillez entrer le numéro d'identification",
+    tags1: 'exemple de graphique',
+    tags2: "Télécharger le visage de la carte d'identité",
+    tags3:
+      "Veuillez suivre l'exemple d'image pour télécharger la photo du visage du portrait de la carte d'identité",
+    tags4: "Affichage des informations d'audit",
+    tags5:
+      "Une fois que la photo d'identité que vous avez téléchargée est partiellement floue, elle sera examinée par différents nœuds",
+    tags6: 'Le recommandataire affiche les 60 % restants',
+    tags7: "Le nœud d'audit affiche les bons 60 %",
+    tags8: "Téléchargez votre carte d'identité et votre emblème national",
+    tags9:
+      "Veuillez suivre l'exemple d'image pour télécharger la carte d'identité et l'emblème national",
+    tags10: 'Télécharger une photo de passeport',
+    tags11:
+      "Veuillez suivre l'exemple d'image pour télécharger une photo de passeport",
+    tags12: 'Précédent',
+    tags13: "Téléchargement d'images...",
+    tags14: "Envoi d'informations...",
+    data1: 'Téléchargement…',
+    data2: 'Veuillez télécharger le fichier',
+    data3: 'mauvais type de fichier',
+    data4: 'Soumis avec succès',
+  },
+  success: {
+    tags1: "nœud d'audit",
+  },
+  fail: {
+    tags1: 'ID de téléchargement',
+    tags2: 'Rappeler la raison',
+    tags3:
+      'Informations incorrectes : la photo en main est incorrecte, veuillez la soumettre à nouveau',
+    tags4: 'Soumettre à nouveau',
+  },
+  approval: {
+    tags1: "Photo d'identité et passeport",
+    tags2: 'revenir',
+    tags3: 'passer',
+    tags4: 'Soumission malveillante',
+    tags5: 'mauvaise information',
+    tags6: 'numéro de téléphone',
+    tags7: 'Quantité mise en gage',
+    tags8: 'approuver',
+    tags9: 'Raison du rejet',
+    data1: 'En attente',
+    data2: 'Approuvé',
+    data3: 'refuser',
+    data4: 'Chargement de la liste...',
+    data5: "Invite d'approbation",
+    data6:
+      'Veuillez vous assurer que le demandeur remplit correctement les informations, êtes-vous sûr que la demande est approuvée ?',
+    msg1: 'Opération réussie',
+    data7: "Ignorer l'invite",
+    data8: 'Êtes-vous sûr de vouloir rejeter la candidature ?',
+    data9: 'Pas révisé',
+    data10: 'examen réussi',
+    data11: 'Soumission malveillante',
+    data12: 'mauvaise information',
+  },
+  // 信用分
+  credit: {
+    tags1: 'pointage de crédit',
+    tags2: 'pointage de crédit total',
+    tags3: 'Record de points supplémentaires',
+    tags4: 'Dossier de déduction',
+  },
+  // 社区（index,create）
+  community: {
+    tags1: 'Introduction',
+    tags2: 'Groupe QQ',
+    tags3: 'Postuler pour créer une communauté',
+    tags4: "Création de communauté à l'étude",
+    tags5: "Échec de l'examen de la création de la communauté",
+    msg1: 'Vous devez détenir 5000EOTC pour postuler',
+    tags6: "Nom d'utilisateur",
+    tags7: 'Veuillez entrer le vrai nom du demandeur',
+    tags8: 'nom de la communauté',
+    tags9: "Veuillez saisir le nom de la communauté d'applications",
+    tags10: 'Adresse communautaire',
+    tags11: 'Veuillez sélectionner une adresse communautaire',
+    tags12: 'numéro de contact',
+    tags13: 'Veuillez entrer votre numéro de contact',
+    tags14: 'Veuillez entrer le bon numéro de téléphone',
+    tags15: 'Y a-t-il un bureau',
+    tags16: 'Ont',
+    tags17: 'rien',
+    tags18: "s'il faut constituer un groupe",
+    tags19: 'Oui',
+    tags20: 'non',
+    msg2: "Veuillez vous assurer que les informations soumises sont correctes, elles ne seront pas modifiées après l'approbation de la soumission",
+  },
+  // process
+  process: {
+    tags1: "processus d'approbation",
+    tags2:
+      "Désolé, votre demande de création d'une communauté a été rejetée pour le moment",
+    tags3: 'Les motifs de refus sont les suivants',
+    tags4: 'resoumettre la demande',
+  },
+  setting: {
+    address: 'adresse',
+    addressPlaceholder: 'Veuillez sélectionner un emplacement communautaire',
+    title1: 'informations communautaires',
+    title2: "Entrez s'il vous plait…",
+    title3: "Remplissez l'adresse du groupe de télégrammes",
+    title4: 'Remplissez le numéro de groupe QQ',
+    title5: 'Remplir le compte Discord',
+    title6: 'Candidature soumise avec succès',
+    title7: 'Les résultats seront communiqués dans les 7 jours ouvrables',
+    tags1: 'Afficher les images',
+    tags2: "Si vous ne la téléchargez pas, affichez l'image par défaut",
+    tags3: 'entendu',
+    data1: 'Téléchargement',
+    data2: 'soumet…',
+  },
+  // 风控
+  risk: {
+    tags1:
+      "Afin d'utiliser le compte normalement, veuillez vérifier l'identité de la vidéo avec les 5 contacts suivants à temps",
+    tags2: "L'annulation de 3 contacts ou plus prendra effet immédiatement",
+    tags3: 'Libérer le contact de contrôle des risques',
+    tags4: 'Contactez',
+    data1: 'appel',
+    data2: 'numéro de copie',
+  },
+};

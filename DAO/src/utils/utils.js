@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-
+import dayjs from "dayjs"
 // 0 0 0 trx
 function initFormData (data) {
   const formData = new FormData()
@@ -69,6 +68,6 @@ export function getAuditType (type) {
 }
 // 获取事件类型
 export function getArbitrateInType (type) {
-  const arr = ["账户被冻结", "卖家未确认收款", "其他"];
+  const arr = ["账户被冻结", "卖家未确认收款", "其他", '仲裁异议'];
   return arr[type];
 }

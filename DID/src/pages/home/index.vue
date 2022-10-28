@@ -6,7 +6,8 @@
     <div class="content">
       <!-- 名称 -->
       <div class="project_name">
-        <img src="@/assets/imgs/project_name.png" />
+        <p class="text bold">{{ $t("home.title[0]") }}</p>
+        <p class="text">{{ $t("home.title[1]") }}</p>
       </div>
       <!-- 背景图 -->
       <div class="big_bg_logo">
@@ -26,50 +27,45 @@
         "
       >
         <div class="btn-box" @click="identifyRouter">
-          <template v-if="userInfo.authType === 0">
-            <span>开始认证</span>
-            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
-          </template>
-          <template v-else-if="userInfo.authType === 1">
+          <template v-if="userInfo.authType === 1">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-            <span>认证中</span>
+            <span>{{ $t("home.tags1") }}</span>
           </template>
           <template v-else-if="userInfo.authType === 2">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-            <span>身份已认证</span>
+            <span>{{ $t("home.authenticated") }}</span>
+          </template>
+          <template v-else-if="userInfo.authType === 3">
+            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
+            <span>{{ $t("home.tags2") }}</span>
+            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
           </template>
           <template v-else>
-            <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
-            <span>身份认证失败</span>
+            <span>{{ $t("home.start_attestation") }}</span>
             <div class="icon_down"><van-icon color="#fff" name="down" /></div>
           </template>
         </div>
       </div>
       <!-- 系统简介 -->
       <div class="title-summarize">
-        <span>系统简介</span>
+        <span>{{ $t("home.system_introduction") }}</span>
       </div>
       <!-- 简介 -->
       <p class="text-p">
-        EOTC
-        DID是去中心化身份体系，是独立运行、分布式存储的去中心化身份存储、授权调用的身份系统。EOTC
-        DID采用强关系链方式注册、由EOTC DAO配合审核和治理。 EOTC
-        DID可以链接所有公链，可以为所有公链上的任意地址提供去中心化身份的强关系链注册、去中心化审核、应用绑定、敏感信息加密存储、脱敏标签商业转化、信息授权调用等服务。
+        {{ $t("home.tags3") }}
       </p>
       <p class="text-p">
-        EOTC
-        DID的出现将在高度保护用户隐私同时弥补区块链无法识别公链地址持有人身份、无法给地址持有人打商业标签的空白，EOTC
-        DID将为区块链世界注入强大的基础应用支持，开启更加高效更加安全更加科学的区块链商业应用。
+        {{ $t("home.tags4") }}
       </p>
     </div>
     <!-- 底部 -->
     <div class="tail">
       <div>
-        <img src="../../assets/imgs/c.png" />
-        <span> 2022年EOTC版权所有。</span>
+        <img src="@/assets/imgs/c.png" />
+        <span>{{ $t("home.tags5") }}</span>
       </div>
       <div @click="handleTabLang">
-        <span class="tab-lang">简体中文</span>
+        <span class="tab-lang">{{ textLang }}</span>
         <van-icon :name="iconLang" />
       </div>
     </div>
@@ -80,7 +76,12 @@
       position="right"
     >
       <div class="menu">
-        <div class="menu-every" v-for="item in lang" :key="item.id">
+        <div
+          class="menu-every"
+          v-for="item in lang"
+          @click="tabLang(item)"
+          :key="item.id"
+        >
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -90,28 +91,28 @@
       <div class="wrapper" @click.stop>
         <div class="block">
           <img src="../../assets/imgs/lingdang.png" />
-          <div class="tips">检测到您暂无推荐关系，为了账户</div>
-          <div class="tips">安全性请前往绑定推荐关系</div>
+          <div class="tips">{{ $t("home.tags6") }}</div>
+          <div class="tips">{{ $t("home.tags7") }}</div>
           <div class="block-bot">
-            <div @click="showOverlay = false">取消</div>
-            <div @click="toSite">确定</div>
+            <div @click="showOverlay = false">{{ $t("public.cancel") }}</div>
+            <div @click="toSite">{{ $t("public.confirm") }}</div>
           </div>
         </div>
       </div>
     </van-overlay>
     <notification
       ref="notification"
-      title="系统检测您的账号存在异常"
-      message="暂无法使用该系统，请根据提示解除风控"
-      button-text="解除风控"
+      :title="$t('home.title1')"
+      :message="$t('home.title2')"
+      :button-text="$t('home.title3')"
       button-color="#F65F5F"
       :header-icon="headerIcon"
       @closed="handleClosed"
       @buttonClick="() => $router.push('/risk')"
     />
     <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
-      <img src="../../assets/imgs/jin.png" alt="" class="img" />
-      <div class="text">解除风控</div>
+      <img src="@/assets/imgs/jin.png" class="img" />
+      <div class="text">{{ $t("home.title3") }}</div>
     </div>
   </div>
 </template>
@@ -121,7 +122,7 @@ import Notification from "@/components/notification";
 import headerIcon from "@/assets/imgs/jin.png";
 import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
-import {risklevel} from '@/api/risk'
+import { risklevel } from "@/api/risk";
 export default {
   data() {
     return {
@@ -134,33 +135,95 @@ export default {
       lang: [
         { id: 1, text: "简体中文", lang: "zh" },
         { id: 2, text: "English", lang: "en" },
+        { id: 3, text: "繁體中文", lang: "zhTw" },
+        { id: 4, text: "日本語", lang: "ja" },
+        { id: 5, text: "한국어", lang: "ko" }, //韩语
+        { id: 6, text: "русский язык", lang: "ru" }, //俄语
+        { id: 7, text: "Français", lang: "fr" }, //法语
+        { id: 8, text: "ภาษาไทย", lang: "th" }, //泰语
+        { id: 9, text: "Nederlands", lang: "nl" }, //荷兰语
+        { id: 10, text: "بالعربية", lang: "ar" }, //阿拉伯语
+        { id: 11, text: "IndonesiaName", lang: "id" }, //印尼语
+        { id: 12, text: "Español", lang: "es" }, //西班牙语
+        { id: 13, text: "Português", lang: "pt" }, //葡萄牙语
+        { id: 14, text: "ViệtName", lang: "vi" }, //越南语
+        { id: 15, text: "Italiano", lang: "it" }, //意大利语
       ],
+      textLang: "简体中文",
     };
   },
   components: {
     TopBar,
     Notification,
   },
-  created() {
-    risklevel().then((res) => {
-      const { code, items: level } = res.data;
-      if (code === 0) {
-        this.cookie.set('riskLevel', level)
-        if (level === 2) {
-          this.$nextTick().then(() => {
-            this.$refs.notification.toggle(true);
-          });
-        }
-      }
-    });
-  },
   mounted() {
-    // 当前的语言
-    if (localStorage.getItem("textLang")) {
-      this.textLang = localStorage.getItem("textLang");
+    if (!this.cookie.get("userInfo") && !this.cookie.get("token")) {
+      this.$router.replace("/login");
+    } else {
+      this.getInfo();
     }
-    this.getrisklevel(); //风控等级
-    this.getInfo(); //获取用户信息
+    // 当前的语言
+    if (localStorage.getItem("lang")) {
+      this.textLang = JSON.parse(localStorage.getItem("lang")).text;
+    } else {
+      let langText = navigator.language.slice(0, 2);
+      switch (langText) {
+        case "zh":
+          this.textLang = "简体中文";
+          break;
+        case "en":
+          this.textLang = "English";
+          break;
+        case "zhTw":
+          this.textLang = "繁体中文";
+          break;
+        case "ja":
+          this.textLang = "日本語";
+          break;
+        case "ko":
+          this.textLang = "한국어"; //韩语
+          break;
+        case "ru":
+          this.textLang = "русский язык"; //俄语
+          break;
+        case "fr":
+          this.textLang = "Français"; //法语
+          break;
+        case "th":
+          this.textLang = "ภาษาไทย"; //泰语
+          break;
+        case "nl":
+          this.textLang = "Nederlands"; //荷兰语
+          break;
+        case "ar":
+          this.textLang = "بالعربية "; //阿拉伯语
+          break;
+        case "id":
+          this.textLang = "IndonesiaName"; //印尼语
+          break;
+        case "es":
+          this.textLang = "Español"; //西班牙语
+          break;
+        case "pt":
+          this.textLang = "Português"; //葡萄牙语
+          break;
+        case "vi":
+          this.textLang = "ViệtName"; //越南语
+          break;
+        case "it":
+          this.textLang = "Italiano"; //意大利语
+          break;
+        default:
+          this.textLang = "简体中文";
+          break;
+      }
+    }
+    // 自动登录(有钱包地址)
+    if (!this.cookie.get('token')) {
+      this.$router.replace("/login");
+    } else if (!!this.cookie.get('token')) {
+      this.getInfo();
+    }
   },
   methods: {
     // 关闭风险弹窗
@@ -186,8 +249,8 @@ export default {
       risklevel().then((res) => {
         const { code, items: level } = res.data;
         if (code === 0) {
+          this.cookie.set("riskLevel", level);
           if (level === 2) {
-            this.cookie.set("riskLevel", level);
             this.$nextTick().then(() => {
               this.$refs.notification.toggle(true);
             });
@@ -204,12 +267,18 @@ export default {
             // 用户信息存到cookie
             this.cookie.set("userInfo", JSON.stringify(this.userInfo));
             this.cookie.set("country", this.userInfo.country);
+            this.getrisklevel();
             if (!res.data.items.refUserId) {
               //没有邀请码
               this.showOverlay = true;
             }
           } else {
-            this.$toast.fail(res.data.message);
+            this.$toast.fail({
+              message: res.data.message,
+              onClose: () => {
+                this.$router.replace("/login");
+              },
+            });
           }
         })
         .catch((err) => {
@@ -228,6 +297,11 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
+    tabLang(item) {
+      localStorage.setItem("lang", JSON.stringify(item));
+      this.textLang = item.text;
+      this.$router.go(0);
+    },
     // 前往选择所在地
     toSite() {
       // 判断有没有选位置，有就直接调到社区
@@ -237,7 +311,7 @@ export default {
           this.showOverlay = false;
           this.$router.push("/bindRelation");
         } else {
-          this.$router.push({ name: "bindCommunity" });
+          this.$router.push("/bindRelation/bindCommunity");
         }
       });
     },
@@ -256,16 +330,22 @@ export default {
   .project_name {
     margin-top: 100px;
     text-align: center;
-    img {
-      width: 657px;
-      height: 236px;
+    .text {
+      color: #fff;
+      font-size: 60px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      &.bold {
+        font-size: 60px;
+        margin-bottom: 30px;
+      }
     }
   }
   // 大的背景图
   .big_bg_logo {
     margin-top: -40px;
     img {
-      width:100%;
+      width: 100%;
       height: 100%;
     }
   }
@@ -421,7 +501,6 @@ export default {
 .block {
   position: relative;
   width: 590px;
-  height: 354px;
   background-color: #fff;
   border-radius: 20px;
   img {

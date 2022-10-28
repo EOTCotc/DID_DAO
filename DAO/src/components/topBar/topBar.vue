@@ -35,18 +35,19 @@ export default {
     return {
       showPopup: false,
       list: [
-        { id: 0, name: "EOTC官网", link: "https://eotc.im" },
-        { id: 1, name: "去中心化OTC交易所" },
-        { id: 2, name: "去中心化币币交易所" },
-        { id: 3, name: "去中心化借贷交易所" },
-        { id: 4, name: "去中心化合约交易所" },
-        { id: 5, name: "链上理财赚币", link: "https://fi.eotc.im/" },
-        { id: 6, name: "DID去中心化身份系统" },
-        { id: 7, name: "去中心化应用系统" },
+        { id: 0, name: this.$t("topBar.name1"), link: "https://eotc.im" },
+        { id: 1, name: this.$t("topBar.name2") },
+        { id: 2, name: this.$t("topBar.name3") },
+        { id: 3, name: this.$t("topBar.name4") },
+        { id: 4, name: this.$t("topBar.name5") },
+        { id: 5, name: this.$t("topBar.name6"), link: "https://fi.eotc.im/" },
+        { id: 6, name: this.$t("topBar.name7"), link: "https://did.eotc.im/" },
+        { id: 7, name: this.$t("topBar.name8") },
         { id: 8, name: "EOTC NFT", link: "https://nft.eotc.im/" },
-        { id: 9, name: "EOTC 元宇宙" },
-        { id: 10, name: "EOTC DAO" },
+        { id: 9, name: this.$t("topBar.name9") },
+        { id: 10, name: "EOTC DAO", link: "https://dao.eotc.im/" },
       ],
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
   methods: {
@@ -59,7 +60,7 @@ export default {
     },
     // 去我的页面
     toMy() {
-      this.$router.push("/personage");
+      this.user ? this.$router.push("/personage") : "";
     },
   },
 };

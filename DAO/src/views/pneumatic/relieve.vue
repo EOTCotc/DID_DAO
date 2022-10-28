@@ -1,19 +1,19 @@
 
 <template>
-  <div class="contatiner">
+  <div class="fullscreen bg-gray">
     <header>
       <white :title="title"></white>
       <div>
-        <van-notice-bar mode="closeable" wrapable :scrollable="false"
-          >为了正常使用账户，请及时与以下5位联系人进行视频身份核对(3位及以上联系人解除即生效)</van-notice-bar
-        >
+        <van-notice-bar mode="closeable" wrapable :scrollable="false">{{
+          $t("relieve.notice_text")
+        }}</van-notice-bar>
       </div>
     </header>
     <main class="section">
       <van-cell-group inset v-for="(item, index) in riskList" :key="index">
         <van-cell>
           <template #title class="title">
-            <span class="custom-title">解除风控联系</span>
+            <span class="custom-title">{{ $t("relieve.custom_title") }}</span>
             <span class="num">{{ index + 1 }}</span>
           </template>
           <template #right-icon>
@@ -32,11 +32,11 @@
           </template>
         </van-cell>
         <van-row class="wen">
-          <van-col span="4">联系人</van-col>
+          <van-col span="7">{{ $t("relieve.contacts") }}</van-col>
           <van-col span="10" offset="4">{{ item.name }}</van-col>
         </van-row>
         <van-row class="wen">
-          <van-col span="4">手机号</van-col>
+          <van-col span="7">{{ $t("relieve.phone") }}</van-col>
           <van-col
             span="10"
             offset="4"
@@ -50,12 +50,12 @@
         v-show="!riskList.length"
         class="custom-image"
         :image="require('./../../assets/img/empty.png')"
-        description="暂无任何数据"
+        :description="$t('relieve.description')"
       />
       <van-action-sheet
         v-model="show"
         :actions="actions"
-        cancel-text="取消"
+        :cancel-text="$t('relieve.cancel_text')"
         close-on-click-action
         @select="handleSelect"
       />
@@ -75,9 +75,12 @@ export default {
   },
   data() {
     return {
-      title: "解除风控",
+      title: this.$t("relieve.nav_title"),
       show: false,
-      actions: [{ name: "呼叫" }, { name: "复制号码" }],
+      actions: [
+        { name: this.$t("relieve.call") },
+        { name: this.$t("relieve.copy") },
+      ],
       phone: "",
       riskList: [],
     };
@@ -96,13 +99,13 @@ export default {
       this.phone = phone;
     },
     onCancel() {
-      Toast("取消");
+      Toast(this.$t("relieve.cancel_text"));
     },
     handleSelect(data) {
       console.log(data);
-      if (data.name === "呼叫") {
+      if (data.name === this.$t("relieve.call")) {
         this.$refs.tel.click();
-      } else if (data.name === "复制号码") {
+      } else if (data.name === this.$t("relieve.copy")) {
         this.copy(this.phone);
       }
     },
@@ -110,11 +113,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.contatiner {
-  background: #f3f4f5;
-  height: 100vh;
-}
 .section {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-bottom: 20px;
   .van-cell-group {
     margin-top: 20px;
     .van-field {

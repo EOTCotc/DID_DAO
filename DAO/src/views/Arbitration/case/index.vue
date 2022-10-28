@@ -1,7 +1,7 @@
 <template>
   <van-pull-refresh v-model="list.uploading" @refresh="handleBottomRefresh">
     <div class="certificationAudit_wrap bg-gray fullscreen">
-      <page-header title="仲裁案件" />
+      <page-header :title="$t('case.nav_title')" />
       <van-tabs
         class="tab_wrap"
         v-model="tab.active"
@@ -9,114 +9,126 @@
         title-inactive-color="#8D94A2"
         @change="handleChangeTab"
       >
-        <van-tab
-          v-for="item in tab.data"
-          :key="item"
-          :title="item"
-        >
-        </van-tab>
+        <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
       </van-tabs>
       <div class="content">
-        <ul class="list"
-            v-if="!!list.data.length">
-          <li class="item"
-              v-for="item in list.data"
-              :key="item.id"
-              @click="go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })"
+        <ul class="list" v-if="!!list.data.length">
+          <li
+            class="item"
+            v-for="item in list.data"
+            :key="item.id"
+            @click="
+              go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })
+            "
           >
-            <!-- 举证中 -->
+            <!-- 仲裁已取消 -->
             <van-row
-              v-if="item.status === 0"
+              v-if="item.isCancel"
               class="header"
               type="flex"
               align="center"
             >
-              <van-col :span="12">
-                <van-row type="flex" align="center">
-                  <van-icon class="icon" style="margin-right: 5px;" name="underway-o" />
-                  <div class="text">双方举证中</div>
-                </van-row>
-              </van-col>
-              <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
+              <van-col :span="24" class="text" style="color: #999">{{
+                $t("case.cancel")
+              }}</van-col>
             </van-row>
-            <!-- 投票中 -->
+            <!-- 未投票 -->
             <van-row
+              v-else-if="item.time < 0 && !item.voteStatus"
               class="header"
               type="flex"
               align="center"
-              v-else-if="item.status === 1"
             >
-              <van-col :span="12">
-                <van-row>
-                  <van-row type="flex" align="center">
-                    <van-icon class="icon" color="#237DF4" style="margin-right: 5px;" name="underway-o" />
-                    <van-count-down class='countDown' :time="item.time" format="DD天HH时mm分" />
-                  </van-row>
-                </van-row>
+              <van-col :span="12" class="text" style="color: #999">{{
+                $t("case.sentence")
+              }}</van-col>
+              <van-col
+                v-if="item.voteStatus === 2"
+                :span="12"
+                class="date"
+                style="color: #00b87a"
+              >
+                +{{ item.eotc }} EOTC
               </van-col>
-              <van-col :span="12" class="date">{{ transformUTCDate(item.adduceDate) }}</van-col>
+              <van-col v-else :span="12" class="date" style="color: #fc7542">
+                -{{ item.eotc }} EOTC
+              </van-col>
             </van-row>
-            <template
-              v-if='item.status > 1'
-            >
-              <!-- 未投票 -->
+            <!-- 举证中 | 投票中 -->
+            <template v-else>
               <van-row
-                v-if="item.voteStatus === 0"
+                v-if="item.status < 2"
                 class="header"
                 type="flex"
                 align="center"
+                justify="space-between"
               >
-                <van-col :span="12" class="text" style="color: #999;">超时未提交判决</van-col>
-                <van-col
-                  v-if="item.voteStatus === 2"
-                  :span="12"
-                  class="date"
-                  style="color: #00B87A;">
-                  +{{ item.eotc }} EOTC
+                <van-col>
+                  <!-- 举证中 -->
+                  <van-row type="flex" align="center" v-if="item.status === 0">
+                    <van-icon
+                      class="icon"
+                      style="margin-right: 5px"
+                      name="underway-o"
+                    />
+                    <div class="text">{{ $t("case.Adduce_evidence") }}</div>
+                  </van-row>
+                  <!-- 投票中 -->
+                  <van-row
+                    type="flex"
+                    align="center"
+                    v-else-if="item.status === 1"
+                  >
+                    <van-icon
+                      class="icon"
+                      color="#237DF4"
+                      style="margin-right: 5px"
+                      name="underway-o"
+                    />
+                    <van-count-down
+                      class="countDown"
+                      :time="item.time"
+                      format="DD天HH时mm分"
+                    />
+                  </van-row>
                 </van-col>
-                <van-col
-                  v-else
-                  :span="12"
-                  class="date"
-                  style="color: #FC7542;"
-                >
-                  -{{ item.eotc }} EOTC
-                </van-col>
+                <van-col :span="12" class="date">{{
+                  transformUTCDate(
+                    item.status === 0 ? item.adduceDate : item.voteDate
+                  )
+                }}</van-col>
               </van-row>
               <!-- 是否胜诉 -->
               <van-row
                 class="header"
                 type="flex"
                 align="center"
-                v-else
+                v-else-if="item.status > 1 && !!item.voteStatus"
               >
                 <van-col :span="12">
                   <van-row>
                     <van-col :span="3">
-                      <img :src="item.isVictory ? icon1 : icon2" alt="" class="img">
+                      <img
+                        :src="item.isVictory ? icon1 : icon2"
+                        alt=""
+                        class="img"
+                      />
                     </van-col>
-                    <van-col
-                      class="text"
-                      :span="21"
-                    >
-                      {{ item.isVictory ? '胜诉' : '败诉' }}
+                    <van-col class="text" :span="21">
+                      {{
+                        item.isVictory
+                          ? $t("case.Win_lawsuit")
+                          : $t("case.Lose_lawsuit")
+                      }}
                     </van-col>
                   </van-row>
                 </van-col>
                 <van-col
-                  v-if="item.isVictory"
                   :span="12"
                   class="date"
-                  style="color: #00B87A;">
-                  +{{ item.eotc }} EOTC
-                </van-col>
-                <van-col
-                  v-else
-                  :span="12"
-                  class="date"
-                  style="color: #FC7542;"
+                  :style="{ color: item.isVictory ? '#00B87A' : '#FC7542' }"
                 >
-                  -{{ item.eotc }} EOTC
+                  {{ item.isVictory ? "+" : "-" }}{{ item.eotc }} EOTC
                 </van-col>
               </van-row>
             </template>
@@ -124,58 +136,88 @@
             <van-row>
               <van-col class="lf" :span="12">
                 <div class="identity_wrap">
-                  <img v-if="item.status === 2" src="../../../assets/imgs/huangguan.png" alt="" class="img">
-                  原告
+                  <img
+                    v-if="item.status === 2"
+                    src="../../../assets/imgs/huangguan.png"
+                    alt=""
+                    class="img"
+                  />
+                  {{ $t("case.plaintiff") }}
                 </div>
                 <div class="user">
                   <span class="name">{{ item.plaintiff }}</span>
-                  <span class="text">（卖家）</span>
+                  <span class="text">{{ $t("case.seller") }}</span>
                 </div>
-                <div class="num" v-if="item.status > 0">{{item.plaintiffNum}}票</div>
+                <div class="num" v-if="item.status > 0">
+                  {{ item.plaintiffNum }}{{ $t("case.ticket") }}
+                </div>
               </van-col>
               <van-col class="rt" :span="12">
                 <div class="identity_wrap">
-                  <img v-if="item.status === 3" src="../../../assets/imgs/huangguan.png" alt="" class="img">
-                  被告
+                  <img
+                    v-if="item.status === 3"
+                    src="../../../assets/imgs/huangguan.png"
+                    alt=""
+                    class="img"
+                  />
+                  {{ $t("case.defendant") }}
                 </div>
                 <div class="user">
-                  <span class="text">（卖家）</span>
+                  <span class="text">{{ $t("case.Buyer") }}</span>
                   <span class="name">{{ item.plaintiff }}</span>
                 </div>
-                <div class="num" v-if="item.status > 0">{{item.defendantNum}}票</div>
+                <div class="num" v-if="item.status > 0">
+                  {{ item.defendantNum }}{{ $t("case.ticket") }}
+                </div>
               </van-col>
             </van-row>
             <div class="process_wrap" v-if="item.status > 0">
-              <div class="lt chunk" :style="{'flex': `0 0 ${item.plaintiffNum / item.total * 100}%`}"></div>
-              <div class="border" v-if="item.plaintiffNum && !!item.defendantNum"></div>
-              <div class="rt chunk"></div>
+              <van-progress
+                v-if="item.status > 1"
+                stroke-width="12"
+                :percentage="(item.plaintiffNum / item.total) * 100 || 0"
+                :show-pivot="false"
+                color="#4EA0F5"
+                track-color="#EC6F66"
+              />
             </div>
             <div class="remark">
-              原告卖家发起仲裁，仲裁事件为{{ getArbitrateInType(item.arbitrateInType) }}
+              {{ $t("case.launch")
+              }}{{ getArbitrateInType(item.arbitrateInType) }}
             </div>
             <div class="row">
               <div class="message">
-                <div class="more" style="text-align: left;color: #237FF8;">
-                  <van-icon name="description" /> 仲裁详情
+                <div class="more" style="text-align: left; color: #237ff8">
+                  <van-icon name="description" /> {{ $t("case.description") }}
                 </div>
                 <div class="more"><van-icon name="arrow" /></div>
               </div>
             </div>
             <!-- 仲裁结果 -->
             <div class="row" v-if="tab.active === 1 && item.status > 1">
-              <div class="title">仲裁结果</div>
+              <div class="title">{{ $t("case.result") }}</div>
               <div class="message">
-                <p v-if="item.status === 1">本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.plaintiffNum }}位仲裁员判定原告…</p>
-                <p v-else-if="item.status === 2">本次参与仲裁判决的仲裁员共计{{ item.total }}人，通过双方提交举证，{{ item.defendantNum }}位仲裁员判定被告…</p>
-                <div class="more"><van-icon name="description" /> 详情</div>
+                <p v-if="item.status === 1">
+                  {{ $t("case.participate") }}
+                  {{ item.total }}{{ $t("case.evidence") }}{{ item.plaintiffNum
+                  }}{{ $t("case.determine") }}
+                </p>
+                <p v-else-if="item.status === 2">
+                  {{ $t("case.participate") }}{{ item.total
+                  }}{{ $t("case.evidence") }}{{ item.defendantNum
+                  }}{{ $t("case.determine_be") }}
+                </p>
+                <div class="more">
+                  <van-icon name="description" /> {{ $t("case.detail") }}
+                </div>
               </div>
             </div>
             <van-row
-              v-if="tab.active === 0 && item.status === 1"
+              v-if="tab.active === 0 && item.status === 1 && !item.hasDelay"
               class="row"
-              :gutter="item.hasDelay ? 0 : 20"
+              :gutter="15"
             >
-              <van-col span="12" v-if="item.status === 1 && !item.hasDelay">
+              <van-col span="12">
                 <van-button
                   class="more"
                   color="#237FF8"
@@ -183,12 +225,16 @@
                   plain
                   block
                   type="primary"
-                  @click.stop="go('/user/arbitration/case/initiateNewProof', { id: item.arbitrateInfoId })"
+                  @click.stop="
+                    go('/user/arbitration/case/initiateNewProof', {
+                      id: item.arbitrateInfoId,
+                    })
+                  "
                 >
-                  重新举证
+                  {{ $t("case.again") }}
                 </van-button>
               </van-col>
-              <van-col :span="item.hasDelay ? 24 : 12">
+              <van-col :span="12">
                 <van-button
                   class="more"
                   round
@@ -196,7 +242,7 @@
                   color="#237FF8"
                   type="primary"
                 >
-                  <i class="icon icon-court"></i> 去判决
+                  <i class="icon icon-court"></i> {{ $t("case.go_sentence") }}
                 </van-button>
               </van-col>
             </van-row>
@@ -206,7 +252,7 @@
           v-else
           class="custom-image"
           :image="require('../../../assets/imgs/empty.png')"
-          description="暂无任何数据"
+          :description="$t('case.no_data')"
         />
       </div>
     </div>
@@ -214,16 +260,16 @@
 </template>
 
 <script>
-import pageHeader from "@/components/topBar/pageHeader.vue"
-import {list} from "@/api/case"
-import {getArbitrateInType, transformUTCDate} from "@/utils/utils";
-import icon1 from "@/assets/imgs/victory.png" // 胜诉
-import icon2 from "@/assets/imgs/fail.png" // 败诉
+import pageHeader from "@/components/topBar/pageHeader.vue";
+import { list } from "@/api/case";
+import { getArbitrateInType, transformUTCDate } from "@/utils/utils";
+import icon1 from "@/assets/imgs/victory.png"; // 胜诉
+import icon2 from "@/assets/imgs/fail.png"; // 败诉
 
 export default {
   name: "approvalCommunity",
   components: {
-    pageHeader
+    pageHeader,
   },
   data() {
     return {
@@ -232,67 +278,78 @@ export default {
       icon1,
       icon2,
       tab: {
-        data: ['待仲裁', '已仲裁'],
-        active: 0
+        data: [this.$t("case.To_arbitrated"), this.$t("case.Arbitrated")],
+        active: 0,
       },
       list: {
         uploading: false,
         data: [],
       },
-    }
+    };
   },
   methods: {
     getArbitrateInType,
+    // 转换时间格式
+    transformUTCDate,
     // 跳转页面
     go(path, query) {
-      this.$router.push({ path, query })
+      this.$router.push({ path, query });
     },
     handleChangeTab() {
-      this.list.data = []
-      this.getList()
+      this.list.data = [];
+      this.getList();
     },
     // 下拉刷新
     handleBottomRefresh() {
-      this.list.uploading = true
-      this.getList()
+      this.list.uploading = true;
+      this.getList();
     },
     // 获取列表
     getList() {
-      const loading = this.$toast.loading('列表加载中…')
-      list(this.tab.active).then(res => {
-        if (!res.data.code) {
-          const data = res.data.items.map(item => {
-            if (item.status > 1) {
-              // 判断是否胜诉
-              item.isVictory = (item.status === 2 && item.voteStatus === 1) || (item.status === 3 && item.voteStatus === 2)
-            }
-            item.total = item.defendantNum + item.plaintiffNum
-            item.time = 485925790
-            return item
-          })
-          this.list.data = data
-        } else {
+      const loading = this.$toast.loading(this.$t("case.message"));
+      list(this.tab.active)
+        .then((res) => {
+          if (!res.data.code) {
+            const now = this.$dayjs();
+            const data = res.data.items.map((item) => {
+              if (item.status > 1) {
+                // 判断是否胜诉
+                item.isVictory =
+                  (item.status === 2 && item.voteStatus === 1) ||
+                  (item.status === 3 && item.voteStatus === 2);
+              }
+              item.total = item.defendantNum + item.plaintiffNum;
+              item.time = this.$dayjs(
+                item.status === 0 ? item.adduceDate : item.voteDate
+              )
+                .add("-8", "hour")
+                .diff(now, "millisecond");
+              return item;
+            });
+            this.list.data = data;
+          } else {
+            this.$toast.fail({
+              forbidClick: true,
+              message: res.data.message,
+            });
+          }
+        })
+        .catch((err) => {
           this.$toast.fail({
             forbidClick: true,
-            message: res.data.message
-          })
-        }
-      }).catch(err => {
-        this.$toast.fail({
-          forbidClick: true,
-          message: err.data.message
+            message: err.data.message,
+          });
         })
-      }).finally(() => {
-        loading.clear()
-        this.list.uploading = false
-        this.list.UpRefreshLoading = false
-      })
+        .finally(() => {
+          loading.clear();
+          this.list.uploading = false;
+          this.list.UpRefreshLoading = false;
+        });
     },
-    // 转换时间格式
-    transformUTCDate
   },
   created() {
     this.getList()
+    this.cookie.set('unhandledArbitration', '')
   }
 }
 </script>
@@ -300,7 +357,7 @@ export default {
 <style lang="scss" scoped>
 .certificationAudit_wrap {
   &::v-deep(.van-tabs__line) {
-    background-color: #237DF4;
+    background-color: #237df4;
   }
   .tab_wrap {
     margin-bottom: 30px;
@@ -318,7 +375,7 @@ export default {
       .item {
         padding: 30px;
         border-radius: 20px;
-        background-color: #FFF;
+        background-color: #fff;
         margin-bottom: 25px;
         &:last-of-type {
           margin-bottom: 0;
@@ -327,7 +384,7 @@ export default {
           .identity_wrap {
             border-radius: 0 40px 40px 50px;
             margin-right: 10px;
-            background-color: #4EA0F5;
+            background-color: #4ea0f5;
           }
         }
         & .rt {
@@ -335,19 +392,19 @@ export default {
           .identity_wrap {
             border-radius: 40px 0 40px 50px;
             margin-left: 10px;
-            background-color: #EC6F66;
+            background-color: #ec6f66;
           }
           .user {
             justify-content: flex-end;
             margin: 20px 0;
           }
           .num {
-            color: #EC6F66;
+            color: #ec6f66;
           }
         }
         .header {
           padding-bottom: 30px;
-          border-bottom: 1px solid #EEE;
+          border-bottom: 1px solid #eee;
           margin-bottom: 30px;
           .img {
             display: block;
@@ -361,7 +418,7 @@ export default {
             font-size: 32px;
           }
           .countDown {
-            color: #237DF4;
+            color: #237df4;
             font-size: 32px;
           }
           .date {
@@ -375,7 +432,7 @@ export default {
           position: relative;
           font-size: 24px;
           flex: 0 0 90px;
-          color: #FFF;
+          color: #fff;
           padding: 10px 15px;
           .img {
             @include posi($t: -20px, $l: 50%);
@@ -399,42 +456,18 @@ export default {
         }
         .num {
           margin-top: 15px;
-          color: #4EA0F5;
+          color: #4ea0f5;
           font-size: 24px;
         }
         .process_wrap {
-          display: flex;
-          align-items: center;
           margin-top: 30px;
-          border-radius: 24px;
-          overflow: hidden;
-          .border {
-            width: 20px;
-            height: 24px;
-            background-color: #FFF;
-            border-radius: 15px 0 0 15px;
-          }
-          .chunk {
-            height: 24px;
-            &.lt {
-              background-color: #4EA0F5;
-            }
-            &.rt {
-              display: flex;
-              align-items: center;
-              flex: 1;
-              background-color: #EC6F66;
-              border-radius: 24px 0 0 24px;
-              margin-left: -13px;
-            }
-          }
         }
         .remark {
           color: #333;
           padding: 20px;
           font-size: 28px;
           margin-top: 30px;
-          background-color: #F3F4F5;
+          background-color: #f3f4f5;
           border-radius: 20px;
         }
         .row {

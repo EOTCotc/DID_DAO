@@ -10,10 +10,10 @@
           show-action
           shape="round"
           @input="showInput"
-          placeholder="输入关键词查询"
+          :placeholder="$t('destroy.placeholder')"
         >
           <template #action>
-            <div @click="showPopup">筛选</div>
+            <div @click="showPopup">{{ $t("destroy.text") }}</div>
           </template>
         </van-search>
         <van-cell-group
@@ -24,7 +24,7 @@
         >
           <van-cell :title="item.memo" :value="item.createDate" />
           <van-cell :title="item.eotc" :border="false" />
-          <van-cell title="销毁查询地址:" :border="false" />
+          <van-cell :title="$t('destroy.site')" :border="false" />
           <van-cell>
             <!-- 使用 title 插槽来自定义标题 -->
             <template #title>
@@ -43,14 +43,14 @@
           v-show="!!destroyList.length"
           v-model="list.UpRefreshLoading"
           :finished="!!destroyList.length"
-          finished-text="没有更多了"
+          :finished-text="$t('destroy.finished_text')"
           @load="handleUpRefresh"
         />
         <van-empty
           v-show="!destroyList.length"
           class="custom-image"
           :image="require('./../../assets/img/empty.png')"
-          description="暂无任何数据"
+          :description="$t('destroy.description')"
         />
 
         <van-popup
@@ -58,7 +58,7 @@
           position="right"
           :style="{ height: '730px', width: '80%' }"
         >
-          <div style="padding: 20px 0 0 20px">筛选时间</div>
+          <div style="padding: 20px 0 0 20px">{{ $t("destroy.screen") }}</div>
           <div class="tag">
             <div
               v-for="(ite, index) in tags"
@@ -71,27 +71,27 @@
           </div>
           <div class="date">
             <van-button round type="default"
-              ><span v-if="start == ''">起始时间</span
+              ><span v-if="start == ''">{{ $t("destroy.start") }}</span
               ><span>{{ start }}</span></van-button
             >
             <p style="width: 10px; height: 1px; background: #ccc"></p>
             <van-button round type="default"
-              ><span v-if="end == ''">截至时间</span
+              ><span v-if="end == ''">{{ $t("destroy.end") }}</span
               ><span>{{ end }}</span></van-button
             >
           </div>
 
           <div class="btn">
-            <van-button round type="default" @click="chongzhi()"
-              >重置</van-button
-            >
-            <van-button round type="info" @click="que" :disabled="disabled"
-              >确定</van-button
-            >
+            <van-button round type="default" @click="chongzhi()">{{
+              $t("destroy.btn_reset")
+            }}</van-button>
+            <van-button round type="info" @click="que" :disabled="disabled">{{
+              $t("destroy.btn_confirm")
+            }}</van-button>
           </div>
         </van-popup>
         <van-calendar
-          title="日期选择"
+          :title="this.$t('destroy.calendar_text')"
           v-model="showDate"
           :show-subtitle="true"
           type="range"
@@ -113,7 +113,7 @@ export default {
   components: { White },
   data() {
     return {
-      title: "销毁查询",
+      title: this.$t("destroy.nav_title"),
       disabled: true,
       value: "",
       show: false,
@@ -122,15 +122,15 @@ export default {
       active: undefined, //分类标签选中的下标
       tags: [
         {
-          title: "本周",
+          title: this.$t("destroy.tags_week"),
           index: 0,
         },
         {
-          title: "本月",
+          title: this.$t("destroy.tags_month"),
           index: 1,
         },
         {
-          title: "自定义",
+          title: this.$t("destroy.tags_custom"),
           index: 2,
         },
       ],
@@ -167,6 +167,7 @@ export default {
         this.value = "";
       }
     },
+    //重置
     chongzhi() {
       this.end = "";
       this.start = "";
@@ -177,12 +178,12 @@ export default {
     //复制
     copy() {
       let clipboard = new Clipboard("#destId");
-      clipboard.on("success", (e) => {
-        this.$toast.success("复制成功");
+      clipboard.on("success", () => {
+        this.$toast.success(this.$t("destroy.success"));
         clipboard.destroy();
       });
-      clipboard.on("error", (e) => {
-        this.$toast.fail("复制失败");
+      clipboard.on("error", () => {
+        this.$toast.fail(this.$t("destroy.fail"));
         clipboard.destroy();
       });
     },
@@ -255,7 +256,7 @@ export default {
     inquiry() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…",
+        message: this.$t("destroy.message"),
       });
       let beginDate = this.start;
       let endDate = this.end;
@@ -274,7 +275,7 @@ export default {
           if (code) {
             this.$toast.fail({
               forbidClick: true,
-              message: "加载失败！",
+              message: this.$t("destroy.message_fail"),
             });
           } else {
             this.destroyList = items;
@@ -283,7 +284,7 @@ export default {
         .catch(() => {
           this.$toast.fail({
             forbidClick: true,
-            message: "加载失败！",
+            message: this.$t("destroy.message_fail"),
           });
         })
         .finally(() => {
@@ -325,15 +326,16 @@ export default {
 .tag {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 20px;
   margin: 20px 0;
 }
 .tag div {
-  width: 140px;
+  width: 160px;
   display: inline-block;
   text-align: center;
-  padding: 15px 25px;
-  margin: 16px 20px 0;
+  padding: 15px 15px;
+  margin: 16px 15px 0;
   border-radius: 25px;
 }
 .noActive {
