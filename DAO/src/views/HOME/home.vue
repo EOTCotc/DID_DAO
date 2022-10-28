@@ -204,12 +204,22 @@ export default {
           text: "ภาษาไทย",
           lang: "th",
         },
+        {
+          id: 7,
+          text: "Español", //西班牙语
+          lang: "es",
+        },
+        {
+          id: 8,
+          text: "Português", //葡萄牙语
+          lang: "pt",
+        },
       ],
       tanShow: false,
       proposalList: [], //提案列表
       riskShow: this.cookie.get("riskShow"),
       unhandledArbitration: 0,
-      langText: "",
+      langText: "简体中文",
     };
   },
   mounted() {
@@ -225,19 +235,28 @@ export default {
           this.langText = "English";
           break;
         case "ja":
-          this.textLang = "日本語";
+          this.langText = "日本語";
           break;
         case "zhTw":
-          this.textLang = "繁体中文";
+          this.langText = "繁体中文";
           break;
         case "ko":
-          this.textLang = "한국어"; //韩语
+          this.langText = "한국어"; //韩语
           break;
         case "th":
-          this.textLang = "ภาษาไทย"; //泰语
+          this.langText = "ภาษาไทย"; //泰语
           break;
         case "de":
-          this.textLang = "Deutsch"; //德语
+          this.langText = "Deutsch"; //德语
+          break;
+        case "es":
+          this.langText = "Español"; //西班牙语
+          break;
+        case "pt":
+          this.langText = "Português"; //葡萄牙语
+          break;
+        default:
+          this.langText = "简体中文";
           break;
       }
     }
