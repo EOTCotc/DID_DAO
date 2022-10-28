@@ -5,7 +5,7 @@
     <img class="logo-bg" src="@/assets/imgs/logo_bg.png" alt="" />
     <div class="bg-white">
       <!-- 登录、注册 -->
-      <!-- <div class="login-box">
+      <div class="login-box">
         <button
           :style="btn == 1 ? 'background:#1B2945;color:#fff;' : ''"
           @click="btn = 1"
@@ -18,9 +18,9 @@
         >
           {{ $t("menu.signin") }}
         </button>
-      </div> -->
+      </div>
       <LogIn v-if="btn == 1" @btnNum="getBtnNum" ref="login" />
-      <!-- <SignIn v-else @btnNum="getBtnNum" /> -->
+      <SignIn v-else @btnNum="getBtnNum" />
     </div>
   </div>
 </template>

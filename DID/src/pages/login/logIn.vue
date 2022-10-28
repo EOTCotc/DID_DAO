@@ -35,7 +35,7 @@
         <p>{{ $t("content.pwd") }}</p>
         <van-field
           class="input-border"
-          v-model="pwd"
+          v-model="form.password"
           type="password"
           :placeholder="$t('content.pwd')"
           :rules="[{ required: true, message: $t('rulesMsg.pwd') }]"
@@ -43,7 +43,7 @@
       </div>
     </van-form>
     <div class="btn">
-      <van-button class="btn-login" type="default" @click="login">{{
+      <van-button class="btn-login" type="default" @click="submit">{{
         $t("menu.login")
       }}</van-button>
       <div class="about-account">
@@ -69,7 +69,6 @@ export default {
   data() {
     return {
       show: false,
-      pwd: "",
       form: {
         otype: "",
         walletAddress: "",
@@ -90,65 +89,54 @@ export default {
       this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
       this.form.sign = localStorage.getItem("mysign");
       // 自动登录
-      login(this.form).then((res) => {
-        if (res.data.code == 0) {
-          this.cookie.set("token", res.data.items);
-          this.$router.replace("/");
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      });
+      this.login(this.form);
     } else {
       // 获取钱包地址，网络类型...
       loadweb3(() => {
         this.form.walletAddress = localStorage.getItem("myaddress");
         this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
         this.form.sign = localStorage.getItem("mysign");
-        login(this.form).then((res) => {
-          if (res.data.code == 0) {
-            this.cookie.set("token", res.data.items);
-            this.$router.replace("/");
-          } else {
-            this.$toast.fail(res.data.message);
-          }
-        });
+        this.login(this.form);
       });
     }
   },
   methods: {
     // 去注册
-    handleBtn() {
-      this.$emit("btnNum", 2);
-    },
+    // handleBtn() {
+    //   this.$emit("btnNum", 2);
+    // },
     // 邮箱验证规则
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       return regMail.test(this.form.mail);
     },
-    // 登录
-    login() {
+    // 表单验证
+    submit() {
       this.$refs.form
         .validate()
         .then(() => {
-          if (this.pwd) {
-            this.form.password = this.$md5(this.pwd + "uEe");
-          }
-          login(this.form).then((res) => {
-            if (res.data.code == 0) {
-              this.cookie.set("token", res.data.items, { expires: 30 });
-              this.$toast.success({
-                forbidClick: true,
-                message: this.$t("content.login_suc"),
-                onClose: () => this.$router.replace("/"),
-              });
-            } else {
-              this.$toast.fail(res.data.message);
-            }
-          });
+          var newForm = Object.assign({}, this.form);
+          newForm.password = this.$md5(newForm.password + "uEe");
+          this.login(newForm);
         })
         .catch(() => {
           this.$toast.fail(this.$t("content.msg1"));
         });
+    },
+    // 登录
+    login(form) {
+      login(form).then((res) => {
+        if (res.data.code == 0) {
+          this.cookie.set("token", res.data.items, { expires: 30 });
+          this.$toast.success({
+            forbidClick: true,
+            message: this.$t("content.login_suc"),
+            onClose: () => this.$router.replace("/"),
+          });
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      });
     },
   },
 };

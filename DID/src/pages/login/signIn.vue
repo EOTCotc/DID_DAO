@@ -156,9 +156,11 @@ export default {
   },
   mounted() {
     this.form.refUserId = this.$route.query.code || "";
-    this.form.walletAddress = localStorage.getItem("myaddress");
-    this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
-    this.form.sign = localStorage.getItem("mysign");
+    if (localStorage.getItem("myaddress")) {
+      this.form.walletAddress = localStorage.getItem("myaddress");
+      this.form.otype = this.form.walletAddress.length === 34 ? "trx" : "bsc";
+      this.form.sign = localStorage.getItem("mysign");
+    }
   },
   methods: {
     // 点击去登录
@@ -167,24 +169,26 @@ export default {
     },
     // 点击发送验证码
     handleCode() {
-      this.showCode = false;
-      // 更改按钮颜色
-      this.emailBtnColor = "#fff";
-      getCode({ mail: this.form.mail, type: 0 }).then((res) => {
-        console.log(res.data, "code");
-      });
-      if (0 < this.seconds) {
-        //重新发送验证码倒计时
-        let timer = setInterval(() => {
-          this.seconds--;
-          if (this.seconds == 0) {
-            //清除定时器并初始化
-            this.emailBtnColor = "#1B2945";
-            this.showCode = true;
-            this.seconds = 60;
-            clearInterval(timer);
-          }
-        }, 1000);
+      if (this.form.mail&&this.mailRule()) {
+        this.showCode = false;
+        // 更改按钮颜色
+        this.emailBtnColor = "#fff";
+        getCode({ mail: this.form.mail, type: 0 }).then((res) => {
+          console.log(res.data, "code");
+        });
+        if (0 < this.seconds) {
+          //重新发送验证码倒计时
+          let timer = setInterval(() => {
+            this.seconds--;
+            if (this.seconds == 0) {
+              //清除定时器并初始化
+              this.emailBtnColor = "#1B2945";
+              this.showCode = true;
+              this.seconds = 60;
+              clearInterval(timer);
+            }
+          }, 1000);
+        }
       }
     },
     // 邮箱验证规则
@@ -262,7 +266,6 @@ export default {
 // 普通样式
 .log-in {
   position: relative;
-  margin-top: 89px;
   padding: 89px 38px 300px 38px;
   overflow: hidden;
   flex: 1;
