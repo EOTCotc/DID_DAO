@@ -50,9 +50,9 @@
         <div @click="$router.push('/forgotPwd')">
           {{ $t("content.forgetPwd") }}
         </div>
-        <!-- <div class="sign-in" @click="handleBtn">
+        <div class="sign-in" @click="handleBtn">
           {{ $t("content.register") }}
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -102,9 +102,9 @@ export default {
   },
   methods: {
     // 去注册
-    // handleBtn() {
-    //   this.$emit("btnNum", 2);
-    // },
+    handleBtn() {
+      this.$emit("btnNum", 2);
+    },
     // 邮箱验证规则
     mailRule() {
       const regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -136,6 +136,8 @@ export default {
         } else {
           this.$toast.fail(res.data.message);
         }
+      }).catch(err=>{
+        this.$toast.fail('请求失败')
       });
     },
   },

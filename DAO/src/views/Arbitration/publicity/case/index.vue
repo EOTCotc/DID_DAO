@@ -7,54 +7,34 @@
           <li class="item" v-for="item in list.data" :key="item.id">
             <!-- 原被告信息 -->
             <van-row>
-              <van-col
-                class="lf"
-                :span="12"
-                @click="
-                  go('/user/arbitration/case/personnelInfo', {
-                    id: item.plaintiffId,
-                    type: 1,
-                  })
-                "
-              >
-                <div class="identity_wrap">
-                  <img
-                    v-if="item.status === 2"
-                    src="../../../../assets/imgs/huangguan.png"
-                    alt=""
-                    class="img"
-                  />
-                  {{ $t("publicity.plaintiff") }}
-                </div>
+              <van-col class="lf" :span="12" @click="
+                go('/user/arbitration/case/personnelInfo', {
+                  id: item.plaintiffId,
+                  type: 1,
+                })
+              ">
                 <div class="user">
+                  <div class="identity_wrap">
+                    <img v-if="item.status === 2" src="../../../../assets/imgs/huangguan.png" alt="" class="img" />
+                    {{ $t("publicity.plaintiff") }}
+                  </div>
                   <span class="name">{{ item.plaintiff }}</span>
-                  <span class="text">{{ $t("publicity.seller") }}</span>
                 </div>
                 <div class="num">
                   {{ item.plaintiffNum }}{{ $t("publicity.ticket") }}
                 </div>
               </van-col>
-              <van-col
-                class="rt"
-                :span="12"
-                @click="
-                  go('/user/arbitration/case/personnelInfo', {
-                    id: item.defendantId,
-                    type: 2,
-                  })
-                "
-              >
-                <div class="identity_wrap">
-                  <img
-                    v-if="item.status === 3"
-                    src="../../../../assets/imgs/huangguan.png"
-                    alt=""
-                    class="img"
-                  />
-                  {{ $t("publicity.defendant") }}
-                </div>
+              <van-col class="rt" :span="12" @click="
+                go('/user/arbitration/case/personnelInfo', {
+                  id: item.defendantId,
+                  type: 2,
+                })
+              ">
                 <div class="user">
-                  <span class="text">{{ $t("publicity.Buyer") }}</span>
+                  <div class="identity_wrap">
+                    <img v-if="item.status === 3" src="../../../../assets/imgs/huangguan.png" alt="" class="img" />
+                    {{ $t("publicity.defendant") }}
+                  </div>
                   <span class="name">{{ item.plaintiff }}</span>
                 </div>
                 <div class="num">
@@ -63,29 +43,23 @@
               </van-col>
             </van-row>
             <div class="process_wrap">
-              <div
-                class="lt chunk"
-                :style="{
-                  flex: `0 0 ${(item.plaintiffNum / item.total) * 100}%`,
-                }"
-              ></div>
+              <div class="lt chunk" :style="{
+                flex: `0 0 ${(item.plaintiffNum / item.total) * 100}%`,
+              }"></div>
               <div class="border"></div>
               <div class="rt chunk"></div>
             </div>
-            <div
-              class="row"
-              @click="
-                go('/user/arbitration/publicity/case/detail', {
-                  arbitrateInfoId: item.arbitrateInfoId,
-                })
-              "
-            >
+            <div class="row" @click="
+              go('/user/arbitration/publicity/case/detail', {
+                arbitrateInfoId: item.arbitrateInfoId,
+              })
+            ">
               <div class="title">{{ $t("publicity.result") }}</div>
               <div class="message">
                 <p>
                   {{ $t("publicity.participate") }}{{ item.total
                   }}{{ $t("publicity.evidence") }}{{ item.plaintiffNum
-                  }}{{ $t("publicity.determine") }}
+}}{{ $t("publicity.determine") }}
                 </p>
                 <div class="more">
                   <van-icon name="description" />{{ $t("publicity.detail") }}
@@ -94,11 +68,7 @@
             </div>
           </li>
         </ul>
-        <van-empty
-          v-else
-          :image="require('../../../../assets/img/empty.png')"
-          :description="$t('publicity.no_data')"
-        />
+        <van-empty v-else :image="require('../../../../assets/img/empty.png')" :description="$t('publicity.no_data')" />
       </div>
     </div>
   </van-pull-refresh>
@@ -112,7 +82,7 @@ export default {
   components: {
     pageHeader,
   },
-  data() {
+  data () {
     return {
       list: {
         uploading: false,
@@ -122,10 +92,10 @@ export default {
   },
   methods: {
     // 跳转页面
-    go(path, query) {
+    go (path, query) {
       this.$router.push({ path, query });
     },
-    getList() {
+    getList () {
       const loading = this.$toast.loading({
         forbidClick: true,
         message: this.$t("publicity.message"),
@@ -156,11 +126,11 @@ export default {
         });
     },
     // 下拉刷新
-    refresh() {
+    refresh () {
       this.getList();
     },
   },
-  created() {
+  created () {
     this.getList();
   },
 };
@@ -176,9 +146,11 @@ export default {
         border-radius: 20px;
         background-color: #fff;
         margin-bottom: 25px;
+
         &:last-of-type {
           margin-bottom: 0;
         }
+
         & .lf {
           .identity_wrap {
             border-radius: 0 40px 40px 50px;
@@ -186,17 +158,20 @@ export default {
             background-color: #4ea0f5;
           }
         }
+
         & .rt {
           text-align: right;
+
           .identity_wrap {
             border-radius: 40px 0 40px 50px;
-            margin-left: 10px;
+            margin-right: 10px;
             background-color: #ec6f66;
           }
+
           .user {
             justify-content: flex-end;
-            margin: 20px 0;
           }
+
           .num {
             color: #ec6f66;
           }
@@ -215,10 +190,12 @@ export default {
             margin-left: -15px;
           }
         }
+
         .user {
           display: flex;
           align-items: center;
-          margin: 20px 0;
+          margin-bottom: 20px;
+
           .name {
             color: #333;
             font-size: 28px;
@@ -233,11 +210,14 @@ export default {
           color: #4ea0f5;
           font-size: 24px;
         }
+
         .process_wrap {
           margin-top: 30px;
         }
+
         .row {
           margin-top: 30px;
+
           .title {
             color: #333;
             font-size: 32px;

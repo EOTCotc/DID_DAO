@@ -11,7 +11,7 @@
         />
       </template>
       <template #title>
-        <span class="title">{{$t('setup.set_email')}}</span>
+        <span class="title">{{ $t("setup.set_email") }}</span>
       </template>
     </van-nav-bar>
     <!-- 内容 -->
@@ -19,8 +19,13 @@
       <van-form ref="form" validate-trigger="onBlur">
         <!-- 邮箱地址 -->
         <div class="form-item">
-          <p>{{$t('setup.new_email')}}</p>
-          <van-field v-model="form.mail" center :placeholder="$t('setup.input_email')">
+          <p>{{ $t("setup.new_email") }}</p>
+          <van-field
+            v-model="form.mail"
+            disabled
+            center
+            :placeholder="$t('setup.input_email')"
+          >
             <template #button>
               <van-button
                 native-type="button"
@@ -28,9 +33,9 @@
                 v-show="!isSendCode"
                 size="small"
               >
-                <span :style="form.mail ? 'color:#237FF8;' : ''"
-                  >{{$t('content.send_code')}}</span
-                >
+                <span :style="form.mail ? 'color:#237FF8;' : ''">{{
+                  $t("content.send_code")
+                }}</span>
               </van-button>
               <span v-show="isSendCode">{{ times }}S</span>
             </template>
@@ -38,7 +43,7 @@
         </div>
         <!-- 邮箱验证码 -->
         <div class="form-item">
-          <p>{{$t('setup.new_code')}}</p>
+          <p>{{ $t("setup.new_code") }}</p>
           <van-field
             type="number"
             v-model="form.code"
@@ -46,9 +51,7 @@
             :disabled="form.mail ? false : true"
             @input="handleCode"
             :placeholder="$t('setup.input_code')"
-            :rules="[
-              { required: true, message: $t('setup.input_code') },
-            ]"
+            :rules="[{ required: true, message: $t('setup.input_code') }]"
           >
           </van-field>
         </div>
@@ -67,7 +70,7 @@
             "
             @click="btnAuthorization"
           >
-            <span>{{$t('setup.impower')}}</span>
+            <span>{{ $t("setup.impower") }}</span>
             <div
               :style="
                 isStyle == 1
@@ -89,7 +92,7 @@
             :style="isStyle == 2 ? 'background:#247FF6;' : ''"
             @click="commitChange"
           >
-            <span>{{$t('setup.cimmit_change')}}</span>
+            <span>{{ $t("setup.cimmit_change") }}</span>
             <div :style="isStyle == 2 ? 'background:#247FF6;' : ''">2</div>
           </div>
         </div>
@@ -117,6 +120,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.form.mail = JSON.parse(this.cookie.get("userInfo")).mail;
+  },
   methods: {
     // 验证邮箱是否正确
     mailReg() {
@@ -138,9 +144,9 @@ export default {
         }
         getCode({ mail: this.form.mail, type: 1 }).then((res) => {});
       } else if (this.form.mail == "") {
-        this.$toast(this.$t('setup.set_email_toast1'));
+        this.$toast(this.$t("setup.set_email_toast1"));
       } else if (!this.mailReg()) {
-        this.$toast(this.$t('setup.set_email_toast2'));
+        this.$toast(this.$t("setup.set_email_toast2"));
       }
     },
     // 验证码是否输入
@@ -174,7 +180,7 @@ export default {
           .then((res) => {
             if (res.data.code == 0) {
               this.$toast.success({
-                message: this.$t('setup.set_email_toast3'),
+                message: this.$t("setup.set_email_toast3"),
                 forbidClick: true,
               });
               setTimeout(() => {
@@ -189,7 +195,7 @@ export default {
           })
           .catch(() => {
             this.$toast.fail({
-              message: this.$t('setup.set_email_toast4'),
+              message: this.$t("setup.set_email_toast4"),
               forbidClick: true,
             });
           });

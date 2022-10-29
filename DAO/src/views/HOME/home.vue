@@ -335,15 +335,18 @@ export default {
       // 获取用户信息
       getdaoinfo()
         .then((res) => {
-          this.user = res.data.items;
-          localStorage.setItem("user", JSON.stringify(res.data.items));
-          this.cookie.set("user", JSON.stringify(res.data.items));
-          localStorage.setItem("items", res.data.items.daoEOTC);
-          localStorage.setItem("uid", res.data.items.uid);
-          localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
-          localStorage.setItem("isExamine", res.data.items.isExamine);
-          localStorage.setItem("authType", res.data.items.authType);
-          localStorage.setItem("isEnable", res.data.items.isEnable);
+          if (res.data.code == 0) {
+            this.user = res.data.items;
+            localStorage.setItem("user", JSON.stringify(res.data.items));
+            this.cookie.set("user", JSON.stringify(res.data.items));
+            localStorage.setItem("items", res.data.items.daoEOTC);
+            localStorage.setItem("uid", res.data.items.uid);
+            localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
+            localStorage.setItem("isExamine", res.data.items.isExamine);
+            localStorage.setItem("authType", res.data.items.authType);
+            localStorage.setItem("isEnable", res.data.items.isEnable);
+            this.$router.go(0)
+          }
         })
         .catch((err) => {
           this.$toast.fail(this.$t("home.msg_fail"));

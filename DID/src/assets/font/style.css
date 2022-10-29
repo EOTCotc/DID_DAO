@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('./icomoon.eot?9uaub6');
-  src:  url('./icomoon.eot?9uaub6#iefix') format('embedded-opentype'),
+  src: url('./icomoon.eot?9uaub6');
+  src: url('./icomoon.eot?9uaub6#iefix') format('embedded-opentype'),
     url('./icomoon.ttf?9uaub6') format('truetype'),
     url('./icomoon.woff?9uaub6') format('woff'),
     url('./icomoon.svg?9uaub6#icomoon') format('svg');
@@ -10,7 +10,8 @@
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -28,21 +29,27 @@
 .icon-bind:before {
   content: "\e905";
 }
+
 .icon-download:before {
   content: "\e904";
 }
+
 .icon-photo:before {
   content: "\e900";
 }
+
 .icon-copy:before {
   content: "\e901";
 }
+
 .icon-service:before {
   content: "\e902";
 }
+
 .icon-setting:before {
   content: "\e903";
 }
+
 .icon-refresh:before {
   content: "\ea2e";
 }

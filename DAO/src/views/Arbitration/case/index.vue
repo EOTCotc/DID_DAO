@@ -2,52 +2,27 @@
   <van-pull-refresh v-model="list.uploading" @refresh="handleBottomRefresh">
     <div class="certificationAudit_wrap bg-gray fullscreen">
       <page-header :title="$t('case.nav_title')" />
-      <van-tabs
-        class="tab_wrap"
-        v-model="tab.active"
-        swipeable
-        title-inactive-color="#8D94A2"
-        @change="handleChangeTab"
-      >
+      <van-tabs class="tab_wrap" v-model="tab.active" swipeable title-inactive-color="#8D94A2"
+        @change="handleChangeTab">
         <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
       </van-tabs>
       <div class="content">
         <ul class="list" v-if="!!list.data.length">
-          <li
-            class="item"
-            v-for="item in list.data"
-            :key="item.id"
-            @click="
-              go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })
-            "
-          >
+          <li class="item" v-for="item in list.data" :key="item.id" @click="
+            go('/user/arbitration/case/detail', { id: item.arbitrateInfoId })
+          ">
             <!-- 仲裁已取消 -->
-            <van-row
-              v-if="item.isCancel"
-              class="header"
-              type="flex"
-              align="center"
-            >
+            <van-row v-if="item.isCancel" class="header" type="flex" align="center">
               <van-col :span="24" class="text" style="color: #999">{{
-                $t("case.cancel")
+                  $t("case.cancel")
               }}</van-col>
             </van-row>
             <!-- 未投票 -->
-            <van-row
-              v-else-if="item.time < 0 && !item.voteStatus"
-              class="header"
-              type="flex"
-              align="center"
-            >
+            <van-row v-else-if="item.time < 0 && !item.voteStatus" class="header" type="flex" align="center">
               <van-col :span="12" class="text" style="color: #999">{{
-                $t("case.sentence")
+                  $t("case.sentence")
               }}</van-col>
-              <van-col
-                v-if="item.voteStatus === 2"
-                :span="12"
-                class="date"
-                style="color: #00b87a"
-              >
+              <van-col v-if="item.voteStatus === 2" :span="12" class="date" style="color: #00b87a">
                 +{{ item.eotc }} EOTC
               </van-col>
               <van-col v-else :span="12" class="date" style="color: #fc7542">
@@ -56,78 +31,42 @@
             </van-row>
             <!-- 举证中 | 投票中 -->
             <template v-else>
-              <van-row
-                v-if="item.status < 2"
-                class="header"
-                type="flex"
-                align="center"
-                justify="space-between"
-              >
+              <van-row v-if="item.status < 2" class="header" type="flex" align="center" justify="space-between">
                 <van-col>
                   <!-- 举证中 -->
                   <van-row type="flex" align="center" v-if="item.status === 0">
-                    <van-icon
-                      class="icon"
-                      style="margin-right: 5px"
-                      name="underway-o"
-                    />
+                    <van-icon class="icon" style="margin-right: 5px" name="underway-o" />
                     <div class="text">{{ $t("case.Adduce_evidence") }}</div>
                   </van-row>
                   <!-- 投票中 -->
-                  <van-row
-                    type="flex"
-                    align="center"
-                    v-else-if="item.status === 1"
-                  >
-                    <van-icon
-                      class="icon"
-                      color="#237DF4"
-                      style="margin-right: 5px"
-                      name="underway-o"
-                    />
-                    <van-count-down
-                      class="countDown"
-                      :time="item.time"
-                      format="DD天HH时mm分"
-                    />
+                  <van-row type="flex" align="center" v-else-if="item.status === 1">
+                    <van-icon class="icon" color="#237DF4" style="margin-right: 5px" name="underway-o" />
+                    <van-count-down class="countDown" :time="item.time" format="DD天HH时mm分" />
                   </van-row>
                 </van-col>
                 <van-col :span="12" class="date">{{
-                  transformUTCDate(
-                    item.status === 0 ? item.adduceDate : item.voteDate
-                  )
+                    transformUTCDate(
+                      item.status === 0 ? item.adduceDate : item.voteDate
+                    )
                 }}</van-col>
               </van-row>
               <!-- 是否胜诉 -->
-              <van-row
-                class="header"
-                type="flex"
-                align="center"
-                v-else-if="item.status > 1 && !!item.voteStatus"
-              >
+              <van-row class="header" type="flex" align="center" v-else-if="item.status > 1 && !!item.voteStatus">
                 <van-col :span="12">
                   <van-row>
                     <van-col :span="3">
-                      <img
-                        :src="item.isVictory ? icon1 : icon2"
-                        alt=""
-                        class="img"
-                      />
+                      <img :src="item.isVictory ? icon1 : icon2" alt="" class="img" />
                     </van-col>
                     <van-col class="text" :span="21">
                       {{
-                        item.isVictory
-                          ? $t("case.Win_lawsuit")
-                          : $t("case.Lose_lawsuit")
+                          item.isVictory
+                            ? $t("case.Win_lawsuit")
+                            : $t("case.Lose_lawsuit")
                       }}
                     </van-col>
                   </van-row>
                 </van-col>
-                <van-col
-                  :span="12"
-                  class="date"
-                  :style="{ color: item.isVictory ? '#00B87A' : '#FC7542' }"
-                >
+                <van-col :span="12" class="date" :style="{ color: item.isVictory ? '#00B87A' : '#FC7542' }">
                   {{ item.isVictory ? "+" : "-" }}{{ item.eotc }} EOTC
                 </van-col>
               </van-row>
@@ -135,36 +74,24 @@
             <!-- 原被告信息 -->
             <van-row>
               <van-col class="lf" :span="12">
-                <div class="identity_wrap">
-                  <img
-                    v-if="item.status === 2"
-                    src="../../../assets/imgs/huangguan.png"
-                    alt=""
-                    class="img"
-                  />
-                  {{ $t("case.plaintiff") }}
-                </div>
                 <div class="user">
+                  <div class="identity_wrap">
+                    <img v-if="item.status === 2" src="../../../assets/imgs/huangguan.png" alt="" class="img" />
+                    {{ $t("case.plaintiff") }}
+                  </div>
                   <span class="name">{{ item.plaintiff }}</span>
-                  <span class="text">{{ $t("case.seller") }}</span>
                 </div>
                 <div class="num" v-if="item.status > 0">
                   {{ item.plaintiffNum }}{{ $t("case.ticket") }}
                 </div>
               </van-col>
               <van-col class="rt" :span="12">
-                <div class="identity_wrap">
-                  <img
-                    v-if="item.status === 3"
-                    src="../../../assets/imgs/huangguan.png"
-                    alt=""
-                    class="img"
-                  />
-                  {{ $t("case.defendant") }}
-                </div>
                 <div class="user">
-                  <span class="text">{{ $t("case.Buyer") }}</span>
                   <span class="name">{{ item.plaintiff }}</span>
+                  <div class="identity_wrap">
+                    <img v-if="item.status === 3" src="../../../assets/imgs/huangguan.png" alt="" class="img" />
+                    {{ $t("case.defendant") }}
+                  </div>
                 </div>
                 <div class="num" v-if="item.status > 0">
                   {{ item.defendantNum }}{{ $t("case.ticket") }}
@@ -172,14 +99,9 @@
               </van-col>
             </van-row>
             <div class="process_wrap" v-if="item.status > 0">
-              <van-progress
-                v-if="item.status > 1"
-                stroke-width="12"
-                :percentage="(item.plaintiffNum / item.total) * 100 || 0"
-                :show-pivot="false"
-                color="#4EA0F5"
-                track-color="#EC6F66"
-              />
+              <van-progress v-if="item.status > 1" stroke-width="12"
+                :percentage="(item.plaintiffNum / item.total) * 100 || 0" :show-pivot="false" color="#4EA0F5"
+                track-color="#EC6F66" />
             </div>
             <div class="remark">
               {{ $t("case.launch")
@@ -190,7 +112,9 @@
                 <div class="more" style="text-align: left; color: #237ff8">
                   <van-icon name="description" /> {{ $t("case.description") }}
                 </div>
-                <div class="more"><van-icon name="arrow" /></div>
+                <div class="more">
+                  <van-icon name="arrow" />
+                </div>
               </div>
             </div>
             <!-- 仲裁结果 -->
@@ -205,55 +129,33 @@
                 <p v-else-if="item.status === 2">
                   {{ $t("case.participate") }}{{ item.total
                   }}{{ $t("case.evidence") }}{{ item.defendantNum
-                  }}{{ $t("case.determine_be") }}
+}}{{ $t("case.determine_be") }}
                 </p>
                 <div class="more">
                   <van-icon name="description" /> {{ $t("case.detail") }}
                 </div>
               </div>
             </div>
-            <van-row
-              v-if="tab.active === 0 && item.status === 1 && !item.hasDelay"
-              class="row"
-              :gutter="15"
-            >
+            <van-row v-if="tab.active === 0 && item.status === 1 && !item.hasDelay" class="row" :gutter="15">
               <van-col span="12">
-                <van-button
-                  class="more"
-                  color="#237FF8"
-                  round
-                  plain
-                  block
-                  type="primary"
-                  @click.stop="
-                    go('/user/arbitration/case/initiateNewProof', {
-                      id: item.arbitrateInfoId,
-                    })
-                  "
-                >
+                <van-button class="more" color="#237FF8" round plain block type="primary" @click.stop="
+                  go('/user/arbitration/case/initiateNewProof', {
+                    id: item.arbitrateInfoId,
+                  })
+                ">
                   {{ $t("case.again") }}
                 </van-button>
               </van-col>
               <van-col :span="12">
-                <van-button
-                  class="more"
-                  round
-                  block
-                  color="#237FF8"
-                  type="primary"
-                >
+                <van-button class="more" round block color="#237FF8" type="primary">
                   <i class="icon icon-court"></i> {{ $t("case.go_sentence") }}
                 </van-button>
               </van-col>
             </van-row>
           </li>
         </ul>
-        <van-empty
-          v-else
-          class="custom-image"
-          :image="require('../../../assets/imgs/empty.png')"
-          :description="$t('case.no_data')"
-        />
+        <van-empty v-else class="custom-image" :image="require('../../../assets/imgs/empty.png')"
+          :description="$t('case.no_data')" />
       </div>
     </div>
   </van-pull-refresh>
@@ -271,7 +173,7 @@ export default {
   components: {
     pageHeader,
   },
-  data() {
+  data () {
     return {
       // 当前选择的列表项的id
       id: null,
@@ -292,20 +194,20 @@ export default {
     // 转换时间格式
     transformUTCDate,
     // 跳转页面
-    go(path, query) {
+    go (path, query) {
       this.$router.push({ path, query });
     },
-    handleChangeTab() {
+    handleChangeTab () {
       this.list.data = [];
       this.getList();
     },
     // 下拉刷新
-    handleBottomRefresh() {
+    handleBottomRefresh () {
       this.list.uploading = true;
       this.getList();
     },
     // 获取列表
-    getList() {
+    getList () {
       const loading = this.$toast.loading(this.$t("case.message"));
       list(this.tab.active)
         .then((res) => {
@@ -347,7 +249,7 @@ export default {
         });
     },
   },
-  created() {
+  created () {
     this.getList()
     this.cookie.set('unhandledArbitration', '')
   }
@@ -359,9 +261,11 @@ export default {
   &::v-deep(.van-tabs__line) {
     background-color: #237df4;
   }
+
   .tab_wrap {
     margin-bottom: 30px;
   }
+
   .content {
     padding: 0 30px 30px;
     flex: 1;
@@ -377,9 +281,11 @@ export default {
         border-radius: 20px;
         background-color: #fff;
         margin-bottom: 25px;
+
         &:last-of-type {
           margin-bottom: 0;
         }
+
         & .lf {
           .identity_wrap {
             border-radius: 0 40px 40px 50px;
@@ -387,17 +293,20 @@ export default {
             background-color: #4ea0f5;
           }
         }
+
         & .rt {
           text-align: right;
+
           .identity_wrap {
             border-radius: 40px 0 40px 50px;
-            margin-left: 10px;
+            margin-right: 10px;
             background-color: #ec6f66;
           }
+
           .user {
             justify-content: flex-end;
-            margin: 20px 0;
           }
+
           .num {
             color: #ec6f66;
           }
@@ -410,9 +319,11 @@ export default {
             display: block;
             width: 30px;
           }
+
           .icon {
             font-size: 35px;
           }
+
           .text {
             color: #333;
             font-size: 32px;
@@ -441,10 +352,12 @@ export default {
             margin-left: -15px;
           }
         }
+
         .user {
           display: flex;
           align-items: center;
-          margin: 20px 0;
+          margin-bottom: 20px;
+
           .name {
             color: #333;
             font-size: 28px;
@@ -459,9 +372,11 @@ export default {
           color: #4ea0f5;
           font-size: 24px;
         }
+
         .process_wrap {
           margin-top: 30px;
         }
+
         .remark {
           color: #333;
           padding: 20px;
@@ -470,8 +385,10 @@ export default {
           background-color: #f3f4f5;
           border-radius: 20px;
         }
+
         .row {
           margin-top: 30px;
+
           .title {
             color: #333;
             font-size: 32px;
