@@ -4,46 +4,40 @@
     <div class="content">
       <!-- 原被告信息 -->
       <van-row>
-        <van-col class="lf"
-                 :span="12"
-                 @click="
-            go('/user/arbitration/case/personnelInfo', {
-              id: info.plaintiffId,
-              type: 1,
-            })
-          ">
+        <van-col class="lf" :span="12" @click="
+          go('/user/arbitration/case/personnelInfo', {
+            id: info.plaintiffId,
+            type: 1,
+          })
+        ">
           <div class="identity_wrap">
-            <img v-if="info.status === 2"
-                 src="../../../../assets/imgs/huangguan.png"
-                 alt=""
-                 class="img" />
+            <img v-if="info.status === 2" src="../../../../assets/imgs/huangguan.png" alt="" class="img" />
             {{ $t("publicity.plaintiff") }}
           </div>
           <div class="user">
             <span class="name">{{ info.plaintiff }}</span>
-            <span class="text"> {{ $t("publicity.seller") }}</span>
+            <span class="text" v-if="order.customer">
+              {{ order.customer === info.plaintiffUid ? $t("case.Buyer") : $t("case.seller") }}
+            </span>
           </div>
           <div class="num">
             {{ info.plaintiffNum }}{{ $t("publicity.ticket") }}
           </div>
         </van-col>
-        <van-col class="rt"
-                 :span="12"
-                 @click="
-            go('/user/arbitration/case/personnelInfo', {
-              id: info.defendantId,
-              type: 2,
-            })
-          ">
+        <van-col class="rt" :span="12" @click="
+          go('/user/arbitration/case/personnelInfo', {
+            id: info.defendantId,
+            type: 2,
+          })
+        ">
           <div class="identity_wrap">
-            <img v-if="info.status === 3"
-                 src="../../../../assets/imgs/huangguan.png"
-                 alt=""
-                 class="img" />
+            <img v-if="info.status === 3" src="../../../../assets/imgs/huangguan.png" alt="" class="img" />
             {{ $t("publicity.defendant") }}
           </div>
           <div class="user">
-            <span class="text"> {{ $t("publicity.Buyer") }}</span>
+            <span class="text" v-if="order.customer">
+              {{ order.customer === info.defendantUid ? $t("case.Buyer") : $t("case.seller") }}
+            </span>
             <span class="name">{{ info.plaintiff }}</span>
           </div>
           <div class="num">
@@ -52,11 +46,8 @@
         </van-col>
       </van-row>
       <div class="process_wrap">
-        <van-progress stroke-width="12"
-                      :percentage="info.plaintiffNum / info.total * 100 || 0"
-                      :show-pivot="false"
-                      color="#4EA0F5"
-                      track-color="#EC6F66" />
+        <van-progress stroke-width="12" :percentage="info.plaintiffNum / info.total * 100 || 0" :show-pivot="false"
+          color="#4EA0F5" track-color="#EC6F66" />
       </div>
       <div class="remark">
         {{ $t("publicity.launch")
@@ -68,7 +59,7 @@
           <p>
             {{ $t("publicity.participate") }}{{ info.total
             }}{{ $t("publicity.evidence") }}{{ info.plaintiffNum
-            }}{{ $t("publicity.determine") }}
+}}{{ $t("publicity.determine") }}
           </p>
         </div>
       </div>
@@ -80,24 +71,15 @@
       </div>
       <div class="row">
         <div class="title">{{ $t("publicity.judgment") }}</div>
-        <ul class="list"
-            v-if="!!info.votes">
-          <li class="item"
-              v-for="item in info.votes"
-              :key="item.number">
+        <ul class="list" v-if="!!info.votes">
+          <li class="item" v-for="item in info.votes" :key="item.number">
             <span class="name">{{ item.name }}</span>
             <span class="id">{{ item.number }}</span>
-            <span class="identity icon-court"
-                  style="color: #999"
-                  v-if="item.voteStatus === 0">
+            <span class="identity icon-court" style="color: #999" v-if="item.voteStatus === 0">
               {{ $t("publicity.no_vote") }}</span>
-            <span class="identity icon-court"
-                  style="color: #4ea0f5"
-                  v-else-if="item.voteStatus === 1">
+            <span class="identity icon-court" style="color: #4ea0f5" v-else-if="item.voteStatus === 1">
               {{ $t("publicity.plaintiff") }}</span>
-            <span class="identity icon-court"
-                  style="color: #ed7269"
-                  v-else-if="item.voteStatus === 2">
+            <span class="identity icon-court" style="color: #ed7269" v-else-if="item.voteStatus === 2">
               {{ $t("publicity.defendant") }}</span>
           </li>
         </ul>
@@ -110,25 +92,27 @@
 import pageHeader from '@/components/topBar/pageHeader'
 import { caseDetail } from '@/api/publicity'
 import { transformUTCDate, getArbitrateInType } from '@/utils/utils'
+import { orderDetail } from '@/api/order'
 
 export default {
   name: 'arbitrationCaseDetail',
   components: {
     pageHeader,
   },
-  data() {
+  data () {
     return {
       info: {},
+      order: {}
     }
   },
   methods: {
     getArbitrateInType,
     transformUTCDate,
     // 跳转页面
-    go(path, query) {
+    go (path, query) {
       this.$router.push({ path, query })
     },
-    getDetail() {
+    getDetail () {
       const loading = this.$toast.loading({
         forbidClick: true,
         message: this.$t('publicity.message'),
@@ -144,6 +128,7 @@ export default {
           } else {
             items.total = items.plaintiffNum + items.defendantNum
             this.info = items
+            this.getOrder({ orderId: this.info.orderId, uid: this.info.plaintiffUId })
           }
         })
         .catch(() => {
@@ -156,10 +141,21 @@ export default {
           loading.clear()
         })
     },
+    // 获取订单信息
+    getOrder (params) {
+      orderDetail(params).then(res => {
+        const data = res.data
+        data.customerAccount = data.customerAccount.split('&')
+        data.merchantAccount = data.merchantAccount.split('&')
+        this.order = data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     // 翻页
-    onLoad() {},
+    onLoad () { },
   },
-  created() {
+  created () {
     this.getDetail()
   },
 }
@@ -179,8 +175,10 @@ export default {
         background-color: #4ea0f5;
       }
     }
+
     & .rt {
       text-align: right;
+
       .identity_wrap {
         border-radius: 40px 0 40px 50px;
         margin-left: 10px;
@@ -234,22 +232,34 @@ export default {
       line-height: 1.2;
       background-color: #f3f4f5;
     }
+
     .process_wrap {
       margin-top: 20px;
     }
+
     .remark {
       margin-top: 25px;
-      line-height: 60px;
+      color: #333;
+      padding: 24px;
+      font-size: 24px;
+      margin-top: 30px;
+      line-height: 55px;
+      background-color: #f3f4f5;
+      border-radius: 20px;
     }
+
     .row {
       margin-top: 30px;
+
       .title {
         color: #333;
         font-size: 32px;
         font-weight: bold;
       }
+
       .message {
         margin-top: 20px;
+
         p {
           margin: 0;
           color: #333;

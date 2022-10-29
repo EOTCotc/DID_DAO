@@ -21,6 +21,7 @@
           <p>{{ $t("content.email") }}</p>
           <van-field
             v-model="form.mail"
+            disabled
             :placeholder="$t('content.email')"
             :rules="[
               { required: true, message: $t('rulesMsg.email') },
@@ -108,6 +109,9 @@ export default {
         newPassWord: "",
       },
     };
+  },
+  mounted(){
+    this.form.mail=JSON.parse(this.cookie.get('userInfo')).mail
   },
   methods: {
     // 邮箱验证规则
