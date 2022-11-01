@@ -18,7 +18,7 @@
               }}</van-col>
             </van-row>
             <!-- 未投票 -->
-            <van-row v-else-if="item.time < 0 && !item.voteStatus" class="header" type="flex" align="center">
+            <van-row v-else-if="item.time <= 0 && !item.voteStatus" class="header" type="flex" align="center">
               <van-col :span="12" class="text" style="color: #999">{{
                   $t("case.sentence")
               }}</van-col>
@@ -220,12 +220,9 @@ export default {
                   (item.status === 2 && item.voteStatus === 1) ||
                   (item.status === 3 && item.voteStatus === 2);
               }
+              item.time = this.$dayjs(item.status === 0 ? item.adduceDate : item.voteDate).add("-8", "hour").diff(now, "millisecond");
+              console.log(item.time)
               item.total = item.defendantNum + item.plaintiffNum;
-              item.time = this.$dayjs(
-                item.status === 0 ? item.adduceDate : item.voteDate
-              )
-                .add("-8", "hour")
-                .diff(now, "millisecond");
               return item;
             });
             this.list.data = data;
@@ -271,11 +268,13 @@ export default {
     flex: 1;
     box-sizing: border-box;
     overflow: auto;
+
     .list {
       flex: 1;
       box-sizing: border-box;
       min-height: 0;
       overflow: auto;
+
       .item {
         padding: 30px;
         border-radius: 20px;
@@ -299,7 +298,7 @@ export default {
 
           .identity_wrap {
             border-radius: 40px 0 40px 50px;
-            margin-right: 10px;
+            margin-left: 10px;
             background-color: #ec6f66;
           }
 
@@ -311,10 +310,12 @@ export default {
             color: #ec6f66;
           }
         }
+
         .header {
           padding-bottom: 30px;
           border-bottom: 1px solid #eee;
           margin-bottom: 30px;
+
           .img {
             display: block;
             width: 30px;
@@ -328,16 +329,19 @@ export default {
             color: #333;
             font-size: 32px;
           }
+
           .countDown {
             color: #237df4;
             font-size: 32px;
           }
+
           .date {
             color: #999;
             font-size: 28px;
             text-align: right;
           }
         }
+
         .identity_wrap {
           display: inline-block;
           position: relative;
@@ -345,6 +349,7 @@ export default {
           flex: 0 0 90px;
           color: #fff;
           padding: 10px 15px;
+
           .img {
             @include posi($t: -20px, $l: 50%);
             display: block;
@@ -362,11 +367,13 @@ export default {
             color: #333;
             font-size: 28px;
           }
+
           .text {
             color: #999;
             font-size: 24px;
           }
         }
+
         .num {
           margin-top: 15px;
           color: #4ea0f5;
@@ -394,10 +401,12 @@ export default {
             font-size: 32px;
             font-weight: bold;
           }
+
           .message {
             display: flex;
             align-items: flex-end;
             margin-top: 20px;
+
             p {
               @include ellipsis($line: 2);
               margin: 0;
@@ -405,6 +414,7 @@ export default {
               line-height: 1.2;
               font-size: 28px;
             }
+
             .more {
               flex: 200px;
               color: #333;

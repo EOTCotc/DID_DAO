@@ -45,6 +45,7 @@ module.exports = {
 	public: {
 		cancel: "取消",
 		confirm: "確定",
+		err:'拒絕簽名，無法使用',
 	},
 	user: {
 		total: "總收益(EOTC)",
@@ -698,6 +699,7 @@ module.exports = {
 		dialog_message_remedy:
 			"請確保已再次進行視頻身份核對，身份信息無誤，解除異常",
 		handle_success: "處理成功",
+		fail_text:'必須核對記錄'
 	},
 	relieve: {
 		nav_title: "解除風控",
@@ -925,7 +927,7 @@ module.exports = {
 		public_judgment: "公式判決",
 		plaintiff_win: "原告勝",
 		defendant_win: "被告勝",
-		reason: "判決該仲裁案原告勝",
+		reason: "判決該仲裁案",
 		ment_reasons: "判決原因",
 		explain: "判決說明",
 		according: "根據提交憑證判定當前仲裁案原告勝",

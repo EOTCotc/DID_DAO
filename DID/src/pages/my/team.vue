@@ -1,12 +1,7 @@
 <template>
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
     <div class="team_wrap bg-gray fullscreen">
-      <van-nav-bar
-        class="nav-bar"
-        :title="$t('my.my_team')"
-        left-arrow
-        @click-left="$router.go(-1)"
-      />
+      <van-nav-bar class="nav-bar" :title="$t('my.my_team')" left-arrow @click-left="$router.go(-1)" />
       <ul class="peopleNumb_wrap blue">
         <li class="item">
           <div class="title">{{ $t("my_team.tags1") }}</div>
@@ -17,33 +12,18 @@
           <div class="num">{{ pushNumber }}</div>
         </li>
       </ul>
-      <van-tabs
-        v-model="tab.active"
-        swipeable
-        color="#237DF4"
-        @click="handleTabClick"
-      >
+      <van-tabs v-model="tab.active" swipeable color="#237DF4" @click="handleTabClick">
         <van-tab v-for="item in tab.data" :key="item" :title="item"> </van-tab>
       </van-tabs>
-      <van-list
-        class="list_wrap"
-        v-if="!!list.data.length"
-        v-model="list.UpRefreshLoading"
-        :finished="!!list.data.length && list.finished"
-        :finished-text="$t('bindRelation.not_more')"
-        @load="handleUpRefresh"
-      >
+      <van-list class="list_wrap" v-if="!!list.data.length" v-model="list.UpRefreshLoading"
+        :finished="!!list.data.length && list.finished" :finished-text="$t('bindRelation.not_more')"
+        @load="handleUpRefresh">
         <ul class="list">
-          <li class="item" v-for="item in list.data" :key="item.uid">
+          <li class="item" v-for="item in list.data" :key="`${tab.active}${item.uid}`">
             <div class="user_wrap">
               <div class="avatar">
-                <span class="name" v-if="item.name"
-                  >{{ item.name }}（{{ item.uid }}）</span
-                >
-                <span class="name" v-else
-                  ><span class="link">{{ $t("my.identity_unver") }}</span
-                  >（{{ item.uid }}）</span
-                >
+                <span class="name" v-if="item.name">{{ item.name }}（{{ item.uid }}）</span>
+                <span class="name" v-else><span class="link">{{ $t("my.identity_unver") }}</span>（{{ item.uid }}）</span>
               </div>
               <div class="button_wrap">
                 <van-tag round plain color="#247FF6" text-color="#247FF6">
@@ -53,10 +33,9 @@
             </div>
             <van-row class="wrap">
               <van-col :span="6">{{ $t("my_team.tags3") }}</van-col>
-              <van-col :span="18" v-if="item.phone"
-                >{{ item.phone }}
-                <i class="icon-copy icon" @click="copy(item.phone)"></i
-              ></van-col>
+              <van-col :span="18" v-if="item.phone">{{ item.phone }}
+                <i class="icon-copy icon" @click="copy(item.phone)"></i>
+              </van-col>
             </van-row>
             <van-row class="wrap">
               <van-col :span="6">{{ $t("content.email") }}</van-col>
@@ -67,28 +46,17 @@
               <van-col :span="18">{{ transformUTCDate(item.regDate) }}</van-col>
             </van-row>
           </li>
-          <van-button
-            block
-            class="more"
-            color="#1B2945"
-            type="primary"
-            :loading="moreLoading"
-            :disabled="moreLoading"
-            :loading-text="$t('my_team.tags5')"
-            @click="getMore"
-          >
+          <van-button block class="more" color="#1B2945" type="primary" :loading="moreLoading" :disabled="moreLoading"
+            :loading-text="$t('my_team.tags5')" @click="getMore">
             {{ $t("my_team.tags6") }}
           </van-button>
         </ul>
       </van-list>
-      <van-empty
-        v-else
-        class="custom-image"
-        :image="require('@/assets/imgs/empty.png')"
-        :description="$t('public.not_data')"
-      >
-        <div class="link">
-          {{ $t("my_team.tags7") }}<van-icon name="arrow" />
+      <van-empty v-else class="custom-image" :image="require('@/assets/imgs/empty.png')"
+        :description="$t('public.not_data')">
+        <div class="link" @click="$router.push('/my/invite')">
+          {{ $t("my_team.tags7") }}
+          <van-icon name="arrow" />
         </div>
       </van-empty>
     </div>
@@ -102,7 +70,7 @@ import { transformUTCDate, copy } from "@/utils/utils";
 
 export default {
   name: "team",
-  data() {
+  data () {
     return {
       loading: false,
       teamNumber: 0,
@@ -132,30 +100,33 @@ export default {
   methods: {
     copy,
     transformUTCDate,
-    onRefresh() {
+    onRefresh () {
       this.loading = true;
       this.list.query.page = 1;
       this.list.data = [];
       this.getList();
     },
     // Tab切换
-    handleTabClick(tab) {
+    handleTabClick (tab) {
       const handle = {
         0: "",
         1: true,
         2: false,
       };
+      this.list.data = []
       this.list.status = handle[tab];
+      this.list.query.page = 1
+      this.list.UpRefreshLoading = false
       this.getList();
     },
     // 滚动到底翻页
-    handleUpRefresh() {
+    handleUpRefresh () {
       this.list.query.page++;
       this.list.UpRefreshLoading = true;
       this.getList();
     },
     // 获取团队成员
-    getList() {
+    getList () {
       const query = { ...this.list.query };
       const loading = this.$toast.loading({
         forbidClick: true,
@@ -195,7 +166,7 @@ export default {
         });
     },
     // 查看更多团队人员
-    getMore() {
+    getMore () {
       Dialog.confirm({
         title: this.$t("my_team.team_title1"),
         message: this.$t("my_team.team_msg1"),
@@ -220,7 +191,7 @@ export default {
         },
       });
     },
-    getLevel(level) {
+    getLevel (level) {
       const arr = [
         this.$t("my_team.team_data4"),
         this.$t("my_team.team_data5"),
@@ -232,7 +203,7 @@ export default {
       return arr[level];
     },
   },
-  created() {
+  created () {
     this.getList();
   },
 };
@@ -244,6 +215,7 @@ export default {
     position: relative;
     display: flex;
     padding: 50px 0;
+
     &::after {
       @include centered();
       display: block;
@@ -255,13 +227,16 @@ export default {
       border-right: 1px solid #f3f4f5;
       transform: scaleX(0.5) translate(-50%, -50%);
     }
+
     .item {
       flex: 1;
       text-align: center;
+
       .title {
         color: rgba($color: #fff, $alpha: 0.3);
         font-size: 28px;
       }
+
       .num {
         color: #fff;
         font-size: 48px;
@@ -269,16 +244,19 @@ export default {
       }
     }
   }
+
   &::v-deep(.van-tabs__nav) {
     background: none;
   }
+
   .list_wrap {
     flex: 1;
     min-height: 0;
     margin-top: 25px;
     overflow: auto;
-    padding-bottom: 44px;
+    padding-bottom: 80px;
     box-sizing: border-box;
+
     .list {
       .item {
         background: #ffffff;
@@ -287,18 +265,22 @@ export default {
         margin: 25px;
         border-radius: 20px;
         overflow: hidden;
+
         &:first-of-type {
           margin-top: 0;
         }
+
         .user_wrap {
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding-bottom: 30px;
           border-bottom: 1px solid #f3f4f5;
+
           .avatar {
             display: flex;
             align-items: center;
+
             .name {
               flex: 1;
               font-size: 36px;
@@ -307,16 +289,19 @@ export default {
             }
           }
         }
+
         .wrap {
           display: flex;
           align-items: center;
           margin-top: 30px;
           font-size: 32px;
           color: #999999;
+
           .value {
             flex: 1;
             margin-left: 24px;
             color: #333333;
+
             .icon {
               color: #999;
               font-size: 19px;
@@ -327,11 +312,13 @@ export default {
       }
     }
   }
+
   .link {
     text-align: center;
     font-size: 32px;
     color: #247ff6;
   }
+
   .more {
     @include posi($p: fixed, $b: 0, $l: 0, $r: 0);
   }

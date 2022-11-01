@@ -4,6 +4,7 @@ export default {
     signin: "S'inscrire",
   },
   public: {
+    title:"Did système d'identité décentralisé",
     cancel: 'Annuler',
     confirm: 'Bien sûr',
     save: 'donjon',
@@ -367,6 +368,11 @@ DID injectera un support d'application de base solide dans le monde de la blockc
     tags4: 'invitation face à face',
     tags5: "Il est recommandé d'utiliser",
     tags6: 'Album photo mobile/code de numérisation du navigateur',
+
+    tags7: "Eotc Security First",
+    tags8: "Un pont de confiance vers le monde",
+    tags9: "Système d'identité décentralisé",
+    tags10: "Ouvrez le navigateur et appuyez sur le Code QR d'identification pour télécharger",
   },
   // 身份认证
   identity: {

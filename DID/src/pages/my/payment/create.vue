@@ -3,69 +3,30 @@
     <page-header :title="$t('create.title1')"></page-header>
     <div class="content">
       <van-form>
-        <van-field
-          clearable
-          :label="$t('create.text1')"
-          name="name"
-          :placeholder="$t('create.text2')"
-          v-model="form.data.name"
-          :rules="[{ required: true, message: $t('create.text2') }]"
-        />
+        <van-field disabled clearable :label="$t('create.text1')" name="name" :placeholder="$t('create.text2')"
+          v-model="form.data.name" :rules="[{ required: true, message: $t('create.text2') }]" />
         <template v-if="form.data.type === 1">
-          <van-field
-            clearable
-            :label="$t('create.text3')"
-            name="bank"
-            :placeholder="$t('create.text4')"
-            v-model="form.data.bank"
-            :rules="[{ required: true, message: $t('create.text4') }]"
-          />
-          <van-field
-            clearable
-            label=" "
-            name="cardNum"
-            :placeholder="$t('create.text5')"
-            v-model="form.data.cardNum"
-            :rules="[{ required: true, message: $t('create.text5') }]"
-          />
-          <van-field
-            clearable
-            :label="$t('create.text6')"
-            name="passWord"
-            :placeholder="$t('create.text7')"
-            type="password"
-            v-model="form.data.passWord"
-            :rules="[{ required: true, message: $t('create.text7') }]"
-          />
+          <van-field clearable :label="$t('create.text3')" name="bank" :placeholder="$t('create.text4')"
+            v-model="form.data.bank" :rules="[{ required: true, message: $t('create.text4') }]" />
+          <van-field clearable label=" " name="cardNum" :placeholder="$t('create.text5')" v-model="form.data.cardNum"
+            :rules="[{ required: true, message: $t('create.text5') }]" />
+          <van-field clearable :label="$t('create.text6')" name="passWord" :placeholder="$t('create.text7')"
+            type="password" v-model="form.data.passWord" :rules="[{ required: true, message: $t('create.text7') }]" />
         </template>
-        <van-field
-          clearable
-          name="cardNum"
-          type="cardNum"
-          v-else
-          v-model="form.data.cardNum"
-          :label="`${columns[form.data.type]}${$t('create.text9')}`"
-          :placeholder="`${$t('create.text8')}${columns[form.data.type]}${$t(
+        <van-field clearable name="cardNum" type="cardNum" v-else v-model="form.data.cardNum"
+          :label="`${columns[form.data.type]}${$t('create.text9')}`" :placeholder="`${$t('create.text8')}${columns[form.data.type]}${$t(
             'create.text9'
-          )}`"
-          :rules="[
-            {
-              required: true,
-              message: `${$t('create.text8')}${columns[form.data.type]}${$t(
-                'create.text9'
-              )}`,
-            },
-          ]"
-        />
+          )}`" :rules="[
+  {
+    required: true,
+    message: `${$t('create.text8')}${columns[form.data.type]}${$t(
+      'create.text9'
+    )}`,
+  },
+]" />
         <div class="btn">
-          <van-button
-            round
-            block
-            type="info"
-            color="#1B2945"
-            :loading="form.loading"
-            @click="$refs.tipPopup.toggle(true)"
-          >
+          <van-button round block type="info" color="#1B2945" :loading="form.loading"
+            @click="$refs.tipPopup.toggle(true)">
             {{ $t("logout.submit") }}
           </van-button>
         </div>
@@ -73,14 +34,7 @@
     </div>
     <popup :title="$t('create.title2')" ref="tipPopup">
       <div class="tip">{{ $t("create.tags1") }}</div>
-      <van-button
-        round
-        block
-        class="btn"
-        type="info"
-        color="#1B2945"
-        @click="showCheckPopup"
-      >
+      <van-button round block class="btn" type="info" color="#1B2945" @click="showCheckPopup">
         {{ $t("create.tags2") }}
       </van-button>
     </popup>
@@ -104,14 +58,7 @@
         <van-col class="label" :span="6">{{ columns[form.data.type] }}</van-col>
         <van-col class="value" :span="18">{{ form.data.cardNum }}</van-col>
       </van-row>
-      <van-button
-        round
-        block
-        class="btn"
-        type="info"
-        color="#1B2945"
-        @click="showCodePopup"
-      >
+      <van-button round block class="btn" type="info" color="#1B2945" @click="showCodePopup">
         {{ $t("create.tags2") }}
       </van-button>
     </popup>
@@ -121,23 +68,12 @@
       <div class="tip" style="margin-top: 10px" v-show="validateCode">
         {{ $t("create.tags8") }}
       </div>
-      <div
-        class="getCode"
-        :class="{ disable: !!code.timer }"
-        @click="getVerifyCode"
-      >
+      <div class="getCode" :class="{ disable: !!code.timer }" @click="getVerifyCode">
         {{ $t("create.tags9") }}
         <span class="time" v-show="code.timer">{{ code.time }}s</span>
       </div>
-      <van-button
-        round
-        block
-        class="btn"
-        type="info"
-        color="#1B2945"
-        @click="handleSubmit"
-        :disabled="form.data.code.length < 6 || validateCode"
-      >
+      <van-button round block class="btn" type="info" color="#1B2945" @click="handleSubmit"
+        :disabled="form.data.code.length < 6 || validateCode">
         {{ $t("create.tags10") }}
       </van-button>
     </popup>
@@ -153,7 +89,7 @@ import { code, addPayment } from "@/api/pagesApi/payment";
 export default {
   name: "create",
   components: { PageHeader, Popup, Password },
-  data() {
+  data () {
     return {
       columns: [
         this.$t("payment.data4"),
@@ -181,32 +117,32 @@ export default {
     };
   },
   computed: {
-    disabled() {
+    disabled () {
       return Object.values(this.form.data).includes("");
     },
     // 验证码是否正确
-    validateCode() {
+    validateCode () {
       return this.form.data.code.length === 6
         ? this.code.data !== this.form.data.code
         : false;
     },
   },
   methods: {
-    showCheckPopup() {
+    showCheckPopup () {
       this.$refs.tipPopup.toggle(false);
       this.$refs.checkPopup.toggle(true);
     },
-    showCodePopup() {
+    showCodePopup () {
       this.$refs.checkPopup.toggle(false);
       this.$refs.codePopup.toggle(true);
       this.getVerifyCode();
     },
     // 获取验证码
-    getVerifyCode() {
+    getVerifyCode () {
       if (!this.code.timer) {
         const userInfo = JSON.parse(this.cookie.get("userInfo"));
         this.form.data.mail = userInfo.mail;
-        code(userInfo.mail).then((res) => {
+        code(userInfo.mail, 1).then((res) => {
           if (!res.data.code) {
             this.code.data = res.data.message;
             this.countDown();
@@ -221,7 +157,7 @@ export default {
       }
     },
     // 倒计时
-    countDown() {
+    countDown () {
       this.code.timer = setInterval(() => {
         this.code.time--;
         if (this.code.time === 0) {
@@ -232,10 +168,10 @@ export default {
       }, 1000);
     },
     // 验证码输入
-    handleChange(val) {
+    handleChange (val) {
       this.form.data.code = val;
     },
-    handleSubmit() {
+    handleSubmit () {
       const loading = this.$toast.loading({
         forbidClick: true,
         message: this.$t("create.msg1"),
@@ -261,51 +197,62 @@ export default {
         .finally(() => loading.clear());
     },
   },
-  created() {
+  created () {
     this.form.data.type = this.$route.query.type * 1;
+    const userInfo = this.cookie.get('userInfo')
+    if (userInfo) {
+      this.form.data.name = JSON.parse(userInfo).name
+    }
   },
 };
 </script>
 
 <style scoped lang="scss">
-  .create_wrap {
-    .content {
-      flex: 1;
-      margin-top: 20px;
-      background-color: #FFF;
-      .btn {
-        @include posi($b: 30px, $l: 30px, $r: 30px);
-        margin: 0;
-      }
+.create_wrap {
+  .content {
+    flex: 1;
+    margin-top: 20px;
+    background-color: #FFF;
+
+    .btn {
+      @include posi($b: 30px, $l: 30px, $r: 30px);
+      margin: 0;
     }
   }
+}
 
 .tip {
   color: #fc7542;
   font-size: 28px;
 }
+
 .row {
   padding: 20px 0;
+
   .label {
     color: #333;
     font-size: 28px;
     font-weight: bold;
   }
+
   .value {
     color: #333;
     font-size: 28px;
     text-align: right;
   }
 }
+
 .getCode {
   color: #237ff8;
   font-size: 28px;
   text-align: center;
   margin-top: 80px;
+
   &.disable {
     color: #999999;
   }
 }
+
 .btn {
   margin-top: 80px;
 }

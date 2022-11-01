@@ -4,6 +4,7 @@ export default {
     signin: '등록하다',
   },
   public: {
+    title:'DID 탈중심화 아이디 시스템',
     cancel: '취소',
     confirm: '확신하는',
     save: '저장',
@@ -356,6 +357,11 @@ export default {
     tags4: '대면 초대',
     tags5: '사용하는 것이 좋습니다',
     tags6: '전화 앨범/브라우저 스캔 코드',
+
+    tags7: "EOTC 보안 최우선",
+    tags8: "세계로 통하는 믿음의 다리",
+    tags9: "탈중심화 신분 시스템",
+    tags10: "브라우저를 열고 식별 QR코드를 길게 눌러 다운로드",
   },
   // 身份认证
   identity: {

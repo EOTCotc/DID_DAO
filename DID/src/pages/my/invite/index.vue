@@ -5,12 +5,11 @@
       class="content"
       :style="
         'background-image: url(' +
-        (langCode == 'zh'
-          ? require('@/assets/imgs/bg-invite.png')
-          : require('@/assets/imgs/bg-invite2.png')) +
+        require('@/assets/imgs/bg_fenxiang.png') +
         ')'
       "
     >
+      <div class="content-title">{{ $t("public.title") }}</div>
       <div class="main">
         <div class="share_wrap">
           <van-row class="row" type="flex" align="center">
@@ -60,15 +59,13 @@
       </div>
       <div class="poster_wrap" v-show="poster">
         <div class="img" ref="img">
-          <img
-            class="bg"
-            :src="
-              langCode == 'zh'
-                ? require('@/assets/imgs/poster.png')
-                : require('@/assets/imgs/poster2.png')
-            "
-            alt=""
-          />
+          <div class="img-one">{{ $t("invute.tags7") }}</div>
+          <div class="img-one">{{ $t("invute.tags8") }}</div>
+          <div class="img-qr">
+            <p>EOTC DID</p>
+            <p>{{ $t("invute.tags9") }}</p>
+            <p>{{ $t("invute.tags10") }}</p>
+          </div>
           <vue-qr class="qr" :logoSrc="logo" :text="form.data.url" />
         </div>
         <div class="icon icon-download" @click.stop="save"></div>
@@ -161,6 +158,12 @@ export default {
     background-size: 90%;
     background-repeat: no-repeat;
     background-position: top center;
+    .content-title {
+      padding: 150px 30px 0 80px;
+      font-size: 56px;
+      font-weight: bold;
+      color: #fff;
+    }
     .main {
       @include posi($b: 50px, $l: 30px, $r: 30px);
       .share_wrap {
@@ -252,9 +255,25 @@ export default {
     @include centered();
     .img {
       position: relative;
-      .bg {
-        display: block;
-        width: 590px;
+      padding: 150px 40px 0 40px;
+      display: block;
+      width: 590px;
+      height: 980px;
+      background-image: url("@/assets/imgs/bg_fenxiang.png");
+      background-size: cover;
+      .img-one {
+        font-size: 36px;
+        font-weight: bold;
+        color: #fff;
+      }
+      .img-qr {
+        position: absolute;
+        bottom: 48px;
+        color: #fff;
+        font-size: 24px;
+        p {
+          line-height: 38px;
+        }
       }
       .qr {
         @include posi($r: 40px, $b: 50px);

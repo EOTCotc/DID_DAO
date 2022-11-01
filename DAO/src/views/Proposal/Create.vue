@@ -48,7 +48,7 @@ export default {
       title: this.$t("create.nav_title"),
       value: "",
       message: "",
-      items: undefined,
+      items: null,
       user: JSON.parse(localStorage.getItem("user")),
     };
   },

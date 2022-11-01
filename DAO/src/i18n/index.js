@@ -26,6 +26,7 @@ const i18n = new vueI18n({
     nl: require("./lang/nl"),//荷兰语
     ar: require("./lang/ar"),//阿拉伯语
     id: require("./lang/id"),//印尼语
+    it:require('./lang/it'),//意大利
   },
 });
 

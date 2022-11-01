@@ -4,6 +4,7 @@ export default {
     signin: 'daftar',
   },
   public: {
+    title:'Sistem Identitas Didecentralisasi DID',
     cancel: 'Membatalkan',
     confirm: 'Tentu',
     save: 'menyimpan',
@@ -345,6 +346,11 @@ DID akan menyuntikkan dukungan aplikasi dasar yang kuat ke dunia blockchain dan 
     tags4: 'undangan tatap muka',
     tags5: 'Disarankan untuk menggunakan',
     tags6: 'Kode pemindaian album foto/peramban seluler',
+
+    tags7: "Keamanan EOTC dulu",
+    tags8: "Jembatan kepercayaan ke dunia",
+    tags9: "Sistem identitas dekentralisasi",
+    tags10: "Buka perambal dan tekan kode QR panjang untuk diunduh",
   },
   // 身份认证
   identity: {

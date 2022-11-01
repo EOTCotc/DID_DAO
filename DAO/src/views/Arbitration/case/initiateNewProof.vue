@@ -13,7 +13,7 @@
       </van-radio-group>
       <div class="title"
            style="font-weight: bold; font-size: 14px">
-        {{$t('arbitrationcase.explain')}}
+        {{ $t('arbitrationcase.Toproofexplain')}}
       </div>
       <van-field v-model="form.data.explain"
                  show-word-limit

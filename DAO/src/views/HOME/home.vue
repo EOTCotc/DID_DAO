@@ -154,6 +154,7 @@ import { loadweb3 } from "@/utils/web3.js";
 import { getdaoinfo } from "@/api/earnings";
 import { getmessageopen } from "@/api/case";
 import { list } from "@/api/notice";
+import { Dialog } from "vant";
 
 export default {
   components: {
@@ -243,6 +244,11 @@ export default {
           text: "IndonesiaName", //印尼语
           lang: "id",
         },
+        {
+          id: 15,
+          text: "IndonesiaName", //意大利语
+          lang: "it",
+        },
       ],
       tanShow: false,
       proposalList: [], //提案列表
@@ -302,14 +308,23 @@ export default {
         case "pt":
           this.langText = "Português"; //葡萄牙语
           break;
+        case "it":
+          this.langText = "Italiano"; //意大利语
+          break;
         default:
           this.langText = "简体中文";
           break;
       }
     }
-    loadweb3(this.handle);
+    loadweb3(this.handle, this.errFun);
   },
   methods: {
+    // 拒绝签名
+    errFun() {
+      Dialog.alert({
+        message: this.$t("public.err"),
+      });
+    },
     handle() {
       this.getuserrisklevel();
       this.getProposal();
@@ -320,7 +335,7 @@ export default {
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: "加载中…",
+        message: this.$t("destroy.message"),
       });
       list()
         .then((res) => {
@@ -345,7 +360,8 @@ export default {
             localStorage.setItem("isExamine", res.data.items.isExamine);
             localStorage.setItem("authType", res.data.items.authType);
             localStorage.setItem("isEnable", res.data.items.isEnable);
-            this.$router.go(0)
+          } else {
+            this.$toast(res.data.message);
           }
         })
         .catch((err) => {
@@ -415,7 +431,6 @@ export default {
       this.showPopup = !this.showPopup;
     },
     tabLang(item) {
-      console.log(item);
       localStorage.setItem("lang", JSON.stringify(item));
       this.$router.go(0);
     },

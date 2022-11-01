@@ -54,6 +54,7 @@ module.exports = {
 	public: {
 		cancel: "Absagen",
 		confirm: "Sicher",
+		err: "Signieren verweigern, kann nicht verwendet werden",
 	},
 	user: {
 		total: "Gesamteinnahmen(EOTC)",
@@ -758,6 +759,7 @@ module.exports = {
 		dialog_message_remedy:
 			"Bitte stellen Sie sicher, dass die Video-Identitätsprüfung erneut durchgeführt wurde, die Identitätsinformationen korrekt sind und die Ausnahme entfernt wurde",
 		handle_success: "Erfolgreich verarbeitet",
+		fail_text: "Aufzeichnungen müssen überprüft werden",
 	},
 	relieve: {
 		nav_title: "Risikokontrolle freigeben",
@@ -999,7 +1001,7 @@ module.exports = {
 		public_judgment: "Formel Urteil",
 		plaintiff_win: "Kläger gewinnt",
 		defendant_win: "Angeklagter gewinnt",
-		reason: "Urteil, dass der Kläger im Schiedsverfahren gewonnen hat",
+		reason: "Urteil im Schiedsverfahren",
 		ment_reasons: "Urteilsgrund",
 		explain: "Urteil Sagen Ming",
 		according:

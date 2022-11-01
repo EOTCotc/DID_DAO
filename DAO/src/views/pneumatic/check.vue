@@ -144,6 +144,7 @@ export default {
     this.authStatus = this.$route.query.authStatus;
     console.log(this.id, this.authStatus);
     this.userInfo();
+       console.log(this.imagesZu.length)
   },
   mounted() {},
   methods: {
@@ -208,53 +209,61 @@ export default {
     },
     //核对信息异常
     abnormal() {
-      Dialog.confirm({
-        title: this.$t("check.dialog_title"),
-        confirmButtonColor: "#000",
-        message: this.$t("check.dialog_message"),
-        getContainer: ".meun",
-      })
-        .then(() => {
-          userriskstatus({
-            userRiskId: this.id,
-            authStatus: 2,
-            images: this.imagesArr.join(","),
-          }).then((res) => {
-            console.log(res);
-            if (res.status == 200) {
-              history.go(-1);
-              Toast(this.$t("check.handle_success"));
-            }
-          });
+      console.log(this.fileList.length)
+      if (this.fileList.length!=0) {
+        Dialog.confirm({
+          title: this.$t("check.dialog_title"),
+          confirmButtonColor: "#000",
+          message: this.$t("check.dialog_message"),
+          getContainer: ".meun",
         })
-        .catch(() => {});
+          .then(() => {
+            userriskstatus({
+              userRiskId: this.id,
+              authStatus: 2,
+              images: this.imagesArr.join(","),
+            }).then((res) => {
+              console.log(res);
+              if (res.status == 200) {
+                history.go(-1);
+                Toast(this.$t("check.handle_success"));
+              }
+            });
+          })
+          .catch(() => {});
+      } else {
+        this.$toast.fail(this.$t("check.fail_text"));
+      }
     },
     //核对信息无误
     success() {
-      Dialog.confirm({
-        title: this.$t("check.dialog_title"),
-        confirmButtonColor: "#000",
-        message: this.$t("check.dialog_message_error"),
-        getContainer: ".meun",
-      })
-        .then(() => {
-          userriskstatus({
-            userRiskId: this.id,
-            authStatus: 1,
-            images: this.imagesArr.join(","),
-          }).then((res) => {
-            console.log(res);
-            if (res.status == 200) {
-              this.$router.push({
-                name: "pneumatic",
-                params: { authStatus: 1 },
-              });
-            }
-          });
+      if (this.fileList.length!=0) {
+        Dialog.confirm({
+          title: this.$t("check.dialog_title"),
+          confirmButtonColor: "#000",
+          message: this.$t("check.dialog_message_error"),
+          getContainer: ".meun",
         })
-        .catch(() => {});
+          .then(() => {
+            userriskstatus({
+              userRiskId: this.id,
+              authStatus: 1,
+              images: this.imagesArr.join(","),
+            }).then((res) => {
+              console.log(res);
+              if (res.status == 200) {
+                this.$router.push({
+                  name: "pneumatic",
+                  params: { authStatus: 1 },
+                });
+              }
+            });
+          })
+          .catch(() => {});
+      } else {
+        this.$toast.fail("必须核对记录");
+      }
     },
-
     //解除异常
     Remedy() {
       Dialog.confirm({

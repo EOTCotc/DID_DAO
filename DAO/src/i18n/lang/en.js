@@ -36,6 +36,11 @@ module.exports = {
 		remove_risk: "Remove risk control",
 		msg_fail: "Failure to obtain information",
 	},
+	public: {
+		cancel: "cancel",
+		confirm: "confirm",
+		err: "Deny signing, unable to use",
+	},
 	user: {
 		total: "Total revenue (EOTC)",
 		detailed: "Income Details",
@@ -732,6 +737,7 @@ module.exports = {
 		dialog_message_remedy:
 			"Please ensure that the video identity has been checked again, the identity information is correct, and the exception is removed",
 		handle_success: "Processing succeeded",
+		fail_text: "Records must be checked",
 	},
 	personnel: {
 		nav_title: "Publicity of arbitrators",
@@ -773,7 +779,7 @@ module.exports = {
 		hasOffice: "Is there an office",
 		hasGroup: "Whether to build group of",
 		referrer: "referrals",
-		remark: "Back to reason",
+		reason: "Judgment in the arbitration",
 		cancel: "turn down",
 		ratify: "ratify",
 		Nodata: "No data yet",
@@ -1045,9 +1051,5 @@ module.exports = {
 			"The ID photo is wrong",
 			"The ID photo is not clear",
 		],
-	},
-	public: {
-		cancel: "cancel",
-		confirm: "confirm",
 	},
 };

@@ -4,6 +4,7 @@ export default {
     signin: '註冊',
   },
   public: {
+    title:'DID去中心化身份系統',
     cancel: '取消',
     confirm: '確定',
     save: '保存',
@@ -98,6 +99,8 @@ export default {
   },
   // 賬號設置
   setup: {
+    address: '地址',
+    addressPlaceholder: '請選擇社區所在地',
     settings: '賬號設置',
     email: '郵箱',
     referrer: '推薦人',
@@ -343,6 +346,11 @@ export default {
     tags4: '面對面邀請',
     tags5: '建議使用',
     tags6: '手機相冊/瀏覽器掃碼',
+
+    tags7: "EOTC 安全第一",
+    tags8: "通往世界的信任橋樑",
+    tags9: "去中心化身份系統",
+    tags10: "打開瀏覽器長按識別二維碼下載",
   },
   // 身份認證
   identity: {
@@ -441,8 +449,6 @@ export default {
     tags4: '重新提交申請',
   },
   setting: {
-    address: '地址',
-    addressPlaceholder: '請選擇社區所在地',
     title1: '社區信息',
     title2: '請輸入…',
     title3: '填寫電報群地址',

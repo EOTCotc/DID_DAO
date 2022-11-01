@@ -1,20 +1,5 @@
 import Vue from 'vue'; // 引入Vue
 import VueI18n from 'vue-i18n'; // 引入国际化的包
-import zh from './zh';
-import en from './en';
-import zhTw from './zhTw';
-import ja from './ja'; // 日语
-import ko from './ko'; // 韩语
-import ru from './ru'; // 俄语
-import fr from './fr'; // 法语
-import th from './th'; // 泰语
-import nl from './nl'; // 荷兰语
-import ar from './ar'; // 阿拉伯语
-import id from './id'; // 印尼语
-import es from './es'; // 西班牙语
-import pt from './pt'; // 葡萄牙语
-import vi from './vi'; // 越南语
-import it from './it'; // 意大利语
 
 Vue.use(VueI18n);
 
@@ -31,27 +16,26 @@ let lang = JSON.parse(localStorage.getItem('lang'));
 if (lang) {
   lang = lang.lang;
 }
-
 const i18n = new VueI18n({
   // 获取用户选择的语言，没有就用游览器默认的语言
   locale: lang || browserLang,
   messages: {
-    zh,
-    en,
-    ru,
-    fr,
-    zhTw,
-    ko,
-    ja,
-    nl,
-    th,
-    ar,
-    id,
-    es,
-    pt,
-    vi,
-    it,
+    zh: require('./zh').default,
+    zhTw: require('./zhTw').default,
+    en: require('./en').default,
+    ru: require('./ru').default,// 俄语
+    fr: require('./fr').default,// 法语
+    ko: require('./ko').default,// 韩语
+    ja: require('./ja').default,// 日语
+    nl: require('./nl').default,// 荷兰语
+    th: require('./th').default,// 泰语
+    ar: require('./ar').default,// 阿拉伯语
+    id: require('./id').default,// 印尼语
+    es: require('./es').default,// 西班牙语
+    pt: require('./pt').default,// 葡萄牙语
+    vi: require('./vi').default,// 越南语
+    it: require('./it').default,// 意大利语
+    de: require('./de').default,// 德语
   },
 });
-
 export default i18n;

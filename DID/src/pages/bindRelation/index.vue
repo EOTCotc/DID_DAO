@@ -112,12 +112,18 @@ export default {
   methods: {
     // 获取已有的社区地址
     getHaveSite() {
+      const loading = this.$toast.loading({
+        forbidClick: true,
+        message: this.$t("public.loading"),
+      });
       getcomaddr().then((res) => {
         let data = res.data.items;
         this.country_list = data.country_list; //国家
         this.areaList.province_list = data.province_list; //省
         this.areaList.city_list = data.city_list; //市
         this.areaList.county_list = data.county_list; //区
+      }).finally(()=>{
+        loading.clear()
       });
     },
     //选择国家
@@ -142,7 +148,7 @@ export default {
         }
         this.getComNum();
       } else {
-        this.$toast.fail(this.$t('public.toast1'));
+        this.$toast.fail(this.$t("public.toast1"));
       }
       this.showPopup = false;
     },

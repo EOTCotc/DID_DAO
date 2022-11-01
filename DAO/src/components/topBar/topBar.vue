@@ -47,7 +47,6 @@ export default {
         { id: 9, name: this.$t("topBar.name9") },
         { id: 10, name: "EOTC DAO", link: "https://dao.eotc.im/" },
       ],
-      user: JSON.parse(localStorage.getItem("user")),
     };
   },
   methods: {
@@ -60,7 +59,8 @@ export default {
     },
     // 去我的页面
     toMy() {
-      this.user ? this.$router.push("/personage") : "";
+      let user=JSON.parse(localStorage.getItem("user"))
+      user ? this.$router.push("/personage") : "";
     },
   },
 };

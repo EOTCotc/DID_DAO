@@ -242,7 +242,7 @@ export const SendUSDT = async function (val, ads, ctype) {
   });
 };
 
-export const loadweb3 = function (func) {
+export const loadweb3 = function (func,errfun) {
   //bsg为true强制签名
   if (window.tronWeb) {
     // console.log('Loading web3');
@@ -267,7 +267,9 @@ export const loadweb3 = function (func) {
             localStorage.removeItem("myaddress");
             localStorage.removeItem("mysign");
             clearmymes();
-            userSign(signMes, func); //首次消息签名
+            userSign(signMes, func).catch(err=>{
+              errfun()
+            }); //首次消息签名
             return false;
           }
           func();
