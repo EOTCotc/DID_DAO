@@ -4,6 +4,7 @@ export default {
     signin: 'Registrarse',
   },
   public: {
+    title:'Sistema de identidad descentralizado did',
     cancel: 'Cancelar',
     confirm: 'Por supuesto',
     save: 'mantener',
@@ -363,6 +364,11 @@ export default {
     tags4: 'invitación cara a cara',
     tags5: 'Se recomienda utilizar',
     tags6: 'Álbum de teléfono/Código de escaneo del navegador',
+
+    tags7: "Eotc Security First",
+    tags8: "Un puente de confianza al mundo",
+    tags9: "Sistema de identidad descentralizado",
+    tags10: "Abrir navegador para descargar Código QR",
   },
   // 身份认证
   identity: {

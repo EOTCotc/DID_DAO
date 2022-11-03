@@ -4,6 +4,7 @@ export default {
     signin: 'Đăng ký',
   },
   public: {
+    title: 'Hệ thống nhận dạng thiệt mạng',
     cancel: 'Hủy bỏ',
     confirm: 'Chắc chắn rồi',
     save: 'giữ cho',
@@ -362,6 +363,11 @@ export default {
     tags4: 'lời mời mặt đối mặt',
     tags5: 'Nó được khuyến khích sử dụng',
     tags6: 'Album điện thoại/Mã quét trình duyệt',
+
+    tags7: "La sicurezza EOTC prima di tutto",
+    tags8: "Un ponte di fiducia verso il mondo",
+    tags9: "Sistema di identità decentrato",
+    tags10: "Apri il browser e premi a lungo il codice QR per scaricare",
   },
   // 身份认证
   identity: {

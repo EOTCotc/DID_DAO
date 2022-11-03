@@ -30,9 +30,6 @@
                 <div class="text">{{ $t("case.Adduce_evidence") }}</div>
               </van-row>
             </van-col>
-            <van-col :span="12" class="date">{{
-                transformUTCDate(info.adduceDate)
-            }}</van-col>
           </van-row>
           <!-- 投票中 -->
           <van-row class="header" type="flex" align="center" justify="space-between" v-else-if="info.status === 1">
@@ -284,17 +281,18 @@
       </van-col>
     </van-row>
     <!-- 判定胜诉方 -->
-    <popup ref="sentence" :title="status === 1 ? $t('case.reason') : $t('case.ment_reasons')">
-      <div class="sentence-main" v-show="status === 1">
+    <popup ref="sentence"
+      :title="`${$t('case.reason')}${status === 1 ? $t('case.plaintiff_win') : $t('case.defendant_win')}`">
+      <div class="sentence-main" v-show="step === 0">
+        <div class="tip">{{ $t("case.security") }}</div>
+        <van-field show-word-limit v-model="remark" rows="4" type="textarea"
+          style="border: 1px solid #c8cfde; border-radius: 10px" maxlength="100" :placeholder="$t('case.describe')" />
+      </div>
+      <div class="sentence-main" v-show="step === 1">
         <div class="title">{{ $t("case.explain") }}</div>
         <div class="message">{{ $t("case.according") }}</div>
         <van-checkbox class="check" icon-size="16px" v-model="checked" shape="square">{{ $t("case.confirm") }}
         </van-checkbox>
-      </div>
-      <div class="sentence-main" v-show="status === 2">
-        <div class="tip">{{ $t("case.security") }}</div>
-        <van-field show-word-limit v-model="remark" rows="4" type="textarea"
-          style="border: 1px solid #c8cfde; border-radius: 10px" maxlength="100" :placeholder="$t('case.describe')" />
       </div>
       <van-row class="btn" :gutter="15">
         <van-col :span="12">
@@ -304,7 +302,7 @@
         </van-col>
         <van-col :span="12">
           <van-button block round color="#4EA0F5" :loading-text="$t('case.submitting')" :loading="loading"
-            :disabled="loading || (status === 2 ? !remark : !checked)" @click="onSubmit">
+            :disabled="loading || !remark || !checked" @click="onSubmit">
             {{ $t("case.true") }}
           </van-button>
         </van-col>
@@ -339,7 +337,8 @@ export default {
       status: 0,
       checked: false,
       info: {},
-      order: {}
+      order: {},
+      step: 0
     }
   },
   methods: {
@@ -407,14 +406,10 @@ export default {
     },
     // 判决
     sentence (type) {
-      if (
-        this.$dayjs(
-          this.info.status === 0 ? this.info.adduceDate : this.info.voteDate
-        )
-          .add('-8', 'hour')
-          .diff(this.$dayjs(), 'millisecond') > 0
-      ) {
+      const time = this.$dayjs(this.info.status === 0 ? this.info.adduceDate : this.info.voteDate).add('-8', 'hour').diff(this.$dayjs(), 'millisecond')
+      if (time > 0) {
         this.status = type
+        this.step = 0
         this.$refs.sentence.toggle(true)
       } else {
         this.$toast.fail({
@@ -427,22 +422,23 @@ export default {
     hidePopup () {
       this.remark = ''
       this.status = 0
+      this.step = 0
       this.checked = false
       this.$refs.sentence.toggle(false)
     },
     // 提交判决
     onSubmit () {
-      const loading = this.$toast.loading({
-        forbidClick: true,
-        message: this.$t('case.submitting'),
-      })
-      this.loading = true
-      submit({
-        arbitrateInfoId: this.info.arbitrateInfoId,
-        reason: this.remark,
-        status: this.status,
-      })
-        .then((res) => {
+      if (this.next === 1) {
+        const loading = this.$toast.loading({
+          forbidClick: true,
+          message: this.$t('case.submitting'),
+        })
+        this.loading = true
+        submit({
+          arbitrateInfoId: this.info.arbitrateInfoId,
+          reason: this.remark,
+          status: this.status,
+        }).then((res) => {
           if (res.data.code) {
             this.$toast.fail({
               forbidClick: true,
@@ -459,17 +455,18 @@ export default {
               },
             })
           }
-        })
-        .catch(() => {
+        }).catch(() => {
           this.$toast.fail({
             forbidClick: true,
             message: this.$t('case.fail'),
           })
-        })
-        .finally(() => {
+        }).finally(() => {
           this.loading = false
           loading.clear()
         })
+      } else {
+        this.step = 1
+      }
     },
   },
   created () {
@@ -489,11 +486,13 @@ export default {
       padding: 30px;
       border-radius: 20px;
       background-color: #fff;
+
       .h3 {
         color: #333;
         font-size: 32px;
         font-weight: bold;
       }
+
       .text {
         color: #333;
         font-size: 28px;
@@ -528,10 +527,12 @@ export default {
           }
         }
       }
+
       .header {
         padding-bottom: 30px;
         border-bottom: 1px solid #eee;
         margin-bottom: 30px;
+
         .img {
           display: block;
           width: 30px;
@@ -545,16 +546,19 @@ export default {
           color: #333;
           font-size: 32px;
         }
+
         .time {
           color: #237ff8;
           font-size: 32px;
         }
+
         .date {
           color: #999;
           font-size: 28px;
           text-align: right;
         }
       }
+
       .label {
         display: inline-block;
         color: #fff;
@@ -562,33 +566,40 @@ export default {
         padding: 10px 25px;
         background-color: #4ea0f5;
         border-radius: 0 40px 40px 50px;
+
         &.red {
           background-color: #ec6f66;
         }
       }
+
       .personnel_wrap {
         font-size: 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         .item {
           position: relative;
           flex: 0 0 48%;
           border-radius: 0 20px 20px 20px;
           box-shadow: 0px 3px 12px 1px rgba(27, 41, 69, 0.1);
+
           .user_wrap {
             display: flex;
             align-items: center;
             padding: 30px;
+
             .name {
               color: #333;
               font-size: 28px;
             }
+
             .identity {
               color: #999;
               font-size: 24px;
             }
           }
+
           .icon {
             @include posi($r: 10px, $t: 10px);
             font-size: 32px;
@@ -596,6 +607,7 @@ export default {
           }
         }
       }
+
       .remark {
         color: #333;
         padding: 24px;
@@ -605,10 +617,12 @@ export default {
         background-color: #f3f4f5;
         border-radius: 20px;
       }
+
       .result_wrap {
         .h3 {
           margin-top: 30px;
         }
+
         .text {
           margin-top: 20px;
           line-height: 1.3;
@@ -635,6 +649,7 @@ export default {
               border-radius: 40px 0 50px 40px;
               background-color: #ec6f66;
             }
+
             .message {
               color: #333;
               font-size: 28px;
@@ -683,16 +698,19 @@ export default {
       font-size: 32px;
       margin-bottom: 30px;
     }
+
     .title {
       color: #333;
       font-size: 32px;
       font-weight: bold;
     }
+
     .message {
       color: #666;
       font-size: 28px;
       margin: 25px 0 100px;
     }
+
     .check {
       color: #333;
       font-size: 28px;

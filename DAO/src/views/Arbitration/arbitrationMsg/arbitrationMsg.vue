@@ -19,7 +19,7 @@
                 src="@/assets/imgs/huangguan.png"
                 v-show="closureObj.status == 2"
               />
-              <div class="left-user-tag">{{ $t("arbitrationMsg.tags") }}</div>
+              <div class="left-user-tag">{{ $t("arbitrationMsg.tags5") }}</div>
             </div>
             <div class="left-via-name">
               <!-- 申请延期 -->
@@ -140,7 +140,7 @@
           class="add-to-appellee"
           v-show="addObj.adduceUserId == addObj.defendantId"
         >
-          {{ $t("arbitrationMsg.tags228") }}
+          {{ $t("arbitrationMsg.tags28") }}
         </div>
         <div class="add-to-content">
           <div>{{ $t("arbitrationMsg.tags29") }}</div>

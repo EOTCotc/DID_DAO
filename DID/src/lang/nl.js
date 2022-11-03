@@ -4,6 +4,7 @@ export default {
     signin: 'register',
   },
   public: {
+    title:'DID decentraal identiteitssysteem',
     cancel: 'Annuleren',
     confirm: 'Zeker',
     save: 'houden',
@@ -345,6 +346,11 @@ DID zal sterke basisapplicatie-ondersteuning in de blockchain-wereld injecteren 
     tags4: 'persoonlijke uitnodiging',
     tags5: 'Het wordt aanbevolen om te gebruiken:',
     tags6: 'Scancode mobiel fotoalbum/browser',
+
+    tags7: "EOTC-veiligheid voorop",
+    tags8: "Een brug van vertrouwen naar de wereld",
+    tags9: "Gedecentraliseerd identiteitssysteem",
+    tags10: "Open de browser en druk lang op de QR code om te downloaden",
   },
   // 身份认证
   identity: {

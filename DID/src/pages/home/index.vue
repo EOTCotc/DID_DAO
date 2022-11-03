@@ -18,16 +18,19 @@
         <img src="@/assets/imgs/identity_card.png" alt="" />
       </div>
       <!-- 认证按钮 -->
-      <div
-        class="btn"
-        :style="
-          userInfo.authType == 2
-            ? 'background:#102E59;border:2px solid #237FF8;'
-            : ''
-        "
-      >
+      <div class="btn" :style="
+        userInfo.authType == 2
+          ? 'background:#102E59;border:2px solid #237FF8;'
+          : ''
+      ">
         <div class="btn-box" @click="identifyRouter">
-          <template v-if="userInfo.authType === 1">
+          <template v-if="userInfo.authType === 0">
+            <span>{{ $t("home.start_attestation") }}</span>
+            <div class="icon_down">
+              <van-icon color="#fff" name="down" />
+            </div>
+          </template>
+          <template v-else-if="userInfo.authType === 1">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>{{ $t("home.tags1") }}</span>
           </template>
@@ -38,11 +41,9 @@
           <template v-else-if="userInfo.authType === 3">
             <img class="dunpai" src="@/assets/imgs/dunpai.png" alt="" />
             <span>{{ $t("home.tags2") }}</span>
-            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
-          </template>
-          <template v-else>
-            <span>{{ $t("home.start_attestation") }}</span>
-            <div class="icon_down"><van-icon color="#fff" name="down" /></div>
+            <div class="icon_down">
+              <van-icon color="#fff" name="down" />
+            </div>
           </template>
         </div>
       </div>
@@ -70,18 +71,9 @@
       </div>
     </div>
     <!-- 选择语言 -->
-    <van-popup
-      v-model="showPopup2"
-      :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-      position="right"
-    >
+    <van-popup v-model="showPopup2" :style="{ height: '100%', background: '#1b2946', zIndex: '55' }" position="right">
       <div class="menu">
-        <div
-          class="menu-every"
-          v-for="item in lang"
-          @click="tabLang(item)"
-          :key="item.id"
-        >
+        <div class="menu-every" v-for="item in lang" @click="tabLang(item)" :key="item.id">
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -100,16 +92,9 @@
         </div>
       </div>
     </van-overlay>
-    <notification
-      ref="notification"
-      :title="$t('home.title1')"
-      :message="$t('home.title2')"
-      :button-text="$t('home.title3')"
-      button-color="#F65F5F"
-      :header-icon="headerIcon"
-      @closed="handleClosed"
-      @buttonClick="() => $router.push('/risk')"
-    />
+    <notification ref="notification" :title="$t('home.title1')" :message="$t('home.title2')"
+      :button-text="$t('home.title3')" button-color="#F65F5F" :header-icon="headerIcon" @closed="handleClosed"
+      @buttonClick="() => $router.push('/risk')" />
     <div class="risk_mask_wrap" v-show="show" @click="$router.push('/risk')">
       <img src="@/assets/imgs/jin.png" class="img" />
       <div class="text">{{ $t("home.title3") }}</div>
@@ -124,7 +109,7 @@ import TopBar from "@/components/topBar/topBar";
 import { getuserinfo, getcomselect } from "@/api/pagesApi/home";
 import { risklevel } from "@/api/risk";
 export default {
-  data() {
+  data () {
     return {
       headerIcon,
       show: false,
@@ -148,6 +133,7 @@ export default {
         { id: 13, text: "Português", lang: "pt" }, //葡萄牙语
         { id: 14, text: "ViệtName", lang: "vi" }, //越南语
         { id: 15, text: "Italiano", lang: "it" }, //意大利语
+        { id: 16, text: "Deutsch", lang: "de" }, //德语
       ],
       textLang: "简体中文",
     };
@@ -156,7 +142,7 @@ export default {
     TopBar,
     Notification,
   },
-  mounted() {
+  mounted () {
     if (!this.cookie.get("userInfo") && !this.cookie.get("token")) {
       this.$router.replace("/login");
     } else {
@@ -213,6 +199,9 @@ export default {
         case "it":
           this.textLang = "Italiano"; //意大利语
           break;
+        case "de":
+          this.textLang = "Deutsch"; //德语
+          break;
         default:
           this.textLang = "简体中文";
           break;
@@ -227,11 +216,11 @@ export default {
   },
   methods: {
     // 关闭风险弹窗
-    handleClosed() {
+    handleClosed () {
       this.show = true;
     },
     // 身份信息跳转
-    identifyRouter() {
+    identifyRouter () {
       if (this.cookie.get("riskLevel") != 2) {
         if (this.userInfo.authType === 0) {
           this.$router.push("/my/identity");
@@ -245,7 +234,7 @@ export default {
       }
     },
     // 风控等级
-    getrisklevel() {
+    getrisklevel () {
       risklevel().then((res) => {
         const { code, items: level } = res.data;
         if (code === 0) {
@@ -259,7 +248,7 @@ export default {
       });
     },
     // 获取用户信息
-    getInfo() {
+    getInfo () {
       getuserinfo()
         .then((res) => {
           if (res.data.code == 0) {
@@ -289,7 +278,7 @@ export default {
         });
     },
     // 选择语言更换图标
-    handleTabLang() {
+    handleTabLang () {
       this.showPopup2 = !this.showPopup2;
       if (this.showPopup2) {
         this.iconLang = "arrow-up";
@@ -297,13 +286,13 @@ export default {
         this.iconLang = "arrow-down";
       }
     },
-    tabLang(item) {
+    tabLang (item) {
       localStorage.setItem("lang", JSON.stringify(item));
       this.textLang = item.text;
       this.$router.go(0);
     },
     // 前往选择所在地
-    toSite() {
+    toSite () {
       // 判断有没有选位置，有就直接调到社区
       // 没有就跳到选择已有的社区页面
       getcomselect().then((res) => {
@@ -326,40 +315,48 @@ export default {
   padding-bottom: 120px;
   background: linear-gradient(174deg, #172d5a 0%, #06070a 100%);
   overflow: hidden;
+
   // 名称
   .project_name {
     margin-top: 100px;
     text-align: center;
+
     .text {
       color: #fff;
       font-size: 60px;
       font-weight: bold;
       letter-spacing: 4px;
+
       &.bold {
         font-size: 60px;
         margin-bottom: 30px;
       }
     }
   }
+
   // 大的背景图
   .big_bg_logo {
     margin-top: -40px;
+
     img {
       width: 100%;
       height: 100%;
     }
   }
+
   // 身份证背景图
   .identity_card {
     position: absolute;
     top: 550px;
     left: 50%;
     transform: translateX(-50%);
+
     img {
       width: 578px;
       height: 315px;
     }
   }
+
   // 按钮
   .btn {
     position: relative;
@@ -369,21 +366,25 @@ export default {
     height: 88px;
     border-radius: 16px;
     background: #237ff8;
+
     .btn-box {
       width: 100%;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+
       span {
         font-size: 32px;
         color: #fff;
       }
+
       .dunpai {
         margin-right: 20px;
         width: 32px;
         height: 38px;
       }
+
       .icon_down {
         position: absolute;
         top: 33px;
@@ -396,6 +397,7 @@ export default {
       }
     }
   }
+
   // 简介
   .title-summarize {
     margin-top: 140px;
@@ -407,15 +409,18 @@ export default {
     background-size: 160px 20px;
     background-repeat: no-repeat;
     background-position: 0 30px;
+
     span {
       font-size: 36px;
       color: #fff;
     }
   }
+
   // 简介
   .text-p:first-of-type {
     margin-top: 41px;
   }
+
   .text-p {
     padding: 0 40px;
     line-height: 60px;
@@ -424,6 +429,7 @@ export default {
     text-indent: 2em;
   }
 }
+
 .tail {
   position: fixed;
   bottom: 0;
@@ -436,27 +442,33 @@ export default {
   justify-content: space-between;
   align-items: center;
   z-index: 9999;
+
   div:first-of-type {
     display: flex;
     align-items: center;
     color: #dcdcdc;
+
     img {
       margin-right: 14px;
       width: 36px;
       height: 36px;
     }
   }
+
   div:last-of-type {
     color: #fff;
+
     span {
       margin-right: 10px;
     }
   }
 }
+
 // 语言
 .menu {
   margin-top: 88px;
   margin-bottom: 200px;
+
   .menu-every {
     margin: 0 50px;
     display: flex;
@@ -466,6 +478,7 @@ export default {
     font-size: 32px;
     color: #b4b7c2;
     border-bottom: 1px solid #2b374f;
+
     img {
       margin-left: 50px;
       width: 40px;
@@ -473,6 +486,7 @@ export default {
     }
   }
 }
+
 // 遮罩层
 .wrapper {
   display: flex;
@@ -480,6 +494,7 @@ export default {
   justify-content: center;
   height: 100%;
 }
+
 .risk_mask_wrap {
   @include posi($p: fixed, $r: 0, $b: 20%);
   display: flex;
@@ -487,10 +502,12 @@ export default {
   background-color: #fff;
   padding: 20px;
   border-radius: 100px 0 0 100px;
+
   .img {
     display: block;
     width: 60px;
   }
+
   .text {
     flex: 1;
     color: #f34747;
@@ -498,11 +515,13 @@ export default {
     font-size: 28px;
   }
 }
+
 .block {
   position: relative;
   width: 590px;
   background-color: #fff;
   border-radius: 20px;
+
   img {
     position: absolute;
     top: -100px;
@@ -511,20 +530,24 @@ export default {
     width: 200px;
     height: 200px;
   }
+
   .tips {
     padding: 0 40px;
     line-height: 50px;
     text-align: center;
     font-size: 32px;
   }
+
   .tips:first-of-type {
     margin-top: 110px;
   }
+
   .block-bot {
     margin-top: 30px;
     border-top: 1px solid #f0f0f0;
     display: flex;
     justify-content: flex-start;
+
     div {
       width: 50%;
       height: 112px;
@@ -532,10 +555,12 @@ export default {
       line-height: 112px;
       text-align: center;
     }
+
     div:first-of-type {
       color: #666;
       border-right: 1px solid #f0f0f0;
     }
+
     div:last-of-type {
       color: #1b2945;
     }

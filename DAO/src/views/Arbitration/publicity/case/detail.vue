@@ -4,12 +4,7 @@
     <div class="content">
       <!-- 原被告信息 -->
       <van-row>
-        <van-col class="lf" :span="12" @click="
-          go('/user/arbitration/case/personnelInfo', {
-            id: info.plaintiffId,
-            type: 1,
-          })
-        ">
+        <van-col class="lf" :span="12">
           <div class="identity_wrap">
             <img v-if="info.status === 2" src="../../../../assets/imgs/huangguan.png" alt="" class="img" />
             {{ $t("publicity.plaintiff") }}
@@ -24,12 +19,7 @@
             {{ info.plaintiffNum }}{{ $t("publicity.ticket") }}
           </div>
         </van-col>
-        <van-col class="rt" :span="12" @click="
-          go('/user/arbitration/case/personnelInfo', {
-            id: info.defendantId,
-            type: 2,
-          })
-        ">
+        <van-col class="rt" :span="12">
           <div class="identity_wrap">
             <img v-if="info.status === 3" src="../../../../assets/imgs/huangguan.png" alt="" class="img" />
             {{ $t("publicity.defendant") }}
@@ -38,7 +28,7 @@
             <span class="text" v-if="order.customer">
               {{ order.customer === info.defendantUid ? $t("case.Buyer") : $t("case.seller") }}
             </span>
-            <span class="name">{{ info.plaintiff }}</span>
+            <span class="name">{{ info.defendant }}</span>
           </div>
           <div class="num">
             {{ info.plaintiffNum }}{{ $t("publicity.ticket") }}
@@ -168,6 +158,7 @@ export default {
     border-radius: 20px;
     background-color: #fff;
     margin-bottom: 25px;
+
     & .lf {
       .identity_wrap {
         border-radius: 0 40px 40px 50px;
@@ -184,14 +175,17 @@ export default {
         margin-left: 10px;
         background-color: #ec6f66;
       }
+
       .user {
         justify-content: flex-end;
         margin: 20px 0;
       }
+
       .num {
         color: #ec6f66;
       }
     }
+
     .identity_wrap {
       display: inline-block;
       position: relative;
@@ -199,6 +193,7 @@ export default {
       flex: 0 0 90px;
       color: #fff;
       padding: 10px 15px;
+
       .img {
         @include posi($t: -20px, $l: 50%);
         display: block;
@@ -206,24 +201,29 @@ export default {
         margin-left: -15px;
       }
     }
+
     .user {
       display: flex;
       align-items: center;
       margin: 20px 0;
+
       .name {
         color: #333;
         font-size: 28px;
       }
+
       .text {
         color: #999;
         font-size: 24px;
       }
     }
+
     .num {
       margin-top: 15px;
       color: #4ea0f5;
       font-size: 24px;
     }
+
     .type {
       color: #333;
       padding: 24px;
@@ -268,6 +268,7 @@ export default {
         }
       }
     }
+
     .list {
       .item {
         display: flex;
@@ -275,6 +276,7 @@ export default {
         color: #333;
         font-size: 28px;
         padding: 20px 0;
+
         .id {
           flex: 1;
           margin: 0 30px;

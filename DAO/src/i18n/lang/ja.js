@@ -51,6 +51,7 @@ module.exports = {
 	public: {
 		cancel: "キャンセル",
 		confirm: "もちろん",
+		err: "署名を拒否、使用できません",
 	},
 	user: {
 		total: "総収入(EOTC)",
@@ -737,6 +738,7 @@ module.exports = {
 		dialog_message_remedy:
 			"動画の本人確認が再度実行されていること、ID 情報が正しいこと、例外が削除されていることを確認してください。",
 		handle_success: "正常に処理されました",
+		fail_text: "記録の照合が必要",
 	},
 	relieve: {
 		nav_title: "リリースリスク管理",
@@ -971,7 +973,7 @@ module.exports = {
 		public_judgment: "公式判断",
 		plaintiff_win: "原告勝訴",
 		defendant_win: "被告勝訴",
-		reason: "仲裁事件原告勝訴の判決",
+		reason: "仲裁における判断",
 		ment_reasons: "判断理由",
 		explain: "判決文",
 		according:

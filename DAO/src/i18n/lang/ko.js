@@ -52,6 +52,7 @@ module.exports = {
 	public: {
 		cancel: "취소",
 		confirm: "확인",
+		err: "서명 거부, 사용할 수 없음",
 	},
 	user: {
 		total: "총 이익(EOTC)",
@@ -734,6 +735,7 @@ module.exports = {
 		dialog_message_remedy:
 			"동영상 신원 확인이 다시 수행되었는지, 신원 정보가 올바른지, 예외가 제거되었는지 확인하세요.",
 		handle_success: "성공적으로 처리됨",
+		fail_text: "반드시 기록을 대조해야 한다.",
 	},
 	relieve: {
 		nav_title: "위험 통제 해제",
@@ -963,7 +965,7 @@ module.exports = {
 		public_judgment: "공식 판단",
 		plaintiff_win: "원고 승",
 		defendant_win: "피고 승",
-		reason: "중재사건의 원고가 승소한 판결",
+		reason: "중재판결",
 		ment_reasons: "판단 이유",
 		explain: "판결문",
 		according: "제출된 증거를 바탕으로 현재 중재 사건의 원고가 승소합니다.",

@@ -52,7 +52,8 @@ export default {
   methods: {
     // 获取仲裁消息列表
     getMsgList() {
-      getarbitratemessage({ isArbitrate: 1 }).then((res) => {
+      let arbitrate=JSON.parse(this.cookie.get('user')).isArbitrate
+      getarbitratemessage({ isArbitrate: arbitrate }).then((res) => {
         console.log(res.data.items);
         if (res.data.code == 0) {
           this.list = res.data.items;

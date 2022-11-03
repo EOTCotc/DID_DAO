@@ -4,6 +4,7 @@ export default {
     signin: 'sign in',
   },
   public: {
+    title:'DID decentralized identity system',
     cancel: 'cancel',
     confirm: 'confirm',
     save: 'save',
@@ -363,6 +364,11 @@ export default {
     tags4: 'Face-to-face invitation',
     tags5: 'Suggested Use',
     tags6: 'Mobile phone album/browser scan code',
+
+    tags7: "EOTC safety first",
+    tags8: "A bridge of trust to the world",
+    tags9: "Decentralized identity system",
+    tags10: "Open the browser and long press the QR code to download",
   },
   // 身份认证
   identity: {

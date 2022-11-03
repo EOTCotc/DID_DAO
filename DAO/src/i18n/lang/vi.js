@@ -44,6 +44,7 @@ module.exports = {
   public: {
     cancel: "Hủy bỏ",
     confirm: "Chắc chắn rồi",
+    err:'Đang từ chối, không dùng được',
   },
   user: {
     total: "Tổng lợi nhuận (EOTC)",
@@ -698,6 +699,7 @@ module.exports = {
     dialog_message_remedy:
       "Hãy đảm bảo rằng quá trình xác minh danh tính video đã được thực hiện lại, thông tin nhận dạng là chính xác và ngoại lệ sẽ bị xóa",
     handle_success: "Đã xử lý thành công",
+    fail_text:'Phải kiểm tra lại hồ sơ'
   },
   relieve: {
     nav_title: "Giải phóng kiểm soát rủi ro",
@@ -931,7 +933,7 @@ module.exports = {
     public_judgment: "phán đoán công thức",
     plaintiff_win: "Nguyên đơn thắng",
     defendant_win: "Bị cáo thắng",
-    reason: "Phán quyết mà nguyên đơn trong vụ án trọng tài đã thắng",
+		reason: "Phán quyết trong trọng tài",
     ment_reasons: "Lý do phán xét",
     explain: "Tuyên bố phán xét",
     according: "Căn cứ vào các bằng chứng đã nộp, nguyên đơn trong vụ án trọng tài hiện nay được xác định là thắng",

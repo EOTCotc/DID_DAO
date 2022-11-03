@@ -4,6 +4,7 @@ export default {
 		signin: "Registrati",
 	},
 	public: {
+		title:'Sistema di identità decentralizzato DID',
 		cancel: "Annulla",
 		confirm: "Sicuro",
 		save: "mantenere",
@@ -365,6 +366,11 @@ export default {
 		tags4: "invito faccia a faccia",
 		tags5: "Si consiglia di utilizzare",
 		tags6: "Album del telefono/Codice di scansione del browser",
+
+		tags7: "La sicurezza EOTC prima di tutto",
+    tags8: "Un ponte di fiducia verso il mondo",
+    tags9: "Sistema di identità decentrato",
+    tags10: "Apri il browser e premi a lungo il codice QR per scaricare",
 	},
 	// 身份认证
 	identity: {

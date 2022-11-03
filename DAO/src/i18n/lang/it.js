@@ -53,6 +53,7 @@ module.exports = {
 	public: {
 		cancel: "Annulla",
 		confirm: "Sicuro",
+		err: "Nega firma, impossibile usare",
 	},
 	user: {
 		total: "Entrate totali(EOTC)",
@@ -753,6 +754,7 @@ module.exports = {
 		dialog_message_remedy:
 			"Assicurati che la verifica dell'identità del video sia stata eseguita nuovamente, che le informazioni sull'identità siano corrette e che l'eccezione sia stata rimossa",
 		handle_success: "Elaborato con successo",
+		fail_text: "I registri devono essere controllati",
 	},
 	relieve: {
 		nav_title: "Rilascio del controllo del rischio",
@@ -993,7 +995,7 @@ module.exports = {
 		public_judgment: "formula di giudizio",
 		plaintiff_win: "Vince il querelante",
 		defendant_win: "Vince l'imputato",
-		reason: "Sentenza che l'attore nella causa arbitrale ha vinto",
+		reason: "Sentenza nell'arbitrato",
 		ment_reasons: "Motivo del giudizio",
 		explain: "Dichiarazione di giudizio",
 		according:

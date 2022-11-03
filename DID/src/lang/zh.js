@@ -4,6 +4,7 @@ export default {
     signin: '注册',
   },
   public: {
+    title: 'DID去中心化身份系统',
     cancel: '取消',
     confirm: '确定',
     save: '保存',
@@ -94,7 +95,7 @@ export default {
     title1: '系统检测您的账号存在异常',
     title2: '暂无法使用该系统，请根据提示解除风控',
     title3: '解除风控',
-    air_drop:'空投',
+    air_drop: '空投',
   },
   // 账号设置
   setup: {
@@ -345,6 +346,11 @@ export default {
     tags4: '面对面邀请',
     tags5: '建议使用',
     tags6: '手机相册/浏览器扫码',
+
+    tags7: "EOTC 安全第一",
+    tags8: "通往世界的信任桥梁",
+    tags9: "去中心化身份系统",
+    tags10: "打开浏览器长按识别二维码下载",
   },
   // 身份认证
   identity: {
