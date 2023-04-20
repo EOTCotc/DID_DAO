@@ -2,29 +2,29 @@
   <div>
     <TopBar />
     <div class="content">
-      <van-notice-bar
-        v-if="notice"
-        :text="notice"
-        left-icon="volume-o"
-        color="#FFF"
-        background="rgba(255, 255, 255, .2)"
-        @click="user ? $router.push('/notice') : ''"
-      />
-      <img class="home-logo" src="@/assets/imgs/home_logo.png" alt="首页logo" />
+      <van-notice-bar v-if="notice"
+                      :text="notice"
+                      left-icon="volume-o"
+                      color="#FFF"
+                      background="rgba(255, 255, 255, .2)"
+                      @click="user ? $router.push('/notice') : ''" />
+      <img class="home-logo"
+           src="@/assets/imgs/home_logo.png"
+           alt="首页logo" />
       <div class="home-title">
         <p>{{ $t("home.text1") }}</p>
         <p>{{ $t("home.text2") }}</p>
       </div>
-      <button class="home-btn" @click="user ? $router.push('/Create') : ''">
+      <button class="home-btn"
+              @click="user ? $router.push('/Create') : ''">
         {{ $t("home.btn") }}
       </button>
       <!-- 最新提案 -->
       <div class="proposal-list">
         <div class="proposal-title">
           <span class="home-proposal-title">{{ $t("home.title") }}</span>
-          <span
-            class="home-proposal-more"
-            @click="
+          <span class="home-proposal-more"
+                @click="
               user
                 ? $router.push({
                     path: '/Bill_list',
@@ -32,19 +32,19 @@
                   })
                 : ''
             "
-            v-if="proposalList.length != 0"
-          >
+                v-if="proposalList.length != 0">
             {{ $t("home.more") }}
-            <van-icon name="arrow" color="#fff" />
+            <van-icon name="arrow"
+                      color="#fff" />
           </span>
         </div>
         <!-- 最新提案 -->
-        <div class="list-box" v-if="proposalList.length != 0">
-          <div
-            class="list-every"
-            v-for="(item, index) in proposalList"
-            :key="index"
-            @click="
+        <div class="list-box"
+             v-if="proposalList.length != 0">
+          <div class="list-every"
+               v-for="(item, index) in proposalList"
+               :key="index"
+               @click="
               user
                 ? $router.push({
                     path: '/detail',
@@ -55,8 +55,7 @@
                     },
                   })
                 : ''
-            "
-          >
+            ">
             <!-- 提案标题 -->
             <div class="every-title">{{ item.title }}</div>
             <!-- 提案状态 -->
@@ -83,7 +82,8 @@
             </div>
           </div>
         </div>
-        <div v-else class="not-data">{{ $t("home.not_data") }}</div>
+        <div v-else
+             class="not-data">{{ $t("home.not_data") }}</div>
       </div>
       <!-- 条件 -->
       <div class="condition">{{ $t("home.tip") }}</div>
@@ -99,343 +99,331 @@
         </div>
       </div>
       <!-- 选择语言 -->
-      <van-popup
-        v-model="showPopup"
-        :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-        position="right"
-      >
+      <van-popup v-model="showPopup"
+                 :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+                 position="right">
         <div class="menu">
-          <div
-            class="menu-every"
-            v-for="item in lang"
-            @click="tabLang(item)"
-            :key="item.id"
-          >
+          <div class="menu-every"
+               v-for="item in lang"
+               @click="tabLang(item)"
+               :key="item.id">
             <span>{{ item.text }}</span>
           </div>
         </div>
       </van-popup>
     </div>
-    <div class="filed" v-show="tanShow" @click="Remove_risk">
-      <van-image
-        width="30"
-        height="30"
-        style="margin-right: 5px"
-        :src="require('../../assets/img/jin.png')"
-      />
+    <div class="filed"
+         v-show="tanShow"
+         @click="Remove_risk">
+      <van-image width="30"
+                 height="30"
+                 style="margin-right: 5px"
+                 :src="require('../../assets/img/jin.png')" />
       <span>{{ $t("home.remove_risk") }}</span>
     </div>
-    <Notification
-      ref="notification"
-      :title="$t('notification.risk.title')"
-      :message="$t('notification.risk.message')"
-      :headerIcon="require('../../assets/img/jin.png')"
-      buttonColor="#F65F5F"
-      :buttonText="$t('notification.risk.btn')"
-      :closeOnClick="true"
-      @buttonClick="buttonClick"
-    />
-    <Notification
-      closeOnClick
-      :headerIcon="require('../../assets/imgs/tongzhi.png')"
-      :title="`最近有 ${unhandledArbitration} 件仲裁案待处理`"
-      ref="arbitration"
-      buttonColor="#237FF8"
-      buttonText="前往处理"
-      @buttonClick="buttonClickArbitration"
-    />
+    <Notification ref="notification"
+                  :title="$t('notification.risk.title')"
+                  :message="$t('notification.risk.message')"
+                  :headerIcon="require('../../assets/img/jin.png')"
+                  buttonColor="#F65F5F"
+                  :buttonText="$t('notification.risk.btn')"
+                  :closeOnClick="true"
+                  @buttonClick="buttonClick" />
+    <Notification closeOnClick
+                  :headerIcon="require('../../assets/imgs/tongzhi.png')"
+                  :title="`最近有 ${unhandledArbitration} 件仲裁案待处理`"
+                  ref="arbitration"
+                  buttonColor="#237FF8"
+                  buttonText="前往处理"
+                  @buttonClick="buttonClickArbitration" />
   </div>
 </template>
 <script>
-import TopBar from "@/components/topBar/topBar";
-import Notification from "@/components/notification";
-import { getproposallist, getuserrisklevel } from "@/api/viewsApi/home";
-import { loadweb3 } from "@/utils/web3.js";
-import { getdaoinfo } from "@/api/earnings";
-import { getmessageopen } from "@/api/case";
-import { list } from "@/api/notice";
-import { Dialog } from "vant";
+import TopBar from '@/components/topBar/topBar'
+import Notification from '@/components/notification'
+import { getproposallist, getuserrisklevel } from '@/api/viewsApi/home'
+import { loadweb3 } from '@/utils/web3.js'
+import { getdaoinfo } from '@/api/earnings'
+import { getmessageopen } from '@/api/case'
+import { list } from '@/api/notice'
+import { Dialog } from 'vant'
 
 export default {
   components: {
     TopBar,
-    Notification,
+    Notification
   },
-  name: "home",
+  name: 'home',
   data() {
     return {
-      user: "",
-      iconLang: "arrow-down",
+      user: '',
+      iconLang: 'arrow-down',
       showPopup: false,
-      notice: "", // 公告文字
+      notice: '', // 公告文字
       lang: [
         {
           id: 0,
-          text: "简体中文",
-          lang: "zh",
+          text: '简体中文',
+          lang: 'zh'
         },
         {
           id: 1,
-          text: "繁體中文",
-          lang: "zhTw",
+          text: '繁體中文',
+          lang: 'zhTw'
         },
         {
           id: 2,
-          text: "English",
-          lang: "en",
+          text: 'English',
+          lang: 'en'
         },
         {
           id: 3,
-          text: "日本語",
-          lang: "ja",
+          text: '日本語',
+          lang: 'ja'
         },
         {
           id: 4,
-          text: "한국어", //韩语
-          lang: "ko",
+          text: '한국어', //韩语
+          lang: 'ko'
         },
         {
           id: 5,
-          text: "Deutsch", //德语
-          lang: "de",
+          text: 'Deutsch', //德语
+          lang: 'de'
         },
         {
           id: 6,
-          text: "ภาษาไทย", //泰语
-          lang: "th",
+          text: 'ภาษาไทย', //泰语
+          lang: 'th'
         },
         {
           id: 7,
-          text: "Français", //法语
-          lang: "fr",
+          text: 'Français', //法语
+          lang: 'fr'
         },
         {
           id: 8,
-          text: "Español", //西班牙语
-          lang: "es",
+          text: 'Español', //西班牙语
+          lang: 'es'
         },
         {
           id: 9,
-          text: "Português", //葡萄牙语
-          lang: "pt",
+          text: 'Português', //葡萄牙语
+          lang: 'pt'
         },
         {
           id: 10,
-          text: "Русский", //俄语
-          lang: "ru",
+          text: 'Русский', //俄语
+          lang: 'ru'
         },
         {
           id: 11,
-          text: "Nederlands", //荷兰语
-          lang: "nl",
+          text: 'Nederlands', //荷兰语
+          lang: 'nl'
         },
         {
           id: 12,
-          text: "عربي", //阿拉伯语
-          lang: "ar",
+          text: 'عربي', //阿拉伯语
+          lang: 'ar'
         },
         {
           id: 13,
-          text: "ViệtName", //越南语
-          lang: "vi",
+          text: 'ViệtName', //越南语
+          lang: 'vi'
         },
         {
           id: 14,
-          text: "IndonesiaName", //印尼语
-          lang: "id",
+          text: 'IndonesiaName', //印尼语
+          lang: 'id'
         },
         {
           id: 15,
-          text: "IndonesiaName", //意大利语
-          lang: "it",
-        },
+          text: 'IndonesiaName', //意大利语
+          lang: 'it'
+        }
       ],
       tanShow: false,
       proposalList: [], //提案列表
-      riskShow: this.cookie.get("riskShow"),
+      riskShow: this.cookie.get('riskShow'),
       unhandledArbitration: 0,
-      langText: "简体中文",
-    };
+      langText: '简体中文'
+    }
   },
   mounted() {
-    if (localStorage.getItem("lang")) {
-      this.langText = JSON.parse(localStorage.getItem("lang")).text;
+    if (localStorage.getItem('lang')) {
+      this.langText = JSON.parse(localStorage.getItem('lang')).text
     } else {
-      let lang = navigator.language.slice(0, 2);
+      let lang = navigator.language.slice(0, 2)
       switch (lang) {
-        case "zh":
-          this.langText = "简体中文";
-          break;
-        case "zhTw":
-          this.langText = "繁体中文";
-          break;
-        case "en":
-          this.langText = "English";
-          break;
-        case "ja":
-          this.langText = "日本語";
-          break;
-        case "ko":
-          this.langText = "한국어"; //韩语
-          break;
-        case "fr":
-          this.langText = "Français"; //法语
-          break;
-        case "ru":
-          this.langText = "Русский"; //俄语
-          break;
-        case "vi":
-          this.langText = "ViệtName"; //越南语
-          break;
-        case "nl":
-          this.langText = "Nederlands"; //荷兰语
-          break;
-        case "ar":
-          this.langText = "عربي"; //阿拉伯语
-          break;
-        case "id":
-          this.langText = "IndonesiaName"; //印尼语
-          break;
-        case "th":
-          this.langText = "ภาษาไทย"; //泰语
-          break;
-        case "de":
-          this.langText = "Deutsch"; //德语
-          break;
-        case "es":
-          this.langText = "Español"; //西班牙语
-          break;
-        case "pt":
-          this.langText = "Português"; //葡萄牙语
-          break;
-        case "it":
-          this.langText = "Italiano"; //意大利语
-          break;
+        case 'zh':
+          this.langText = '简体中文'
+          break
+        case 'zhTw':
+          this.langText = '繁体中文'
+          break
+        case 'en':
+          this.langText = 'English'
+          break
+        case 'ja':
+          this.langText = '日本語'
+          break
+        case 'ko':
+          this.langText = '한국어' //韩语
+          break
+        case 'fr':
+          this.langText = 'Français' //法语
+          break
+        case 'ru':
+          this.langText = 'Русский' //俄语
+          break
+        case 'vi':
+          this.langText = 'ViệtName' //越南语
+          break
+        case 'nl':
+          this.langText = 'Nederlands' //荷兰语
+          break
+        case 'ar':
+          this.langText = 'عربي' //阿拉伯语
+          break
+        case 'id':
+          this.langText = 'IndonesiaName' //印尼语
+          break
+        case 'th':
+          this.langText = 'ภาษาไทย' //泰语
+          break
+        case 'de':
+          this.langText = 'Deutsch' //德语
+          break
+        case 'es':
+          this.langText = 'Español' //西班牙语
+          break
+        case 'pt':
+          this.langText = 'Português' //葡萄牙语
+          break
+        case 'it':
+          this.langText = 'Italiano' //意大利语
+          break
         default:
-          this.langText = "简体中文";
-          break;
+          this.langText = '简体中文'
+          break
       }
     }
-    loadweb3(this.handle, this.errFun);
+    loadweb3(this.handle, this.errFun)
   },
   methods: {
     // 拒绝签名
     errFun() {
       Dialog.alert({
-        message: this.$t("public.err"),
-      });
+        message: this.$t('public.err')
+      })
     },
     handle() {
-      this.getuserrisklevel();
-      this.getProposal();
-      this.getLocal();
-      this.getUnhandledArbitrationMsg();
-      this.getList();
+      this.getuserrisklevel()
+      this.getProposal()
+      this.getLocal()
+      this.getUnhandledArbitrationMsg()
+      this.getList()
     },
     getList() {
       const loading = this.$toast.loading({
         forbidClick: true,
-        message: this.$t("destroy.message"),
-      });
+        message: this.$t('destroy.message')
+      })
       list()
         .then((res) => {
-          const data = res.data.items;
-          this.notice = data.length ? data[0].title : "";
+          const data = res.data.items
+          this.notice = data.length ? data[0].title : ''
         })
         .finally(() => {
-          loading.clear();
-        });
+          loading.clear()
+        })
     },
     getLocal() {
       // 获取用户信息
       getdaoinfo()
         .then((res) => {
           if (res.data.code == 0) {
-            this.user = res.data.items;
-            localStorage.setItem("user", JSON.stringify(res.data.items));
-            this.cookie.set("user", JSON.stringify(res.data.items));
-            localStorage.setItem("items", res.data.items.daoEOTC);
-            localStorage.setItem("uid", res.data.items.uid);
-            localStorage.setItem("isArbitrate", res.data.items.isArbitrate);
-            localStorage.setItem("isExamine", res.data.items.isExamine);
-            localStorage.setItem("authType", res.data.items.authType);
-            localStorage.setItem("isEnable", res.data.items.isEnable);
+            this.user = res.data.items
+            localStorage.setItem('user', JSON.stringify(res.data.items))
+            this.cookie.set('user', JSON.stringify(res.data.items))
+            localStorage.setItem('items', res.data.items.daoEOTC)
+            localStorage.setItem('uid', res.data.items.uid)
+            localStorage.setItem('isArbitrate', res.data.items.isArbitrate)
+            localStorage.setItem('isExamine', res.data.items.isExamine)
+            localStorage.setItem('authType', res.data.items.authType)
+            localStorage.setItem('isEnable', res.data.items.isEnable)
           } else {
-            this.$toast(res.data.message);
+            this.$toast(res.data.message)
           }
         })
         .catch((err) => {
-          this.$toast.fail(this.$t("home.msg_fail"));
-        });
+          this.$toast.fail(this.$t('home.msg_fail'))
+        })
     },
     // 获取风险等级
     getuserrisklevel() {
       getuserrisklevel().then((res) => {
         if (res.data.code == 0) {
-          this.cookie.set("riskLevel", res.data.items);
-          this.cookie.set("riskShow", "false");
+          this.cookie.set('riskLevel', res.data.items)
+          this.cookie.set('riskShow', 'false')
           if (res.data.items == 2 && !this.riskShow) {
             this.$nextTick().then(() => {
-              this.$refs.notification.toggle(true);
-            });
+              this.$refs.notification.toggle(true)
+            })
           }
           if (res.data.items == 2 && this.riskShow) {
-            this.tanShow = true;
+            this.tanShow = true
           }
         }
-      });
+      })
     },
     // 获取是否有仲裁未处理
     getUnhandledArbitrationMsg() {
       getmessageopen(0).then((res) => {
-        this.unhandledArbitration = res.data.items.length;
-        if (
-          this.unhandledArbitration &&
-          Number(this.cookie.get("unhandledArbitration")) !==
-            this.unhandledArbitration
-        ) {
-          this.cookie.set("unhandledArbitration", this.unhandledArbitration);
-          this.$nextTick(() => this.$refs.arbitration.toggle(true));
+        this.unhandledArbitration = res.data.items.length
+        if (this.unhandledArbitration && Number(this.cookie.get('unhandledArbitration')) !== this.unhandledArbitration) {
+          this.cookie.set('unhandledArbitration', this.unhandledArbitration)
+          this.$nextTick(() => this.$refs.arbitration.toggle(true))
         }
-      });
+      })
     },
     buttonClickArbitration() {
-      this.user ? this.$router.push("/user/arbitration/case") : "";
+      this.user ? this.$router.push('/user/arbitration/case') : ''
     },
     //弹框点击事件
     buttonClick() {
-      this.tanShow = true;
+      this.tanShow = true
     },
     // 获取最新的十个提案
     getProposal() {
       getproposallist({
         page: 1,
-        itemsPerPage: 10,
+        itemsPerPage: 10
       }).then((res) => {
         if (res.data.code == 0) {
-          this.proposalList = res.data.items;
+          this.proposalList = res.data.items
         }
-      });
+      })
     },
     //跳转到解除风控
     Remove_risk() {
-      this.user ? this.$router.push("/relieve") : "";
+      this.user ? this.$router.push('/relieve') : ''
     },
     // 选择语言
     handleTabLang() {
       if (this.showPopup) {
-        this.iconLang = "arrow-down";
+        this.iconLang = 'arrow-down'
       } else {
-        this.iconLang = "arrow-up";
+        this.iconLang = 'arrow-up'
       }
-      this.showPopup = !this.showPopup;
+      this.showPopup = !this.showPopup
     },
     tabLang(item) {
-      localStorage.setItem("lang", JSON.stringify(item));
-      this.$router.go(0);
-    },
-  },
-};
+      localStorage.setItem('lang', JSON.stringify(item))
+      this.$router.go(0)
+    }
+  }
+}
 </script>
 <style lang='scss' scoped>
 .content {

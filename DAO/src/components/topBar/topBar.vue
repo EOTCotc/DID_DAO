@@ -2,23 +2,26 @@
   <div>
     <div class="heade">
       <div @click="handleMenu">
-        <img class="icon_menu" src="@/assets/imgs/icon_menu.png" />
+        <img class="icon_menu"
+             src="@/assets/imgs/icon_menu.png" />
       </div>
       <div @click="toHome">
-        <img class="logo" src="@/assets/imgs/logo.png" />
+        <img class="logo"
+             src="@/assets/imgs/logo.png" />
       </div>
       <div @click="toMy">
-        <img class="icon_my" src="@/assets/imgs/icon_my.png" />
+        <img class="icon_my"
+             src="@/assets/imgs/icon_my.png" />
       </div>
     </div>
     <!-- 菜单 -->
-    <van-popup
-      v-model="showPopup"
-      :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
-      position="left"
-    >
+    <van-popup v-model="showPopup"
+               :style="{ height: '100%', background: '#1b2946', zIndex: '55' }"
+               position="left">
       <div class="menu">
-        <div class="menu-every" v-for="item in list" :key="item.id">
+        <div class="menu-every"
+             v-for="item in list"
+             :key="item.id">
           <a :href="item.link">{{ item.name }}</a>
           <img src="@/assets/imgs/r_t_arrow.png" />
         </div>
@@ -29,41 +32,45 @@
 
 <script>
 export default {
-  name: "NavBar",
+  name: 'NavBar',
   props: {},
   data() {
     return {
       showPopup: false,
       list: [
-        { id: 0, name: this.$t("topBar.name1"), link: "https://eotc.im" },
-        { id: 1, name: this.$t("topBar.name2") },
-        { id: 2, name: this.$t("topBar.name3") },
-        { id: 3, name: this.$t("topBar.name4") },
-        { id: 4, name: this.$t("topBar.name5") },
-        { id: 5, name: this.$t("topBar.name6"), link: "https://fi.eotc.im/" },
-        { id: 6, name: this.$t("topBar.name7"), link: "https://did.eotc.im/" },
-        { id: 7, name: this.$t("topBar.name8") },
-        { id: 8, name: "EOTC NFT", link: "https://nft.eotc.im/" },
-        { id: 9, name: this.$t("topBar.name9") },
-        { id: 10, name: "EOTC DAO", link: "https://dao.eotc.im/" },
-      ],
-    };
+        { id: 0, name: this.$t('topBar.name1'), link: 'https://eotc.im' },
+        { id: 1, name: this.$t('topBar.name2') },
+        { id: 2, name: this.$t('topBar.name3') },
+        { id: 3, name: this.$t('topBar.name4') },
+        { id: 4, name: this.$t('topBar.name5') },
+        { id: 5, name: this.$t('topBar.name6'), link: 'https://fi.eotc.im/' },
+        { id: 6, name: this.$t('topBar.name7'), link: 'https://did.eotc.im/' },
+        { id: 7, name: this.$t('topBar.name8') },
+        { id: 8, name: 'EOTC NFT', link: 'https://nft.eotc.im/' },
+        { id: 9, name: this.$t('topBar.name9') },
+        { id: 10, name: 'EOTC DAO', link: 'https://dao.eotc.im/' }
+      ]
+    }
   },
   methods: {
     handleMenu() {
-      this.showPopup = !this.showPopup;
+      // this.showPopup = !this.showPopup;
+      const { protocol, hostname, port } = window.location
+      const url = hostname.slice(hostname.indexOf('.') + 1)
+      // const url = 'fi.eotc.im'.slice('fi.eotc.im'.indexOf('.') + 1)
+      location.href = 'https://fi.' + url + '/#/page'
     },
     // 去首页
     toHome() {
-      this.$router.push("/");
+      this.$router.push('/')
     },
     // 去我的页面
     toMy() {
-      let user=JSON.parse(localStorage.getItem("user"))
-      user ? this.$router.push("/personage") : "";
-    },
-  },
-};
+      let user = JSON.parse(localStorage.getItem('user'))
+      user ? this.$router.push('/personage') : ''
+    }
+  }
+}
 </script>
 
 <style lang='scss' scoped>
